@@ -107,6 +107,7 @@
             word-wrap: normal;
             direction: ltr;
             -webkit-font-feature-settings: 'liga';
+            font-feature-settings: 'liga';
             -webkit-font-smoothing: antialiased;
         }
     </style>
@@ -477,17 +478,17 @@
             <div class="bg-stone-200 dark:bg-stone-800 h-px w-full my-8"></div>
         </div>
     </footer>
-<script>
-  // Make all internal links navigate the parent React app
-  document.addEventListener('click', function(e) {
-    const link = e.target.closest('a[href]');
-    if (!link) return;
-    const href = link.getAttribute('href');
-    if (!href || href.startsWith('http') || href.startsWith('mailto') || href === '#') return;
-    e.preventDefault();
-    window.parent.location.href = href;
-  });
-</script>
+    <script>
+        // Make all internal links navigate the parent React app
+        document.addEventListener('click', function (e) {
+            const link = e.target.closest('a[href]');
+            if (!link) return;
+            const href = link.getAttribute('href');
+            if (!href || href.startsWith('http') || href.startsWith('mailto') || href === '#') return;
+            e.preventDefault();
+            window.parent.location.href = href;
+        });
+    </script>
 </body>
 
 </html>
