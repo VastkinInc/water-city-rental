@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Control Center | Water City Rentals</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&amp;family=Manrope:wght@300;400;500;600;700;800&amp;family=Noto+Serif:ital,wght@0,400;0,700;1,400&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary": "#ffffff",
+                        "surface-tint": "#a43c12",
+                        "on-surface": "#1a1c1a",
+                        "on-primary-fixed": "#380c00",
+                        "tertiary-fixed": "#ffe088",
+                        "surface-container-low": "#f4f3f1",
+                        "secondary": "#006972",
+                        "on-primary-container": "#6c2000",
+                        "on-background": "#1a1c1a",
+                        "secondary-container": "#9ff0fb",
+                        "on-surface-variant": "#57423b",
+                        "error-container": "#ffdad6",
+                        "primary-fixed": "#ffdbcf",
+                        "tertiary-fixed-dim": "#e9c349",
+                        "on-error-container": "#93000a",
+                        "on-error": "#ffffff",
+                        "surface-container": "#efeeeb",
+                        "on-tertiary-fixed-variant": "#574500",
+                        "primary-fixed-dim": "#ffb59c",
+                        "tertiary-container": "#c4a028",
+                        "surface": "#faf9f6",
+                        "surface-variant": "#e3e2e0",
+                        "primary-container": "#ff7f50",
+                        "on-secondary-fixed": "#001f23",
+                        "inverse-surface": "#2f312f",
+                        "surface-container-highest": "#e3e2e0",
+                        "background": "#faf9f6",
+                        "surface-bright": "#faf9f6",
+                        "on-primary-fixed-variant": "#822800",
+                        "inverse-primary": "#ffb59c",
+                        "on-primary": "#ffffff",
+                        "inverse-on-surface": "#f2f1ee",
+                        "on-secondary-container": "#066f79",
+                        "error": "#ba1a1a",
+                        "secondary-fixed": "#9ff0fb",
+                        "on-secondary-fixed-variant": "#004f56",
+                        "primary": "#a43c12",
+                        "secondary-fixed-dim": "#82d3de",
+                        "on-secondary": "#ffffff",
+                        "surface-container-high": "#e9e8e5",
+                        "tertiary": "#735c00",
+                        "on-tertiary-container": "#483800",
+                        "surface-container-lowest": "#ffffff",
+                        "outline-variant": "#dec0b6",
+                        "outline": "#8b7169",
+                        "on-tertiary-fixed": "#241a00",
+                        "surface-dim": "#dbdad7"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Noto Serif"],
+                        "body": ["Manrope"],
+                        "label": ["Manrope"]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Manrope', sans-serif;
+        }
+
+        .serif {
+            font-family: 'Noto Serif', serif;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .glass-nav {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+    </style>
+</head>
+
+<body
+    class="bg-background text-on-background selection:bg-primary-fixed selection:text-on-primary-fixed min-h-screen flex">
+    <!-- Sidebar Navigation -->
+    <aside
+        class="hidden md:flex flex-col h-screen w-64 bg-stone-50 fixed left-0 top-0 py-8 pl-6 border-r-0 z-40 bg-stone-100/50">
+        <div class="mb-10 pr-6">
+            <h1 class="font-serif italic text-xl text-stone-900 tracking-tight">Water City Rentals</h1>
+            <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-on-surface-variant mt-2">Internal Operations
+            </p>
+        </div>
+        <nav class="flex-1 space-y-1 pr-6">
+            <!-- Active State Navigation -->
+            <a class="flex items-center gap-3 px-4 py-3 text-stone-900 font-bold bg-white rounded-l-full shadow-sm translate-x-1 duration-200 group"
+                href="#">
+                <span class="material-symbols-outlined text-primary">dashboard</span>
+                <span class="text-sm tracking-tight">Dashboard</span>
+            </a>
+            <a class="flex items-center justify-between px-4 py-3 text-stone-500 hover:text-stone-800 hover:bg-stone-200/50 transition-all rounded-l-full group"
+                href="#">
+                <div class="flex items-center gap-3">
+                    <span class="material-symbols-outlined group-hover:text-primary">directions_boat</span>
+                    <span class="text-sm tracking-tight">Boat Approvals</span>
+                </div>
+                <span class="bg-primary text-on-primary text-[10px] font-bold px-1.5 py-0.5 rounded-full">5</span>
+            </a>
+            <a class="flex items-center gap-3 px-4 py-3 text-stone-500 hover:text-stone-800 hover:bg-stone-200/50 transition-all rounded-l-full group"
+                href="#">
+                <span class="material-symbols-outlined group-hover:text-primary">group</span>
+                <span class="text-sm tracking-tight">Users</span>
+            </a>
+            <a class="flex items-center gap-3 px-4 py-3 text-stone-500 hover:text-stone-800 hover:bg-stone-200/50 transition-all rounded-l-full group"
+                href="#">
+                <span class="material-symbols-outlined group-hover:text-primary">anchor</span>
+                <span class="text-sm tracking-tight">All Bookings</span>
+            </a>
+            <a class="flex items-center gap-3 px-4 py-3 text-stone-500 hover:text-stone-800 hover:bg-stone-200/50 transition-all rounded-l-full group"
+                href="#">
+                <span class="material-symbols-outlined group-hover:text-primary">payments</span>
+                <span class="text-sm tracking-tight">Transactions</span>
+            </a>
+            <a class="flex items-center gap-3 px-4 py-3 text-stone-500 hover:text-stone-800 hover:bg-stone-200/50 transition-all rounded-l-full group"
+                href="#">
+                <span class="material-symbols-outlined group-hover:text-primary">settings</span>
+                <span class="text-sm tracking-tight">Settings</span>
+            </a>
+        </nav>
+        <div class="mt-auto pr-6">
+            <div class="bg-surface-container-low p-4 rounded-xl flex items-center gap-3">
+                <img alt="Admin" class="w-10 h-10 rounded-full object-cover"
+                    data-alt="Close-up portrait of a professional male administrator in a clean modern office environment, natural lighting"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCjf81BXy3XOCZDujtlB9TSRPu4xi7Ozg2eKlUD67GFfdLaGUNhmsv-X4QEUTKNC3k4si5hBxPetnK_CCzxYJLYAHKRKut2TlIv4ggt3o0XOTDlH6DjCkx4Sw-igAJPle85WdQlZ2nex_DA6BXhOiDrPgtfbAXFV7fNWxAXIG05OsvIE6eEtiZGAAoAIm6jSV4KL6OrmrgGhOlYso3Nikkj1qORh9-F8j51E1D0mZ-f6bCMWVg1RtrDl_huzbJ85UcImscddwIoeg7u" />
+                <div class="overflow-hidden">
+                    <p class="text-xs font-bold truncate">Captain's Lounge</p>
+                    <p class="text-[10px] text-on-surface-variant font-medium">Premier Member</p>
+                </div>
+            </div>
+        </div>
+    </aside>
+    <!-- Main Content Canvas -->
+    <main class="flex-1 md:ml-64 min-h-screen flex flex-col relative">
+        <!-- Header -->
+        <header
+            class="sticky top-0 w-full z-30 bg-surface/80 backdrop-blur-xl px-8 py-6 flex justify-between items-center">
+            <div class="flex items-center gap-4">
+                <h2 class="font-serif italic text-2xl text-stone-900">Control Center</h2>
+                <div class="bg-secondary-container/30 px-3 py-1 rounded-full flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+                    <span class="text-[10px] font-bold uppercase tracking-wider text-on-secondary-container">All Systems
+                        Operational</span>
+                </div>
+            </div>
+            <div class="flex items-center gap-6">
+                <div class="relative hidden lg:block">
+                    <span
+                        class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">search</span>
+                    <input
+                        class="bg-surface-container-high border-none rounded-full py-2 pl-10 pr-4 text-xs focus:ring-2 focus:ring-tertiary w-64"
+                        placeholder="Global Search..." type="text" />
+                </div>
+                <div class="flex items-center gap-4">
+                    <button class="text-stone-600 hover:text-stone-900 transition-colors">
+                        <span class="material-symbols-outlined">notifications</span>
+                    </button>
+                    <span class="material-symbols-outlined text-stone-900 text-3xl">account_circle</span>
+                </div>
+            </div>
+        </header>
+        <div class="p-8 space-y-10 max-w-screen-2xl mx-auto w-full">
+            <!-- Statistics Bento Grid -->
+            <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div
+                    class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm group hover:bg-primary-container transition-all duration-300">
+                    <p
+                        class="text-[10px] font-bold uppercase tracking-[0.15em] text-on-surface-variant group-hover:text-on-primary-container/70 mb-4">
+                        Total Users</p>
+                    <div class="flex items-end justify-between">
+                        <h3 class="text-3xl font-serif text-stone-900 group-hover:text-on-primary-container">1,240</h3>
+                        <span class="text-secondary font-bold text-xs group-hover:text-on-primary-container">+12%
+                            ↑</span>
+                    </div>
+                </div>
+                <div
+                    class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm group hover:bg-tertiary-container transition-all duration-300 border-l-4 border-tertiary">
+                    <p
+                        class="text-[10px] font-bold uppercase tracking-[0.15em] text-on-surface-variant group-hover:text-on-tertiary-container/70 mb-4">
+                        Pending Approvals</p>
+                    <div class="flex items-end justify-between">
+                        <h3 class="text-3xl font-serif text-stone-900 group-hover:text-on-tertiary-container">5</h3>
+                        <span
+                            class="material-symbols-outlined text-tertiary group-hover:text-on-tertiary-container">hourglass_empty</span>
+                    </div>
+                </div>
+                <div
+                    class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm group hover:bg-secondary-container transition-all duration-300">
+                    <p
+                        class="text-[10px] font-bold uppercase tracking-[0.15em] text-on-surface-variant group-hover:text-on-secondary-container/70 mb-4">
+                        Active Bookings</p>
+                    <div class="flex items-end justify-between">
+                        <h3 class="text-3xl font-serif text-stone-900 group-hover:text-on-secondary-container">38</h3>
+                        <span
+                            class="material-symbols-outlined text-secondary group-hover:text-on-secondary-container">sailing</span>
+                    </div>
+                </div>
+                <div
+                    class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm group hover:bg-primary transition-all duration-300">
+                    <p
+                        class="text-[10px] font-bold uppercase tracking-[0.15em] text-on-surface-variant group-hover:text-on-primary/70 mb-4">
+                        Monthly Revenue</p>
+                    <div class="flex items-end justify-between">
+                        <h3 class="text-3xl font-serif text-stone-900 group-hover:text-white">$28,400</h3>
+                        <span class="material-symbols-outlined text-primary group-hover:text-white">payments</span>
+                    </div>
+                </div>
+            </section>
+            <!-- Pending Approvals & Recent Activities Row -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+                <!-- Pending Approvals Table -->
+                <section class="lg:col-span-2 space-y-4">
+                    <div class="flex justify-between items-center">
+                        <h4 class="font-serif text-xl italic text-stone-900">Pending Approvals</h4>
+                        <button class="text-xs font-bold uppercase tracking-widest text-primary hover:underline">View
+                            All Queue</button>
+                    </div>
+                    <div class="bg-surface-container-lowest rounded-2xl overflow-hidden shadow-sm">
+                        <table class="w-full text-left">
+                            <thead
+                                class="bg-surface-container-low text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">
+                                <tr>
+                                    <th class="px-6 py-4">Boat</th>
+                                    <th class="px-6 py-4">Owner</th>
+                                    <th class="px-6 py-4">Type</th>
+                                    <th class="px-6 py-4">Submitted</th>
+                                    <th class="px-6 py-4 text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-sm divide-y divide-surface-container text-on-surface">
+                                <tr class="hover:bg-surface-container-low/30 transition-colors">
+                                    <td class="px-6 py-4 font-semibold">Morning Star</td>
+                                    <td class="px-6 py-4">Erik V.</td>
+                                    <td class="px-6 py-4">Sailing Yacht</td>
+                                    <td class="px-6 py-4 text-on-surface-variant">2h ago</td>
+                                    <td class="px-6 py-4 text-right space-x-2">
+                                        <button
+                                            class="bg-secondary-container text-on-secondary-container text-[10px] font-bold uppercase px-3 py-1.5 rounded-full hover:brightness-95 transition-all">Approve</button>
+                                        <button
+                                            class="bg-error-container text-on-error-container text-[10px] font-bold uppercase px-3 py-1.5 rounded-full hover:brightness-95 transition-all">Reject</button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-surface-container-low/30 transition-colors">
+                                    <td class="px-6 py-4 font-semibold">Blue Horizon</td>
+                                    <td class="px-6 py-4">Elena S.</td>
+                                    <td class="px-6 py-4">Catamaran</td>
+                                    <td class="px-6 py-4 text-on-surface-variant">5h ago</td>
+                                    <td class="px-6 py-4 text-right space-x-2">
+                                        <button
+                                            class="bg-secondary-container text-on-secondary-container text-[10px] font-bold uppercase px-3 py-1.5 rounded-full hover:brightness-95 transition-all">Approve</button>
+                                        <button
+                                            class="bg-error-container text-on-error-container text-[10px] font-bold uppercase px-3 py-1.5 rounded-full hover:brightness-95 transition-all">Reject</button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-surface-container-low/30 transition-colors">
+                                    <td class="px-6 py-4 font-semibold">Aqua Cruiser</td>
+                                    <td class="px-6 py-4">Marcus L.</td>
+                                    <td class="px-6 py-4">Motor Boat</td>
+                                    <td class="px-6 py-4 text-on-surface-variant">1d ago</td>
+                                    <td class="px-6 py-4 text-right space-x-2">
+                                        <button
+                                            class="bg-secondary-container text-on-secondary-container text-[10px] font-bold uppercase px-3 py-1.5 rounded-full hover:brightness-95 transition-all">Approve</button>
+                                        <button
+                                            class="bg-error-container text-on-error-container text-[10px] font-bold uppercase px-3 py-1.5 rounded-full hover:brightness-95 transition-all">Reject</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+                <!-- Recent Activity Feed (Magazine Style) -->
+                <section class="space-y-4">
+                    <h4 class="font-serif text-xl italic text-stone-900">Recent Logs</h4>
+                    <div class="bg-surface-container-high rounded-2xl p-6 space-y-6">
+                        <div class="flex gap-4">
+                            <div class="w-2 h-2 mt-1.5 rounded-full bg-primary shrink-0"></div>
+                            <div>
+                                <p class="text-sm font-bold">New Booking Confirmed</p>
+                                <p class="text-xs text-on-surface-variant">"Sapphire Dreams" booked for Jul 12-14</p>
+                                <span
+                                    class="text-[10px] text-on-surface-variant uppercase tracking-widest mt-1 block">12
+                                    mins ago</span>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="w-2 h-2 mt-1.5 rounded-full bg-secondary shrink-0"></div>
+                            <div>
+                                <p class="text-sm font-bold">Captain Verification</p>
+                                <p class="text-xs text-on-surface-variant">Captain Sarah J. updated credentials</p>
+                                <span
+                                    class="text-[10px] text-on-surface-variant uppercase tracking-widest mt-1 block">48
+                                    mins ago</span>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="w-2 h-2 mt-1.5 rounded-full bg-tertiary shrink-0"></div>
+                            <div>
+                                <p class="text-sm font-bold">Payment Disbursed</p>
+                                <p class="text-xs text-on-surface-variant">$4,200 sent to Marina West</p>
+                                <span class="text-[10px] text-on-surface-variant uppercase tracking-widest mt-1 block">2
+                                    hours ago</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <!-- User Management Section -->
+            <section class="space-y-6">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div>
+                        <h4 class="font-serif text-xl italic text-stone-900">User Management</h4>
+                        <p class="text-xs text-on-surface-variant">Manage global user roles and access levels.</p>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-3">
+                        <div class="relative">
+                            <span
+                                class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">filter_list</span>
+                            <select
+                                class="bg-white border-none rounded-full py-2 pl-10 pr-8 text-xs font-bold uppercase tracking-wider focus:ring-2 focus:ring-tertiary appearance-none">
+                                <option>All Roles</option>
+                                <option>Owner</option>
+                                <option>Captain</option>
+                                <option>Customer</option>
+                                <option>Admin</option>
+                            </select>
+                        </div>
+                        <button
+                            class="bg-primary text-on-primary text-[10px] font-bold uppercase tracking-[0.15em] px-6 py-2.5 rounded-full shadow-sm hover:translate-y-[-1px] active:scale-95 transition-all">Add
+                            New User</button>
+                    </div>
+                </div>
+                <div class="bg-surface-container-lowest rounded-2xl shadow-sm overflow-hidden border-t-0">
+                    <table class="w-full text-left">
+                        <thead
+                            class="bg-surface-container-low text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">
+                            <tr>
+                                <th class="px-6 py-4">User</th>
+                                <th class="px-6 py-4">Email</th>
+                                <th class="px-6 py-4">Role</th>
+                                <th class="px-6 py-4">Status</th>
+                                <th class="px-6 py-4">Joined</th>
+                                <th class="px-6 py-4 text-right">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-sm divide-y divide-surface-container text-on-surface">
+                            <tr class="hover:bg-surface-container-low/30 transition-colors">
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center gap-3">
+                                        <img alt="User" class="w-8 h-8 rounded-full"
+                                            data-alt="Portrait of a young male customer with a friendly expression, professional headshot style"
+                                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAYQ2W_pRfJ3sTUUjNEGT5oLmwN8H15LKt7YDsHhHYMp7vvYE2y1jsrm4BA0SYWMeqTEdUYZ6G5e5yofdCuCDrzhSxFTZBCNtOb6Qp_1pz3XG959B6ytpdiJPRV92PPNIO_cxd4waQB45VHdDSWllY1UAuCnVXBYimrxgZui_SVJhv0oTljMbQYo5e6S69NG9RkqxNnOQUP7gHYx4Bdvz_C1AUYLDU20M8ySBGjtOwUoBlog7-aPbLBUa07Ki7sIFnLORBHCUCYmzkI" />
+                                        <span class="font-bold">Julian Pearce</span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 text-on-surface-variant">j.pearce@example.com</td>
+                                <td class="px-6 py-4">
+                                    <span
+                                        class="bg-stone-100 text-stone-600 text-[9px] font-bold uppercase px-2 py-0.5 rounded-full">Customer</span>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span class="flex items-center gap-1.5 text-secondary text-xs font-semibold">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> Active
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 text-on-surface-variant">Jun 14, 2023</td>
+                                <td class="px-6 py-4 text-right">
+                                    <button class="text-on-surface-variant hover:text-stone-900"><span
+                                            class="material-symbols-outlined">more_horiz</span></button>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-surface-container-low/30 transition-colors">
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center gap-3">
+                                        <img alt="User" class="w-8 h-8 rounded-full"
+                                            data-alt="Close-up portrait of a woman boat owner, confident and smiling, outdoors with soft lighting"
+                                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuA7bZFzqS7BLa0eztspOTKTM801xiLOK_8H9WbsiCLHXoEsy7LPn8eRts8UBFytdQzTPBf9bUsMaCJ9YjUG_eT590Uef_lTORKRzGBj_Gg-VGAbxomKCZ9epnwvL8tyb3MHLMdc_a0KRc3-0Uh4--WLZu96kYWb62wngPb3iO4U2GlFV_rW6_VA7HcsRglQs_zlSeG2VyuDUz0l62BCQS1jubsqMAQaBFiKsXEeVFmXDXs_lWwjWSFzoUgs46RzVG3HfFeBrxFMUUKK" />
+                                        <span class="font-bold">Sofia Vergara</span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 text-on-surface-variant">sofia.v@oceanrentals.com</td>
+                                <td class="px-6 py-4">
+                                    <span
+                                        class="bg-primary-fixed text-on-primary-fixed-variant text-[9px] font-bold uppercase px-2 py-0.5 rounded-full">Owner</span>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span class="flex items-center gap-1.5 text-secondary text-xs font-semibold">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> Active
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 text-on-surface-variant">May 02, 2023</td>
+                                <td class="px-6 py-4 text-right">
+                                    <button class="text-on-surface-variant hover:text-stone-900"><span
+                                            class="material-symbols-outlined">more_horiz</span></button>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-surface-container-low/30 transition-colors">
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center gap-3">
+                                        <img alt="User" class="w-8 h-8 rounded-full"
+                                            data-alt="Portrait of a male ship captain in uniform, professional and authoritative expression, neutral background"
+                                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBDrsOE4xtKrbd1W614apBh300hnwB0HyK_Q1l5PjS3lliG2NN-YBVVILJ3X3XyC1pF6D4HBMwh3lJ8kg9vuJEI2fSz0RcLL26L38dRThs7ptrgussw_pj_ff1RQDB7KgH9cR76Tj4-YvXpWvFrCSQQy29jGJHYdbDEuXRPNzluhq6DsE7M5d3eGocdWHIvzRbfbOWJHu-MUfrsaurlVe6LGHxySdZjdhRAyCc5ISPJxQlnT6VA2PXerM9PntwfRP1WwJ6hiJonXhA" />
+                                        <span class="font-bold">Cap. Arthur Morgan</span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 text-on-surface-variant">a.morgan@vessels.net</td>
+                                <td class="px-6 py-4">
+                                    <span
+                                        class="bg-tertiary-container text-on-tertiary-container text-[9px] font-bold uppercase px-2 py-0.5 rounded-full">Captain</span>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span class="flex items-center gap-1.5 text-stone-400 text-xs font-semibold">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-stone-300"></span> Offline
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 text-on-surface-variant">Feb 28, 2023</td>
+                                <td class="px-6 py-4 text-right">
+                                    <button class="text-on-surface-variant hover:text-stone-900"><span
+                                            class="material-symbols-outlined">more_horiz</span></button>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-surface-container-low/30 transition-colors">
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center gap-3">
+                                        <div
+                                            class="w-8 h-8 rounded-full bg-stone-900 flex items-center justify-center text-white text-[10px] font-bold">
+                                            SY</div>
+                                        <span class="font-bold">System Yacht</span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 text-on-surface-variant">admin@watercity.com</td>
+                                <td class="px-6 py-4">
+                                    <span
+                                        class="bg-secondary-container text-on-secondary-container text-[9px] font-bold uppercase px-2 py-0.5 rounded-full">Admin</span>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span class="flex items-center gap-1.5 text-secondary text-xs font-semibold">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> Active
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 text-on-surface-variant">Jan 01, 2023</td>
+                                <td class="px-6 py-4 text-right">
+                                    <button class="text-on-surface-variant hover:text-stone-900"><span
+                                            class="material-symbols-outlined">more_horiz</span></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            <!-- Recent Bookings Summary -->
+            <section class="space-y-4">
+                <h4 class="font-serif text-xl italic text-stone-900">Recent Bookings Summary</h4>
+                <div class="bg-surface-container-lowest rounded-2xl shadow-sm overflow-hidden">
+                    <div
+                        class="grid grid-cols-1 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-surface-container">
+                        <div class="p-6">
+                            <span
+                                class="bg-secondary-container/50 text-on-secondary-container text-[9px] font-extrabold uppercase px-2 py-0.5 rounded mb-3 inline-block">Confirmed</span>
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm font-bold">Vesper Lyra</span>
+                                <span class="text-xs text-on-surface-variant">$2,400</span>
+                            </div>
+                            <p class="text-[10px] text-on-surface-variant mt-1 italic">3 Days Charter • Jul 14</p>
+                        </div>
+                        <div class="p-6">
+                            <span
+                                class="bg-tertiary-container/50 text-on-tertiary-container text-[9px] font-extrabold uppercase px-2 py-0.5 rounded mb-3 inline-block">Pending</span>
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm font-bold">Wave Runner</span>
+                                <span class="text-xs text-on-surface-variant">$850</span>
+                            </div>
+                            <p class="text-[10px] text-on-surface-variant mt-1 italic">Sunset Tour • Jul 16</p>
+                        </div>
+                        <div class="p-6">
+                            <span
+                                class="bg-secondary-container/50 text-on-secondary-container text-[9px] font-extrabold uppercase px-2 py-0.5 rounded mb-3 inline-block">Confirmed</span>
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm font-bold">Deep Sea IV</span>
+                                <span class="text-xs text-on-surface-variant">$1,200</span>
+                            </div>
+                            <p class="text-[10px] text-on-surface-variant mt-1 italic">Fishing Expedition • Jul 15</p>
+                        </div>
+                        <div class="p-6">
+                            <span
+                                class="bg-error-container/50 text-on-error-container text-[9px] font-extrabold uppercase px-2 py-0.5 rounded mb-3 inline-block">Cancelled</span>
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm font-bold">The Gilded Deck</span>
+                                <span class="text-xs text-on-surface-variant">$5,500</span>
+                            </div>
+                            <p class="text-[10px] text-on-surface-variant mt-1 italic">Corporate Event • Aug 01</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <!-- Footer / System Info -->
+        <footer
+            class="mt-auto p-8 flex flex-col md:flex-row justify-between items-center text-[10px] font-bold uppercase tracking-widest text-on-surface-variant/60">
+            <p>© 2024 Water City Rentals Operations Unit</p>
+            <div class="flex gap-6 mt-4 md:mt-0">
+                <a class="hover:text-primary transition-colors" href="#">API Docs</a>
+                <a class="hover:text-primary transition-colors" href="#">Server Status</a>
+                <a class="hover:text-primary transition-colors" href="#">Support Portal</a>
+            </div>
+        </footer>
+    </main>
+    <!-- Contextual FAB for Quick Actions -->
+    <button
+        class="fixed bottom-8 right-8 w-14 h-14 bg-primary text-on-primary rounded-full shadow-2xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all z-50">
+        <span class="material-symbols-outlined text-2xl">add</span>
+    </button>
+<script>
+  // Make all internal links navigate the parent React app
+  document.addEventListener('click', function(e) {
+    const link = e.target.closest('a[href]');
+    if (!link) return;
+    const href = link.getAttribute('href');
+    if (!href || href.startsWith('http') || href.startsWith('mailto') || href === '#') return;
+    e.preventDefault();
+    window.parent.location.href = href;
+  });
+</script>
+</body>
+
+</html>

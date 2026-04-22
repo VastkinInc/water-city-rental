@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400;1,700&amp;family=Manrope:wght@300;400;500;600;700;800&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary": "#ffffff",
+                        "surface-tint": "#a43c12",
+                        "on-surface": "#1a1c1a",
+                        "on-primary-fixed": "#380c00",
+                        "tertiary-fixed": "#ffe088",
+                        "surface-container-low": "#f4f3f1",
+                        "secondary": "#006972",
+                        "on-primary-container": "#6c2000",
+                        "on-background": "#1a1c1a",
+                        "secondary-container": "#9ff0fb",
+                        "on-surface-variant": "#57423b",
+                        "error-container": "#ffdad6",
+                        "primary-fixed": "#ffdbcf",
+                        "tertiary-fixed-dim": "#e9c349",
+                        "on-error-container": "#93000a",
+                        "on-error": "#ffffff",
+                        "surface-container": "#efeeeb",
+                        "on-tertiary-fixed-variant": "#574500",
+                        "primary-fixed-dim": "#ffb59c",
+                        "tertiary-container": "#c4a028",
+                        "surface": "#faf9f6",
+                        "surface-variant": "#e3e2e0",
+                        "primary-container": "#ff7f50",
+                        "on-secondary-fixed": "#001f23",
+                        "inverse-surface": "#2f312f",
+                        "surface-container-highest": "#e3e2e0",
+                        "background": "#faf9f6",
+                        "surface-bright": "#faf9f6",
+                        "on-primary-fixed-variant": "#822800",
+                        "inverse-primary": "#ffb59c",
+                        "on-primary": "#ffffff",
+                        "inverse-on-surface": "#f2f1ee",
+                        "on-secondary-container": "#066f79",
+                        "error": "#ba1a1a",
+                        "secondary-container": "#9ff0fb",
+                        "on-secondary": "#ffffff",
+                        "surface-container-high": "#e9e8e5",
+                        "tertiary": "#735c00",
+                        "on-tertiary-container": "#483800",
+                        "surface-container-lowest": "#ffffff",
+                        "outline-variant": "#dec0b6",
+                        "outline": "#8b7169",
+                        "on-tertiary-fixed": "#241a00",
+                        "surface-dim": "#dbdad7"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Noto Serif"],
+                        "body": ["Manrope"],
+                        "label": ["Manrope"]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Manrope', sans-serif;
+        }
+
+        .font-serif {
+            font-family: 'Noto Serif', serif;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+
+<body class="bg-background text-on-background">
+    <div class="flex min-h-screen">
+        <!-- SideNavBar -->
+        <aside class="hidden md:flex flex-col h-screen w-64 bg-stone-50 border-r-0 bg-stone-100 py-8 pl-6 sticky top-0">
+            <div class="mb-10">
+                <span class="font-serif italic text-xl text-stone-900">Water City Rentals</span>
+            </div>
+            <div class="flex items-center gap-3 mb-10">
+                <div class="w-10 h-10 rounded-full overflow-hidden bg-surface-container">
+                    <img alt="Marco Rossi" class="w-full h-full object-cover"
+                        data-alt="close-up portrait of a weathered middle-aged man with kind eyes and sea-salt hair wearing a navy polo shirt"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuBMq0Ql9wa47BDanjWsV1gGErbALm6ygkV-hiAKVRThQy9zbJ8P6vt9rM9vKXmzLse5WCHMezM7zJThqPdGjRtD_tcO4nXS3aHe5-l-pZxke5aW3N0wQ8utHaLhBKvMABSIJw2-gFjdNX57AWmV_T86yeY3x9pA5_SncHVUyhoeWqa-us-VC98aNc2s9RbtqhuitVG3a5J0RIDT9ly7BKk6KH2_HvGAOcbIRJ1wONvOXl3hJmmW1GugyrbukF2lmuJ1D1735cb0RnoT" />
+                </div>
+                <div>
+                    <h3 class="font-sans text-sm font-bold text-stone-900 tracking-tight">Captain's Lounge</h3>
+                    <p class="text-xs text-stone-500">Premier Member</p>
+                </div>
+            </div>
+            <nav class="flex-1 space-y-1">
+                <a class="flex items-center gap-3 py-3 px-4 text-stone-900 font-bold bg-white rounded-l-full shadow-sm transition-all translate-x-1 duration-200"
+                    href="#">
+                    <span class="material-symbols-outlined text-orange-600">dashboard</span>
+                    <span class="font-sans text-sm tracking-tight">Overview</span>
+                </a>
+                <a class="flex items-center gap-3 py-3 px-4 text-stone-500 hover:text-stone-800 hover:bg-stone-200/50 rounded-l-full transition-all"
+                    href="#">
+                    <span class="material-symbols-outlined">directions_boat</span>
+                    <span class="font-sans text-sm tracking-tight">My Trips</span>
+                </a>
+                <a class="flex items-center gap-3 py-3 px-4 text-stone-500 hover:text-stone-800 hover:bg-stone-200/50 rounded-l-full transition-all"
+                    href="#">
+                    <span class="material-symbols-outlined">calendar_today</span>
+                    <span class="font-sans text-sm tracking-tight">Schedule</span>
+                </a>
+                <a class="flex items-center gap-3 py-3 px-4 text-stone-500 hover:text-stone-800 hover:bg-stone-200/50 rounded-l-full transition-all"
+                    href="#">
+                    <span class="material-symbols-outlined">payments</span>
+                    <span class="font-sans text-sm tracking-tight">Earnings</span>
+                </a>
+                <a class="flex items-center gap-3 py-3 px-4 text-stone-500 hover:text-stone-800 hover:bg-stone-200/50 rounded-l-full transition-all"
+                    href="#">
+                    <span class="material-symbols-outlined">account_circle</span>
+                    <span class="font-sans text-sm tracking-tight">Profile</span>
+                </a>
+            </nav>
+            <div class="mt-auto pr-6">
+                <button
+                    class="w-full py-3 px-4 rounded-full bg-primary-container text-on-primary-container font-bold text-sm shadow-sm hover:opacity-90 transition-opacity">
+                    List Your Boat
+                </button>
+            </div>
+        </aside>
+        <!-- Main Content -->
+        <main class="flex-1 px-6 md:px-12 py-8 max-w-7xl mx-auto w-full">
+            <!-- HEADER -->
+            <header class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+                <div>
+                    <h1 class="font-serif italic text-4xl md:text-5xl text-stone-900 leading-tight">Captain's Bridge
+                    </h1>
+                    <p class="mt-2 text-on-surface-variant font-body">Welcome back, <span class="font-bold">Marco
+                            Rossi</span>. The tide is favorable today.</p>
+                </div>
+                <div
+                    class="flex items-center gap-4 bg-surface-container-lowest px-6 py-3 rounded-full shadow-sm border border-outline-variant/15">
+                    <div class="flex items-center gap-1">
+                        <span class="material-symbols-outlined text-tertiary"
+                            style="font-variation-settings: 'FILL' 1;">star</span>
+                        <span class="font-bold text-lg">4.9</span>
+                    </div>
+                    <div class="h-4 w-px bg-outline-variant"></div>
+                    <span class="text-sm font-label uppercase tracking-widest text-on-surface-variant">Rating</span>
+                </div>
+            </header>
+            <!-- STATS BENTO -->
+            <section class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-12">
+                <div class="bg-surface-container-lowest p-6 rounded-2xl border border-outline-variant/10 shadow-sm">
+                    <p class="text-xs font-label uppercase tracking-widest text-on-surface-variant mb-2">Assigned</p>
+                    <p class="text-3xl font-headline text-stone-900">6</p>
+                </div>
+                <div class="bg-surface-container-lowest p-6 rounded-2xl border border-outline-variant/10 shadow-sm">
+                    <p class="text-xs font-label uppercase tracking-widest text-on-surface-variant mb-2">Upcoming</p>
+                    <p class="text-3xl font-headline text-stone-900">2</p>
+                </div>
+                <div class="bg-surface-container-lowest p-6 rounded-2xl border border-outline-variant/10 shadow-sm">
+                    <p class="text-xs font-label uppercase tracking-widest text-on-surface-variant mb-2">Completed</p>
+                    <p class="text-3xl font-headline text-stone-900">8</p>
+                </div>
+                <div class="bg-surface-container-lowest p-6 rounded-2xl border border-outline-variant/10 shadow-sm">
+                    <p class="text-xs font-label uppercase tracking-widest text-on-surface-variant mb-2">Avg Rating</p>
+                    <div class="flex items-baseline gap-1">
+                        <p class="text-3xl font-headline text-stone-900">4.9</p>
+                        <span class="text-xs text-secondary font-bold">/5.0</span>
+                    </div>
+                </div>
+            </section>
+            <!-- NEXT TRIP: FEATURED -->
+            <section class="mb-12">
+                <div
+                    class="group relative overflow-hidden rounded-3xl bg-stone-900 text-white min-h-[320px] flex flex-col md:flex-row items-stretch">
+                    <div class="absolute inset-0 z-0 opacity-60">
+                        <img alt="Azure Serenity Yacht" class="w-full h-full object-cover"
+                            data-alt="luxury white motor yacht cruising on calm turquoise Mediterranean waters during a vibrant sunset"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCA4ID_pj13yZP9RczmXaoCpvtucbX2ln7LW7_R_ejGVzc_waauUmOt9Gi1a8MoWnUg-W8A-3tWrkYCbft_aRfOPNkLMb5wXMDXhEoPolDMFMm3cbSszwF6Q3WHjMlJuBPapxEZfvRvuZPswNnVGu-65VHiD0Cy6-AmM5_SlcNV9wjYKQQf-ThB14jscuDZfE8AJcJGyQaGPOgUM01LyTdvFIKUev4JTaP2PiIhaKvX7tq3FY-JFma378UWWuj0tWTwfYBR4w1h13ih" />
+                    </div>
+                    <div
+                        class="absolute inset-0 bg-gradient-to-r from-stone-900/90 via-stone-900/40 to-transparent z-10">
+                    </div>
+                    <div class="relative z-20 p-8 md:p-12 flex flex-col justify-center max-w-xl">
+                        <span
+                            class="inline-block bg-tertiary-container text-on-tertiary-container px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest mb-4">Next
+                            Adventure</span>
+                        <h2 class="text-4xl font-serif italic mb-2">Azure Serenity</h2>
+                        <div class="flex flex-wrap items-center gap-6 text-stone-200 text-sm mb-8">
+                            <div class="flex items-center gap-2">
+                                <span class="material-symbols-outlined text-sm">calendar_month</span>
+                                <span>Aug 5</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="material-symbols-outlined text-sm">schedule</span>
+                                <span>9:00 AM</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="material-symbols-outlined text-sm">location_on</span>
+                                <span>Monroe Harbor</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <button
+                                class="bg-primary-container text-on-primary-container px-8 py-4 rounded-full font-bold shadow-xl hover:scale-105 transition-transform active:scale-95">
+                                Accept &amp; Navigate
+                            </button>
+                            <button
+                                class="px-6 py-4 rounded-full border border-white/30 backdrop-blur-md hover:bg-white/10 transition-colors font-semibold">
+                                Details
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- TRIPS & SCHEDULE GRID -->
+            <div class="grid lg:grid-cols-3 gap-12">
+                <!-- ALL TRIPS -->
+                <section class="lg:col-span-2">
+                    <div class="flex items-center justify-between mb-8">
+                        <h3 class="text-2xl font-serif italic text-stone-900">All Trips</h3>
+                        <div class="flex gap-2 p-1 bg-surface-container rounded-full">
+                            <button class="px-4 py-1.5 rounded-full text-xs font-bold bg-white shadow-sm">All</button>
+                            <button
+                                class="px-4 py-1.5 rounded-full text-xs font-medium text-on-surface-variant hover:bg-white/50">Upcoming</button>
+                            <button
+                                class="px-4 py-1.5 rounded-full text-xs font-medium text-on-surface-variant hover:bg-white/50">Completed</button>
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <!-- ROW 1: NEW -->
+                        <div
+                            class="bg-surface-container-lowest p-5 rounded-2xl flex flex-col md:flex-row md:items-center justify-between gap-4 border border-outline-variant/10 hover:shadow-md transition-shadow">
+                            <div class="flex items-center gap-4">
+                                <div class="w-16 h-16 rounded-xl overflow-hidden bg-stone-100 flex-shrink-0">
+                                    <img alt="Vessel" class="w-full h-full object-cover"
+                                        data-alt="sleek modern speed boat docked at a pier with crystal clear water background"
+                                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuAOnpANYBidFvnwgTZpf3JKSOCddhdrUL5nxaIefh39ITUTojhlrAzG8E5T769369AaOslwTVeIPdb4CODyhh-Boc10SXaqG_Vu_osgn3CekHgm0KC0xS4ntLxQ8jnSaKCnb8I-a-6KdBOIFFdUyhVY7Za4amI9d_i5QgrAPywPgWJurK6kljFgdiI4-LtDfaIRSM3932kFSUmdTgoOM2iKJqrtZDf1dFq-fnDwAg2O2Z6Sww3rUrOvQP5JotDfFu3STXOTZc4ykwAV" />
+                                </div>
+                                <div>
+                                    <div class="flex items-center gap-2 mb-1">
+                                        <h4 class="font-bold text-stone-900">Golden Horizon</h4>
+                                        <span
+                                            class="bg-primary-fixed text-on-primary-fixed-variant px-2 py-0.5 rounded text-[10px] font-bold uppercase">New</span>
+                                    </div>
+                                    <p class="text-xs text-on-surface-variant">July 28 • 10:30 AM • Belmont Harbor</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <button
+                                    class="px-5 py-2 rounded-full border border-outline text-xs font-bold hover:bg-surface-container transition-colors">Decline</button>
+                                <button
+                                    class="px-5 py-2 rounded-full bg-primary-container text-on-primary-container text-xs font-bold shadow-sm hover:opacity-90">Accept</button>
+                            </div>
+                        </div>
+                        <!-- ROW 2: ACCEPTED -->
+                        <div
+                            class="bg-surface-container-lowest p-5 rounded-2xl flex flex-col md:flex-row md:items-center justify-between gap-4 border border-outline-variant/10 hover:shadow-md transition-shadow">
+                            <div class="flex items-center gap-4">
+                                <div class="w-16 h-16 rounded-xl overflow-hidden bg-stone-100 flex-shrink-0">
+                                    <img alt="Vessel" class="w-full h-full object-cover"
+                                        data-alt="aerial perspective of a large white sailing yacht on deep blue ocean"
+                                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_Pzmbrc9ZGyqEp0EidEI-P53B-7XES9QJyOuubNXmr-XOPTmfaiWLO9nM3SOpsZM7NPwd6hk0qb6iXhkmT48dUZa12TaiGIe8ucNohNOA8NmsnTSbDIaE8NKA9J1mCmJO8BL5sCuNpCmJ9ZM_lEGFyespgfyqjwuxn3RMvHdGvX-eED56ytXCc_ITaQJXX50YIU5JyVnSSrCITQI3ffZilezxcJxxvzVJ7N80FzPE5D_HwaStwxjpOp74SrmlkMiHZCx90KdsAFky" />
+                                </div>
+                                <div>
+                                    <div class="flex items-center gap-2 mb-1">
+                                        <h4 class="font-bold text-stone-900">Pearl Explorer</h4>
+                                        <span
+                                            class="bg-secondary-container text-on-secondary-container px-2 py-0.5 rounded text-[10px] font-bold uppercase">Accepted</span>
+                                    </div>
+                                    <p class="text-xs text-on-surface-variant">July 30 • 02:00 PM • DuSable Harbor</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <button
+                                    class="px-5 py-2 rounded-full bg-secondary text-white text-xs font-bold shadow-sm hover:opacity-90">Mark
+                                    Ongoing</button>
+                            </div>
+                        </div>
+                        <!-- ROW 3: ONGOING -->
+                        <div
+                            class="bg-surface-container-lowest p-5 rounded-2xl flex flex-col md:flex-row md:items-center justify-between gap-4 border border-outline-variant/10 border-l-4 border-l-tertiary shadow-md">
+                            <div class="flex items-center gap-4">
+                                <div class="w-16 h-16 rounded-xl overflow-hidden bg-stone-100 flex-shrink-0">
+                                    <img alt="Vessel" class="w-full h-full object-cover"
+                                        data-alt="close up of a yacht cockpit with glowing digital navigation displays at twilight"
+                                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3ASCRAPFyWcjoTrPedSHEZAdhi2crPJ-1pwJLEi1d_4Xu7br-5zTvifMsnaGQqWzzc2WVlTzI4RXNIRjsZGUdX1etqSX93IbjkjPGuD1vxTadL8DoAGzfFi93fRzXE5_xhM3HIPjFsQr4i2ofsdPnvxWUZxnhOKjhs1KUPOsPO6Vp5OpRXv8S4cKI07FN2XRMiKkXhIWp0TaqKyxvdHz7PvyVDVIKhPe54QqCInhOGTim-SZdyvqZXg5X2MWuNzfayqt0FTg0PEiD" />
+                                </div>
+                                <div>
+                                    <div class="flex items-center gap-2 mb-1">
+                                        <h4 class="font-bold text-stone-900">Sea Spirit</h4>
+                                        <span
+                                            class="bg-tertiary-container text-on-tertiary-container px-2 py-0.5 rounded text-[10px] font-bold uppercase">Ongoing</span>
+                                    </div>
+                                    <p class="text-xs text-on-surface-variant">Active Now • Started 09:15 AM</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <button
+                                    class="px-5 py-2 rounded-full bg-stone-900 text-white text-xs font-bold shadow-sm hover:bg-stone-800">Mark
+                                    Complete</button>
+                            </div>
+                        </div>
+                        <!-- ROW 4: COMPLETED -->
+                        <div
+                            class="bg-surface-container-lowest p-5 rounded-2xl flex flex-col md:flex-row md:items-center justify-between gap-4 border border-outline-variant/5 opacity-80 grayscale-[0.3]">
+                            <div class="flex items-center gap-4">
+                                <div class="w-16 h-16 rounded-xl overflow-hidden bg-stone-100 flex-shrink-0">
+                                    <img alt="Vessel" class="w-full h-full object-cover"
+                                        data-alt="wooden classic boat interior with luxurious leather seating and brass details"
+                                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuAsxO6BCX9HvOwFFRXInqt8x4ZHc3DErNj-qIa_lPtoKH55_TCQs2dIWtU7Uuxv_MYJ0ixbWbQqedvplPJDftKhj5u9hSH5KYKc82vf3qeTe7PM5wmZWlfZ0kpOILQLquzdLPW7kwk5JPrr3f7OPFm8D_zr5vHu8KHBhVUjS7Qhwkjsef6Vz1wePGvtKl7DyWw8UIRyY58-xB5LdwV7EcfZxMtzK3cbKSIdsR74Q2e-gp-Jg__-ZItQU0CDc3_utn7mmhQ1l7Sfzm6M" />
+                                </div>
+                                <div>
+                                    <div class="flex items-center gap-2 mb-1">
+                                        <h4 class="font-bold text-stone-900">Wind Dancer</h4>
+                                        <span
+                                            class="bg-stone-100 text-stone-500 px-2 py-0.5 rounded text-[10px] font-bold uppercase">Completed</span>
+                                    </div>
+                                    <p class="text-xs text-on-surface-variant">July 25 • 05:00 PM • Monroe Harbor</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-1 text-tertiary">
+                                <span class="material-symbols-outlined text-sm"
+                                    style="font-variation-settings: 'FILL' 1;">star</span>
+                                <span class="material-symbols-outlined text-sm"
+                                    style="font-variation-settings: 'FILL' 1;">star</span>
+                                <span class="material-symbols-outlined text-sm"
+                                    style="font-variation-settings: 'FILL' 1;">star</span>
+                                <span class="material-symbols-outlined text-sm"
+                                    style="font-variation-settings: 'FILL' 1;">star</span>
+                                <span class="material-symbols-outlined text-sm"
+                                    style="font-variation-settings: 'FILL' 1;">star</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- SCHEDULE SIDEBAR -->
+                <aside>
+                    <div class="mb-8 flex items-center justify-between">
+                        <h3 class="text-2xl font-serif italic text-stone-900">Schedule</h3>
+                        <span class="text-xs font-bold text-primary">July 2024</span>
+                    </div>
+                    <div class="bg-surface-container-lowest rounded-3xl p-6 border border-outline-variant/10 shadow-sm">
+                        <!-- Weekly Calendar Strip -->
+                        <div class="flex justify-between items-center mb-8 pb-6 border-b border-outline-variant/15">
+                            <div class="flex flex-col items-center gap-2">
+                                <span class="text-[10px] uppercase font-bold text-stone-400">Mon</span>
+                                <div
+                                    class="w-10 h-10 flex items-center justify-center rounded-full text-sm font-bold hover:bg-stone-100 transition-colors cursor-pointer">
+                                    24</div>
+                            </div>
+                            <div class="flex flex-col items-center gap-2">
+                                <span class="text-[10px] uppercase font-bold text-stone-400">Tue</span>
+                                <div
+                                    class="w-10 h-10 flex items-center justify-center rounded-full text-sm font-bold bg-primary-container text-on-primary-container shadow-sm relative">
+                                    25
+                                    <div class="absolute -bottom-1 w-1.5 h-1.5 bg-stone-900 rounded-full"></div>
+                                </div>
+                            </div>
+                            <div class="flex flex-col items-center gap-2">
+                                <span class="text-[10px] uppercase font-bold text-stone-400">Wed</span>
+                                <div
+                                    class="w-10 h-10 flex items-center justify-center rounded-full text-sm font-bold hover:bg-stone-100 transition-colors cursor-pointer">
+                                    26</div>
+                            </div>
+                            <div class="flex flex-col items-center gap-2">
+                                <span class="text-[10px] uppercase font-bold text-stone-400">Thu</span>
+                                <div
+                                    class="w-10 h-10 flex items-center justify-center rounded-full text-sm font-bold hover:bg-stone-100 transition-colors cursor-pointer relative">
+                                    27
+                                    <div class="absolute -bottom-1 w-1.5 h-1.5 bg-secondary rounded-full"></div>
+                                </div>
+                            </div>
+                            <div class="flex flex-col items-center gap-2">
+                                <span class="text-[10px] uppercase font-bold text-stone-400">Fri</span>
+                                <div
+                                    class="w-10 h-10 flex items-center justify-center rounded-full text-sm font-bold hover:bg-stone-100 transition-colors cursor-pointer">
+                                    28</div>
+                            </div>
+                        </div>
+                        <!-- Dots Detail -->
+                        <div class="space-y-6">
+                            <h4 class="text-xs font-label uppercase tracking-widest text-on-surface-variant">Today's
+                                Timeline</h4>
+                            <div
+                                class="relative pl-8 space-y-8 before:content-[''] before:absolute before:left-[11px] before:top-2 before:bottom-2 before:w-[2px] before:bg-stone-100">
+                                <div class="relative">
+                                    <div
+                                        class="absolute -left-8 w-6 h-6 rounded-full bg-white border-4 border-primary-container z-10">
+                                    </div>
+                                    <p class="text-xs font-bold text-primary mb-1">09:15 AM — 01:15 PM</p>
+                                    <h5 class="text-sm font-bold text-stone-900">Charter: Sea Spirit</h5>
+                                    <p class="text-[11px] text-stone-500">DuSable Harbor Pier 4</p>
+                                </div>
+                                <div class="relative">
+                                    <div
+                                        class="absolute -left-8 w-6 h-6 rounded-full bg-white border-4 border-stone-100 z-10">
+                                    </div>
+                                    <p class="text-xs font-bold text-stone-400 mb-1">03:30 PM — 07:30 PM</p>
+                                    <h5 class="text-sm font-bold text-stone-900">Private Event Prep</h5>
+                                    <p class="text-[11px] text-stone-500">Monroe Harbor Yard</p>
+                                </div>
+                            </div>
+                        </div>
+                        <button
+                            class="w-full mt-10 py-3 rounded-full border border-outline text-xs font-bold text-stone-900 hover:bg-stone-50 transition-colors">
+                            View Full Calendar
+                        </button>
+                    </div>
+                </aside>
+            </div>
+        </main>
+    </div>
+    <!-- BottomNavBar (Mobile Only) -->
+    <nav
+        class="md:hidden fixed bottom-0 left-0 right-0 bg-surface/80 backdrop-blur-xl border-t-0 shadow-[0_-4px_24px_rgba(0,0,0,0.05)] z-50 flex justify-around items-center py-3 px-6">
+        <a class="flex flex-col items-center gap-1 text-orange-600" href="#">
+            <span class="material-symbols-outlined text-[24px]">dashboard</span>
+            <span class="text-[10px] font-bold">Overview</span>
+        </a>
+        <a class="flex flex-col items-center gap-1 text-stone-400" href="#">
+            <span class="material-symbols-outlined text-[24px]">directions_boat</span>
+            <span class="text-[10px] font-medium">Trips</span>
+        </a>
+        <a class="flex flex-col items-center gap-1 text-stone-400" href="#">
+            <span class="material-symbols-outlined text-[24px]">calendar_today</span>
+            <span class="text-[10px] font-medium">Schedule</span>
+        </a>
+        <a class="flex flex-col items-center gap-1 text-stone-400" href="#">
+            <span class="material-symbols-outlined text-[24px]">account_circle</span>
+            <span class="text-[10px] font-medium">Profile</span>
+        </a>
+    </nav>
+<script>
+  // Make all internal links navigate the parent React app
+  document.addEventListener('click', function(e) {
+    const link = e.target.closest('a[href]');
+    if (!link) return;
+    const href = link.getAttribute('href');
+    if (!href || href.startsWith('http') || href.startsWith('mailto') || href === '#') return;
+    e.preventDefault();
+    window.parent.location.href = href;
+  });
+</script>
+</body>
+
+</html>

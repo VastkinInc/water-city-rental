@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary": "#ffffff",
+                        "surface-tint": "#a43c12",
+                        "on-surface": "#1a1c1a",
+                        "on-primary-fixed": "#380c00",
+                        "tertiary-fixed": "#ffe088",
+                        "surface-container-low": "#f4f3f1",
+                        "secondary": "#006972",
+                        "on-primary-container": "#6c2000",
+                        "on-background": "#1a1c1a",
+                        "secondary-container": "#9ff0fb",
+                        "on-surface-variant": "#57423b",
+                        "error-container": "#ffdad6",
+                        "primary-fixed": "#ffdbcf",
+                        "tertiary-fixed-dim": "#e9c349",
+                        "on-error-container": "#93000a",
+                        "on-error": "#ffffff",
+                        "surface-container": "#efeeeb",
+                        "on-tertiary-fixed-variant": "#574500",
+                        "primary-fixed-dim": "#ffb59c",
+                        "tertiary-container": "#c4a028",
+                        "surface": "#faf9f6",
+                        "surface-variant": "#e3e2e0",
+                        "primary-container": "#ff7f50",
+                        "on-secondary-fixed": "#001f23",
+                        "inverse-surface": "#2f312f",
+                        "surface-container-highest": "#e3e2e0",
+                        "background": "#faf9f6",
+                        "surface-bright": "#faf9f6",
+                        "on-primary-fixed-variant": "#822800",
+                        "inverse-primary": "#ffb59c",
+                        "on-primary": "#ffffff",
+                        "inverse-on-surface": "#f2f1ee",
+                        "on-secondary-container": "#066f79",
+                        "error": "#ba1a1a",
+                        "secondary-fixed": "#9ff0fb",
+                        "on-secondary-fixed-variant": "#004f56",
+                        "primary": "#a43c12",
+                        "secondary-fixed-dim": "#82d3de",
+                        "on-secondary": "#ffffff",
+                        "surface-container-high": "#e9e8e5",
+                        "tertiary": "#735c00",
+                        "on-tertiary-container": "#483800",
+                        "surface-container-lowest": "#ffffff",
+                        "outline-variant": "#dec0b6",
+                        "outline": "#8b7169",
+                        "on-tertiary-fixed": "#241a00",
+                        "surface-dim": "#dbdad7"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Noto Serif"],
+                        "body": ["Manrope"],
+                        "label": ["Manrope"]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        body {
+            font-family: 'Manrope', sans-serif;
+        }
+
+        .font-serif {
+            font-family: 'Noto Serif', serif;
+        }
+    </style>
+</head>
+
+<body class="bg-background text-on-surface">
+    <div class="flex min-h-screen">
+        <!-- SideNavBar Component -->
+        <aside class="hidden md:flex flex-col h-screen w-64 bg-stone-50 dark:bg-stone-950 py-8 pl-6 sticky top-0">
+            <div class="mb-10 pr-6">
+                <span class="font-serif italic text-xl text-stone-900 dark:text-stone-50">Water City Rentals</span>
+            </div>
+            <div class="flex items-center gap-3 mb-8 pr-6">
+                <img alt="User profile photo" class="w-10 h-10 rounded-full object-cover"
+                    data-alt="Close-up portrait of a professional man with a friendly smile, outdoor lighting with warm sunset tones"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSeB-zYy66SB8W1rDS4pQd909FetLqSvRbVmoZF4ecl97g1A85ji5X-SNQvHOYggY7yZ0944htJX5Mn95ifEhMkxYQP4eo5qDzGle2Kh_-ozdA6gcIp7TQh9xKLA5ZXqes7C3nP9sLyorz0zv58Cb-eMlUkKmeJzncS-sTX11wgy3VJIXkhSOaIZ6gaCu57x88-mqA2eW6IshFvSux4bA83AjeB1Kw1XgF51h5hOPuTNkmDfVjlFFkICk8DiTikEsoQDhIEgdBRROz" />
+                <div>
+                    <p class="font-serif italic text-sm text-stone-900 dark:text-stone-50">Captain's Lounge</p>
+                    <p class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Premier Member
+                    </p>
+                </div>
+            </div>
+            <nav class="flex-1 space-y-1">
+                <!-- Dashboard Active -->
+                <a class="flex items-center gap-3 px-4 py-3 text-stone-900 dark:text-white font-bold bg-white dark:bg-stone-900 rounded-l-full shadow-sm translate-x-1 duration-200"
+                    href="#">
+                    <span class="material-symbols-outlined">dashboard</span>
+                    <span class="font-sans text-sm tracking-tight">Dashboard</span>
+                </a>
+                <a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all group"
+                    href="#">
+                    <span class="material-symbols-outlined">directions_boat</span>
+                    <span class="font-sans text-sm tracking-tight">Browse Boats</span>
+                </a>
+                <a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all"
+                    href="#">
+                    <span class="material-symbols-outlined">anchor</span>
+                    <span class="font-sans text-sm tracking-tight">My Bookings</span>
+                </a>
+                <a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all"
+                    href="#">
+                    <span class="material-symbols-outlined">favorite</span>
+                    <span class="font-sans text-sm tracking-tight">Saved</span>
+                </a>
+                <a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all"
+                    href="#">
+                    <span class="material-symbols-outlined">mail</span>
+                    <span class="font-sans text-sm tracking-tight">Messages</span>
+                </a>
+                <a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all"
+                    href="#">
+                    <span class="material-symbols-outlined">account_circle</span>
+                    <span class="font-sans text-sm tracking-tight">Profile</span>
+                </a>
+            </nav>
+            <div class="mt-auto pr-6">
+                <button
+                    class="w-full bg-primary-container text-on-primary-container py-3 rounded-full text-xs font-bold uppercase tracking-widest hover:brightness-105 transition-all">
+                    List Your Boat
+                </button>
+            </div>
+        </aside>
+        <!-- Main Content Area -->
+        <main class="flex-1 overflow-y-auto px-6 md:px-12 py-10">
+            <!-- Header -->
+            <header class="mb-12">
+                <h1 class="text-4xl md:text-5xl font-serif text-on-surface">
+                    Welcome back, <span class="italic">Alex</span>
+                </h1>
+                <p class="text-on-surface-variant mt-2 font-medium">Your next nautical adventure is just over the
+                    horizon.</p>
+            </header>
+            <!-- Stats Grid -->
+            <section class="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+                <div
+                    class="bg-surface-container-lowest p-6 rounded-2xl shadow-[0_32px_64px_rgba(26,28,26,0.04)] group hover:bg-surface-container-low transition-colors">
+                    <p class="text-[10px] uppercase tracking-[0.1em] text-on-surface-variant font-bold mb-1">Total
+                        Bookings</p>
+                    <p class="text-3xl font-serif text-primary">8</p>
+                </div>
+                <div class="bg-surface-container-lowest p-6 rounded-2xl shadow-[0_32px_64px_rgba(26,28,26,0.04)]">
+                    <p class="text-[10px] uppercase tracking-[0.1em] text-on-surface-variant font-bold mb-1">Upcoming
+                    </p>
+                    <p class="text-3xl font-serif text-secondary">2</p>
+                </div>
+                <div class="bg-surface-container-lowest p-6 rounded-2xl shadow-[0_32px_64px_rgba(26,28,26,0.04)]">
+                    <p class="text-[10px] uppercase tracking-[0.1em] text-on-surface-variant font-bold mb-1">Completed
+                    </p>
+                    <p class="text-3xl font-serif text-on-surface">5</p>
+                </div>
+                <div class="bg-surface-container-lowest p-6 rounded-2xl shadow-[0_32px_64px_rgba(26,28,26,0.04)]">
+                    <p class="text-[10px] uppercase tracking-[0.1em] text-on-surface-variant font-bold mb-1">Saved</p>
+                    <p class="text-3xl font-serif text-tertiary">12</p>
+                </div>
+            </section>
+            <!-- Upcoming Trips -->
+            <section class="mb-16">
+                <div class="flex items-center justify-between mb-8">
+                    <h2 class="text-2xl font-serif italic text-on-surface">Upcoming Trips</h2>
+                    <a class="text-xs uppercase font-bold tracking-widest text-primary hover:underline" href="#">View
+                        Calendar</a>
+                </div>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <!-- Trip Card 1 -->
+                    <div
+                        class="bg-surface-container-lowest rounded-3xl overflow-hidden flex flex-col md:flex-row group">
+                        <div class="md:w-1/2 relative h-48 md:h-auto overflow-hidden">
+                            <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                                data-alt="Luxury modern yacht moored in a calm harbor with teal water and clear sky during daytime"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDc7GcpGfPZYI8hYoouhqNHRtCred_IGETh7s1NR1WeyJhznOSiwKRNYZE4TOW7pbbao071qRBsU2LL6p1kgK2U1oGXj_zv9MBgKvrPnb2TPUbrjnQRQQ2KLyQlQesPet0eYu2rK5GJTlm5CVcMdrT-Ec7M1wo6gmwhI9cdLgyTWAMa4_v63SSOTwb3n_5BKkPK2kUVvYcfV44wD7eEz6TRTI1ClMtFqqejN2Md7nn2oU6ceffhnZTioH_WBN4emMJKhzVQg9aum0UJ" />
+                            <div class="absolute top-4 left-4">
+                                <span
+                                    class="bg-secondary-container text-on-secondary-container px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest backdrop-blur-md">CONFIRMED</span>
+                            </div>
+                        </div>
+                        <div class="md:w-1/2 p-6 flex flex-col justify-between">
+                            <div>
+                                <h3 class="text-xl font-serif italic mb-1">Azure Serenity</h3>
+                                <div class="flex items-center gap-1 text-on-surface-variant text-sm mb-4">
+                                    <span class="material-symbols-outlined text-sm">location_on</span>
+                                    <span>Monroe Harbor</span>
+                                </div>
+                                <div class="space-y-2">
+                                    <div class="flex items-center gap-3">
+                                        <span class="material-symbols-outlined text-secondary">calendar_today</span>
+                                        <span class="text-sm font-medium">Aug 5 - Aug 7</span>
+                                    </div>
+                                    <div class="flex items-center gap-3">
+                                        <span class="material-symbols-outlined text-secondary">person_pin</span>
+                                        <span class="text-sm font-medium">Captain Sarah</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <button
+                                class="mt-6 border border-outline text-on-surface py-2 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-surface-container transition-colors">Details</button>
+                        </div>
+                    </div>
+                    <!-- Trip Card 2 -->
+                    <div
+                        class="bg-surface-container-lowest rounded-3xl overflow-hidden flex flex-col md:flex-row group">
+                        <div class="md:w-1/2 relative h-48 md:h-auto overflow-hidden">
+                            <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                                data-alt="Sleek black motorboat cutting through crystal blue lake water at high speed leaving a white wake"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_W4n3ormsw76h-3w7_EYSul_yaj7c2rs7YWhHUZgUndUK0dWLYhp7uq453jIP35GwFtxpFgBC1yU1YYRI0qpnv2ZJISBZo2OoQvXvfwXDSN4_HhSRPoCOII58o9WQp0MjTMX-EDBt7u65nT-p8LiGfSn4bnGxuhhk7QedzUNzxeSND3qyiQTMoZRGBGaKcH6Au7bTHD_NUQ-ZXXHFrW9RJ0YZzCk3zqPf-ZTJYbCBDshbAF-4SULp9jUQ9CIlznpOAOoaLeIqX3AW" />
+                            <div class="absolute top-4 left-4">
+                                <span
+                                    class="bg-tertiary-container text-on-tertiary-container px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest backdrop-blur-md">PENDING</span>
+                            </div>
+                        </div>
+                        <div class="md:w-1/2 p-6 flex flex-col justify-between">
+                            <div>
+                                <h3 class="text-xl font-serif italic mb-1">Lake Sovereign</h3>
+                                <div class="flex items-center gap-1 text-on-surface-variant text-sm mb-4">
+                                    <span class="material-symbols-outlined text-sm">location_on</span>
+                                    <span>North Pier Marina</span>
+                                </div>
+                                <div class="space-y-2">
+                                    <div class="flex items-center gap-3">
+                                        <span class="material-symbols-outlined text-tertiary">calendar_today</span>
+                                        <span class="text-sm font-medium">Sep 12 - Sep 13</span>
+                                    </div>
+                                    <div class="flex items-center gap-3 text-on-surface-variant italic">
+                                        <span class="material-symbols-outlined text-tertiary">info</span>
+                                        <span class="text-sm">Awaiting owner confirmation</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <button
+                                class="mt-6 border border-outline text-on-surface py-2 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-surface-container transition-colors">Message
+                                Owner</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- Recommended For You (Editorial Bento-ish Layout) -->
+            <section class="mb-16">
+                <div class="flex items-end justify-between mb-8">
+                    <div>
+                        <h2 class="text-2xl font-serif italic text-on-surface">Recommended For You</h2>
+                        <p class="text-sm text-on-surface-variant">Recommended based on your recent searches</p>
+                    </div>
+                    <a class="text-xs uppercase font-bold tracking-widest text-primary hover:underline" href="#">Explore
+                        More</a>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Boat Card 1 -->
+                    <div class="group cursor-pointer">
+                        <div class="relative aspect-[4/5] rounded-2xl overflow-hidden mb-4 shadow-sm">
+                            <img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000"
+                                data-alt="Classic wooden mahogany speedboat glinting in the afternoon sun on a deep blue lake"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAWUeBu_zt7hPJcehNWAreJ7MvELvdhBzdAz_rTOZw--fVD3UlbbKHKlnu7pCj13eNf33VX9E3M1Tzj6BWFjd89Bwdg7uJ2Txg2lqqRBj-eFNr2khuxQLGlhro-GqAmey0QN8hbkjl_ueOB8DvmFJXfm0pYpvT90PHTmZCKcdxwIWAytytDQlpHfPG5skcgqo7aw-cRe4q7QMgY6Dz2ptwBwozoUDHP3utH4BKRg0yro8i_NgWUPc9ua2o93zn1DUXtRzcUb3hZbxeq" />
+                            <button
+                                class="absolute top-4 right-4 w-10 h-10 bg-white/20 backdrop-blur-xl rounded-full flex items-center justify-center text-white hover:bg-white/40 transition-all">
+                                <span class="material-symbols-outlined">favorite</span>
+                            </button>
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <p
+                                        class="text-[10px] uppercase tracking-[0.15em] text-on-surface-variant font-bold mb-1">
+                                        Monroe Harbor</p>
+                                    <h3 class="text-lg font-serif italic">Azure Serenity</h3>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-lg font-serif text-primary">$1,200</p>
+                                    <p class="text-[10px] uppercase font-bold text-on-surface-variant">/ DAY</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between mt-2">
+                                <div class="flex items-center gap-1 text-sm text-on-surface-variant">
+                                    <span class="material-symbols-outlined text-tertiary text-sm"
+                                        style="font-variation-settings: 'FILL' 1;">star</span>
+                                    <span class="font-bold">4.9</span>
+                                </div>
+                                <button
+                                    class="bg-primary-container text-on-primary-container px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest hover:brightness-105 transition-all">Book
+                                    Now</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Boat Card 2 -->
+                    <div class="group cursor-pointer">
+                        <div class="relative aspect-[4/5] rounded-2xl overflow-hidden mb-4 shadow-sm">
+                            <img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000"
+                                data-alt="Luxurious white catamaran with expansive decks anchored in a turquoise tropical bay"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAvEKEP_t82hbKYQtZtFrAEeeHFqd3zp1QTkxvenSQsbLmxPKiK6VCvzHbqaUyYmifd7FTSJOLlz7nZgLQ3YVUKLgUx2yKUeQa8PbsuWZdQ5vbV5s-swo-I998jTm0HxJf-SUmySaYRVrdz5J-x6aZePz6mcjk8xtAdcZPe4Ib83LqnEMOqXZlhz6sTNRQiZW7qZ3tNgam6oqnUYYiRQIaC9VQNjXj0gI0_ZWp5cQ9fXVm4AlplDSlpdbiW38zQHMrQvxrUasCHtTbe" />
+                            <button
+                                class="absolute top-4 right-4 w-10 h-10 bg-white/20 backdrop-blur-xl rounded-full flex items-center justify-center text-white hover:bg-white/40 transition-all">
+                                <span class="material-symbols-outlined"
+                                    style="font-variation-settings: 'FILL' 1;">favorite</span>
+                            </button>
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <p
+                                        class="text-[10px] uppercase tracking-[0.15em] text-on-surface-variant font-bold mb-1">
+                                        Navy Pier</p>
+                                    <h3 class="text-lg font-serif italic">Wind Dancer</h3>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-lg font-serif text-primary">$400</p>
+                                    <p class="text-[10px] uppercase font-bold text-on-surface-variant">/ DAY</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between mt-2">
+                                <div class="flex items-center gap-1 text-sm text-on-surface-variant">
+                                    <span class="material-symbols-outlined text-tertiary text-sm"
+                                        style="font-variation-settings: 'FILL' 1;">star</span>
+                                    <span class="font-bold">4.7</span>
+                                </div>
+                                <button
+                                    class="bg-primary-container text-on-primary-container px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest hover:brightness-105 transition-all">Book
+                                    Now</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Boat Card 3 -->
+                    <div class="group cursor-pointer">
+                        <div class="relative aspect-[4/5] rounded-2xl overflow-hidden mb-4 shadow-sm">
+                            <img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000"
+                                data-alt="Interior of a luxury yacht showing a modern wood-paneled lounge with large windows overlooking the ocean"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAg3UdxsonTvKvbAZKP1eYQfQpNaT7F1e5zMqNL3V1uX-Vvp5To4-pfveHJgIcQ2fctt6fbGZe0BVY1mz64T5oZjfeX0FRNEzVWNUAHPUHFjhs8TppW_6VLuwHdTt0BGgfoFb8dLU4xTDUQ1vbiIc_jFSTN1OwNsb5fSk4sstz_2mGVRzvKuDCKRy34lDauWGHG68Srqp7nCPV-FE6G0kXuCzkt7cGvYAanxvha8M3ZTEvWGIJBTHUubhEh9m5t0jf_t5CebBd8t7wD" />
+                            <button
+                                class="absolute top-4 right-4 w-10 h-10 bg-white/20 backdrop-blur-xl rounded-full flex items-center justify-center text-white hover:bg-white/40 transition-all">
+                                <span class="material-symbols-outlined">favorite</span>
+                            </button>
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <p
+                                        class="text-[10px] uppercase tracking-[0.15em] text-on-surface-variant font-bold mb-1">
+                                        Burnham Harbor</p>
+                                    <h3 class="text-lg font-serif italic">The Odyssey</h3>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-lg font-serif text-primary">$850</p>
+                                    <p class="text-[10px] uppercase font-bold text-on-surface-variant">/ DAY</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between mt-2">
+                                <div class="flex items-center gap-1 text-sm text-on-surface-variant">
+                                    <span class="material-symbols-outlined text-tertiary text-sm"
+                                        style="font-variation-settings: 'FILL' 1;">star</span>
+                                    <span class="font-bold">4.9</span>
+                                </div>
+                                <button
+                                    class="bg-primary-container text-on-primary-container px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest hover:brightness-105 transition-all">Book
+                                    Now</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- Activity Timeline -->
+            <section class="max-w-3xl mb-20">
+                <h2 class="text-2xl font-serif italic text-on-surface mb-8">Recent Activity</h2>
+                <div class="space-y-0 relative border-l border-outline-variant/30 ml-4 pl-8">
+                    <!-- Item 1 -->
+                    <div class="relative mb-10 last:mb-0">
+                        <span
+                            class="absolute -left-[41px] top-0 w-4 h-4 rounded-full bg-secondary ring-4 ring-background"></span>
+                        <p class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold mb-1">2 days
+                            ago</p>
+                        <h4 class="text-sm font-bold text-on-surface">Booking Confirmed</h4>
+                        <p class="text-sm text-on-surface-variant">Your trip with <span class="italic font-serif">Azure
+                                Serenity</span> has been confirmed.</p>
+                    </div>
+                    <!-- Item 2 -->
+                    <div class="relative mb-10 last:mb-0">
+                        <span
+                            class="absolute -left-[41px] top-0 w-4 h-4 rounded-full bg-tertiary ring-4 ring-background"></span>
+                        <p class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold mb-1">1 week
+                            ago</p>
+                        <h4 class="text-sm font-bold text-on-surface">Review Submitted</h4>
+                        <p class="text-sm text-on-surface-variant">You submitted a review for your trip on <span
+                                class="italic font-serif">Wind Dancer</span>.</p>
+                    </div>
+                    <!-- Item 3 -->
+                    <div class="relative mb-10 last:mb-0">
+                        <span
+                            class="absolute -left-[41px] top-0 w-4 h-4 rounded-full bg-primary ring-4 ring-background"></span>
+                        <p class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold mb-1">2 weeks
+                            ago</p>
+                        <h4 class="text-sm font-bold text-on-surface">Trip Completed</h4>
+                        <p class="text-sm text-on-surface-variant">You completed your trip on <span
+                                class="italic font-serif">Lake Spirit</span>.</p>
+                    </div>
+                    <!-- Item 4 -->
+                    <div class="relative mb-10 last:mb-0">
+                        <span
+                            class="absolute -left-[41px] top-0 w-4 h-4 rounded-full bg-outline ring-4 ring-background"></span>
+                        <p class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold mb-1">3 weeks
+                            ago</p>
+                        <h4 class="text-sm font-bold text-on-surface">Booking Requested</h4>
+                        <p class="text-sm text-on-surface-variant">You requested a booking for <span
+                                class="italic font-serif">The Odyssey</span>.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    <!-- Mobile Bottom Navigation (Only visible on small screens) -->
+    <nav
+        class="md:hidden fixed bottom-0 left-0 right-0 bg-surface/80 backdrop-blur-xl flex justify-around items-center py-3 px-6 z-50">
+        <a class="flex flex-col items-center gap-1 text-primary" href="#">
+            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+            <span class="text-[10px] font-bold uppercase tracking-tighter">Dash</span>
+        </a>
+        <a class="flex flex-col items-center gap-1 text-on-surface-variant" href="#">
+            <span class="material-symbols-outlined">directions_boat</span>
+            <span class="text-[10px] font-bold uppercase tracking-tighter">Browse</span>
+        </a>
+        <a class="flex flex-col items-center gap-1 text-on-surface-variant" href="#">
+            <span class="material-symbols-outlined">anchor</span>
+            <span class="text-[10px] font-bold uppercase tracking-tighter">Trips</span>
+        </a>
+        <a class="flex flex-col items-center gap-1 text-on-surface-variant" href="#">
+            <span class="material-symbols-outlined">mail</span>
+            <span class="text-[10px] font-bold uppercase tracking-tighter">Mail</span>
+        </a>
+    </nav>
+<script>
+  // Make all internal links navigate the parent React app
+  document.addEventListener('click', function(e) {
+    const link = e.target.closest('a[href]');
+    if (!link) return;
+    const href = link.getAttribute('href');
+    if (!href || href.startsWith('http') || href.startsWith('mailto') || href === '#') return;
+    e.preventDefault();
+    window.parent.location.href = href;
+  });
+</script>
+</body>
+
+</html>

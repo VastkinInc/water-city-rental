@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Events on the Water - Water City Rental</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&amp;family=Noto+Serif:ital,wght@0,400;0,700;1,400;1,700&amp;display=swap"
+        rel="stylesheet" />
+    <!-- Material Symbols -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <!-- Tailwind Configuration -->
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-dim": "#dbdad7",
+                        "on-error-container": "#93000a",
+                        "tertiary": "#735c00",
+                        "on-primary": "#ffffff",
+                        "on-surface": "#1a1c1a",
+                        "on-primary-fixed": "#380c00",
+                        "inverse-on-surface": "#f2f1ee",
+                        "primary": "#a43c12",
+                        "secondary-fixed": "#9ff0fb",
+                        "error": "#ba1a1a",
+                        "secondary-fixed-dim": "#82d3de",
+                        "tertiary-container": "#c4a028",
+                        "surface-container": "#efeeeb",
+                        "outline": "#8b7169",
+                        "background": "#faf9f6",
+                        "on-surface-variant": "#57423b",
+                        "primary-fixed": "#ffdbcf",
+                        "on-secondary-container": "#066f79",
+                        "surface-container-low": "#f4f3f1",
+                        "secondary": "#006972",
+                        "surface-container-high": "#e9e8e5",
+                        "outline-variant": "#dec0b6",
+                        "on-tertiary": "#ffffff",
+                        "surface-bright": "#faf9f6",
+                        "on-tertiary-fixed-variant": "#574500",
+                        "inverse-surface": "#2f312f",
+                        "surface-tint": "#a43c12",
+                        "on-primary-fixed-variant": "#822800",
+                        "on-error": "#ffffff",
+                        "on-background": "#1a1c1a",
+                        "primary-container": "#ff7f50",
+                        "tertiary-fixed": "#ffe088",
+                        "on-secondary": "#ffffff",
+                        "surface-variant": "#e3e2e0",
+                        "secondary-container": "#9ff0fb",
+                        "on-secondary-fixed": "#001f23",
+                        "tertiary-fixed-dim": "#e9c349",
+                        "primary-fixed-dim": "#ffb59c",
+                        "on-primary-container": "#6c2000",
+                        "on-tertiary-fixed": "#241a00",
+                        "on-tertiary-container": "#483800",
+                        "on-secondary-fixed-variant": "#004f56",
+                        "surface-container-highest": "#e3e2e0",
+                        "surface": "#faf9f6",
+                        "inverse-primary": "#ffb59c",
+                        "surface-container-lowest": "#ffffff",
+                        "error-container": "#ffdad6"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    fontFamily: {
+                        "headline": ["Noto Serif", "serif"],
+                        "body": ["Manrope", "sans-serif"],
+                        "label": ["Manrope", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .glass-blur {
+                @apply backdrop-blur-[24px];
+            }
+            .ambient-shadow {
+                box-shadow: 0 16px 32px -4px rgba(26, 28, 26, 0.06);
+            }
+        }
+    </style>
+</head>
+
+<body
+    class="bg-surface font-body text-on-surface antialiased selection:bg-primary-container selection:text-on-primary-container">
+    <!-- Navigation Shell -->
+    <nav
+        class="fixed top-0 w-full z-50 bg-stone-50/80 dark:bg-stone-950/80 backdrop-blur-xl shadow-sm shadow-stone-200/50 dark:shadow-none">
+        <div class="flex justify-between items-center px-8 py-4 max-w-full mx-auto">
+            <div
+                class="text-2xl font-serif font-bold text-stone-900 dark:text-stone-50 font-serif italic tracking-tight">
+                Water City Rental
+            </div>
+            <div
+                class="hidden md:flex gap-8 items-center font-serif italic tracking-tight text-orange-600 dark:text-orange-400">
+                <a class="text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 transition-colors hover:bg-stone-100 dark:hover:bg-stone-800 rounded-lg transition-all px-3 py-1 scale-95 duration-200 ease-in-out"
+                    href="/boats">Charters</a>
+                <a class="text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 transition-colors hover:bg-stone-100 dark:hover:bg-stone-800 rounded-lg transition-all px-3 py-1 scale-95 duration-200 ease-in-out"
+                    href="/boats">Fleet</a>
+                <a class="text-orange-700 dark:text-orange-400 border-b-2 border-orange-700 dark:border-orange-400 pb-1 font-medium hover:bg-stone-100 dark:hover:bg-stone-800 rounded-lg transition-all px-3 py-1 scale-95 duration-200 ease-in-out"
+                    href="/events">Events</a>
+                <a class="text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 transition-colors hover:bg-stone-100 dark:hover:bg-stone-800 rounded-lg transition-all px-3 py-1 scale-95 duration-200 ease-in-out"
+                    href="#">Journal</a>
+            </div>
+            <div class="flex items-center gap-4">
+                <button
+                    class="hidden md:block rounded-full bg-primary-container px-6 py-2.5 text-sm font-semibold text-on-primary-container shadow-sm hover:bg-primary transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tertiary">
+                    Book Now
+                </button>
+                <button aria-label="Account" class="text-on-surface hover:text-primary transition-colors p-2">
+                    <span class="material-symbols-outlined text-2xl">account_circle</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+    <!-- Main Content Canvas -->
+    <main class="pt-24 pb-16 min-h-screen">
+        <!-- Hero Section -->
+        <section
+            class="relative w-full h-[716px] min-h-[500px] bg-inverse-surface flex items-center justify-center overflow-hidden">
+            <img alt="Chicago fireworks over Lake Michigan at night"
+                class="absolute inset-0 w-full h-full object-cover opacity-60 mix-blend-overlay object-center"
+                data-alt="Brilliant fireworks exploding over the Chicago skyline reflected in Lake Michigan at night, vibrant colors against deep navy sky, celebratory mood"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCkqIexEEaxyJRqExn4kkb9q17pDijwNedoDCBQ9zPQbOygpBOLjczcRiSRMizd6CaoIsGVNcjWLdttx1JMkPzYk6oDCSpBI7Av3h7WKOqG6NbMQw9garIXe0P8c75jtKkoBELJ5zqVE1iH1BdNFkufR38HviKhD6GblQI_SQs-SsXA7f_ZF8DuuW8bnYZ2sIYH7CrQsnD5m03iGF6znjBWYHBTN1tbuQ6DD4SynsHa6jSwjwDh1ZxGvJtwAt7ahYZZUsrDs7YpXmV_" />
+            <div
+                class="absolute inset-0 bg-gradient-to-t from-inverse-surface via-transparent to-transparent opacity-80">
+            </div>
+            <div class="relative z-10 text-center px-4 max-w-4xl mx-auto flex flex-col items-center gap-6">
+                <h1 class="font-headline text-5xl md:text-7xl text-on-primary tracking-tight">
+                    Events <i class="italic text-primary-fixed">on the Water</i>
+                </h1>
+                <p class="font-headline italic text-xl md:text-2xl text-on-primary/90 max-w-2xl font-light">
+                    Chicago's most unforgettable waterfront experiences
+                </p>
+            </div>
+        </section>
+        <!-- Featured Event Banner -->
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16 mb-24">
+            <div
+                class="relative bg-surface-container-highest rounded-xl overflow-hidden ambient-shadow flex flex-col md:flex-row group">
+                <div class="relative w-full md:w-3/5 h-80 md:h-auto overflow-hidden">
+                    <img alt="Fireworks over water from a boat deck"
+                        class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                        data-alt="View from a luxury boat deck looking up at spectacular fireworks in the night sky, warm glowing lights on the vessel, festive atmosphere"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuC19bHnHStaHwfQ8eUlAQCMN6Dc4PDqof4_54EsdWLVPOf87I44l2Iivg4tO3V_hyfeX9hfSfIGj8GjnM2KYDMonY6aUmUoPeLsq46W1U9rjcrscqcpdMFhMb1tcyhLvic4ugMyJL1aN3Fl6Cp5YaZJ8pVcah4FofVWDLoTqxCVBbJ5m-QHlrpmlDMksqTr3s5_s57AR9xe47T7z1iiSMepveCSTwsuSTi1UX-LfNR0Ap1mU0Jk_d4eY52ggL3HvdfkVFGT6JRArUyX" />
+                    <div class="absolute inset-0 bg-gradient-to-r from-inverse-surface/60 to-transparent"></div>
+                    <div class="absolute top-6 left-6">
+                        <span
+                            class="inline-flex items-center rounded-full bg-secondary-container px-3 py-1 text-xs font-label uppercase tracking-widest text-on-secondary-container">
+                            Featured Event
+                        </span>
+                    </div>
+                </div>
+                <div
+                    class="w-full md:w-2/5 p-8 md:p-12 flex flex-col justify-center bg-surface-container-lowest z-10 relative">
+                    <div class="flex items-center gap-2 mb-4 text-secondary">
+                        <span class="material-symbols-outlined text-xl">event</span>
+                        <span class="font-label text-sm uppercase tracking-widest font-semibold">Saturday, July 4,
+                            2025</span>
+                    </div>
+                    <h2 class="font-headline text-3xl text-on-surface mb-4">
+                        Independence Day <i class="italic">Fireworks Cruise</i>
+                    </h2>
+                    <p class="font-body text-on-surface-variant mb-8 text-lg leading-relaxed">
+                        Watch Chicago's legendary fireworks display from the best seats in the city — the water. Enjoy
+                        an open bar, curated hors d'oeuvres, and an unobstructed skyline view.
+                    </p>
+                    <div class="flex flex-col sm:flex-row items-center gap-4 mt-auto">
+                        <button
+                            class="w-full sm:w-auto rounded-full bg-primary-container px-8 py-3.5 text-base font-semibold text-on-primary-container hover:bg-primary hover:text-on-primary transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tertiary">
+                            Reserve Your Spot
+                        </button>
+                        <span class="inline-flex items-center gap-1.5 text-sm font-medium text-error">
+                            <span class="material-symbols-outlined text-sm"
+                                style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
+                            Limited spots
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Upcoming Events Grid -->
+        <section class="bg-surface-container-low py-24">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
+                    <div>
+                        <h2 class="font-headline text-4xl text-on-surface mb-4">Upcoming <i class="italic">Events</i>
+                        </h2>
+                        <p class="font-body text-on-surface-variant max-w-xl">Curated moments on the water, designed for
+                            unforgettable memories.</p>
+                    </div>
+                    <!-- Filter Tabs -->
+                    <div class="flex flex-wrap items-center gap-2 font-label text-sm uppercase tracking-widest">
+                        <button
+                            class="px-5 py-2.5 rounded-full bg-on-surface text-on-primary transition-colors">All</button>
+                        <button
+                            class="px-5 py-2.5 rounded-full border border-outline-variant text-on-surface-variant hover:border-outline hover:text-on-surface transition-colors">July</button>
+                        <button
+                            class="px-5 py-2.5 rounded-full border border-outline-variant text-on-surface-variant hover:border-outline hover:text-on-surface transition-colors">August</button>
+                        <button
+                            class="px-5 py-2.5 rounded-full border border-outline-variant text-on-surface-variant hover:border-outline hover:text-on-surface transition-colors">September</button>
+                    </div>
+                </div>
+                <!-- 3x2 Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Event Card 1 -->
+                    <article
+                        class="bg-surface-container-lowest rounded-xl overflow-hidden ambient-shadow flex flex-col group h-full">
+                        <div class="relative h-64 overflow-hidden">
+                            <img alt="Navy Pier fireworks"
+                                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                data-alt="Vibrant fireworks bursting over Navy Pier Chicago at dusk, silhouettes of boats in the foreground, festive and exciting"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuC7f7o1PdiayzGVIRLma2oP_GJzrmUHZDU3fIeVHmu7CDJvMB4RDcTzscwU5jEgqw7cKe4yB2a4S_5wkrAP_jGpNiIJRdr1PC-jFsqbD6l6ykKGalfCxZwrvIvX584Sie5ZE77nikcOhidAAg_8swvjlEA1uMZD1qjThdRjKPCaYaKVZWCOWb2G0SVIqX0wCDkiziop16Ehbf7mARmn691Bh5z15stUfN5qM2S0Np5qnguWr9UBIumjs0CqN9Rka_DvYTCllFtQO2Qy" />
+                            <div class="absolute top-4 left-4">
+                                <span
+                                    class="inline-flex items-center rounded-full bg-surface-container-lowest/90 glass-blur px-3 py-1 text-xs font-label uppercase tracking-widest text-primary">
+                                    Fireworks
+                                </span>
+                            </div>
+                        </div>
+                        <div class="p-6 flex flex-col flex-grow">
+                            <div
+                                class="flex items-center justify-between text-sm text-on-surface-variant mb-3 font-label uppercase tracking-widest font-semibold">
+                                <span>Jul 4</span>
+                                <span>Navy Pier</span>
+                            </div>
+                            <h3
+                                class="font-headline text-xl text-on-surface mb-2 font-bold group-hover:text-primary transition-colors">
+                                Independence Day Fireworks Cruise</h3>
+                            <p class="font-body text-on-surface-variant text-sm mb-6 flex-grow">Celebrate the 4th with
+                                unmatched skyline views.</p>
+                            <div
+                                class="flex items-center justify-between mt-auto pt-4 border-t border-surface-container-highest/50">
+                                <span class="font-body text-sm font-medium text-on-surface-variant">from <span
+                                        class="text-on-surface font-semibold text-lg">$180</span>/person</span>
+                                <button
+                                    class="rounded-full bg-primary-container px-4 py-2 text-sm font-semibold text-on-primary-container hover:bg-primary hover:text-on-primary transition-colors">
+                                    Book Now
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+                    <!-- Event Card 2 -->
+                    <article
+                        class="bg-surface-container-lowest rounded-xl overflow-hidden ambient-shadow flex flex-col group h-full">
+                        <div class="relative h-64 overflow-hidden">
+                            <img alt="Sailboats racing in a regatta"
+                                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                data-alt="Multiple sleek sailboats racing tightly together on choppy blue water under a bright sunny sky, dynamic action shot"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuC0V3yH8Ew_fO14tlJhzw6oa-3U-XrPnMUtTGKVtpz_yLyiEWL4etsYu_EW6GF9kjFBB3rds5dXfuVb-Rs0g2BM3EtbMRcupSqfZfMh1zWVUYcAYO3FtGvJoNSNJQjHfWs6-l6l3BR_bfEn7kky6DYH9N6UYxRTjnrbxRWJ5Wr5a8XGpBjz55DU48H2QP6QlEmJnVRIJYU3vF9-pcAM2fO8MGhEPHP_settS4LIFsOAR9bxs-H7d7cx0HwPucp6y5iKdUM8Quldm67y" />
+                            <div class="absolute top-4 left-4">
+                                <span
+                                    class="inline-flex items-center rounded-full bg-surface-container-lowest/90 glass-blur px-3 py-1 text-xs font-label uppercase tracking-widest text-secondary">
+                                    Racing
+                                </span>
+                            </div>
+                        </div>
+                        <div class="p-6 flex flex-col flex-grow">
+                            <div
+                                class="flex items-center justify-between text-sm text-on-surface-variant mb-3 font-label uppercase tracking-widest font-semibold">
+                                <span>Jul 12</span>
+                                <span>Belmont Harbor</span>
+                            </div>
+                            <h3
+                                class="font-headline text-xl text-on-surface mb-2 font-bold group-hover:text-primary transition-colors">
+                                Chicago Sailing Regatta</h3>
+                            <p class="font-body text-on-surface-variant text-sm mb-6 flex-grow">Watch the finest sailors
+                                compete off the coast.</p>
+                            <div
+                                class="flex items-center justify-between mt-auto pt-4 border-t border-surface-container-highest/50">
+                                <span class="font-body text-sm font-semibold text-on-surface">Free to watch</span>
+                                <button
+                                    class="rounded-full border border-outline px-4 py-2 text-sm font-semibold text-on-surface hover:bg-surface-container transition-colors">
+                                    Details
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+                    <!-- Event Card 3 -->
+                    <article
+                        class="bg-surface-container-lowest rounded-xl overflow-hidden ambient-shadow flex flex-col group h-full">
+                        <div class="relative h-64 overflow-hidden">
+                            <img alt="Jets flying in formation over water"
+                                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                data-alt="Fighter jets flying in tight formation low over water, leaving white smoke trails against a blue sky, high energy"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDNA_yhlJ9M_6TZL2INePWEjWAwLSifjV-3B9mXcrPjsVMRcTosRrCW7V3p34ijZvd3P6nBwhU4rLEOt6p2lAxXzjq3GpgSZJ4_lh5fLV6tZOD1eUfqkly7y7ZVAzbLhJntPKl9tmv2-7DDCwa7VOGu8RIbx3ZtFBSsBFj8SuaUmaLG_8xiAY-ZHHURRy53GrVE7YzMEdrMMSXNFtwhqPuyufg-_YjeXBVTTNjYNnTzFK03beJNxHJiyeqfvFUf6YHKTPy5asDH2ati" />
+                            <div class="absolute top-4 left-4">
+                                <span
+                                    class="inline-flex items-center rounded-full bg-surface-container-lowest/90 glass-blur px-3 py-1 text-xs font-label uppercase tracking-widest text-tertiary">
+                                    Show
+                                </span>
+                            </div>
+                        </div>
+                        <div class="p-6 flex flex-col flex-grow">
+                            <div
+                                class="flex items-center justify-between text-sm text-on-surface-variant mb-3 font-label uppercase tracking-widest font-semibold">
+                                <span>Jul 24</span>
+                                <span>North Avenue</span>
+                            </div>
+                            <h3
+                                class="font-headline text-xl text-on-surface mb-2 font-bold group-hover:text-primary transition-colors">
+                                Air and Water Show VIP Cruise</h3>
+                            <p class="font-body text-on-surface-variant text-sm mb-6 flex-grow">Front-row anchorage for
+                                the spectacular aerial displays.</p>
+                            <div
+                                class="flex items-center justify-between mt-auto pt-4 border-t border-surface-container-highest/50">
+                                <span class="font-body text-sm font-medium text-on-surface-variant">from <span
+                                        class="text-on-surface font-semibold text-lg">$220</span>/person</span>
+                                <button
+                                    class="rounded-full bg-primary-container px-4 py-2 text-sm font-semibold text-on-primary-container hover:bg-primary hover:text-on-primary transition-colors">
+                                    Book Now
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+                    <!-- Event Card 4 -->
+                    <article
+                        class="bg-surface-container-lowest rounded-xl overflow-hidden ambient-shadow flex flex-col group h-full">
+                        <div class="relative h-64 overflow-hidden">
+                            <img alt="Live jazz band silhouetted at sunset"
+                                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                data-alt="Silhouette of a jazz band playing instruments on a deck with a golden sunset over water in the background, moody and soulful"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCin_otBiyZCnW4UFFSEyHyFrxsMHeA313n2O_GlBLSFxtCSSrX2BeWDYDPNPNF4dh3fl0tR1NoxNo8y4iAfxnLefz_NLBLFCalAHp8ow133Dq72nh1iqG_NWQMysMqcTnhG6r_1OG-4EuFmpToQfpAkW7WB8wMU6l5l6dwpiyjpdLogMu4IXBR9mv8q2OWdbd4rZ02XyeLIg0llJxhXjVMpwwuNjYh7eaqNTW2N81J39voQawc4uzGN9GTH_LJJkk4IYmoH-roNR-J" />
+                            <div class="absolute top-4 left-4">
+                                <span
+                                    class="inline-flex items-center rounded-full bg-surface-container-lowest/90 glass-blur px-3 py-1 text-xs font-label uppercase tracking-widest text-secondary-fixed-dim">
+                                    Music
+                                </span>
+                            </div>
+                        </div>
+                        <div class="p-6 flex flex-col flex-grow">
+                            <div
+                                class="flex items-center justify-between text-sm text-on-surface-variant mb-3 font-label uppercase tracking-widest font-semibold">
+                                <span>Aug 3</span>
+                                <span>Monroe Harbor</span>
+                            </div>
+                            <h3
+                                class="font-headline text-xl text-on-surface mb-2 font-bold group-hover:text-primary transition-colors">
+                                Sunset Jazz on the Water</h3>
+                            <p class="font-body text-on-surface-variant text-sm mb-6 flex-grow">Smooth tunes, golden
+                                hour light, and craft cocktails.</p>
+                            <div
+                                class="flex items-center justify-between mt-auto pt-4 border-t border-surface-container-highest/50">
+                                <span class="font-body text-sm font-medium text-on-surface-variant">from <span
+                                        class="text-on-surface font-semibold text-lg">$95</span>/person</span>
+                                <button
+                                    class="rounded-full bg-primary-container px-4 py-2 text-sm font-semibold text-on-primary-container hover:bg-primary hover:text-on-primary transition-colors">
+                                    Book Now
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+                    <!-- Event Card 5 -->
+                    <article
+                        class="bg-surface-container-lowest rounded-xl overflow-hidden ambient-shadow flex flex-col group h-full">
+                        <div class="relative h-64 overflow-hidden">
+                            <img alt="Luxury yachts moored at a harbor expo"
+                                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                data-alt="Row of gleaming luxury yachts moored at a busy harbor boat show, people walking on docks under bright sun"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBAWnKEwwe0VNMVjjB-GzU8Z3YW9qfIO7B_7mMfNySs2U01Ld8qoaHt0H53NtNvpGLS8NGF4NiKAui3-tKKfI6Kqp-suhfLRF_gxK-Uu2aZbdT7PXluNNavxaAKAU0Sn0z2b-msuVkqK-nXgAzw4M6gc5i1SMulLjY-E_eO3hkaOe4U6XGrmpMokbnxiey--C7sp0vk18BChlTVlmyaOUMy8CImhGpgsMFRItGEe5K8hpjwhIaZIEaCMkMBWYCWBq0IaWSYsHWLCnpW" />
+                            <div class="absolute top-4 left-4">
+                                <span
+                                    class="inline-flex items-center rounded-full bg-surface-container-lowest/90 glass-blur px-3 py-1 text-xs font-label uppercase tracking-widest text-on-surface">
+                                    Exhibition
+                                </span>
+                            </div>
+                        </div>
+                        <div class="p-6 flex flex-col flex-grow">
+                            <div
+                                class="flex items-center justify-between text-sm text-on-surface-variant mb-3 font-label uppercase tracking-widest font-semibold">
+                                <span>Aug 15</span>
+                                <span>Navy Pier</span>
+                            </div>
+                            <h3
+                                class="font-headline text-xl text-on-surface mb-2 font-bold group-hover:text-primary transition-colors">
+                                Chicago Boat Expo</h3>
+                            <p class="font-body text-on-surface-variant text-sm mb-6 flex-grow">Explore the latest in
+                                nautical lifestyle and marine design.</p>
+                            <div
+                                class="flex items-center justify-between mt-auto pt-4 border-t border-surface-container-highest/50">
+                                <span class="font-body text-sm font-medium text-on-surface-variant">from <span
+                                        class="text-on-surface font-semibold text-lg">$45</span>/person</span>
+                                <button
+                                    class="rounded-full bg-primary-container px-4 py-2 text-sm font-semibold text-on-primary-container hover:bg-primary hover:text-on-primary transition-colors">
+                                    Book Now
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+                    <!-- Event Card 6 -->
+                    <article
+                        class="bg-surface-container-lowest rounded-xl overflow-hidden ambient-shadow flex flex-col group h-full">
+                        <div class="relative h-64 overflow-hidden">
+                            <img alt="Wine glasses clinking on a boat at sunset"
+                                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                data-alt="Close up of two wine glasses clinking on a boat deck, golden sunset reflecting on the water behind them, romantic mood"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCKXvhyXVi4bSI6Wdf3O6mW7H5RsKTDLRbGuEptuBg_hDskPmiVuErJF1hqam19cEAomMA1Q1pai4XpmnovsrobLYIaRcgwRm_wQTQvg9Z0t0OI1jQmSEtikU7Rvaxjn3bJ7SUI7siVsc5K-pAqSLBCrwyUh688NxVjVHFvbi9LTJKWO0CrlM5YQ5VxgtQT_S1Zlo2EDNIf9rR4IuLng5z75UU8fXq8xVeBStP0ANN2UDwiDdQPpzXrKk-OKc20OWK6Gp4j5-FWXfrX" />
+                            <div class="absolute top-4 left-4">
+                                <span
+                                    class="inline-flex items-center rounded-full bg-surface-container-lowest/90 glass-blur px-3 py-1 text-xs font-label uppercase tracking-widest text-on-primary-fixed-variant">
+                                    Tasting
+                                </span>
+                            </div>
+                        </div>
+                        <div class="p-6 flex flex-col flex-grow">
+                            <div
+                                class="flex items-center justify-between text-sm text-on-surface-variant mb-3 font-label uppercase tracking-widest font-semibold">
+                                <span>Sep 6</span>
+                                <span>South Harbor</span>
+                            </div>
+                            <h3
+                                class="font-headline text-xl text-on-surface mb-2 font-bold group-hover:text-primary transition-colors">
+                                Lake Wine and Sail Evening</h3>
+                            <p class="font-body text-on-surface-variant text-sm mb-6 flex-grow">A curated tasting menu
+                                paired with an evening coastal cruise.</p>
+                            <div
+                                class="flex items-center justify-between mt-auto pt-4 border-t border-surface-container-highest/50">
+                                <span class="font-body text-sm font-medium text-on-surface-variant">from <span
+                                        class="text-on-surface font-semibold text-lg">$130</span>/person</span>
+                                <button
+                                    class="rounded-full bg-primary-container px-4 py-2 text-sm font-semibold text-on-primary-container hover:bg-primary hover:text-on-primary transition-colors">
+                                    Book Now
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+        <!-- Past Events Gallery -->
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+            <h2 class="font-headline text-4xl text-center text-on-surface mb-16">Moments from <i class="italic">Past
+                    Events</i></h2>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4 auto-rows-[250px]">
+                <div class="row-span-2 col-span-2 md:col-span-1 rounded-xl overflow-hidden group">
+                    <img alt="People dancing on boat deck"
+                        class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                        data-alt="Candid shot of people laughing and dancing on a luxury yacht deck under string lights at twilight, joyful atmosphere"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuBzwQjUUv-CwsVOHasBubHlwilJWX5gwyC4vfFhw02s1IarsmWdL2ok8vcY6n01U-DM3EsJDrkL5zhNHAJhYrqwzBq-lSDJP1tP0mcXfKkDz6scDe3zjmwIZpEmUazh5MO2URv8WMIHo7a9LsRIgbgB2g1aeBoff37z3DJKytpqCqfCJ_W7g2Qi8yriJfK4FQJ-KXbyYGXrSdph_nZIaj2l4Sz4AWFMNRunMGPxchJGASWPm-zwt8ApdKWkxBi_cfcLqWHOsJmMe-Rp" />
+                </div>
+                <div class="rounded-xl overflow-hidden group">
+                    <img alt="Gourmet food on boat"
+                        class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                        data-alt="Close up of an elegant charcuterie board and champagne glasses resting on a teak boat deck with rippling water behind"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuBTveqTC39Cio0EVBrdVQ20sv43hqiWjj20J9-On7TUl5aOXFKnj6n1gYNdVhMfGEU87eLbhO0LtVNMbFqiS4oJBo7gaKNpqlAbU6mlg75IlbFpLmthD66N3NkXt3VFFba1HhYSQ0fpIUuKLqmRb626_MjPek_rqW4yta9656BJwg5phBEIVrsraYvRMvnUvFW93YCZg38774DiajYM_KczJEUfeZMsTmaR3v9AR32Rqe9JfynRb2FxGEiMoncDjhMgRrIna2ytrcpN" />
+                </div>
+                <div class="row-span-2 rounded-xl overflow-hidden group">
+                    <img alt="Sailing into sunset"
+                        class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                        data-alt="A sleek sailboat cruising toward a vibrant orange and pink sunset, silhouettes of crew working the sails, majestic and calm"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuBVKfuGfISDoCN0oxdclTuxVPsIK8U7qNCojfgJSbFZ2sIFTY_iofKz3DnW6szsclHpQvdD4Hf0_gYGl0-52ysSL4y7FWpS4ItpjPAo-rYxxM9-ph0DunyrNUMWRqFXra23JHgrQ6dYB-9_n7aUIckpz744MZB3jlmS6Hj_NTQWNjnnhr-AIg0gZPiJU9QrcM6A1QgAZEG_3QdFEHw9DqrjgMF3YkTXOMFQc6_JzZq78j7GaJEXI__kKQTlqMWQnDOX7z6E0KC3eqIk" />
+                </div>
+                <div class="rounded-xl overflow-hidden group">
+                    <img alt="Live music performance"
+                        class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                        data-alt="Acoustic guitarist performing on a boat deck, warm golden hour lighting catching the instrument, intimate gathering"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuCL6UWT2jT4kDlm4r35RP9Mqnfb_w3NCiObGOKAv9fMaMOQG8dDKgCKN9BpmmGBuuTVFuNVgoeFAPgX5PbTdgXvVrmi_7xMc--4jZM5N493BqVa-L4mGFv9xQ_M-vycBq-HGowbSvDhPYxK9FGqeDZsYah1cWJrtSqT7FVv8CPuFjGvSvmr04oRCcdtLI7sWnz0Zkw_UYjnpW67NISISRGjX7wlvADgdKdbtTJHnRD4C7UdTzXfQrBqZFBzV8A1qwhmWHoKt4BKvcGQ" />
+                </div>
+                <div class="col-span-2 md:col-span-1 rounded-xl overflow-hidden group">
+                    <img alt="Fireworks reflection on water"
+                        class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                        data-alt="Bright fireworks reflecting perfectly on calm dark water, viewed from the bow of a stationary boat, awe-inspiring"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuAu_xm33YakndTh-bbPGCxLsM1kgpeYoBgYvUhakw-qS15IjZzGeRSPkhkWY5REtsbpxOE1E-0z6t-NHP_LRGT1DVuUsvuPdx9kUtH9u8BY2hTi4du9EHZnQMHyHmmGZczbY8ZHzn63CSDwbKiUB-1HTrUt83u0n_7dTaWJ2wuNkRFsw-2Qfsz9RBIqIDwRJtEghlId2IsWh0DKWBdC11J_JdIE3dUjj2PMPncMpzzb6_BFqvE-uW7sWjj5ksHveb9HqXkZXIVzinP2" />
+                </div>
+            </div>
+        </section>
+    </main>
+    <!-- Footer Shell -->
+    <footer
+        class="bg-stone-100 dark:bg-stone-900 grid grid-cols-1 md:grid-cols-4 gap-8 px-12 py-16 border-t border-stone-200/20 w-full mt-auto">
+        <div class="col-span-1 md:col-span-1 flex flex-col">
+            <span
+                class="text-xl font-serif italic text-stone-800 dark:text-stone-200 mb-6 font-serif italic tracking-tight">Water
+                City Rental</span>
+            <p
+                class="font-sans text-sm uppercase tracking-widest text-stone-500 dark:text-stone-400 opacity-80 hover:opacity-100 transition-opacity">
+                © 2024 Water City Rental. The Golden Hour Collection.
+            </p>
+        </div>
+        <div
+            class="col-span-1 md:col-span-3 flex flex-wrap gap-8 justify-end items-start font-sans text-sm uppercase tracking-widest text-stone-500 dark:text-stone-400">
+            <a class="hover:text-orange-600 dark:hover:text-orange-400 transition-colors opacity-80 hover:opacity-100 transition-opacity"
+                href="#">Harbor Map</a>
+            <a class="hover:text-orange-600 dark:hover:text-orange-400 transition-colors opacity-80 hover:opacity-100 transition-opacity"
+                href="#">Safety Manual</a>
+            <a class="hover:text-orange-600 dark:hover:text-orange-400 transition-colors opacity-80 hover:opacity-100 transition-opacity"
+                href="#">Sustainability</a>
+            <a class="hover:text-orange-600 dark:hover:text-orange-400 transition-colors opacity-80 hover:opacity-100 transition-opacity"
+                href="#">Privacy</a>
+        </div>
+    </footer>
+<script>
+  // Make all internal links navigate the parent React app
+  document.addEventListener('click', function(e) {
+    const link = e.target.closest('a[href]');
+    if (!link) return;
+    const href = link.getAttribute('href');
+    if (!href || href.startsWith('http') || href.startsWith('mailto') || href === '#') return;
+    e.preventDefault();
+    window.parent.location.href = href;
+  });
+</script>
+</body>
+
+</html>

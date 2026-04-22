@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Water City Rentals | Owner's Deck</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400;1,700&amp;family=Manrope:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary": "#ffffff",
+                        "surface-tint": "#a43c12",
+                        "on-surface": "#1a1c1a",
+                        "on-primary-fixed": "#380c00",
+                        "tertiary-fixed": "#ffe088",
+                        "surface-container-low": "#f4f3f1",
+                        "secondary": "#006972",
+                        "on-primary-container": "#6c2000",
+                        "on-background": "#1a1c1a",
+                        "secondary-container": "#9ff0fb",
+                        "on-surface-variant": "#57423b",
+                        "error-container": "#ffdad6",
+                        "primary-fixed": "#ffdbcf",
+                        "tertiary-fixed-dim": "#e9c349",
+                        "on-error-container": "#93000a",
+                        "on-error": "#ffffff",
+                        "surface-container": "#efeeeb",
+                        "on-tertiary-fixed-variant": "#574500",
+                        "primary-fixed-dim": "#ffb59c",
+                        "tertiary-container": "#c4a028",
+                        "surface": "#faf9f6",
+                        "surface-variant": "#e3e2e0",
+                        "primary-container": "#ff7f50",
+                        "on-secondary-fixed": "#001f23",
+                        "inverse-surface": "#2f312f",
+                        "surface-container-highest": "#e3e2e0",
+                        "background": "#faf9f6",
+                        "surface-bright": "#faf9f6",
+                        "on-primary-fixed-variant": "#822800",
+                        "inverse-primary": "#ffb59c",
+                        "on-primary": "#ffffff",
+                        "inverse-on-surface": "#f2f1ee",
+                        "on-secondary-container": "#066f79",
+                        "error": "#ba1a1a",
+                        "secondary-fixed": "#9ff0fb",
+                        "on-secondary-fixed-variant": "#004f56",
+                        "primary": "#a43c12",
+                        "secondary-fixed-dim": "#82d3de",
+                        "on-secondary": "#ffffff",
+                        "surface-container-high": "#e9e8e5",
+                        "tertiary": "#735c00",
+                        "on-tertiary-container": "#483800",
+                        "surface-container-lowest": "#ffffff",
+                        "outline-variant": "#dec0b6",
+                        "outline": "#8b7169",
+                        "on-tertiary-fixed": "#241a00",
+                        "surface-dim": "#dbdad7"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Noto Serif"],
+                        "body": ["Manrope"],
+                        "label": ["Manrope"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+    </style>
+</head>
+<body class="bg-background font-body text-on-surface">
+<div class="flex min-h-screen">
+<!-- SideNavBar Component -->
+<aside class="hidden md:flex flex-col h-screen w-64 bg-stone-50 dark:bg-stone-950 py-8 pl-6 sticky top-0 bg-stone-100 dark:bg-stone-900">
+<div class="mb-10 pr-6">
+<span class="font-serif italic text-xl text-stone-900 dark:text-stone-50">Water City Rentals</span>
+</div>
+<div class="flex items-center gap-4 mb-10 pr-6">
+<div class="w-12 h-12 rounded-full overflow-hidden bg-surface-variant">
+<img alt="Sarah Chen" data-alt="professional portrait of a confident woman in a nautical environment with warm sunset lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC3OYhnErS480ojuXEEWpT2_-H1PbuN7u8tBL71NSoqD9srL2tiMGRrFUlSH7YS8lo4dpxJmELZJWJJDvrlkQVDvZ4NtzW1I9lJ1di0nAubOqY774CpZ1oTZGwmq9lI2eb_SUd9TYy1XYvKQaxHNKXz2RbOfxOa6O_KibCW1EqE3Uy9Whv5ppnv8L4sJaiV7ScJoB4e5azHYx7eyqYYIrbspyDf74_gcVUgtYQyeOJSM9W6WnT4EHPi0jxmQk6DcaITv3k7pHQb_Lbj"/>
+</div>
+<div>
+<h3 class="text-sm font-bold text-on-surface">Sarah Chen</h3>
+<p class="text-xs text-on-surface-variant tracking-tight">Premier Member</p>
+</div>
+</div>
+<nav class="flex-1 space-y-2">
+<a class="flex items-center gap-3 py-3 pl-4 text-stone-900 dark:text-white font-bold bg-white dark:bg-stone-900 rounded-l-full shadow-sm translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-sm tracking-tight">Overview</span>
+</a>
+<a class="flex items-center gap-3 py-3 pl-4 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all" href="#">
+<span class="material-symbols-outlined">directions_boat</span>
+<span class="text-sm tracking-tight">My Boats</span>
+</a>
+<a class="flex items-center gap-3 py-3 pl-4 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all justify-between pr-6" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined">anchor</span>
+<span class="text-sm tracking-tight">Booking Requests</span>
+</div>
+<span class="bg-primary text-on-primary text-[10px] font-bold px-2 py-0.5 rounded-full">3</span>
+</a>
+<a class="flex items-center gap-3 py-3 pl-4 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="text-sm tracking-tight">Earnings</span>
+</a>
+<a class="flex items-center gap-3 py-3 pl-4 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all" href="#">
+<span class="material-symbols-outlined">reviews</span>
+<span class="text-sm tracking-tight">Reviews</span>
+</a>
+<a class="flex items-center gap-3 py-3 pl-4 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-sm tracking-tight">Settings</span>
+</a>
+</nav>
+<div class="mt-auto pr-6">
+<button class="w-full bg-primary-container text-on-primary-container py-3 rounded-full font-bold text-xs tracking-widest uppercase hover:opacity-90 transition-all">
+                    List Your Boat
+                </button>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 px-8 py-10 max-w-7xl mx-auto w-full">
+<!-- Header -->
+<header class="flex justify-between items-end mb-12">
+<div>
+<h1 class="text-5xl font-serif italic text-on-surface mb-2">Owner's Deck</h1>
+<p class="text-on-surface-variant font-medium">Welcome back, Sarah. Your fleet is performing beautifully.</p>
+</div>
+<button class="bg-primary hover:bg-surface-tint text-on-primary px-8 py-4 rounded-full font-bold flex items-center gap-2 shadow-lg transition-transform active:scale-95">
+<span class="material-symbols-outlined">add</span>
+<span>Add New Boat</span>
+</button>
+</header>
+<!-- Stats Bento Grid -->
+<section class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+<div class="bg-surface-container-lowest p-6 rounded-3xl shadow-sm border border-outline-variant/15 flex flex-col justify-between aspect-video md:aspect-auto">
+<span class="text-xs font-bold uppercase tracking-widest text-on-surface-variant">Boats Listed</span>
+<div>
+<div class="text-4xl font-serif font-bold text-on-surface">4</div>
+<div class="text-[10px] text-secondary font-bold uppercase tracking-tighter mt-1">+1 since last month</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-3xl shadow-sm border border-outline-variant/15 flex flex-col justify-between">
+<span class="text-xs font-bold uppercase tracking-widest text-on-surface-variant">New Requests</span>
+<div class="flex items-center gap-3">
+<div class="text-4xl font-serif font-bold text-primary">3</div>
+<div class="bg-primary-container/20 px-2 py-1 rounded-full text-[10px] text-primary font-bold uppercase">Pending</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-3xl shadow-sm border border-outline-variant/15 flex flex-col justify-between">
+<span class="text-xs font-bold uppercase tracking-widest text-on-surface-variant">This Month</span>
+<div>
+<div class="text-4xl font-serif font-bold text-on-surface">$8,400</div>
+<div class="text-[10px] text-tertiary font-bold uppercase tracking-tighter mt-1">On track for record high</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-3xl shadow-sm border border-outline-variant/15 flex flex-col justify-between">
+<span class="text-xs font-bold uppercase tracking-widest text-on-surface-variant">Total Earned</span>
+<div>
+<div class="text-4xl font-serif font-bold text-on-surface">$42,000</div>
+<div class="w-full h-1 bg-surface-container mt-4 rounded-full overflow-hidden">
+<div class="bg-secondary w-3/4 h-full"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Middle Section: Requests & Earnings -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+<!-- Booking Requests Table -->
+<section class="lg:col-span-2 bg-surface-container-lowest rounded-3xl p-8 shadow-sm">
+<div class="flex justify-between items-center mb-8">
+<h2 class="text-xl font-serif italic text-on-surface">Recent Requests</h2>
+<a class="text-xs font-bold uppercase tracking-widest text-secondary hover:underline" href="#">View All</a>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-separate border-spacing-y-4">
+<thead>
+<tr class="text-xs font-bold uppercase tracking-widest text-on-surface-variant">
+<th class="pb-2 pl-4">Customer</th>
+<th class="pb-2">Boat</th>
+<th class="pb-2">Dates</th>
+<th class="pb-2">Amount</th>
+<th class="pb-2">Status</th>
+<th class="pb-2 text-right pr-4">Actions</th>
+</tr>
+</thead>
+<tbody>
+<tr class="bg-surface hover:bg-surface-container-low transition-colors rounded-2xl group">
+<td class="py-4 pl-4 rounded-l-2xl">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-variant overflow-hidden">
+<img alt="Marcus V." data-alt="portrait of a man with a friendly expression in daylight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC75Rbe6d-aucgrWUT6Ufb0DHh6ZHoBJQwg2vce--FoszI5yQyXWqakAw-e5LIfgtcdE9enO3Oq0MfS4Xv_dLfj6eMgiO2eRYmExb4hl7mHquWEgucfxMaXtxjomDTVqNcY-O6bUa0On_h4W6XWdGSFhXlwf1vZLHXuIQQgSfM-CSHWbRVX6BosgxExu6eLhmNzZV0opaV1mr_ZgZX0O6Fuuwq32qfWzJfESmkg0MwhgXbXfLnXmUyfUj33CFv3Ly--x674oKtWnFgl"/>
+</div>
+<span class="font-bold text-sm">Marcus V.</span>
+</div>
+</td>
+<td class="py-4 text-sm">Azure Breeze</td>
+<td class="py-4 text-sm text-on-surface-variant">Aug 12-14</td>
+<td class="py-4 text-sm font-bold">$1,250</td>
+<td class="py-4">
+<span class="bg-tertiary-container/30 text-on-tertiary-container px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">PENDING</span>
+</td>
+<td class="py-4 pr-4 rounded-r-2xl text-right space-x-2">
+<button class="p-2 text-on-secondary-container hover:bg-secondary-container rounded-full transition-colors">
+<span class="material-symbols-outlined text-lg">check_circle</span>
+</button>
+<button class="p-2 text-error hover:bg-error-container rounded-full transition-colors">
+<span class="material-symbols-outlined text-lg">cancel</span>
+</button>
+</td>
+</tr>
+<tr class="bg-surface hover:bg-surface-container-low transition-colors rounded-2xl">
+<td class="py-4 pl-4 rounded-l-2xl">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-variant overflow-hidden">
+<img alt="Elena G." data-alt="portrait of a smiling woman in soft natural lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA2_4vx22NGgH9-IGRYIixkbRUffSviNgrjW3IIqBdzOEvd-mPMOuykvkluXGH3ho2UpuxFcu-9E0Uun9QUQMidFNRHWJx-WSu4stqU06t_uLKg7aau2bHHFTXcRH8pidx12V1jk-w5ZTfdozPsZ9VLPDY3TtD3rrO04gZBbijS1UY-Jd4wdDrDHk1-WHppAs-hxqIMlOVzU7ZN7G8w3iTeGIjuxtgxujMsLDq-pskC6xScTraoop6PsC7ctVlVZJxRuMLTu1pERV5K"/>
+</div>
+<span class="font-bold text-sm">Elena G.</span>
+</div>
+</td>
+<td class="py-4 text-sm">Golden Horizon</td>
+<td class="py-4 text-sm text-on-surface-variant">Aug 15-16</td>
+<td class="py-4 text-sm font-bold">$850</td>
+<td class="py-4">
+<span class="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">APPROVED</span>
+</td>
+<td class="py-4 pr-4 rounded-r-2xl text-right">
+<span class="text-[10px] font-bold uppercase text-on-surface-variant pr-2">Paid in full</span>
+</td>
+</tr>
+<tr class="bg-surface hover:bg-surface-container-low transition-colors rounded-2xl group">
+<td class="py-4 pl-4 rounded-l-2xl">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-variant overflow-hidden">
+<img alt="Julian P." data-alt="portrait of a man with sunglasses at the beach" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAE2KGDw2awdxSfDBqEdYTHn6YIUcRiHadNd1RKIEaxlxbi4M-0yiu8QMQOfisaD1GDRci-2m2xj4TPv_kY8hLqItcggFKPk_alpXpKsGwbkhHsDg4N23k4Thjl7mbiLkSvJskJZxSWu0J-0VZYMI0LvF1BU9DJZSpUvV6ppQ6lZlOEX35SR6NcGbK9n0HZ2LC6NF9I3oHHL1GGdPB_vcN0xnkxj8mCWdYKnGTWFDx8zamn-3dqpw58T1y2IgyagiaPIGhFt-g-8Bum"/>
+</div>
+<span class="font-bold text-sm">Julian P.</span>
+</div>
+</td>
+<td class="py-4 text-sm">Azure Breeze</td>
+<td class="py-4 text-sm text-on-surface-variant">Aug 20-22</td>
+<td class="py-4 text-sm font-bold">$1,400</td>
+<td class="py-4">
+<span class="bg-tertiary-container/30 text-on-tertiary-container px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">PENDING</span>
+</td>
+<td class="py-4 pr-4 rounded-r-2xl text-right space-x-2">
+<button class="p-2 text-on-secondary-container hover:bg-secondary-container rounded-full transition-colors">
+<span class="material-symbols-outlined text-lg">check_circle</span>
+</button>
+<button class="p-2 text-error hover:bg-error-container rounded-full transition-colors">
+<span class="material-symbols-outlined text-lg">cancel</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- Monthly Revenue Chart -->
+<section class="bg-surface-container-lowest rounded-3xl p-8 shadow-sm">
+<h2 class="text-xl font-serif italic text-on-surface mb-8">Monthly Revenue</h2>
+<div class="flex items-end justify-between h-48 gap-2">
+<div class="flex-1 flex flex-col items-center gap-2 group">
+<div class="w-full bg-surface-container h-16 rounded-t-lg group-hover:bg-primary-fixed transition-colors"></div>
+<span class="text-[10px] font-bold uppercase text-on-surface-variant">Mar</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-2 group">
+<div class="w-full bg-surface-container h-24 rounded-t-lg group-hover:bg-primary-fixed transition-colors"></div>
+<span class="text-[10px] font-bold uppercase text-on-surface-variant">Apr</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-2 group">
+<div class="w-full bg-surface-container h-32 rounded-t-lg group-hover:bg-primary-fixed transition-colors"></div>
+<span class="text-[10px] font-bold uppercase text-on-surface-variant">May</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-2 group">
+<div class="w-full bg-surface-container h-28 rounded-t-lg group-hover:bg-primary-fixed transition-colors"></div>
+<span class="text-[10px] font-bold uppercase text-on-surface-variant">Jun</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-2 group">
+<div class="w-full bg-surface-container h-40 rounded-t-lg group-hover:bg-primary-fixed transition-colors"></div>
+<span class="text-[10px] font-bold uppercase text-on-surface-variant">Jul</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-2 group">
+<div class="w-full bg-primary h-48 rounded-t-lg"></div>
+<span class="text-[10px] font-bold uppercase text-primary">Aug</span>
+</div>
+</div>
+<div class="mt-8 pt-8 border-t border-outline-variant/15">
+<div class="flex justify-between items-center">
+<span class="text-sm font-medium text-on-surface-variant">Projected Year Total</span>
+<span class="text-xl font-serif font-bold text-on-surface">$105,200</span>
+</div>
+</div>
+</section>
+</div>
+<!-- Incoming Requests Section -->
+<section class="mb-12 bg-surface-container-lowest rounded-3xl p-8 shadow-sm">
+<div class="flex items-center gap-4 mb-8">
+<h2 class="text-3xl font-serif italic text-on-surface">Incoming Requests</h2>
+<span class="bg-primary text-on-primary w-6 h-6 rounded-full flex items-center justify-center text-sm font-bold shadow-sm">3</span>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-separate border-spacing-y-4">
+<thead>
+<tr class="text-xs font-bold uppercase tracking-widest text-on-surface-variant">
+<th class="pb-2 pl-4">Customer</th>
+<th class="pb-2">Boat</th>
+<th class="pb-2">Dates</th>
+<th class="pb-2">Amount</th>
+<th class="pb-2">Status</th>
+<th class="pb-2 text-right pr-4">Actions</th>
+</tr>
+</thead>
+<tbody>
+<tr class="bg-surface hover:bg-surface-container-low transition-colors rounded-2xl group">
+<td class="py-4 pl-4 rounded-l-2xl">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-variant overflow-hidden">
+<img alt="James Wilson" data-alt="portrait of a man" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD75aKOfME5hrbft07WHAhN7SbH3UhhP4kl4DQoGtBioHTLxPbx5TMAGnWT-LRc8fCBgj6_lMO3AulcXRe7TlU9e-iFyfERqd94k5n1prVw4N7cqPs8-z8Ux3-M1cP5yvpmWY7pCxeCC2Iy180OeB1o21QHRluwvxfyXhXlrFS0CPsn6gzAaRyUixDPA_NRaNrhhgdCbGCb7K7nefsoXluAMOubg_wII36phwjvAfifETu3J42CrHcTQjej7mv8OBYvoYKsnBKWVCwo"/>
+</div>
+<span class="font-bold text-sm">James Wilson</span>
+</div>
+</td>
+<td class="py-4 text-sm">Azure Serenity</td>
+<td class="py-4 text-sm text-on-surface-variant">Aug 5–7</td>
+<td class="py-4 text-sm font-bold">$2,400</td>
+<td class="py-4">
+<span class="bg-tertiary-container/30 text-on-tertiary-container px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">PENDING</span>
+</td>
+<td class="py-4 pr-4 rounded-r-2xl text-right space-x-2">
+<button class="bg-primary text-on-primary px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest hover:opacity-90 transition-opacity">Accept</button>
+<button class="border border-outline text-on-surface px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-surface-container transition-colors">Decline</button>
+</td>
+</tr>
+<tr class="bg-surface hover:bg-surface-container-low transition-colors rounded-2xl group">
+<td class="py-4 pl-4 rounded-l-2xl">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-variant overflow-hidden">
+<img alt="Maria Garcia" data-alt="portrait of a woman" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCt3HJI1b-ErE0bMDFseHiO_wflfTAgDiyAxTXtd8hHwfHXGw1evVfFFJIR91rgViQqD0N6MDb1Shp4xomYaxK0H4heKqe3pTNT8c2QgpLIwDONfCnwsaN-k6fLnrjblVCabmrsgtiJ-SEJZsOSULAHI4yQtPm6Y1wz_UrKxzRrkQDnqQyt8oe19DvFuOqn8eAzCP3k5NzNlNRS_CyTzuP07-b6IKsMuN4NIBrT_1AJukOo3I6-9CNXy2mhekCv7CVcy9DF0G2tO1H3"/>
+</div>
+<span class="font-bold text-sm">Maria Garcia</span>
+</div>
+</td>
+<td class="py-4 text-sm">Wind Dancer</td>
+<td class="py-4 text-sm text-on-surface-variant">Aug 12–14</td>
+<td class="py-4 text-sm font-bold">$1,200</td>
+<td class="py-4">
+<span class="bg-tertiary-container/30 text-on-tertiary-container px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">PENDING</span>
+</td>
+<td class="py-4 pr-4 rounded-r-2xl text-right space-x-2">
+<button class="bg-primary text-on-primary px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest hover:opacity-90 transition-opacity">Accept</button>
+<button class="border border-outline text-on-surface px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-surface-container transition-colors">Decline</button>
+</td>
+</tr>
+<tr class="bg-surface hover:bg-surface-container-low transition-colors rounded-2xl group">
+<td class="py-4 pl-4 rounded-l-2xl">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-variant overflow-hidden">
+<img alt="Robert Chen" data-alt="portrait of a man" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBeSE1-aCh0CV096QKUakbCoV3zHfGhvDWdllhUt6kmQc4fQgIALs_IZAdkphvJVAO6TcgZm4qWx3UYBENYCq_q3iIhOY-jJllCj8dfzcu41vsMzTt_aXuBvJjkE1gaJRTI_dsi5Dfv5qYKVAmYgYIr90vYi4W8L2GKYlP141469M5_bHXXdHKBwV8g73hOkZMLlF54EF2gfyHdMIHbku07IfpxeBODapWv-Jq0ca2bJ0c79XXJngtz1njdom3k6esX0hoSS05tHfFy"/>
+</div>
+<span class="font-bold text-sm">Robert Chen</span>
+</div>
+</td>
+<td class="py-4 text-sm">The Odyssey</td>
+<td class="py-4 text-sm text-on-surface-variant">Aug 20–22</td>
+<td class="py-4 text-sm font-bold">$5,100</td>
+<td class="py-4">
+<span class="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">APPROVED</span>
+</td>
+<td class="py-4 pr-4 rounded-r-2xl text-right">
+<button class="border border-outline text-on-surface px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-surface-container transition-colors">View Details</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- Fleet Grid -->
+<section class="mb-12">
+<div class="flex justify-between items-center mb-8">
+<h2 class="text-3xl font-serif italic text-on-surface">My Fleet</h2>
+<div class="flex gap-4">
+<button class="p-2 border border-outline rounded-full hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined">filter_list</span>
+</button>
+<button class="p-2 border border-outline rounded-full hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined">grid_view</span>
+</button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+<!-- Boat Card 1 -->
+<div class="group bg-surface-container-lowest rounded-[2rem] overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-500">
+<div class="relative h-64 overflow-hidden">
+<img alt="Azure Breeze" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="sleek modern yacht anchored in turquoise mediterranean waters under bright sun" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAYLINEcicMqPJ0-_htkPdwe2wu2eJkrnMv2k6Gk9RffnGUvVfRbKRWPIRA4UwXbASvWdCcUZmdhSgMddiW3xi7OBY9EVFc55c0vAHFxgAcg2V2PG_UAuQAbaVOTnEAdoWMZv_Tep2kWMfNgl3xr1gduYxrMSTJP99BtNIrFROq5E6v2VgX_gVMp0475PZ3T5b0z3YogsWhxtowsTmm_7ubZsYq3itMDdrPvPNtjji-g-xhL8YxOhv2ofQHRU1mquzfaSU8gA6dB329"/>
+<div class="absolute top-4 left-4">
+<span class="bg-secondary-container text-on-secondary-container px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest shadow-sm">ACTIVE</span>
+</div>
+</div>
+<div class="p-6">
+<h3 class="text-lg font-serif font-bold mb-1">Azure Breeze</h3>
+<p class="text-xs text-on-surface-variant font-bold uppercase tracking-widest mb-4">Luxury Yacht • 45ft</p>
+<div class="flex justify-between items-center">
+<span class="text-sm font-bold text-on-surface">$450 <span class="text-on-surface-variant font-normal">/hr</span></span>
+<div class="flex gap-2">
+<button class="text-xs font-bold uppercase tracking-widest text-primary hover:text-surface-tint">Edit</button>
+<span class="text-outline">|</span>
+<button class="text-xs font-bold uppercase tracking-widest text-on-surface hover:opacity-60">View</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Boat Card 2 -->
+<div class="group bg-surface-container-lowest rounded-[2rem] overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-500">
+<div class="relative h-64 overflow-hidden">
+<img alt="Golden Horizon" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="classic sailboat during golden hour with warm orange reflections on the sea" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBuFRCMV5Q_s8sjYXhU0qhBg9ngeO4I-lnHOjlAluOSXKW2r7bhL0yPEPUZy3G4sjs2dZlA6nvy-xaq66eZ_BdELBhjg8eHZjwI5TomSQIxJHAp-C1yQa0We3PfsA_KskUbpjcWbQTb3givLpmxNOd4DKOxtsbHKvGwxofFxs57xcXYCizpMLqj7lBIj8qv6W9es4DpoVl18cqPqqecNjfTuCwzm-aJDSm_Z6GCdDhjfB-iSMvIgtHhvplATlwrNfmnMnr06KumGnN5"/>
+<div class="absolute top-4 left-4">
+<span class="bg-secondary-container text-on-secondary-container px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest shadow-sm">ACTIVE</span>
+</div>
+</div>
+<div class="p-6">
+<h3 class="text-lg font-serif font-bold mb-1">Golden Horizon</h3>
+<p class="text-xs text-on-surface-variant font-bold uppercase tracking-widest mb-4">Catamaran • 38ft</p>
+<div class="flex justify-between items-center">
+<span class="text-sm font-bold text-on-surface">$320 <span class="text-on-surface-variant font-normal">/hr</span></span>
+<div class="flex gap-2">
+<button class="text-xs font-bold uppercase tracking-widest text-primary hover:text-surface-tint">Edit</button>
+<span class="text-outline">|</span>
+<button class="text-xs font-bold uppercase tracking-widest text-on-surface hover:opacity-60">View</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Boat Card 3 -->
+<div class="group bg-surface-container-lowest rounded-[2rem] overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-500">
+<div class="relative h-64 overflow-hidden">
+<img alt="Sea Whisper" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="minimalist speed boat on deep blue water with clean wakes and misty background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB2M5IoNgPjDZrfCstJMG-AaBYgk7QWaZDxQ0woj8VDWgP_8bbeR7pEKi496wGrjmXqF8d4gZBAcS4lJuyTVv6qA-CC679vcVwSGGvxWyYqe0gQ53F6M7k0xn2VWutX8z_E72ne8uyyPN_zcoIlf5mMC54mSppCmLMNJIDGCfchPzhxBHSMjautJFNb4pY3alhQAsF9L2CEc6ButNZbvYPIkHg0cuRby3WHL_NlN12P7NSO03TzC2z4lqz9N9MqWQbeTZ3CGCJmiSuU"/>
+<div class="absolute top-4 left-4">
+<span class="bg-surface-variant text-on-surface-variant px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest shadow-sm">INACTIVE</span>
+</div>
+</div>
+<div class="p-6">
+<h3 class="text-lg font-serif font-bold mb-1">Sea Whisper</h3>
+<p class="text-xs text-on-surface-variant font-bold uppercase tracking-widest mb-4">Motorboat • 24ft</p>
+<div class="flex justify-between items-center">
+<span class="text-sm font-bold text-on-surface">$180 <span class="text-on-surface-variant font-normal">/hr</span></span>
+<div class="flex gap-2">
+<button class="text-xs font-bold uppercase tracking-widest text-primary hover:text-surface-tint">Edit</button>
+<span class="text-outline">|</span>
+<button class="text-xs font-bold uppercase tracking-widest text-on-surface hover:opacity-60">View</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Boat Card 4 -->
+<div class="group bg-surface-container-lowest rounded-[2rem] overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-500">
+<div class="relative h-64 overflow-hidden">
+<img alt="Midnight Sun" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="luxurious modern powerboat at dusk with internal ambient lighting glowing through the cabin windows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDzj5lq9-phXR4lPXmiczFQZZxNa4y3fiG-N6N3lHPNyt8VCns0zs2AcFnd_-JqmYAFZTldT8ntYp889GB9civ_N3N0ArirzjUi71z_62HraI2blWUJxLppIV3ihcCDSNi5VRwBpSVh5QNFVxXzzwDthaQO0DCr9dktGdK16En78UowFR7uvuzp6QKV-0aUMm80DnbO2RE9xj6pduUySZm98Yfe5qfaRnDbti6NwxcN4dz64FWUOxSdhnihq1HPiXGlO3Pp33ha237b"/>
+<div class="absolute top-4 left-4">
+<span class="bg-secondary-container text-on-secondary-container px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest shadow-sm">ACTIVE</span>
+</div>
+</div>
+<div class="p-6">
+<h3 class="text-lg font-serif font-bold mb-1">Midnight Sun</h3>
+<p class="text-xs text-on-surface-variant font-bold uppercase tracking-widest mb-4">Day Cruiser • 32ft</p>
+<div class="flex justify-between items-center">
+<span class="text-sm font-bold text-on-surface">$280 <span class="text-on-surface-variant font-normal">/hr</span></span>
+<div class="flex gap-2">
+<button class="text-xs font-bold uppercase tracking-widest text-primary hover:text-surface-tint">Edit</button>
+<span class="text-outline">|</span>
+<button class="text-xs font-bold uppercase tracking-widest text-on-surface hover:opacity-60">View</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+</div>
+<!-- Mobile Bottom Navigation -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full bg-surface-container-lowest border-t border-outline-variant/15 px-6 py-3 flex justify-between items-center z-50">
+<a class="flex flex-col items-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-[10px] font-bold uppercase">Overview</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">directions_boat</span>
+<span class="text-[10px] font-bold uppercase">Boats</span>
+</a>
+<div class="relative">
+<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">anchor</span>
+<span class="text-[10px] font-bold uppercase">Bookings</span>
+</a>
+<span class="absolute -top-1 -right-1 bg-primary text-on-primary text-[8px] px-1 rounded-full font-bold">3</span>
+</div>
+<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-[10px] font-bold uppercase">Settings</span>
+</a>
+</nav>
+<script>
+  // Make all internal links navigate the parent React app
+  document.addEventListener('click', function(e) {
+    const link = e.target.closest('a[href]');
+    if (!link) return;
+    const href = link.getAttribute('href');
+    if (!href || href.startsWith('http') || href.startsWith('mailto') || href === '#') return;
+    e.preventDefault();
+    window.parent.location.href = href;
+  });
+</script>
+</body></html>

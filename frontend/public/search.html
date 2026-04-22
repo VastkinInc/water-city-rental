@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Boat Search Results - The Nautical Editorial</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400;1,700&amp;family=Manrope:wght@400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#a43c12",
+                        "on-secondary-fixed": "#001f23",
+                        "surface-tint": "#a43c12",
+                        "secondary-container": "#9ff0fb",
+                        "on-surface": "#1a1c1a",
+                        "on-tertiary-container": "#483800",
+                        "primary-fixed-dim": "#ffb59c",
+                        "surface-bright": "#faf9f6",
+                        "tertiary-container": "#c4a028",
+                        "on-tertiary": "#ffffff",
+                        "inverse-surface": "#2f312f",
+                        "surface-container-highest": "#e3e2e0",
+                        "outline-variant": "#dec0b6",
+                        "secondary-fixed-dim": "#82d3de",
+                        "on-tertiary-fixed-variant": "#574500",
+                        "error": "#ba1a1a",
+                        "surface-variant": "#e3e2e0",
+                        "surface-container": "#efeeeb",
+                        "on-error": "#ffffff",
+                        "on-secondary-container": "#066f79",
+                        "surface-dim": "#dbdad7",
+                        "on-primary-container": "#6c2000",
+                        "on-primary-fixed-variant": "#822800",
+                        "primary-container": "#ff7f50",
+                        "on-secondary": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "inverse-on-surface": "#f2f1ee",
+                        "error-container": "#ffdad6",
+                        "tertiary-fixed": "#ffe088",
+                        "on-surface-variant": "#57423b",
+                        "outline": "#8b7169",
+                        "on-error-container": "#93000a",
+                        "secondary": "#006972",
+                        "on-tertiary-fixed": "#241a00",
+                        "on-primary": "#ffffff",
+                        "inverse-primary": "#ffb59c",
+                        "on-secondary-fixed-variant": "#004f56",
+                        "background": "#faf9f6",
+                        "tertiary": "#735c00",
+                        "on-background": "#1a1c1a",
+                        "primary-fixed": "#ffdbcf",
+                        "tertiary-fixed-dim": "#e9c349",
+                        "surface-container-high": "#e9e8e5",
+                        "surface": "#faf9f6",
+                        "surface-container-low": "#f4f3f1",
+                        "on-primary-fixed": "#380c00",
+                        "secondary-fixed": "#9ff0fb"
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.25rem",
+                        lg: "0.5rem",
+                        xl: "0.75rem",
+                        full: "9999px"
+                    },
+                    fontFamily: {
+                        headline: ["Noto Serif", "serif"],
+                        body: ["Manrope", "sans-serif"],
+                        label: ["Manrope", "sans-serif"]
+                    }
+                }
+            }
+        };
+    </script>
+</head>
+
+<body class="bg-background text-on-background font-body min-h-screen antialiased">
+    <!-- TopNavBar -->
+    <nav
+        class="fixed top-0 w-full z-50 bg-white/80 dark:bg-stone-950/80 backdrop-blur-xl shadow-sm flex justify-between items-center px-8 h-20 max-w-[1920px] mx-auto">
+        <div class="flex items-center gap-8 w-full">
+            <span
+                class="material-symbols-outlined hover:bg-stone-100/50 dark:hover:bg-stone-800/50 transition-all duration-300 scale-95 duration-200 ease-in-out cursor-pointer"
+                data-icon="menu">menu</span>
+            <div class="text-2xl font-serif italic text-stone-900 dark:text-stone-50">Water City Rental</div>
+            <div class="hidden md:flex gap-6 ml-10"><a
+                    class="text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 transition-colors"
+                    href="/boats">Charters</a>
+                <a class="text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 transition-colors"
+                    href="/harbors">Harbors</a>
+                <a class="text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 transition-colors"
+                    href="/events">Events</a>
+                <a class="text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 transition-colors"
+                    href="/concierge">Concierge</a>
+            </div>
+            <div class="ml-auto flex items-center gap-4"><button
+                    class="bg-primary text-white px-6 py-2 rounded-full text-sm font-semibold hover:opacity-90 transition-opacity hidden sm:block">Book
+                    Now</button>
+                <span
+                    class="material-symbols-outlined hover:bg-stone-100/50 dark:hover:bg-stone-800/50 transition-all duration-300 scale-95 cursor-pointer"
+                    data-icon="favorite">favorite</span>
+                <span
+                    class="material-symbols-outlined hover:bg-stone-100/50 dark:hover:bg-stone-800/50 transition-all duration-300 scale-95 cursor-pointer"
+                    data-icon="account_circle">account_circle</span>
+            </div>
+        </div>
+    </nav>
+    <!-- Main Content Canvas -->
+    <main class="pt-28 px-4 sm:px-8 max-w-[1920px] mx-auto pb-24">
+        <!-- Search Summary Bar -->
+        <div
+            class="bg-surface-container-lowest rounded-xl p-6 mb-8 flex flex-col sm:flex-row justify-between items-center shadow-[0_32px_64px_rgba(26,28,26,0.04)] gap-4 border border-outline-variant/15">
+            <div class="flex items-center gap-4">
+                <h1 class="font-headline text-2xl sm:text-3xl text-on-surface">Boats in <span
+                        class="italic text-primary">Chicago</span></h1>
+                <div class="h-1 w-1 rounded-full bg-outline"></div>
+                <span class="text-on-surface-variant">Aug 5</span>
+                <div class="h-1 w-1 rounded-full bg-outline"></div>
+                <span class="text-on-surface-variant">4 guests</span>
+                <button class="ml-2 text-secondary hover:text-primary transition-colors">
+                    <span class="material-symbols-outlined text-xl" data-icon="edit">edit</span>
+                </button>
+            </div>
+            <div class="flex items-center gap-6 w-full sm:w-auto justify-between sm:justify-end">
+                <span class="text-on-surface-variant text-sm font-medium tracking-wide">24 BOATS FOUND</span>
+                <div class="flex items-center gap-4">
+                    <div class="flex gap-2 text-on-surface-variant">
+                        <button class="text-primary hover:text-primary transition-colors"><span
+                                class="material-symbols-outlined" data-icon="grid_view">grid_view</span></button>
+                        <button class="hover:text-primary transition-colors"><span class="material-symbols-outlined"
+                                data-icon="view_list">view_list</span></button>
+                        <button class="hover:text-primary transition-colors"><span class="material-symbols-outlined"
+                                data-icon="map">map</span></button>
+                    </div>
+                    <div class="h-6 w-[1px] bg-outline-variant/30 hidden sm:block"></div>
+                    <div class="relative group hidden sm:block">
+                        <button
+                            class="flex items-center gap-2 text-on-surface-variant text-sm hover:text-primary transition-colors">
+                            Sort by: Recommended <span class="material-symbols-outlined text-sm"
+                                data-icon="expand_more">expand_more</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Events Section -->
+        <section class="mb-12">
+            <div class="mb-6">
+                <h2 class="font-headline text-2xl text-on-surface">Chicago Events on the Water</h2>
+                <p class="text-on-surface-variant text-sm mt-1">Happening this season near you</p>
+            </div>
+            <div class="flex overflow-x-auto gap-6 pb-4 snap-x snap-mandatory no-scrollbar">
+                <!-- Event Card 1 -->
+                <article
+                    class="min-w-[280px] sm:min-w-[320px] bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0_16px_32px_rgba(26,28,26,0.03)] hover:-translate-y-1 transition-transform duration-300 snap-start flex-shrink-0 group">
+                    <div class="relative h-48 overflow-hidden">
+                        <img alt="Fireworks"
+                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCsVMX4r3SKQAonJh_K0fGaDpH3PtRczj46PHvi_547N0W2P47faikpzoAX0SimGvlfwia4q3uFBGbY3hQG-PIKjsRWeoqNcd6JWKeU_zmDuwa4PpGagpiy9wB2WjZO-oJijJo6aXsk2uz_2TTZIh3wqiFjAGqLw4ydZ4ndu-BjgNdI2WhSsiOwiCYGHGMovbjgx2e7NoJI8-99Vk-T077O03FrZU7B0NuDyOKPN9lzVyTc0l1VSLoQoCfihBW7P6qxZdcIK3iI-Lkv" />
+                        <div
+                            class="absolute top-4 left-4 bg-surface-container-lowest/90 backdrop-blur-md rounded-full px-3 py-1 text-[10px] font-semibold tracking-widest uppercase text-on-surface">
+                            Fireworks
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-headline text-lg text-on-surface mb-2 font-bold leading-tight">Independence Day
+                            Fireworks Cruise</h3>
+                        <div class="flex flex-col gap-1 text-sm text-on-surface-variant">
+                            <span class="flex items-center gap-1"><span
+                                    class="material-symbols-outlined text-[16px]">calendar_month</span> July 4,
+                                2025</span>
+                            <span class="flex items-center gap-1"><span
+                                    class="material-symbols-outlined text-[16px]">location_on</span> Navy Pier</span>
+                        </div>
+                    </div>
+                </article>
+                <!-- Event Card 2 -->
+                <article
+                    class="min-w-[280px] sm:min-w-[320px] bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0_16px_32px_rgba(26,28,26,0.03)] hover:-translate-y-1 transition-transform duration-300 snap-start flex-shrink-0 group">
+                    <div class="relative h-48 overflow-hidden">
+                        <img alt="Racing"
+                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTVXnVXz0ciUj-tbDjE2wJpfDmlTtpjscMSfn3fqXHs73fFQIZwY09qZ-EKlC5X_O6EL1NMtSjcB0szEwLHAk4omMg65MYOm4hkQ3xXQydobS95vA-_2YyA8oFgBE7c1330BZwvgk_dS3mCIe4ZjQqrn2d-lv_lEuUgN6K4rBnHBLEvaZedkR4SwPWwrN2-MwZ4DpDncqBUoXF_IHHBfJiPMQJyIXteMa450L-GdhAjVQePTXw-2_t_B3zQNBTvVBgZ2mE6-wDKk1u" />
+                        <div
+                            class="absolute top-4 left-4 bg-surface-container-lowest/90 backdrop-blur-md rounded-full px-3 py-1 text-[10px] font-semibold tracking-widest uppercase text-on-surface">
+                            Racing
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-headline text-lg text-on-surface mb-2 font-bold leading-tight">Chicago Sailing
+                            Regatta</h3>
+                        <div class="flex flex-col gap-1 text-sm text-on-surface-variant">
+                            <span class="flex items-center gap-1"><span
+                                    class="material-symbols-outlined text-[16px]">calendar_month</span> July 12,
+                                2025</span>
+                            <span class="flex items-center gap-1"><span
+                                    class="material-symbols-outlined text-[16px]">location_on</span> Belmont
+                                Harbor</span>
+                        </div>
+                    </div>
+                </article>
+                <!-- Event Card 3 -->
+                <article
+                    class="min-w-[280px] sm:min-w-[320px] bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0_16px_32px_rgba(26,28,26,0.03)] hover:-translate-y-1 transition-transform duration-300 snap-start flex-shrink-0 group">
+                    <div class="relative h-48 overflow-hidden">
+                        <img alt="Airshow"
+                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCI4ibo9qhTcCJBSH-9hdpVLqTDWDIIVLq51BolGAMAPrZylCSz5CWoX_hf-3ifVcFMEeTVagjoGUkOcUIcBsqlj-PyF57a9Eo-mSX8UDrshxkSbBt2hdwcyEFZtHspXK3wmH0AtK2I2gcGYLYMFjLO8UWVPYCFKuhYeHB5tH5qXlqU9vkSkx5ZJSQ4EHAM0hbyUiBhioYTWl29ELuOIMVCmWG00XJSSSw69BKo99MZat_No9XPwpoj9eqx8YPXXNiIm904SLZE36Ov" />
+                        <div
+                            class="absolute top-4 left-4 bg-surface-container-lowest/90 backdrop-blur-md rounded-full px-3 py-1 text-[10px] font-semibold tracking-widest uppercase text-on-surface">
+                            Airshow
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-headline text-lg text-on-surface mb-2 font-bold leading-tight">Air and Water
+                            Show</h3>
+                        <div class="flex flex-col gap-1 text-sm text-on-surface-variant">
+                            <span class="flex items-center gap-1"><span
+                                    class="material-symbols-outlined text-[16px]">calendar_month</span> July 24,
+                                2025</span>
+                            <span class="flex items-center gap-1"><span
+                                    class="material-symbols-outlined text-[16px]">location_on</span> North Avenue
+                                Beach</span>
+                        </div>
+                    </div>
+                </article>
+                <!-- Event Card 4 -->
+                <article
+                    class="min-w-[280px] sm:min-w-[320px] bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0_16px_32px_rgba(26,28,26,0.03)] hover:-translate-y-1 transition-transform duration-300 snap-start flex-shrink-0 group">
+                    <div class="relative h-48 overflow-hidden">
+                        <img alt="Music"
+                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCoopRExq4tH4BBRsCfmCpVew7g5SIIKN6rLJebRfoG7OadZcnTrDky_zHCZpy1cLymjENnqFe4LEeta-GeUDYGPZs7RmsQCbxS9CuPO_K2THQOxiaKtqKs7Y29ggwAhz6y8QYc9UqNaAGYwb5O8PDCn2PvT5mXWQuRWWM4VosKGjsxa9OFUqy6jJXnDEgj-WLUe68Hcd7pktOux7t4TXJrCxPLyfJ4qf5qt8DDOx7hNNj6VO_WsuXuT4XjdJ46k2MrKKV9yjFdNbP_" />
+                        <div
+                            class="absolute top-4 left-4 bg-surface-container-lowest/90 backdrop-blur-md rounded-full px-3 py-1 text-[10px] font-semibold tracking-widest uppercase text-on-surface">
+                            Music
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-headline text-lg text-on-surface mb-2 font-bold leading-tight">Sunset Jazz
+                            Cruise</h3>
+                        <div class="flex flex-col gap-1 text-sm text-on-surface-variant">
+                            <span class="flex items-center gap-1"><span
+                                    class="material-symbols-outlined text-[16px]">calendar_month</span> August 3,
+                                2025</span>
+                            <span class="flex items-center gap-1"><span
+                                    class="material-symbols-outlined text-[16px]">location_on</span> Monroe
+                                Harbor</span>
+                        </div>
+                    </div>
+                </article>
+                <!-- Event Card 5 -->
+                <article
+                    class="min-w-[280px] sm:min-w-[320px] bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0_16px_32px_rgba(26,28,26,0.03)] hover:-translate-y-1 transition-transform duration-300 snap-start flex-shrink-0 group">
+                    <div class="relative h-48 overflow-hidden">
+                        <img alt="Expo"
+                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAefDSP-RhRL2tVQnBJQn6pBzXVVBQPeiXQbVBCLQnsYftwjnlz2crtNSEiwpI7GW91kGcs9bJ9eLkXpfRoMYTr4FnlGYYVvs8NiSVHuIpwi1OuJIZo6-krPZwZHXVY7hY54hCAPxJK1VfN1J1KMAbvU7_19CF3OuNeWw6Cke5Ux4FkgA6TDV5c5TuahPER2XDZr3yvClrJDCGr2fUWP4kswLtwiRF4ECRYfphkNtd2xnc7CCfnjFlUcARjLzo3gOSrjBe5sAqha2l3" />
+                        <div
+                            class="absolute top-4 left-4 bg-surface-container-lowest/90 backdrop-blur-md rounded-full px-3 py-1 text-[10px] font-semibold tracking-widest uppercase text-on-surface">
+                            Expo
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-headline text-lg text-on-surface mb-2 font-bold leading-tight">Chicago Boat Expo
+                        </h3>
+                        <div class="flex flex-col gap-1 text-sm text-on-surface-variant">
+                            <span class="flex items-center gap-1"><span
+                                    class="material-symbols-outlined text-[16px]">calendar_month</span> August 15,
+                                2025</span>
+                            <span class="flex items-center gap-1"><span
+                                    class="material-symbols-outlined text-[16px]">location_on</span> Navy Pier</span>
+                        </div>
+                    </div>
+                </article>
+                <!-- Event Card 6 -->
+                <article
+                    class="min-w-[280px] sm:min-w-[320px] bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0_16px_32px_rgba(26,28,26,0.03)] hover:-translate-y-1 transition-transform duration-300 snap-start flex-shrink-0 group">
+                    <div class="relative h-48 overflow-hidden">
+                        <img alt="Social"
+                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-4LZ83OQ4kwjT5hcXf041ToIbz0YBSO5tOSN1QVbN-oryV3UNb2zkEIZg34Ho50DrfkdQSLSeYEKwJsjEMkwybo7OeY1fjJuy5c13hny-JVGxF5MdZydUYSAVog8CnV2xX_mhAp4fmy5qf7MalA_tYjGjU7T-rifFDcSAUjclrF5zhvGg_Bliwi26eboE8dQvme6W0OeHiny0W51eqx7uXxfMnq8qZfaRCZCkXtg7E6Rk-tPM4yB9hTvlRGt7YEPR5zTrIaVbA6Tu" />
+                        <div
+                            class="absolute top-4 left-4 bg-surface-container-lowest/90 backdrop-blur-md rounded-full px-3 py-1 text-[10px] font-semibold tracking-widest uppercase text-on-surface">
+                            Social
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-headline text-lg text-on-surface mb-2 font-bold leading-tight">Lake Wine and
+                            Sail Evening</h3>
+                        <div class="flex flex-col gap-1 text-sm text-on-surface-variant">
+                            <span class="flex items-center gap-1"><span
+                                    class="material-symbols-outlined text-[16px]">calendar_month</span> September 6,
+                                2025</span>
+                            <span class="flex items-center gap-1"><span
+                                    class="material-symbols-outlined text-[16px]">location_on</span> South Harbor</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+            <div class="mt-4 flex justify-end">
+                <a class="text-primary font-semibold text-sm hover:underline flex items-center gap-1" href="#">View All
+                    Events <span class="material-symbols-outlined text-sm">arrow_forward</span></a>
+            </div>
+        </section>
+        <!-- 2-Column Layout -->
+        <div class="flex flex-col lg:flex-row gap-8">
+            <!-- Left Column: SideNavBar (Filters) -->
+            <aside
+                class="hidden lg:flex flex-col gap-6 p-8 sticky top-24 h-[calc(100vh-6rem)] w-72 rounded-r-lg bg-stone-50 dark:bg-stone-950 border-r border-stone-100 dark:border-stone-900 font-sans uppercase tracking-[0.1em] text-[11px] font-semibold text-orange-600 dark:text-orange-400 transition-all duration-300 ease-out overflow-y-auto no-scrollbar">
+                <div class="mb-6">
+                    <h2 class="font-headline text-2xl capitalize tracking-normal text-on-surface mb-1">Filters</h2>
+                    <p class="text-on-surface-variant capitalize tracking-normal text-sm font-normal">Refine your voyage
+                    </p>
+                </div>
+                <div class="space-y-8 flex-1">
+                    <!-- Price Range -->
+                    <div>
+                        <h3 class="text-on-surface mb-4 flex items-center gap-2"><span
+                                class="material-symbols-outlined text-lg" data-icon="payments">payments</span> Price
+                            Range</h3>
+                        <div class="px-2">
+                            <div class="h-1 bg-surface-container-high rounded-full relative mb-4">
+                                <div class="absolute left-1/4 right-1/4 h-full bg-primary rounded-full"></div>
+                                <div
+                                    class="absolute left-1/4 w-4 h-4 rounded-full bg-surface-container-lowest border-2 border-primary -mt-1.5 -ml-2 shadow-sm">
+                                </div>
+                                <div
+                                    class="absolute right-1/4 w-4 h-4 rounded-full bg-surface-container-lowest border-2 border-primary -mt-1.5 -mr-2 shadow-sm">
+                                </div>
+                            </div>
+                            <div class="flex justify-between text-on-surface-variant">
+                                <span>$50</span>
+                                <span>$2,000+</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Boat Type -->
+                    <div>
+                        <h3 class="text-on-surface mb-4 flex items-center gap-2"><span
+                                class="material-symbols-outlined text-lg" data-icon="sailing">sailing</span> Vessel Type
+                        </h3>
+                        <div class="space-y-3 font-normal capitalize tracking-normal text-sm text-on-surface-variant">
+                            <label class="flex items-center gap-3 cursor-pointer group">
+                                <input checked=""
+                                    class="rounded text-primary focus:ring-tertiary focus:ring-2 w-4 h-4 border-outline-variant bg-surface-container-lowest"
+                                    type="checkbox" />
+                                <span class="group-hover:text-primary transition-colors">Sailboat</span>
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer group">
+                                <input checked=""
+                                    class="rounded text-primary focus:ring-tertiary focus:ring-2 w-4 h-4 border-outline-variant bg-surface-container-lowest"
+                                    type="checkbox" />
+                                <span class="group-hover:text-primary transition-colors">Yacht</span>
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer group">
+                                <input
+                                    class="rounded text-primary focus:ring-tertiary focus:ring-2 w-4 h-4 border-outline-variant bg-surface-container-lowest"
+                                    type="checkbox" />
+                                <span class="group-hover:text-primary transition-colors">Powerboat</span>
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer group">
+                                <input
+                                    class="rounded text-primary focus:ring-tertiary focus:ring-2 w-4 h-4 border-outline-variant bg-surface-container-lowest"
+                                    type="checkbox" />
+                                <span class="group-hover:text-primary transition-colors">Catamaran</span>
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer group">
+                                <input
+                                    class="rounded text-primary focus:ring-tertiary focus:ring-2 w-4 h-4 border-outline-variant bg-surface-container-lowest"
+                                    type="checkbox" />
+                                <span class="group-hover:text-primary transition-colors">Speedboat</span>
+                            </label>
+                        </div>
+                    </div>
+                    <!-- Capacity -->
+                    <div>
+                        <h3 class="text-on-surface mb-4 flex items-center gap-2"><span
+                                class="material-symbols-outlined text-lg" data-icon="group">group</span> Crew Options
+                            (Capacity)</h3>
+                        <div
+                            class="flex items-center justify-between bg-surface-container-low rounded-lg p-2 font-normal capitalize tracking-normal text-sm">
+                            <button
+                                class="w-8 h-8 rounded-full bg-surface-container-lowest flex items-center justify-center text-on-surface-variant hover:text-primary shadow-sm"><span
+                                    class="material-symbols-outlined text-sm" data-icon="remove">remove</span></button>
+                            <span class="text-on-surface font-medium text-base">4 Guests</span>
+                            <button
+                                class="w-8 h-8 rounded-full bg-surface-container-lowest flex items-center justify-center text-on-surface-variant hover:text-primary shadow-sm"><span
+                                    class="material-symbols-outlined text-sm" data-icon="add">add</span></button>
+                        </div>
+                    </div>
+                    <!-- Amenities -->
+                    <div>
+                        <h3 class="text-on-surface mb-4 flex items-center gap-2"><span
+                                class="material-symbols-outlined text-lg" data-icon="waves">waves</span> Amenities</h3>
+                        <div class="space-y-3 font-normal capitalize tracking-normal text-sm text-on-surface-variant">
+                            <label class="flex items-center gap-3 cursor-pointer group">
+                                <input
+                                    class="rounded text-primary focus:ring-tertiary focus:ring-2 w-4 h-4 border-outline-variant bg-surface-container-lowest"
+                                    type="checkbox" />
+                                <span class="group-hover:text-primary transition-colors">WiFi</span>
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer group">
+                                <input
+                                    class="rounded text-primary focus:ring-tertiary focus:ring-2 w-4 h-4 border-outline-variant bg-surface-container-lowest"
+                                    type="checkbox" />
+                                <span class="group-hover:text-primary transition-colors">AC</span>
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer group">
+                                <input
+                                    class="rounded text-primary focus:ring-tertiary focus:ring-2 w-4 h-4 border-outline-variant bg-surface-container-lowest"
+                                    type="checkbox" />
+                                <span class="group-hover:text-primary transition-colors">Kitchen</span>
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer group">
+                                <input
+                                    class="rounded text-primary focus:ring-tertiary focus:ring-2 w-4 h-4 border-outline-variant bg-surface-container-lowest"
+                                    type="checkbox" />
+                                <span class="group-hover:text-primary transition-colors">Captain Included</span>
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer group">
+                                <input
+                                    class="rounded text-primary focus:ring-tertiary focus:ring-2 w-4 h-4 border-outline-variant bg-surface-container-lowest"
+                                    type="checkbox" />
+                                <span class="group-hover:text-primary transition-colors">Swim Platform</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-8">
+                    <button
+                        class="w-full rounded-full bg-gradient-to-r from-primary to-primary-container text-on-primary-container py-3 px-6 font-semibold tracking-wide text-sm hover:opacity-90 transition-opacity shadow-[inset_0_1px_1px_rgba(255,255,255,0.2)]">Apply
+                        Filters</button>
+                </div>
+            </aside>
+            <!-- Right Column: Results Grid -->
+            <section class="flex-1">
+                <!-- Active Filters -->
+                <div class="flex flex-wrap gap-2 mb-8">
+                    <div
+                        class="bg-surface-container-high rounded-full px-4 py-1.5 flex items-center gap-2 text-sm text-on-surface">
+                        <span>Sailboat</span>
+                        <button class="text-on-surface-variant hover:text-error transition-colors"><span
+                                class="material-symbols-outlined text-sm" data-icon="close">close</span></button>
+                    </div>
+                    <div
+                        class="bg-surface-container-high rounded-full px-4 py-1.5 flex items-center gap-2 text-sm text-on-surface">
+                        <span>Yacht</span>
+                        <button class="text-on-surface-variant hover:text-error transition-colors"><span
+                                class="material-symbols-outlined text-sm" data-icon="close">close</span></button>
+                    </div>
+                    <div
+                        class="bg-surface-container-high rounded-full px-4 py-1.5 flex items-center gap-2 text-sm text-on-surface">
+                        <span>$50 - $2000</span>
+                        <button class="text-on-surface-variant hover:text-error transition-colors"><span
+                                class="material-symbols-outlined text-sm" data-icon="close">close</span></button>
+                    </div>
+                    <button class="text-primary text-sm hover:underline ml-2">Clear all</button>
+                </div>
+                <!-- Grid of Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-8 mb-12">
+                    <!-- Card 1 -->
+                    <article
+                        class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0_32px_64px_rgba(26,28,26,0.04)] hover:-translate-y-1 transition-transform duration-300 group">
+                        <div class="relative h-64 overflow-hidden">
+                            <img alt="Luxury yacht anchored in calm turquoise waters during golden hour"
+                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                                data-alt="Luxury yacht anchored in calm turquoise waters during golden hour with warm sunset lighting"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBtvbv0mZaD2usUklwufkk65JHL72LEyoG2RdDbB0raBa0IvcsZpOMqiDqCXX91DU3YxUUD-yLSmVWz1VhNMIcJYxfDmga4nzPGmXrk65pxXAYLYYI3kYwA3UR3xYhwN8YdFmFC4sXqt8vJKKHQL8r4U9c88fFkT5xpvJi297PxuNlBvE1lWsFdrKGGmKpt6UM2fCj53W5coDQDWVTL31aEPkVrkV96KkofuzdIDybGIFsqf-Fwe8BMU-Tl5tUsWwHmKJoQH_LKdpJV" />
+                            <button
+                                class="absolute top-4 right-4 text-surface-container-lowest drop-shadow-md hover:text-primary-container transition-colors">
+                                <span class="material-symbols-outlined"
+                                    data-icon="favorite_border">favorite_border</span>
+                            </button>
+                            <div
+                                class="absolute bottom-4 left-4 bg-surface-container-lowest/90 backdrop-blur-md rounded-full px-3 py-1 text-xs font-semibold tracking-widest uppercase text-on-surface">
+                                Yacht
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="font-headline text-xl text-on-surface">The <span
+                                        class="italic text-primary">Odyssey</span></h3>
+                                <div class="flex items-center gap-1 text-sm font-medium">
+                                    <span class="material-symbols-outlined text-primary text-sm" data-icon="star"
+                                        data-weight="fill">star</span>
+                                    <span>4.9</span>
+                                </div>
+                            </div>
+                            <p class="text-on-surface-variant text-sm mb-4">Burnham Harbor, Chicago</p>
+                            <div class="flex gap-4 mb-6">
+                                <div
+                                    class="flex items-center gap-1 text-xs uppercase tracking-widest text-on-surface-variant font-semibold">
+                                    <span class="material-symbols-outlined text-secondary text-sm"
+                                        data-icon="group">group</span> 12 Guests
+                                </div>
+                                <div
+                                    class="flex items-center gap-1 text-xs uppercase tracking-widest text-on-surface-variant font-semibold">
+                                    <span class="material-symbols-outlined text-secondary text-sm"
+                                        data-icon="straighten">straighten</span> 45ft
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-end">
+                                <div>
+                                    <span class="text-lg font-bold text-on-surface">$850</span>
+                                    <span class="text-sm text-on-surface-variant">/ day</span>
+                                </div>
+                                <button
+                                    class="rounded-full bg-surface-container text-on-surface px-4 py-2 text-sm font-semibold hover:bg-primary-container hover:text-on-primary-container transition-colors">View
+                                    Details</button>
+                            </div>
+                        </div>
+                    </article>
+                    <!-- Card 2 -->
+                    <article
+                        class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0_32px_64px_rgba(26,28,26,0.04)] hover:-translate-y-1 transition-transform duration-300 group">
+                        <div class="relative h-64 overflow-hidden">
+                            <img alt="Classic wooden sailboat cruising with sails up under a warm late afternoon sun"
+                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                                data-alt="Classic wooden sailboat cruising with white sails up under a warm late afternoon sun with deep blue water"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDIvlY8lGiJMdkN3IzFng62-fkOtplODXhY3g8-V0Vl8uX5u7VluOYl48mMCBVqHhXMpc788saaMphcWaOG0JAWHhNOtDtBl8dAnQfXOW_0XwN64MlztmeuNdofp7BG96odc6qo-0ZDXOYe8sJ6TZ5QusrJPkPtCXl3gAQuXACbj1idwjZQV1ePp-gARxk6NDC-YfWbG9TRPRDAhIQzCr2ob8rg7M7WxV1j4Wm9a6H-VO5xUoPMumP1nItRylLXcuxkrxRBXp3o4bbE" />
+                            <button
+                                class="absolute top-4 right-4 text-surface-container-lowest drop-shadow-md hover:text-primary-container transition-colors">
+                                <span class="material-symbols-outlined"
+                                    data-icon="favorite_border">favorite_border</span>
+                            </button>
+                            <div
+                                class="absolute bottom-4 left-4 bg-surface-container-lowest/90 backdrop-blur-md rounded-full px-3 py-1 text-xs font-semibold tracking-widest uppercase text-on-surface">
+                                Sailboat
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="font-headline text-xl text-on-surface">Wind <span
+                                        class="italic text-primary">Dancer</span></h3>
+                                <div class="flex items-center gap-1 text-sm font-medium">
+                                    <span class="material-symbols-outlined text-primary text-sm" data-icon="star"
+                                        data-weight="fill">star</span>
+                                    <span>4.7</span>
+                                </div>
+                            </div>
+                            <p class="text-on-surface-variant text-sm mb-4">Monroe Harbor, Chicago</p>
+                            <div class="flex gap-4 mb-6">
+                                <div
+                                    class="flex items-center gap-1 text-xs uppercase tracking-widest text-on-surface-variant font-semibold">
+                                    <span class="material-symbols-outlined text-secondary text-sm"
+                                        data-icon="group">group</span> 6 Guests
+                                </div>
+                                <div
+                                    class="flex items-center gap-1 text-xs uppercase tracking-widest text-on-surface-variant font-semibold">
+                                    <span class="material-symbols-outlined text-secondary text-sm"
+                                        data-icon="straighten">straighten</span> 32ft
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-end">
+                                <div>
+                                    <span class="text-lg font-bold text-on-surface">$400</span>
+                                    <span class="text-sm text-on-surface-variant">/ day</span>
+                                </div>
+                                <button
+                                    class="rounded-full bg-surface-container text-on-surface px-4 py-2 text-sm font-semibold hover:bg-primary-container hover:text-on-primary-container transition-colors">View
+                                    Details</button>
+                            </div>
+                        </div>
+                    </article>
+                    <!-- Card 3 -->
+                    <article
+                        class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0_32px_64px_rgba(26,28,26,0.04)] hover:-translate-y-1 transition-transform duration-300 group">
+                        <div class="relative h-64 overflow-hidden">
+                            <img alt="Sleek modern motor yacht speeding through calm water with sunset reflections"
+                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                                data-alt="Sleek modern motor yacht speeding through calm water with vibrant orange sunset reflections on the hull"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBko_uNokjg9i7SMfeglnH7woNZX8BzZ0I5KQDuau9feG72rfELBqX8DN2R3cwBc-KLn42PMGBmQvAwMOUv50pTZzcrh2iE5gXq55jugsXfwqDMzcE_bENkjYGZj5mug0kjCJN1yCl1vkokoMXEXdsMpm_mE0agoZ39JU1-N5xnO8Ha2Cm3nl6FItmU_ubS1OAgoyJzmyFPLVhLnvsLLOk0zaV2psqixsb_qLoUaRoRn0AqqBMrMSiWi-Gyh52T7X2pAtfjNFvdncqr" />
+                            <button
+                                class="absolute top-4 right-4 text-surface-container-lowest drop-shadow-md hover:text-primary-container transition-colors">
+                                <span class="material-symbols-outlined text-primary-container" data-icon="favorite"
+                                    data-weight="fill">favorite</span>
+                            </button>
+                            <div
+                                class="absolute bottom-4 left-4 bg-surface-container-lowest/90 backdrop-blur-md rounded-full px-3 py-1 text-xs font-semibold tracking-widest uppercase text-on-surface">
+                                Yacht
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="font-headline text-xl text-on-surface">Azure <span
+                                        class="italic text-primary">Dream</span></h3>
+                                <div class="flex items-center gap-1 text-sm font-medium">
+                                    <span class="material-symbols-outlined text-primary text-sm" data-icon="star"
+                                        data-weight="fill">star</span>
+                                    <span>5.0</span>
+                                </div>
+                            </div>
+                            <p class="text-on-surface-variant text-sm mb-4">DuSable Harbor, Chicago</p>
+                            <div class="flex gap-4 mb-6">
+                                <div
+                                    class="flex items-center gap-1 text-xs uppercase tracking-widest text-on-surface-variant font-semibold">
+                                    <span class="material-symbols-outlined text-secondary text-sm"
+                                        data-icon="group">group</span> 8 Guests
+                                </div>
+                                <div
+                                    class="flex items-center gap-1 text-xs uppercase tracking-widest text-on-surface-variant font-semibold">
+                                    <span class="material-symbols-outlined text-secondary text-sm"
+                                        data-icon="straighten">straighten</span> 50ft
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-end">
+                                <div>
+                                    <span class="text-lg font-bold text-on-surface">$1,200</span>
+                                    <span class="text-sm text-on-surface-variant">/ day</span>
+                                </div>
+                                <button
+                                    class="rounded-full bg-surface-container text-on-surface px-4 py-2 text-sm font-semibold hover:bg-primary-container hover:text-on-primary-container transition-colors">View
+                                    Details</button>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+                <!-- Pagination -->
+                <div class="flex justify-center items-center gap-2 mt-12">
+                    <button
+                        class="w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container transition-colors disabled:opacity-50"
+                        disabled="">
+                        <span class="material-symbols-outlined" data-icon="chevron_left">chevron_left</span>
+                    </button>
+                    <button
+                        class="w-10 h-10 rounded-full flex items-center justify-center bg-primary text-on-primary font-semibold">1</button>
+                    <button
+                        class="w-10 h-10 rounded-full flex items-center justify-center text-on-surface hover:bg-surface-container transition-colors font-semibold">2</button>
+                    <button
+                        class="w-10 h-10 rounded-full flex items-center justify-center text-on-surface hover:bg-surface-container transition-colors font-semibold">3</button>
+                    <span class="text-on-surface-variant">...</span>
+                    <button
+                        class="w-10 h-10 rounded-full flex items-center justify-center text-on-surface hover:bg-surface-container transition-colors font-semibold">8</button>
+                    <button
+                        class="w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container transition-colors">
+                        <span class="material-symbols-outlined" data-icon="chevron_right">chevron_right</span>
+                    </button>
+                </div>
+            </section>
+        </div>
+    </main>
+<script>
+  // Make all internal links navigate the parent React app
+  document.addEventListener('click', function(e) {
+    const link = e.target.closest('a[href]');
+    if (!link) return;
+    const href = link.getAttribute('href');
+    if (!href || href.startsWith('http') || href.startsWith('mailto') || href === '#') return;
+    e.preventDefault();
+    window.parent.location.href = href;
+  });
+</script>
+</body>
+
+</html>

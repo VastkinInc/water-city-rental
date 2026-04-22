@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Harbors - Water City Rental</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&amp;family=Noto+Serif:ital,wght@0,400;0,700;1,400;1,700&amp;display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet">
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-low": "#f4f3f1",
+                        "error-container": "#ffdad6",
+                        "tertiary-fixed": "#ffe088",
+                        "inverse-primary": "#ffb59c",
+                        "primary": "#a43c12",
+                        "on-secondary-fixed-variant": "#004f56",
+                        "surface-container-high": "#e9e8e5",
+                        "on-surface": "#1a1c1a",
+                        "error": "#ba1a1a",
+                        "surface-bright": "#faf9f6",
+                        "secondary-container": "#9ff0fb",
+                        "secondary": "#006972",
+                        "on-background": "#1a1c1a",
+                        "on-surface-variant": "#57423b",
+                        "on-primary-fixed-variant": "#822800",
+                        "on-tertiary-container": "#483800",
+                        "inverse-surface": "#2f312f",
+                        "inverse-on-surface": "#f2f1ee",
+                        "secondary-fixed": "#9ff0fb",
+                        "on-tertiary-fixed-variant": "#574500",
+                        "on-error": "#ffffff",
+                        "background": "#faf9f6",
+                        "tertiary-container": "#c4a028",
+                        "primary-container": "#ff7f50",
+                        "on-primary-fixed": "#380c00",
+                        "surface-tint": "#a43c12",
+                        "on-secondary": "#ffffff",
+                        "outline": "#8b7169",
+                        "outline-variant": "#dec0b6",
+                        "on-tertiary-fixed": "#241a00",
+                        "surface-dim": "#dbdad7",
+                        "tertiary-fixed-dim": "#e9c349",
+                        "surface-container-highest": "#e3e2e0",
+                        "primary-fixed-dim": "#ffb59c",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-fixed-dim": "#82d3de",
+                        "surface": "#faf9f6",
+                        "surface-container": "#efeeeb",
+                        "on-primary": "#ffffff",
+                        "tertiary": "#735c00",
+                        "on-error-container": "#93000a",
+                        "on-secondary-container": "#066f79",
+                        "on-primary-container": "#6c2000",
+                        "primary-fixed": "#ffdbcf",
+                        "on-tertiary": "#ffffff",
+                        "surface-variant": "#e3e2e0",
+                        "on-secondary-fixed": "#001f23"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {},
+                    "fontFamily": {
+                        "headline": [
+                            "Noto Serif"
+                        ],
+                        "body": [
+                            "Manrope"
+                        ],
+                        "label": [
+                            "Manrope"
+                        ]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-family: 'Material Symbols Outlined';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 24px;
+            line-height: 1;
+            letter-spacing: normal;
+            text-transform: none;
+            display: inline-block;
+            white-space: nowrap;
+            word-wrap: normal;
+            direction: ltr;
+            -webkit-font-feature-settings: 'liga';
+            -webkit-font-smoothing: antialiased;
+        }
+    </style>
+</head>
+
+<body
+    class="bg-background text-on-background font-body antialiased selection:bg-primary-container selection:text-on-primary-container">
+    <!-- TopNavBar -->
+    <nav
+        class="fixed top-0 w-full z-50 bg-stone-50/80 backdrop-blur-2xl dark:bg-stone-950/80 shadow-[0_32px_64px_rgba(26,28,26,0.04)] no-border bg-opacity-90 transition-all duration-300">
+        <div class="flex justify-between items-center px-8 py-5 max-w-screen-2xl mx-auto">
+            <div class="flex items-center gap-4 cursor-pointer scale-95 active:scale-100 transition-transform">
+                <span class="text-2xl font-serif italic font-bold text-stone-900 dark:text-stone-50" style=""><a
+                        class="font-serif italic text-2xl text-stone-900 cursor-text"
+                        href="https://app-companion-430619.appspot.com/u/1/projects/17590694669951386828?pli=1&amp;hl=en&amp;usegapi=1&amp;jsh=m%3B%2F_%2Fscs%2Fabc-static%2F_%2Fjs%2Fk%3Dgapi.lb.en.PJsh2cctCQI.O%2Fd%3D1%2Frs%3DAHpOoo_QlMhY2cycn60Rs8eI1WInRwuahw%2Fm%3D__features__#"
+                        spellcheck="false" data-stitch-added-classes="cursor-text"
+                        style="--tw-border-spacing-y: 0; --tw-translate-x: 0; --tw-translate-y: 0; --tw-rotate: 0; --tw-skew-x: 0; --tw-skew-y: 0; --tw-scale-x: 1; --tw-scale-y: 1; --tw-pan-x: ; --tw-pan-y: ; --tw-pinch-zoom: ; --tw-scroll-snap-strictness: proximity; --tw-gradient-from-position: ; --tw-gradient-via-position: ; --tw-gradient-to-position: ; --tw-ordinal: ; --tw-slashed-zero: ; --tw-numeric-figure: ; --tw-numeric-spacing: ; --tw-numeric-fraction: ; --tw-ring-inset: ; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgb(59 130 246 / 0.5); --tw-ring-offset-shadow: 0 0 #0000; --tw-ring-shadow: 0 0 #0000; --tw-shadow: 0 0 #0000; --tw-shadow-colored: 0 0 #0000; --tw-blur: ; --tw-brightness: ; --tw-contrast: ; --tw-grayscale: ; --tw-hue-rotate: ; --tw-invert: ; --tw-saturate: ; --tw-sepia: ; --tw-drop-shadow: ; --tw-backdrop-blur: ; --tw-backdrop-brightness: ; --tw-backdrop-contrast: ; --tw-backdrop-grayscale: ; --tw-backdrop-hue-rotate: ; --tw-backdrop-invert: ; --tw-backdrop-opacity: ; --tw-backdrop-saturate: ; --tw-backdrop-sepia: ; --tw-contain-size: ; --tw-contain-layout: ; --tw-contain-paint: ; --tw-contain-style: ; color: rgb(28, 25, 23); --tw-text-opacity: 1; font-weight: 400; background-color: rgba(250, 249, 246, 0.8); outline: none !important;">Water
+                        City Rental</a></span>
+            </div>
+            <div class="hidden md:flex gap-8 items-center">
+                <a class="text-stone-600 dark:text-stone-400 hover:text-orange-500 font-medium hover:opacity-80 transition-all duration-300"
+                    href="/boats" style="">Charters</a>
+                <a class="text-orange-700 dark:text-orange-400 font-bold border-b-2 border-orange-600 pb-1 hover:opacity-80 transition-all duration-300"
+                    href="/harbors" style="">Harbors</a>
+                <a class="text-stone-600 dark:text-stone-400 hover:text-orange-500 font-medium hover:opacity-80 transition-all duration-300"
+                    href="/events" style="">Events</a>
+                <a class="text-stone-600 dark:text-stone-400 hover:text-orange-500 font-medium hover:opacity-80 transition-all duration-300"
+                    href="/concierge" style="">Concierge</a>
+            </div>
+            <div class="flex items-center gap-4">
+                <button
+                    class="bg-primary-container text-on-primary-container hover:opacity-80 transition-all duration-300 font-body font-medium px-6 py-2 rounded-full scale-95 active:scale-100 shadow-sm flex items-center gap-2"
+                    style="">
+                    Book Now
+                </button>
+            </div>
+        </div>
+    </nav>
+    <!-- Main Content -->
+    <main class="pt-24 pb-20">
+        <!-- Hero Section -->
+        <section
+            class="relative w-full h-[716px] min-h-[500px] flex items-center justify-center overflow-hidden bg-surface-container-highest">
+            <img alt="Chicago skyline and harbor at sunset"
+                class="absolute inset-0 w-full h-full object-cover object-center"
+                data-alt="Cinematic aerial view of a luxury boat harbor in Chicago at golden hour with yachts and the city skyline."
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuD2PBrb6NUZQ9CKjpIWD1OMEUt2f_RjlVMY0s17e_oIvEi_7i9J80KsDKiquGwFnsKsMfDidw4rwHsrC8GmW6sQ_OYBbiEhYLYQohxfamBzwR8v_wwNF_jhDfVT1bHOCmoFLsCYv3N9lysLXeyj0GdugA0IcTwLJ1YKOJFwXNuy7SXlpkmVR1aQRjXwiqYK9A8G8-nM9EbEGW8hi74C5VhauFUPWCXwxyDp_1sebHQmcPbWZ9j7ZNOWw3DHqekI7_APOH4ylfOEQb4L"
+                style="">
+            <div class="absolute inset-0 bg-gradient-to-t from-on-background/80 via-on-background/40 to-transparent">
+            </div>
+            <div class="relative z-10 text-center px-6 max-w-4xl mx-auto flex flex-col items-center gap-6 mt-16">
+                <h1 class="text-5xl md:text-7xl font-headline text-surface font-bold tracking-tight drop-shadow-md"
+                    style="">
+                    Chicago's Premier <span class="italic font-normal" style="">Harbors</span>
+                </h1>
+                <p class="text-xl md:text-2xl font-headline italic text-surface-container-low drop-shadow-sm font-light max-w-2xl"
+                    style="">
+                    Six world-class marinas. One unforgettable city.
+                </p>
+            </div>
+        </section>
+        <!-- Harbors Grid Section -->
+        <section class="max-w-screen-xl mx-auto px-6 py-24">
+            <div class="flex flex-col items-center text-center mb-16 gap-4">
+                <h2 class="text-4xl md:text-5xl font-headline text-on-surface font-bold tracking-tight" style="">Explore
+                    Our Harbors</h2>
+                <p class="text-lg font-body text-on-surface-variant max-w-2xl" style="">Find your perfect departure
+                    point along the iconic Chicago shoreline.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
+                <!-- Harbor 1 -->
+                <article
+                    class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0_32px_64px_rgba(26,28,26,0.04)] group hover:shadow-[0_40px_80px_rgba(26,28,26,0.06)] transition-all duration-500">
+                    <div class="h-64 overflow-hidden relative">
+                        <img alt="Monroe Harbor"
+                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                            data-alt="Aerial view of Monroe Harbor in Chicago filled with white sailboats against the downtown city skyline on a sunny day"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFH4YoBQBrCdsRFFSUgvX3BydU795NKTAPsNsPF-PX1UGO_rcCM_oKg_AnOTFqX83NTLDq5N-11bpJJGA0_ozMkbPHjCHulaWVT6yXGvt-ixVUO9msHb6SwZuOABZzmSQPzzrTvEGbOPOgzPQ9kYy4lQHhOqUzEnII1vRdsE5QEUn78aY0GyLm9j7RyKNyVEf81KAkaZioDXF1_nLEsWP7xhHdAR6ZJFoGfZ6CT7VRrZBWplnaQalBz0wWUa7WKIW9qdmQfaP7wt7B"
+                            style="">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                        </div>
+                    </div>
+                    <div class="p-8 flex flex-col gap-6">
+                        <div>
+                            <h3 class="text-2xl font-headline font-bold text-on-surface mb-2" style="">Monroe Harbor
+                            </h3>
+                            <p class="text-on-surface-variant font-body mb-4" style="">Downtown Chicago</p>
+                            <div class="flex items-center gap-2 text-primary font-body text-sm uppercase tracking-widest font-semibold bg-primary/5 w-fit px-3 py-1 rounded-full"
+                                style="">
+                                <span class="material-symbols-outlined text-[18px]" style="">directions_boat</span>
+                                48 boats available
+                            </div>
+                        </div>
+                        <button
+                            class="w-full bg-primary-container text-on-primary-container hover:opacity-80 transition-all duration-300 font-body font-medium px-6 py-3 rounded-full flex justify-center items-center gap-2 mt-auto"
+                            style="">
+                            View Boats
+                        </button>
+                    </div>
+                </article>
+                <!-- Harbor 2 -->
+                <article
+                    class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0_32px_64px_rgba(26,28,26,0.04)] group hover:shadow-[0_40px_80px_rgba(26,28,26,0.06)] transition-all duration-500">
+                    <div class="h-64 overflow-hidden relative">
+                        <img alt="Belmont Harbor"
+                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                            data-alt="Serene Belmont Harbor in Chicago surrounded by lush green parks and residential buildings in the background under a blue sky"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJfP_L-p9D12an_5qDCxh_eiczv4hFWMCVMghISSHN9C1hnNCvfLhlrPET56zHHUK9W1ywY42jmgoz6Vq1u_RStJ8wy8D3EJCq5sdzkXnf13SLHYCrwSb14YaVAilZI-Uu8pao_FuPR0lD_wrrKXEy6t2Z4BMYcbLGahFWNyB9EoCfcX2sgEshN5UJZFi6oiSxa7oKKsC3_SKPb4KEmfW7ztotz3ah6QwWmEf1r9eeiJeClNL5e0go5f4r11ivpOYTNQhYPoO-n4lt"
+                            style="">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                        </div>
+                    </div>
+                    <div class="p-8 flex flex-col gap-6">
+                        <div>
+                            <h3 class="text-2xl font-headline font-bold text-on-surface mb-2" style="">Belmont Harbor
+                            </h3>
+                            <p class="text-on-surface-variant font-body mb-4" style="">Lincoln Park</p>
+                            <div class="flex items-center gap-2 text-primary font-body text-sm uppercase tracking-widest font-semibold bg-primary/5 w-fit px-3 py-1 rounded-full"
+                                style="">
+                                <span class="material-symbols-outlined text-[18px]" style="">directions_boat</span>
+                                32 boats available
+                            </div>
+                        </div>
+                        <button
+                            class="w-full bg-primary-container text-on-primary-container hover:opacity-80 transition-all duration-300 font-body font-medium px-6 py-3 rounded-full flex justify-center items-center gap-2 mt-auto"
+                            style="">
+                            View Boats
+                        </button>
+                    </div>
+                </article>
+                <!-- Harbor 3 -->
+                <article
+                    class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0_32px_64px_rgba(26,28,26,0.04)] group hover:shadow-[0_40px_80px_rgba(26,28,26,0.06)] transition-all duration-500">
+                    <div class="h-64 overflow-hidden relative">
+                        <img alt="Diversey Harbor"
+                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                            data-alt="Peaceful view of Diversey Harbor in Chicago with small motorboats docked along the concrete piers surrounded by trees"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuB71GMnfhnBJdj_9a3IxMethUgk6K1siiU09bKGEZ7yfGwID9v_6PJqTEt6nkSOaxcR1uNvoGH_Hp9KyemabA1ndI-N4-_c-1jGDOXZMmnElXTZuuD2ClJmLwlQBZi09eeATKJI-VYObTxEjdwKLNbcRFc0Yy8wsDtDWOiB0jP1VMI5IZ6UEp6qW3xqCenuvkIOKXHqzBJdZOpOMaZitn7TySbxPKJjydnE0hN7TG2bJXVcuT1pbo7hLd6SQPkJDe0fG3nD_WHYX7fp"
+                            style="">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                        </div>
+                    </div>
+                    <div class="p-8 flex flex-col gap-6">
+                        <div>
+                            <h3 class="text-2xl font-headline font-bold text-on-surface mb-2" style="">Diversey Harbor
+                            </h3>
+                            <p class="text-on-surface-variant font-body mb-4" style="">Lakeview</p>
+                            <div class="flex items-center gap-2 text-primary font-body text-sm uppercase tracking-widest font-semibold bg-primary/5 w-fit px-3 py-1 rounded-full"
+                                style="">
+                                <span class="material-symbols-outlined text-[18px]" style="">directions_boat</span>
+                                18 boats available
+                            </div>
+                        </div>
+                        <button
+                            class="w-full bg-primary-container text-on-primary-container hover:opacity-80 transition-all duration-300 font-body font-medium px-6 py-3 rounded-full flex justify-center items-center gap-2 mt-auto"
+                            style="">
+                            View Boats
+                        </button>
+                    </div>
+                </article>
+                <!-- Harbor 4 -->
+                <article
+                    class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0_32px_64px_rgba(26,28,26,0.04)] group hover:shadow-[0_40px_80px_rgba(26,28,26,0.06)] transition-all duration-500">
+                    <div class="h-64 overflow-hidden relative">
+                        <img alt="Burnham Harbor"
+                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                            data-alt="Vibrant wide shot of Burnham Harbor in Chicago with large yachts docked near the city museum campus under clear skies"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuApOyAOjp0fZLeHoFQ4-YwWuMNoPIA62kj393wlE4oBjzPTGpGCvImpW7AkdZaKEAJIrrHwzfo1qxJQF08ntFe7bHj8Pit0nf_J6-hqOMKfgi2Z8Pda7MrlSj0SnKHAoQCa2TupmBEeBq6L8HFAReLXQru4IZVCRcZpSy4buDhVH5EkSCv1Tzv8tD1CtO1p_QlJywekq9TyybGG-7ofva1zBou9-2rJb4StH5eSJhMm4jELQRcoDyu_WWUq45HISzdfy1TVxH9nPqol"
+                            style="">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                        </div>
+                    </div>
+                    <div class="p-8 flex flex-col gap-6">
+                        <div>
+                            <h3 class="text-2xl font-headline font-bold text-on-surface mb-2" style="">Burnham Harbor
+                            </h3>
+                            <p class="text-on-surface-variant font-body mb-4" style="">Museum Campus</p>
+                            <div class="flex items-center gap-2 text-primary font-body text-sm uppercase tracking-widest font-semibold bg-primary/5 w-fit px-3 py-1 rounded-full"
+                                style="">
+                                <span class="material-symbols-outlined text-[18px]" style="">directions_boat</span>
+                                24 boats available
+                            </div>
+                        </div>
+                        <button
+                            class="w-full bg-primary-container text-on-primary-container hover:opacity-80 transition-all duration-300 font-body font-medium px-6 py-3 rounded-full flex justify-center items-center gap-2 mt-auto"
+                            style="">
+                            View Boats
+                        </button>
+                    </div>
+                </article>
+                <!-- Harbor 5 -->
+                <article
+                    class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0_32px_64px_rgba(26,28,26,0.04)] group hover:shadow-[0_40px_80px_rgba(26,28,26,0.06)] transition-all duration-500">
+                    <div class="h-64 overflow-hidden relative">
+                        <img alt="DuSable Harbor"
+                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                            data-alt="Close up view of elegant boats docked tightly at DuSable Harbor in Chicago with modern glass skyscrapers towering immediately behind"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBnGNFR5JEhiO4RAD2QZtzKw-Qqi8XyhtP_sbDJ5cXGQSD5w8yHH1gfKIxOfeIN5G1TIZmliOuue4stf3xXCEKeA-bfmIEGr4olRVhMQTd246cRuHzf5gnyLDrJEfe-9o-w7BVvYqu9e0xivnkNnnjndQuheKXyGnyaAZjLAxpU1YbOKtbeNN_IAfj92CLUaofUrMIlrW0MXiWg0lw4Y1-QuHDeMUPpVS45-HivMSo0wQk_aD4ArPwCMiPDKcmAhdG21i-tVTfF24Yp"
+                            style="">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                        </div>
+                    </div>
+                    <div class="p-8 flex flex-col gap-6">
+                        <div>
+                            <h3 class="text-2xl font-headline font-bold text-on-surface mb-2" style="">DuSable Harbor
+                            </h3>
+                            <p class="text-on-surface-variant font-body mb-4" style="">Near North</p>
+                            <div class="flex items-center gap-2 text-primary font-body text-sm uppercase tracking-widest font-semibold bg-primary/5 w-fit px-3 py-1 rounded-full"
+                                style="">
+                                <span class="material-symbols-outlined text-[18px]" style="">directions_boat</span>
+                                15 boats available
+                            </div>
+                        </div>
+                        <button
+                            class="w-full bg-primary-container text-on-primary-container hover:opacity-80 transition-all duration-300 font-body font-medium px-6 py-3 rounded-full flex justify-center items-center gap-2 mt-auto"
+                            style="">
+                            View Boats
+                        </button>
+                    </div>
+                </article>
+                <!-- Harbor 6 -->
+                <article
+                    class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0_32px_64px_rgba(26,28,26,0.04)] group hover:shadow-[0_40px_80px_rgba(26,28,26,0.06)] transition-all duration-500">
+                    <div class="h-64 overflow-hidden relative">
+                        <img alt="59th Street Harbor"
+                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                            data-alt="Quiet and scenic 59th Street Harbor in Chicago south side with small sailing boats resting on calm water at early morning"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAiR68-y9yPNPF66WwoQsZ7HPooEdlbG6yQnJWUgBPyv7oXeLTQ3h8wakkIbkaO1Z9oW_Y5pOnTzTnadQQs1zUQD_A8uvO7zMMCUONJiWilrfY7dG-aoZYKDeXbMIvzmDLFXMKmlk8PGWlhON4fw4gAbsgWnj5dFYHU0cY_zTyWGxqx_VwhGUVt7OoIAaY7DK_z6bQqK_G1teQaptxpMKguYJ-Rt6dM_rrgkHKOPP9VH3JPTRrv5RQV7lKfEIJT_HazMOJWU-KQXnxa"
+                            style="">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                        </div>
+                    </div>
+                    <div class="p-8 flex flex-col gap-6">
+                        <div>
+                            <h3 class="text-2xl font-headline font-bold text-on-surface mb-2" style="">59th Street
+                                Harbor</h3>
+                            <p class="text-on-surface-variant font-body mb-4" style="">Hyde Park</p>
+                            <div class="flex items-center gap-2 text-primary font-body text-sm uppercase tracking-widest font-semibold bg-primary/5 w-fit px-3 py-1 rounded-full"
+                                style="">
+                                <span class="material-symbols-outlined text-[18px]" style="">directions_boat</span>
+                                12 boats available
+                            </div>
+                        </div>
+                        <button
+                            class="w-full bg-primary-container text-on-primary-container hover:opacity-80 transition-all duration-300 font-body font-medium px-6 py-3 rounded-full flex justify-center items-center gap-2 mt-auto"
+                            style="">
+                            View Boats
+                        </button>
+                    </div>
+                </article>
+            </div>
+        </section>
+        <!-- Map Section -->
+        <section class="w-full bg-surface-container-low py-24 px-6">
+            <div class="max-w-screen-xl mx-auto flex flex-col items-center gap-12">
+                <div class="text-center">
+                    <h2 class="text-4xl md:text-5xl font-headline text-on-surface font-bold tracking-tight mb-4"
+                        style="">Find a Harbor Near You</h2>
+                    <p class="text-lg font-body text-on-surface-variant max-w-2xl" style="">Conveniently located along
+                        the entire Chicago shoreline.</p>
+                </div>
+                <div
+                    class="w-full h-[600px] rounded-2xl overflow-hidden bg-surface-container-highest shadow-[0_32px_64px_rgba(26,28,26,0.04)] relative">
+                    <img alt="Chicago Map" class="w-full h-full object-cover opacity-80"
+                        data-alt="Clean minimal stylized map of Chicago coastline showing water and landmass with soft beige and light blue tones"
+                        data-location="Chicago"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuDc9DL-JvTfUsXteK0nZUudJOZTCM6s2S_xAVDbWNLlHNZL4Sd3r0perZHUBa3geKFBnbpBMX15kyJs0Uso4VUyJNIrmG_M7Pv2ZvUeujHtNSIDNDNq4jj5TQUxjtcBg95g2JR6hUQy0SXmrS7BawB4WzBlVJa2-PIWZBC4f4qvkXfwCX6Ab2LglDC5CfOx5aGxgRSJGYHtHTbcgBTGrFCSCSbNzlZMsmfN29G0E7lozGwdBwzIoUQiVlctoLQQBQWrPVpectON_r_a"
+                        style="">
+                    <!-- Pins would go here in a real app, styled minimally -->
+                    <div class="absolute top-1/4 right-1/3 flex flex-col items-center group cursor-pointer">
+                        <div
+                            class="w-4 h-4 rounded-full bg-primary border-2 border-surface-container-lowest shadow-sm z-10 group-hover:scale-125 transition-transform">
+                        </div>
+                        <div class="bg-surface-container-lowest px-4 py-2 rounded shadow-[0_8px_16px_rgba(26,28,26,0.08)] mt-2 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap text-sm font-headline font-bold text-on-surface absolute top-full pointer-events-none"
+                            style="">
+                            Monroe Harbor
+                        </div>
+                    </div>
+                    <div class="absolute top-1/2 right-1/4 flex flex-col items-center group cursor-pointer">
+                        <div
+                            class="w-4 h-4 rounded-full bg-primary border-2 border-surface-container-lowest shadow-sm z-10 group-hover:scale-125 transition-transform">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Facilities Section -->
+        <section class="max-w-screen-xl mx-auto px-6 py-24">
+            <div class="flex flex-col items-center text-center mb-16 gap-4">
+                <h2 class="text-4xl md:text-5xl font-headline text-on-surface font-bold tracking-tight" style="">
+                    World-Class Marina Facilities</h2>
+                <p class="text-lg font-body text-on-surface-variant max-w-2xl" style="">Experience premium amenities
+                    designed for comfort, convenience, and peace of mind.</p>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Facility 1 -->
+                <div class="bg-surface p-8 rounded-xl flex flex-col items-center text-center gap-4 group">
+                    <div
+                        class="w-16 h-16 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center mb-2 group-hover:scale-110 transition-transform duration-300">
+                        <span class="material-symbols-outlined text-[32px]" style="">anchor</span>
+                    </div>
+                    <h4 class="text-xl font-headline font-bold text-on-surface" style="">Secure Docking</h4>
+                    <p class="text-on-surface-variant font-body text-sm" style="">24/7 monitored slips with premium
+                        power and water hookups.</p>
+                </div>
+                <!-- Facility 2 -->
+                <div class="bg-surface p-8 rounded-xl flex flex-col items-center text-center gap-4 group">
+                    <div
+                        class="w-16 h-16 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center mb-2 group-hover:scale-110 transition-transform duration-300">
+                        <span class="material-symbols-outlined text-[32px]" style="">local_gas_station</span>
+                    </div>
+                    <h4 class="text-xl font-headline font-bold text-on-surface" style="">Fueling Station</h4>
+                    <p class="text-on-surface-variant font-body text-sm" style="">High-speed diesel and premium marine
+                        gasoline available dockside.</p>
+                </div>
+                <!-- Facility 3 -->
+                <div class="bg-surface p-8 rounded-xl flex flex-col items-center text-center gap-4 group">
+                    <div
+                        class="w-16 h-16 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center mb-2 group-hover:scale-110 transition-transform duration-300">
+                        <span class="material-symbols-outlined text-[32px]" style="">support_agent</span>
+                    </div>
+                    <h4 class="text-xl font-headline font-bold text-on-surface" style="">Concierge Desk</h4>
+                    <p class="text-on-surface-variant font-body text-sm" style="">Dedicated staff to assist with
+                        provisioning, ice, and local reservations.</p>
+                </div>
+                <!-- Facility 4 -->
+                <div class="bg-surface p-8 rounded-xl flex flex-col items-center text-center gap-4 group">
+                    <div
+                        class="w-16 h-16 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center mb-2 group-hover:scale-110 transition-transform duration-300">
+                        <span class="material-symbols-outlined text-[32px]" style="">directions_car</span>
+                    </div>
+                    <h4 class="text-xl font-headline font-bold text-on-surface" style="">Valet Parking</h4>
+                    <p class="text-on-surface-variant font-body text-sm" style="">Seamless arrival with dedicated marina
+                        parking and dock cart service.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+    <!-- Footer -->
+    <footer class="w-full py-12 bg-stone-100 dark:bg-stone-900 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-8 flex flex-col md:flex-row justify-between items-center gap-8">
+            <div class="text-lg font-serif italic text-stone-800 dark:text-stone-200" style="">
+                Water City Rental
+            </div>
+            <div
+                class="flex flex-wrap justify-center gap-6 md:gap-8 font-sans text-xs uppercase tracking-[0.05em] text-stone-500 dark:text-stone-500">
+                <a class="hover:text-stone-900 dark:hover:text-stone-100 transition-colors opacity-100 hover:opacity-70"
+                    href="#" style="">Privacy Policy</a>
+                <a class="hover:text-stone-900 dark:hover:text-stone-100 transition-colors opacity-100 hover:opacity-70"
+                    href="#" style="">Terms of Service</a>
+                <a class="hover:text-stone-900 dark:hover:text-stone-100 transition-colors opacity-100 hover:opacity-70"
+                    href="#" style="">Vessel Safety</a>
+                <a class="hover:text-stone-900 dark:hover:text-stone-100 transition-colors opacity-100 hover:opacity-70"
+                    href="#" style="">Contact</a>
+            </div>
+            <div class="font-sans text-xs uppercase tracking-[0.05em] text-stone-500 dark:text-stone-500 text-center md:text-right"
+                style="">
+                © 2024 Water City Rental. The Golden Hour Collection.
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto px-8">
+            <div class="bg-stone-200 dark:bg-stone-800 h-px w-full my-8"></div>
+        </div>
+    </footer>
+<script>
+  // Make all internal links navigate the parent React app
+  document.addEventListener('click', function(e) {
+    const link = e.target.closest('a[href]');
+    if (!link) return;
+    const href = link.getAttribute('href');
+    if (!href || href.startsWith('http') || href.startsWith('mailto') || href === '#') return;
+    e.preventDefault();
+    window.parent.location.href = href;
+  });
+</script>
+</body>
+
+</html>
