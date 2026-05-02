@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>List Your Boat - Recommended Captain | Water City Rental</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,300;0,400;0,700;1,300;1,400&amp;family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-container": "#ff7f50",
+                        "on-background": "#1a1c1a",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-container": "#483800",
+                        "on-surface-variant": "#57423b",
+                        "tertiary-fixed-dim": "#e9c349",
+                        "inverse-surface": "#2f312f",
+                        "inverse-on-surface": "#f2f1ee",
+                        "secondary-container": "#9ff0fb",
+                        "on-primary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "primary-fixed": "#ffdbcf",
+                        "primary": "#a43c12",
+                        "secondary": "#006972",
+                        "on-primary-container": "#6c2000",
+                        "outline": "#8b7169",
+                        "on-secondary-container": "#066f79",
+                        "outline-variant": "#dec0b6",
+                        "error-container": "#ffdad6",
+                        "surface-container-highest": "#e3e2e0",
+                        "surface": "#faf9f6",
+                        "on-secondary-fixed": "#001f23",
+                        "background": "#faf9f6",
+                        "secondary-fixed": "#9ff0fb",
+                        "inverse-primary": "#ffb59c",
+                        "on-primary-fixed": "#380c00",
+                        "on-tertiary-fixed-variant": "#574500",
+                        "on-secondary": "#ffffff",
+                        "surface-dim": "#dbdad7",
+                        "tertiary-fixed": "#ffe088",
+                        "surface-tint": "#a43c12",
+                        "secondary-fixed-dim": "#82d3de",
+                        "tertiary-container": "#c4a028",
+                        "on-tertiary-fixed": "#241a00",
+                        "surface-container-low": "#f4f3f1",
+                        "error": "#ba1a1a",
+                        "surface-variant": "#e3e2e0",
+                        "primary-fixed-dim": "#ffb59c",
+                        "surface-container-high": "#e9e8e5",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-fixed-variant": "#822800",
+                        "surface-container": "#efeeeb",
+                        "tertiary": "#735c00",
+                        "surface-bright": "#faf9f6",
+                        "on-surface": "#1a1c1a",
+                        "on-secondary-fixed-variant": "#004f56",
+                        "on-error-container": "#93000a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Noto Serif", "serif"],
+                        "display": ["Noto Serif", "serif"],
+                        "body": ["Manrope", "sans-serif"],
+                        "label": ["Manrope", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Manrope', sans-serif; background-color: #faf9f6; color: #1a1c1a; }
+        h1, h2, h3, .font-serif { font-family: 'Noto Serif', serif; }
+        .ambient-shadow { box-shadow: 0 32px 64px rgba(26,28,26,0.06); }
+        .glass-panel { background: rgba(250, 249, 246, 0.7); backdrop-filter: blur(24px); }
+        [data-recommended-captain].selected {
+            border: 2px solid #C4623A;
+            background-color: #FAF7F2;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex antialiased">
+<!-- SideNavBar -->
+<nav class="hidden md:flex flex-col bg-[#e9e8e5] dark:bg-stone-900 text-[#ff7f50] fixed left-0 top-0 h-full w-80 shadow-[32px_0_64px_rgba(26,28,26,0.04)] pt-24 pb-8 z-40 transition-colors duration-300">
+<div class="px-8 mb-12">
+<h2 class="font-serif italic text-[#a43c12] text-xl mb-1">Listing Manager</h2>
+<p class="text-on-surface-variant font-label text-sm opacity-80">Vessel: The Golden Hour</p>
+</div>
+<ul class="flex-1 space-y-2 w-full font-sans uppercase tracking-[0.05em] text-[0.6875rem]">
+<li>
+<a class="flex items-center text-stone-500 dark:text-stone-400 pl-10 py-4 hover:bg-[#faf9f6] dark:hover:bg-stone-800/50 transition-all" href="#">
+<span class="material-symbols-outlined mr-4" style="font-variation-settings: 'FILL' 0;">sailing</span>
+                    Vessel Basics
+                </a>
+</li>
+<li>
+<a class="flex items-center text-stone-500 dark:text-stone-400 pl-10 py-4 hover:bg-[#faf9f6] dark:hover:bg-stone-800/50 transition-all" href="#">
+<span class="material-symbols-outlined mr-4" style="font-variation-settings: 'FILL' 0;">photo_library</span>
+                    Media Gallery
+                </a>
+</li>
+<li>
+<a class="flex items-center text-stone-500 dark:text-stone-400 pl-10 py-4 hover:bg-[#faf9f6] dark:hover:bg-stone-800/50 transition-all" href="#">
+<span class="material-symbols-outlined mr-4" style="font-variation-settings: 'FILL' 0;">description</span>
+                    Listing Details
+                </a>
+</li>
+<li>
+<a class="flex items-center text-stone-500 dark:text-stone-400 pl-10 py-4 hover:bg-[#faf9f6] dark:hover:bg-stone-800/50 transition-all" href="#">
+<span class="material-symbols-outlined mr-4" style="font-variation-settings: 'FILL' 0;">payments</span>
+                    Pricing &amp; Rates
+                </a>
+</li>
+<li>
+<a class="flex items-center bg-[#ffffff] dark:bg-stone-800 text-[#a43c12] dark:text-[#ff7f50] rounded-l-full ml-4 pl-6 py-4 shadow-sm translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined mr-4" style="font-variation-settings: 'FILL' 1;">person_search</span>
+                    Captain Selection
+                </a>
+</li>
+<li>
+<a class="flex items-center text-stone-500 dark:text-stone-400 pl-10 py-4 hover:bg-[#faf9f6] dark:hover:bg-stone-800/50 transition-all" href="#">
+<span class="material-symbols-outlined mr-4" style="font-variation-settings: 'FILL' 0;">verified</span>
+                    Review &amp; Publish
+                </a>
+</li>
+</ul>
+<div class="px-8 mt-auto">
+<button class="w-full py-4 px-6 rounded-full bg-surface-container-lowest text-primary font-label text-sm uppercase tracking-widest border border-outline-variant/30 hover:bg-surface-container-high transition-colors ambient-shadow" onclick="window.parent.location.href='/my-boats'">
+                Preview Listing
+            </button>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-1 md:ml-80 min-h-screen pb-24 relative overflow-x-hidden">
+<!-- TopAppBar Placeholder for semantic separation if needed, though mostly visual breath here -->
+<header class="w-full h-24 flex items-center justify-end px-12 z-30 relative">
+<button class="flex items-center space-x-2 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">help_outline</span>
+<span class="font-label text-sm">Help</span>
+</button>
+</header>
+<div class="max-w-4xl mx-auto px-6 md:px-12 xl:px-16 mt-8">
+<!-- Step Indicator -->
+<div class="mb-12">
+<p class="font-label text-label-sm uppercase tracking-[0.05em] text-primary mb-2">Step 5 of 6</p>
+<div class="flex items-center space-x-2 w-full max-w-md">
+<div class="h-1 flex-1 bg-primary/20 rounded-full overflow-hidden">
+<div class="h-full bg-primary-container w-[83%] rounded-full"></div>
+</div>
+</div>
+</div>
+<!-- Header Section -->
+<div class="mb-16">
+<h1 class="font-headline text-display-lg text-on-background tracking-tight mb-4 leading-none">
+                    Select a <i class="text-primary italic">Captain</i>
+</h1>
+<p class="font-body text-title-md text-on-surface-variant max-w-2xl leading-relaxed">
+                    A recommended captain provides peace of mind for your guests. Choose an experienced professional to represent your vessel.
+                </p>
+</div>
+<!-- Captain List Container -->
+<div class="space-y-6 mb-16 relative">
+<!-- Card 1 (Selected State) -->
+<div class="relative bg-surface-container-lowest rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center gap-6 cursor-pointer group ambient-shadow transition-all duration-300 transform md:hover:-translate-y-1 selected" data-recommended-captain="marco" onclick="selectRecommendedCaptain('marco')">
+<!-- Subtle Selection Highlight via Background shift and soft border -->
+<div class="absolute inset-0 bg-primary-container/5 rounded-2xl border border-primary/20 pointer-events-none"></div>
+<div class="w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden shrink-0 shadow-sm relative z-10 bg-surface-container">
+<img alt="Captain portrait" class="w-full h-full object-cover" data-alt="A portrait of a weathered but friendly middle-aged man with a neat beard, wearing a classic white captain's shirt with epaulets. He stands against a softly blurred background of a marina at golden hour. The warm sunset light highlights his features, projecting a sense of nautical experience and approachability." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC3Zp2WcNfbSnegfpweB7ChmQTOGU1GeH168_E8xJI7gZ3ALRHv4wE0a58QbLZcF8fiySNWo4GVKr6fVMrWilNbMlSidj0hrmwpYQkCrp6qdrm6GFIVqgGP-LwmkDEONW9rYCym1kXbW05d4KIdqZFmA6Tgk0u3_vROj7JDh5Gsn6fLEUbFhqUWCLDhlmqEbBudCBu6uXgN8VBrUPMaN4Q0dc4qUwHJ8hOGnt5o7a0CID1_GdyY2VFSywEXcnVMC2PR1Dwr84BW2_X1"/>
+</div>
+<div class="flex-1 relative z-10">
+<div class="flex flex-wrap items-center gap-3 mb-2">
+<h3 class="font-headline text-2xl text-on-background font-semibold">Capt. Marco Rossi</h3>
+<div class="flex items-center bg-surface-container px-2 py-1 rounded-full">
+<span class="material-symbols-outlined text-primary text-sm mr-1" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label text-xs font-bold text-on-surface">4.9</span>
+</div>
+<span class="font-label text-xs uppercase tracking-wider text-on-surface-variant bg-surface px-2 py-1 rounded">12 yrs exp</span>
+</div>
+<p class="font-body text-on-surface-variant mb-4">"USCG licensed Lake Michigan specialist with a passion for architectural tours."</p>
+</div>
+<div class="flex flex-col items-end md:ml-auto relative z-10 border-t md:border-t-0 md:border-l border-outline-variant/20 pt-4 md:pt-0 md:pl-6 w-full md:w-auto">
+<p class="font-headline text-2xl text-primary font-bold mb-1">$240<span class="text-sm font-normal text-on-surface-variant">/day</span></p>
+<p class="font-label text-sm text-on-surface-variant mb-4">$40/hr</p>
+<button class="bg-primary text-on-primary rounded-full p-2 h-10 w-10 flex items-center justify-center shadow-md">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">check</span>
+</button>
+</div>
+</div>
+<!-- Card 2 (Unselected) -->
+<div class="relative bg-surface-container-low rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center gap-6 cursor-pointer group hover:bg-surface-container-lowest transition-all duration-300" data-recommended-captain="sofia" onclick="selectRecommendedCaptain('sofia')">
+<div class="w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden shrink-0 shadow-sm relative z-10 bg-surface-container">
+<img alt="Captain portrait" class="w-full h-full object-cover grayscale-[20%] group-hover:grayscale-0 transition-all" data-alt="A portrait of a confident female professional in her late 30s wearing a navy blue polo shirt. She is standing on the deck of a yacht with the open sea behind her. The lighting is bright and clear, reflecting a modern, capable maritime professional ready for a charter." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDWNNgSzEpmfqYObZ7hIWa1qzt2vjjUi_WP-6AefP0mlvJjOEvqMjnH8pRFHlZaSfKnGg6FMnS-JlepAuiwJsfZoN4blL7f9Q2Ot-mYXiacVtdYh7EC-1HEzsgQHX_7j6E1Nri1AeV3ZsZNcXnKvhut4L-ROYFuEUJ9Ks29yHeJMTGTdFO5zOZ4hP5Oi4S2hjmMMYVVBVz7XI68hN9hCekHW19eyjWvxD5_GT_MSynxeaLs1t2a62fy5jEuIIZS7ALfoyrz4hy-iKcS"/>
+</div>
+<div class="flex-1 relative z-10">
+<div class="flex flex-wrap items-center gap-3 mb-2">
+<h3 class="font-headline text-2xl text-on-background font-semibold">Capt. Sofia Martinez</h3>
+<div class="flex items-center bg-surface-container px-2 py-1 rounded-full">
+<span class="material-symbols-outlined text-primary text-sm mr-1" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label text-xs font-bold text-on-surface">4.8</span>
+</div>
+<span class="font-label text-xs uppercase tracking-wider text-on-surface-variant bg-surface px-2 py-1 rounded">8 yrs exp</span>
+</div>
+<p class="font-body text-on-surface-variant mb-4">"Fluent in 3 languages, sunset cruise expert and local marine wildlife guide."</p>
+</div>
+<div class="flex flex-col items-end md:ml-auto relative z-10 border-t md:border-t-0 md:border-l border-outline-variant/20 pt-4 md:pt-0 md:pl-6 w-full md:w-auto">
+<p class="font-headline text-2xl text-on-background font-bold mb-1">$200<span class="text-sm font-normal text-on-surface-variant">/day</span></p>
+<p class="font-label text-sm text-on-surface-variant mb-4">$35/hr</p>
+<button class="border border-outline text-on-surface rounded-full px-6 py-2 font-label text-sm hover:bg-surface-variant transition-colors">
+                             Select
+                        </button>
+</div>
+</div>
+<!-- Card 3 (Unselected) -->
+<div class="relative bg-surface-container-low rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center gap-6 cursor-pointer group hover:bg-surface-container-lowest transition-all duration-300" data-recommended-captain="james" onclick="selectRecommendedCaptain('james')">
+<div class="w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden shrink-0 shadow-sm relative z-10 bg-surface-container">
+<img alt="Captain portrait" class="w-full h-full object-cover grayscale-[20%] group-hover:grayscale-0 transition-all" data-alt="A portrait of a stern but professional older man with silver hair, wearing aviator sunglasses and a crisp white collared shirt. He is outdoors with a blurred coastal background. The lighting highlights his strong jawline, conveying deep experience and a flawless safety record on the water." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdIo-dkJqsW_BlfpvFc9aG__k5bWt9vZ7zLKQrgwHT8Bud0StphG43PDxNP9nUPSnIRzrF52gt7GzYFIUK4XoXcVJGTE9aU1Gh4ru-241ktulnUyL0wSdZrTYVNvOMJuBTBhR6lQqt2iBSzdmV0X7ASyCV5jwtneifJ0T_wlMCwiRl_hciAMKXVznCZ6NafG1R73sPhMqCjBw8IlqCgD8a316UbmsVF6flrYOC86kTFN2JC49UeuBaG-hE4RZ-udeqXpzYqjQfDBop"/>
+</div>
+<div class="flex-1 relative z-10">
+<div class="flex flex-wrap items-center gap-3 mb-2">
+<h3 class="font-headline text-2xl text-on-background font-semibold">Capt. James Chen</h3>
+<div class="flex items-center bg-surface-container px-2 py-1 rounded-full">
+<span class="material-symbols-outlined text-primary text-sm mr-1" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label text-xs font-bold text-on-surface">5.0</span>
+</div>
+<span class="font-label text-xs uppercase tracking-wider text-on-surface-variant bg-surface px-2 py-1 rounded">15 yrs exp</span>
+</div>
+<p class="font-body text-on-surface-variant mb-4">"Former Coast Guard, perfect safety record. Ideal for larger vessels."</p>
+</div>
+<div class="flex flex-col items-end md:ml-auto relative z-10 border-t md:border-t-0 md:border-l border-outline-variant/20 pt-4 md:pt-0 md:pl-6 w-full md:w-auto">
+<p class="font-headline text-2xl text-on-background font-bold mb-1">$280<span class="text-sm font-normal text-on-surface-variant">/day</span></p>
+<p class="font-label text-sm text-on-surface-variant mb-4">$45/hr</p>
+<button class="border border-outline text-on-surface rounded-full px-6 py-2 font-label text-sm hover:bg-surface-variant transition-colors">
+                             Select
+                        </button>
+</div>
+</div>
+<!-- Card 4 (Unselected) -->
+<div class="relative bg-surface-container-low rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center gap-6 cursor-pointer group hover:bg-surface-container-lowest transition-all duration-300" data-recommended-captain="diana" onclick="selectRecommendedCaptain('diana')">
+<div class="w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden shrink-0 shadow-sm relative z-10 bg-surface-container flex items-center justify-center text-stone-500 font-bold text-lg">DW</div>
+<div class="flex-1 relative z-10">
+<div class="flex flex-wrap items-center gap-3 mb-2">
+<h3 class="font-headline text-2xl text-on-background font-semibold">Capt. Diana Webb</h3>
+<div class="flex items-center bg-surface-container px-2 py-1 rounded-full">
+<span class="material-symbols-outlined text-primary text-sm mr-1" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label text-xs font-bold text-on-surface">4.7</span>
+</div>
+<span class="font-label text-xs uppercase tracking-wider text-on-surface-variant bg-surface px-2 py-1 rounded">6 yrs exp</span>
+</div>
+<p class="font-body text-on-surface-variant mb-4">"Specializes in family-friendly charters. Patient with first-time sailors."</p>
+</div>
+<div class="flex flex-col items-end md:ml-auto relative z-10 border-t md:border-t-0 md:border-l border-outline-variant/20 pt-4 md:pt-0 md:pl-6 w-full md:w-auto">
+<p class="font-headline text-2xl text-on-background font-bold mb-1">$180<span class="text-sm font-normal text-on-surface-variant">/day</span></p>
+<p class="font-label text-sm text-on-surface-variant mb-4">$30/hr</p>
+<button class="border border-outline text-on-surface rounded-full px-6 py-2 font-label text-sm hover:bg-surface-variant transition-colors">
+                             Select
+                        </button>
+</div>
+</div>
+</div>
+<!-- Bottom Actions & Info -->
+<div class="space-y-8">
+<div class="flex justify-end">
+<a class="font-label text-sm text-primary hover:text-primary-container transition-colors flex items-center gap-1 group" href="#">
+                        Don't see your preferred captain? Invite them to join
+                        <span class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</a>
+</div>
+<!-- Info Box (No line borders, tonal shift only) -->
+<div class="bg-tertiary-container/10 rounded-xl p-6 flex items-start gap-4 relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-2 bg-tertiary"></div>
+<span class="material-symbols-outlined text-tertiary mt-1" style="font-variation-settings: 'FILL' 1;">lightbulb</span>
+<p class="font-body text-on-surface-variant text-sm leading-relaxed max-w-3xl">
+                        Captains keep 100% of their fees. You only earn from the boat rental. Customers can override your recommendation at booking if they prefer another verified professional.
+                    </p>
+</div>
+<!-- Navigation Buttons -->
+<div class="flex items-center justify-between pt-8 border-t border-outline-variant/20 mt-12">
+<button class="flex items-center gap-2 font-label text-on-surface-variant hover:text-primary transition-colors py-3 px-4">
+<span class="material-symbols-outlined text-sm">arrow_back</span>
+                        Back
+                    </button>
+<button class="bg-primary-container text-on-primary-container hover:bg-primary hover:text-on-primary font-label text-sm font-bold uppercase tracking-wider rounded-full px-8 py-4 transition-all duration-300 ambient-shadow flex items-center gap-2 group">
+                        Save &amp; Continue
+                        <span class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</div>
+<div class="flex justify-center pt-4">
+<button class="font-label text-sm text-on-surface-variant hover:text-primary transition-colors py-2 px-4" onclick="window.parent.location.href='/my-boats'">
+                        Cancel
+                    </button>
+</div>
+</div>
+</div>
+</main>
+<script>
+var recommendedCaptainId = 'marco';
+
+function selectRecommendedCaptain(id){
+  recommendedCaptainId = id;
+  var cards = document.querySelectorAll('[data-recommended-captain]');
+  cards.forEach(function(card){
+    card.classList.toggle('selected', card.getAttribute('data-recommended-captain') === id);
+  });
+}
+
+document.addEventListener('DOMContentLoaded', function(){
+  selectRecommendedCaptain('marco');
+});
+</script>
+<script>
+document.addEventListener('click',function(e){
+  var a=e.target.closest('a[href]');
+  if(!a)return;
+  var h=a.getAttribute('href');
+  if(!h||h.startsWith('http')||h==='#')return;
+  e.preventDefault();
+  window.parent.location.href=h;
+});
+</script>
+</body></html>

@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout · Water City Rental</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        primary: '#C4623A',
+        'primary-dark': '#A8512F',
+        cream: '#FAF7F2',
+        navy: '#1A1A2E',
+        gold: '#D4A843',
+        surface: '#F5F0EA',
+        muted: '#6B6560',
+        'on-surface': '#1A1A2E',
+        'on-surface-variant': '#6B6560',
+        'outline-variant': '#D4C5B5',
+      },
+      fontFamily: {
+        serif: ['"Playfair Display"', 'serif'],
+        sans: ['Manrope', 'sans-serif'],
+      },
+    },
+  },
+};
+</script>
+<style>
+  body { font-family: 'Manrope', sans-serif; background-color: #FAF7F2; color: #1A1A2E; }
+  h1, h2, h3, h4, .font-serif { font-family: 'Playfair Display', serif; }
+  .stripe-input {
+    width: 100%;
+    border: 1px solid #E5DED2;
+    border-radius: 6px;
+    padding: 12px 14px;
+    font-size: 15px;
+    background: #fff;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    font-family: 'Manrope', sans-serif;
+    color: #1A1A2E;
+  }
+  .stripe-input:focus {
+    outline: none;
+    border-color: #C4623A;
+    box-shadow: 0 0 0 3px rgba(196,98,58,0.15);
+  }
+  .stripe-input::placeholder { color: #A8A29E; }
+  .field-label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #1A1A2E;
+    margin-bottom: 6px;
+  }
+  .card-logo {
+    height: 18px;
+    width: auto;
+    opacity: 0.85;
+  }
+</style>
+</head>
+<body class="min-h-screen">
+
+<!-- Top bar -->
+<header class="bg-white border-b border-outline-variant/40">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    <a href="/" class="flex items-center gap-2">
+      <span class="material-symbols-outlined text-primary" style='font-variation-settings: "FILL" 1;'>sailing</span>
+      <span class="font-serif text-xl text-navy">Water City Rental</span>
+    </a>
+    <div class="flex items-center gap-2 text-sm text-muted">
+      <span class="material-symbols-outlined text-base">lock</span>
+      Secure checkout
+    </div>
+  </div>
+</header>
+
+<main class="max-w-7xl mx-auto px-6 py-10">
+  <div class="grid grid-cols-1 lg:grid-cols-5 gap-10">
+
+    <!-- LEFT COLUMN — Booking Summary -->
+    <section class="lg:col-span-3">
+      <h1 class="font-serif text-4xl text-navy mb-2">Complete Your Booking</h1>
+      <p class="text-muted text-base mb-8">You're one step away from your day on the water.</p>
+
+      <!-- Boat summary card -->
+      <div class="bg-white rounded-2xl p-5 border border-outline-variant/40 mb-4 flex gap-4">
+        <div class="w-[100px] h-[100px] flex-shrink-0 rounded-xl bg-cover bg-center" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD1y3sWgPFVL3VW5JKBe2KyvVTH-rRT-VNqRZlGsT8U_BdaFrIKmJoxR3UqmzG-Q6-pX6m8Gd_tx6tH3BC78F2C-l4sAqcAPkYxJKn_R5DjvMmRjYFHl7BKt-1jEaPgxyaJMpQHkQK3PYC0KRhJyKFRrDEcJeI1XlOZ3qRtLG1y7B-rgJoY8tCVs-nlqEJX4a3D9Y_aIzpHIcZyhI3v0BlOqHrJFqKkkHuGB-SX-MZSHsbiwMbN5C8kGhLFLg1L8JPp9VJSLP7QXZK3");'></div>
+        <div class="flex-1 min-w-0">
+          <h3 class="font-serif text-xl text-navy" data-summary="boat-name">Azure Serenity</h3>
+          <p class="text-muted text-sm mt-1 flex items-center gap-1">
+            <span class="material-symbols-outlined text-sm">location_on</span>
+            <span data-summary="harbor">Monroe Harbor, Chicago</span>
+          </p>
+          <p class="text-sm text-on-surface mt-2" data-summary="dates-guests">Aug 5 – Aug 7, 2025  ·  4 guests</p>
+        </div>
+      </div>
+
+      <!-- Captain summary card -->
+      <div class="bg-white rounded-2xl p-5 border border-outline-variant/40 mb-6 flex gap-4 items-center">
+        <div class="w-[60px] h-[60px] flex-shrink-0 rounded-full bg-cover bg-center" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCzYV4Q-jPvR8z7iX2nPbLh6pFGUyM1zQYkZ_8yHpVqJxwT3gKjLrM5xD2cN6sP1aB7hRfE9oI_nL4tCxK0VqU8pY3jGmW6sZbA");'></div>
+        <div class="flex-1">
+          <h4 class="font-serif text-lg text-navy" data-summary="captain-name">Capt. Marco Rossi</h4>
+          <p class="text-sm text-muted mt-1">★ 4.9  ·  USCG licensed</p>
+        </div>
+      </div>
+
+      <!-- Price breakdown -->
+      <div class="bg-surface rounded-2xl p-6 border border-outline-variant/40 mb-6">
+        <h3 class="font-serif text-xl text-navy mb-4">Price Breakdown</h3>
+        <div class="space-y-3">
+          <div class="flex justify-between text-sm">
+            <div>
+              <p class="text-on-surface font-medium">Boat rental</p>
+              <p class="text-muted text-xs" data-summary="boat-line">$1,200 × 2 days</p>
+            </div>
+            <span class="text-on-surface font-medium" data-summary="boat-total">$2,400</span>
+          </div>
+          <div class="flex justify-between text-sm">
+            <div>
+              <p class="text-on-surface font-medium">Captain fee</p>
+              <p class="text-muted text-xs" data-summary="captain-line">$240 × 2 days</p>
+            </div>
+            <span class="text-on-surface font-medium" data-summary="captain-total">$480</span>
+          </div>
+          <div class="flex justify-between text-sm">
+            <p class="text-on-surface font-medium">Service fee</p>
+            <span class="text-on-surface font-medium" data-summary="service">$220</span>
+          </div>
+          <div class="border-t border-outline-variant/50 pt-3 mt-3 flex justify-between">
+            <span class="font-bold text-lg text-navy">Total</span>
+            <span class="font-bold text-lg text-navy" data-summary="grand-total">$3,100</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cancellation policy -->
+      <div class="bg-cream border-l-4 border-gold rounded-r-xl p-4 flex gap-3">
+        <span class="material-symbols-outlined text-gold">event_available</span>
+        <div>
+          <h4 class="font-bold text-sm text-navy mb-1">Free cancellation</h4>
+          <p class="text-sm text-muted">Cancel for free until Aug 3, 2025. After that, a 50% fee applies.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- RIGHT COLUMN — Payment Form -->
+    <aside class="lg:col-span-2">
+      <div class="bg-white rounded-2xl border border-outline-variant/40 p-6 lg:sticky lg:top-6 shadow-sm">
+
+        <div class="flex items-center justify-between mb-6">
+          <h2 class="font-serif text-2xl text-navy">Payment Details</h2>
+          <div class="flex items-center gap-1 text-xs text-muted">
+            <span class="material-symbols-outlined text-sm">lock</span>
+            Secure
+          </div>
+        </div>
+
+        <!-- Card information -->
+        <div class="space-y-4 mb-5">
+
+          <div>
+            <label class="field-label">Card number</label>
+            <div class="relative">
+              <input type="text" class="stripe-input pr-32" placeholder="1234 1234 1234 1234" autocomplete="cc-number">
+              <div class="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1.5">
+                <svg class="card-logo" viewBox="0 0 32 20" xmlns="http://www.w3.org/2000/svg"><rect width="32" height="20" rx="3" fill="#1A1F71"/><text x="16" y="14" text-anchor="middle" fill="#fff" font-family="Arial,sans-serif" font-size="8" font-style="italic" font-weight="900">VISA</text></svg>
+                <svg class="card-logo" viewBox="0 0 32 20" xmlns="http://www.w3.org/2000/svg"><rect width="32" height="20" rx="3" fill="#fff" stroke="#E5DED2"/><circle cx="13" cy="10" r="5" fill="#EB001B"/><circle cx="19" cy="10" r="5" fill="#F79E1B" opacity="0.85"/></svg>
+                <svg class="card-logo" viewBox="0 0 32 20" xmlns="http://www.w3.org/2000/svg"><rect width="32" height="20" rx="3" fill="#2E77BB"/><text x="16" y="14" text-anchor="middle" fill="#fff" font-family="Arial,sans-serif" font-size="6" font-weight="900">AMEX</text></svg>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="field-label">Expiration</label>
+              <input type="text" class="stripe-input" placeholder="MM / YY" autocomplete="cc-exp">
+            </div>
+            <div>
+              <label class="field-label">CVC</label>
+              <input type="text" class="stripe-input" placeholder="123" autocomplete="cc-csc">
+            </div>
+          </div>
+
+          <div>
+            <label class="field-label">Cardholder name</label>
+            <input type="text" class="stripe-input" placeholder="Name on card" autocomplete="cc-name">
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="field-label">Country</label>
+              <select class="stripe-input">
+                <option>United States</option>
+                <option>Canada</option>
+                <option>United Kingdom</option>
+                <option>Australia</option>
+                <option>Mexico</option>
+              </select>
+            </div>
+            <div>
+              <label class="field-label">ZIP code</label>
+              <input type="text" class="stripe-input" placeholder="60601" autocomplete="postal-code">
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Billing address -->
+        <div class="mb-6 pb-5 border-b border-outline-variant/40">
+          <label class="flex items-start gap-3 cursor-pointer">
+            <input type="checkbox" checked class="mt-0.5 w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary">
+            <span class="text-sm text-on-surface">Billing address same as cardholder address</span>
+          </label>
+        </div>
+
+        <!-- Pay button -->
+        <button id="pay-button" class="w-full bg-primary text-white py-4 rounded-full font-sans tracking-widest uppercase text-sm font-extrabold hover:bg-primary-dark transition-all active:scale-95 mb-4">
+          Pay <span data-summary="pay-amount">$3,100</span>
+        </button>
+
+        <!-- Security text -->
+        <div class="space-y-2 text-center">
+          <p class="text-xs text-muted flex items-center justify-center gap-1.5">
+            <span class="material-symbols-outlined text-sm">lock</span>
+            Your payment info is encrypted and secure
+          </p>
+          <div class="flex items-center justify-center gap-2 text-xs text-muted">
+            <span>Powered by</span>
+            <svg width="40" height="16" viewBox="0 0 60 25" xmlns="http://www.w3.org/2000/svg"><path fill="#635BFF" d="M59.5 14.4c0-4.6-2.2-8.1-6.4-8.1-4.3 0-6.9 3.6-6.9 8.1 0 5.4 3 8.1 7.4 8.1 2.1 0 3.7-.5 5-1.2v-3.8c-1.2.6-2.7 1-4.5 1-1.8 0-3.4-.6-3.6-2.8h9c0-.2.1-1 .1-1.3zm-9.1-1.7c0-2.1 1.3-3 2.5-3 1.1 0 2.3.9 2.3 3h-4.8zM39.7 6.3c-1.7 0-2.9.8-3.5 1.4l-.2-1.1h-3.9V25l4.4-.9v-4.5c.7.5 1.7 1.2 3.3 1.2 3.3 0 6.4-2.7 6.4-8.3 0-5.2-3.1-7.9-6.5-8.2zm-1 12.5c-1.1 0-1.8-.4-2.2-.9V11.1c.5-.5 1.2-.9 2.2-.9 1.7 0 2.9 1.9 2.9 4.3 0 2.4-1.1 4.3-2.9 4.3zM30 6.6h-4.4v15.5H30V6.6zm-4.4-1.3l4.4-.9V0l-4.4.9v4.4zm-4.6 2.6L20.7 6.6h-3.8v15.5h4.4V11.6c1-1.4 2.7-1.1 3.3-.9V6.6c-.6-.2-2.7-.5-3.6 1.3zm-8.5-5L8.4 4l0 14.1c0 2.6 2 4.5 4.6 4.5 1.4 0 2.5-.3 3-.6V18.4c-.6.2-3.6 1.1-3.6-1.5v-6.4h3.6V6.6h-3.6V2.9zM4.4 11.1c0-.7.6-1 1.5-1 1.3 0 3 .4 4.4 1.1V7.1c-1.4-.6-2.9-.8-4.4-.8C2.3 6.3 0 8.2 0 11.4c0 5 6.7 4.2 6.7 6.4 0 .8-.7 1.1-1.7 1.1-1.5 0-3.4-.6-4.9-1.4v4.2c1.7.7 3.4 1 4.9 1 3.7 0 6.1-1.8 6.1-5C11.1 12.3 4.4 13.3 4.4 11.1z"/></svg>
+          </div>
+          <div class="flex items-center justify-center gap-2 pt-3 text-[10px] text-muted uppercase tracking-wider">
+            <span class="flex items-center gap-1"><span class="material-symbols-outlined text-xs">verified_user</span>SSL Secured</span>
+            <span class="text-outline-variant">·</span>
+            <span>256-bit encryption</span>
+            <span class="text-outline-variant">·</span>
+            <span>PCI compliant</span>
+          </div>
+        </div>
+
+      </div>
+    </aside>
+
+  </div>
+</main>
+
+<script>
+var booking = JSON.parse(localStorage.getItem('wcr_booking') || '{}');
+
+var data = {
+  boatName:    booking.boatName    || 'Azure Serenity',
+  boatPhoto:   booking.boatPhoto   || '/boats/azure-serenity.jpg',
+  harbor:      booking.harbor      || 'Monroe Harbor, Chicago',
+  dates:       booking.dates       || 'Aug 5 – Aug 7, 2025',
+  guests:      booking.guests      || 4,
+  boatRate:    booking.boatRate    || 1200,
+  days:        booking.days        || 2,
+  captainName: booking.captainName || 'Capt. Marco Rossi',
+  captainRate: booking.captainRate || 240,
+  serviceFee:  220
+};
+
+var boatTotal    = data.boatRate    * data.days;
+var captainTotal = data.captainRate * data.days;
+var grandTotal   = boatTotal + captainTotal + data.serviceFee;
+
+function setText(sel, val){
+  var el = document.querySelector(sel);
+  if(el) el.textContent = val;
+}
+setText('[data-summary="boat-name"]',    data.boatName);
+setText('[data-summary="harbor"]',       data.harbor);
+setText('[data-summary="dates-guests"]', data.dates + '  ·  ' + data.guests + ' guests');
+setText('[data-summary="captain-name"]', data.captainName);
+setText('[data-summary="boat-line"]',    '$'+data.boatRate.toLocaleString()+' × '+data.days+' days');
+setText('[data-summary="boat-total"]',   '$'+boatTotal.toLocaleString());
+setText('[data-summary="captain-line"]', '$'+data.captainRate+' × '+data.days+' days');
+setText('[data-summary="captain-total"]','$'+captainTotal.toLocaleString());
+setText('[data-summary="service"]',      '$'+data.serviceFee);
+setText('[data-summary="grand-total"]',  '$'+grandTotal.toLocaleString());
+setText('[data-summary="pay-amount"]',   '$'+grandTotal.toLocaleString());
+
+function processFakePayment(){
+  var btn = document.getElementById('pay-button');
+  if(!btn) return;
+  btn.disabled = true;
+  btn.innerHTML = '⏳ Processing payment...';
+  btn.style.opacity = '0.7';
+
+  localStorage.setItem('wcr_last_booking', JSON.stringify({
+    bookingId:   'WCR-' + Date.now(),
+    total:       grandTotal,
+    boatName:    data.boatName,
+    harbor:      data.harbor,
+    dates:       data.dates,
+    guests:      data.guests,
+    boatRate:    data.boatRate,
+    days:        data.days,
+    captainName: data.captainName,
+    captainRate: data.captainRate
+  }));
+
+  setTimeout(function(){
+    window.parent.location.href = '/booking-confirmed';
+  }, 2000);
+}
+
+document.addEventListener('DOMContentLoaded', function(){
+  var btn = document.getElementById('pay-button');
+  if(btn) btn.addEventListener('click', processFakePayment);
+});
+// Fallback if DOMContentLoaded already fired
+if (document.readyState !== 'loading') {
+  var btn = document.getElementById('pay-button');
+  if(btn && !btn._wired){ btn._wired = true; btn.addEventListener('click', processFakePayment); }
+}
+</script>
+
+<script>
+document.addEventListener('click',function(e){
+  var a=e.target.closest('a[href]');
+  if(!a)return;
+  var h=a.getAttribute('href');
+  if(!h||h.startsWith('http')||h==='#')return;
+  e.preventDefault();
+  window.parent.location.href=h;
+});
+</script>
+
+</body>
+</html>

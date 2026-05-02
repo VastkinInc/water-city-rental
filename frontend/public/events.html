@@ -110,23 +110,23 @@
         class="fixed top-0 w-full z-50 bg-stone-50/80 dark:bg-stone-950/80 backdrop-blur-xl shadow-sm shadow-stone-200/50 dark:shadow-none">
         <div class="flex justify-between items-center px-8 py-4 max-w-full mx-auto">
             <div
-                class="text-2xl font-serif font-bold text-stone-900 dark:text-stone-50 font-serif italic tracking-tight">
+                class="text-2xl font-serif font-bold text-stone-900 dark:text-stone-50 font-serif italic tracking-tight cursor-pointer" onclick="window.parent.location.href='/'">
                 Water City Rental
             </div>
             <div
                 class="hidden md:flex gap-8 items-center font-serif italic tracking-tight text-orange-600 dark:text-orange-400">
                 <a class="text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 transition-colors hover:bg-stone-100 dark:hover:bg-stone-800 rounded-lg transition-all px-3 py-1 scale-95 duration-200 ease-in-out"
-                    href="/boats">Charters</a>
+                    href="/">Charters</a>
                 <a class="text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 transition-colors hover:bg-stone-100 dark:hover:bg-stone-800 rounded-lg transition-all px-3 py-1 scale-95 duration-200 ease-in-out"
-                    href="/boats">Fleet</a>
+                    href="/harbors">Harbors</a>
                 <a class="text-orange-700 dark:text-orange-400 border-b-2 border-orange-700 dark:border-orange-400 pb-1 font-medium hover:bg-stone-100 dark:hover:bg-stone-800 rounded-lg transition-all px-3 py-1 scale-95 duration-200 ease-in-out"
                     href="/events">Events</a>
                 <a class="text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 transition-colors hover:bg-stone-100 dark:hover:bg-stone-800 rounded-lg transition-all px-3 py-1 scale-95 duration-200 ease-in-out"
-                    href="#">Journal</a>
+                    href="/concierge">Concierge</a>
             </div>
             <div class="flex items-center gap-4">
                 <button
-                    class="hidden md:block rounded-full bg-primary-container px-6 py-2.5 text-sm font-semibold text-on-primary-container shadow-sm hover:bg-primary transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tertiary">
+                    class="hidden md:block rounded-full bg-primary-container px-6 py-2.5 text-sm font-semibold text-on-primary-container shadow-sm hover:bg-primary transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tertiary" onclick="window.parent.location.href='/login'">
                     Book Now
                 </button>
                 <button aria-label="Account" class="text-on-surface hover:text-primary transition-colors p-2">
@@ -512,15 +512,14 @@
         </div>
     </footer>
 <script>
-  // Make all internal links navigate the parent React app
-  document.addEventListener('click', function(e) {
-    const link = e.target.closest('a[href]');
-    if (!link) return;
-    const href = link.getAttribute('href');
-    if (!href || href.startsWith('http') || href.startsWith('mailto') || href === '#') return;
-    e.preventDefault();
-    window.parent.location.href = href;
-  });
+document.addEventListener('click',function(e){
+  var a=e.target.closest('a[href]');
+  if(!a)return;
+  var h=a.getAttribute('href');
+  if(!h||h.startsWith('http')||h==='#')return;
+  e.preventDefault();
+  window.parent.location.href=h;
+});
 </script>
 </body>
 

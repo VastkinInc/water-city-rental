@@ -108,12 +108,12 @@
         class="hidden md:flex w-full fixed z-50 bg-[#faf9f6]/80 backdrop-blur-xl dark:bg-stone-900/80 shadow-[0_4px_30px_rgba(0,0,0,0.02)] top-0 left-0">
         <div class="flex justify-between items-center w-full px-8 py-6 max-w-screen-2xl mx-auto">
             <div
-                class="text-2xl font-serif italic text-[#1a1c1a] dark:text-stone-100 font-headline font-bold tracking-tight">
+                class="text-2xl font-serif italic text-[#1a1c1a] dark:text-stone-100 font-headline font-bold tracking-tight cursor-pointer" onclick="window.parent.location.href='/'">
                 The Nautical Editorial
             </div>
             <nav class="flex items-center gap-8 font-label text-sm uppercase tracking-widest">
                 <a class="text-stone-600 dark:text-stone-400 hover:text-[#a43c12] transition-colors hover:text-[#ff7f50] transition-all duration-300"
-                    href="/boats">Charters</a>
+                    href="/">Charters</a>
                 <a class="text-stone-600 dark:text-stone-400 hover:text-[#a43c12] transition-colors hover:text-[#ff7f50] transition-all duration-300"
                     href="/harbors">Harbors</a>
                 <a class="text-stone-600 dark:text-stone-400 hover:text-[#a43c12] transition-colors hover:text-[#ff7f50] transition-all duration-300"
@@ -122,7 +122,7 @@
                     href="/concierge">Concierge</a>
             </nav>
             <button
-                class="bg-primary-container text-on-primary-container px-6 py-3 rounded-full text-sm font-semibold hover:opacity-90 transition-opacity flex items-center gap-2">
+                class="bg-primary-container text-on-primary-container px-6 py-3 rounded-full text-sm font-semibold hover:opacity-90 transition-opacity flex items-center gap-2" onclick="window.parent.location.href='/login'">
                 Book Now
             </button>
         </div>
@@ -282,22 +282,22 @@
     <nav
         class="md:hidden fixed bottom-0 left-0 w-full flex justify-around items-end pb-6 px-4 bg-white/90 backdrop-blur-2xl dark:bg-stone-950/90 rounded-t-[32px] shadow-[0_-8px_40px_-12px_rgba(0,0,0,0.08)] z-50">
         <a class="flex flex-col items-center justify-center text-stone-400 dark:text-stone-500 hover:opacity-80"
-            href="#">
+            href="/">
             <span class="material-symbols-outlined mb-1 text-xl" data-icon="sailing">sailing</span>
             <span class="font-sans text-[10px] tracking-widest uppercase">Charters</span>
         </a>
         <a class="flex flex-col items-center justify-center text-stone-400 dark:text-stone-500 hover:opacity-80"
-            href="#">
+            href="/harbors">
             <span class="material-symbols-outlined mb-1 text-xl" data-icon="anchor">anchor</span>
             <span class="font-sans text-[10px] tracking-widest uppercase">Harbors</span>
         </a>
         <a class="flex flex-col items-center justify-center text-stone-400 dark:text-stone-500 hover:opacity-80"
-            href="#">
+            href="/events">
             <span class="material-symbols-outlined mb-1 text-xl" data-icon="event">event</span>
             <span class="font-sans text-[10px] tracking-widest uppercase">Events</span>
         </a>
         <a class="flex flex-col items-center justify-center bg-[#ff7f50] text-white rounded-full p-3 mb-2 transform -translate-y-2 hover:opacity-80"
-            href="#">
+            href="/concierge">
             <span class="material-symbols-outlined mb-1 text-xl" data-icon="concierge">concierge</span>
             <span class="font-sans text-[10px] tracking-widest uppercase">Concierge</span>
         </a>
@@ -318,15 +318,14 @@
         </div>
     </footer>
 <script>
-  // Make all internal links navigate the parent React app
-  document.addEventListener('click', function(e) {
-    const link = e.target.closest('a[href]');
-    if (!link) return;
-    const href = link.getAttribute('href');
-    if (!href || href.startsWith('http') || href.startsWith('mailto') || href === '#') return;
-    e.preventDefault();
-    window.parent.location.href = href;
-  });
+document.addEventListener('click',function(e){
+  var a=e.target.closest('a[href]');
+  if(!a)return;
+  var h=a.getAttribute('href');
+  if(!h||h.startsWith('http')||h==='#')return;
+  e.preventDefault();
+  window.parent.location.href=h;
+});
 </script>
 </body>
 

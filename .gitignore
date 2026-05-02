@@ -1,0 +1,12 @@
+# Local Netlify folder
+.netlify
+
+# Claude Code internal worktrees (sandbox copies — do not commit)
+.claude/worktrees/
+
+# macOS
+.DS_Store
+
+# Env files (secrets — must never be committed)
+.env
+.env.local

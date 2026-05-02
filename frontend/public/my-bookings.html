@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>My Bookings | Water City Rental</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&amp;family=Noto+Serif:ital,wght@0,400;0,700;1,400;1,700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed-dim": "#e9c349",
+                        "secondary-fixed-dim": "#82d3de",
+                        "on-error-container": "#93000a",
+                        "outline": "#8b7169",
+                        "on-secondary-fixed": "#001f23",
+                        "primary-fixed-dim": "#ffb59c",
+                        "surface-tint": "#a43c12",
+                        "secondary-fixed": "#9ff0fb",
+                        "background": "#faf9f6",
+                        "secondary-container": "#9ff0fb",
+                        "on-error": "#ffffff",
+                        "surface-container-low": "#f4f3f1",
+                        "secondary": "#006972",
+                        "on-tertiary-fixed-variant": "#574500",
+                        "on-secondary-fixed-variant": "#004f56",
+                        "on-primary-fixed-variant": "#822800",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "inverse-on-surface": "#f2f1ee",
+                        "on-background": "#1a1c1a",
+                        "error-container": "#ffdad6",
+                        "surface-container": "#efeeeb",
+                        "on-tertiary": "#ffffff",
+                        "tertiary": "#735c00",
+                        "surface-container-high": "#e9e8e5",
+                        "surface": "#faf9f6",
+                        "primary-fixed": "#ffdbcf",
+                        "error": "#ba1a1a",
+                        "tertiary-fixed": "#ffe088",
+                        "surface-bright": "#faf9f6",
+                        "primary": "#a43c12",
+                        "on-surface": "#1a1c1a",
+                        "outline-variant": "#dec0b6",
+                        "on-tertiary-fixed": "#241a00",
+                        "tertiary-container": "#c4a028",
+                        "surface-dim": "#dbdad7",
+                        "on-primary-container": "#6c2000",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-container": "#483800",
+                        "primary-container": "#ff7f50",
+                        "inverse-surface": "#2f312f",
+                        "on-primary-fixed": "#380c00",
+                        "surface-variant": "#e3e2e0",
+                        "on-secondary-container": "#066f79",
+                        "inverse-primary": "#ffb59c",
+                        "surface-container-highest": "#e3e2e0",
+                        "on-surface-variant": "#57423b"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Noto Serif", "serif"],
+                        "display": ["Noto Serif", "serif"],
+                        "body": ["Manrope", "sans-serif"],
+                        "label": ["Manrope", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-surface text-on-surface font-body antialiased flex min-h-screen selection:bg-primary-container selection:text-on-primary-container">
+<!-- Top Navigation (Mobile Only) -->
+<header class="md:hidden fixed top-0 w-full z-50 bg-[#faf9f6]/80 dark:bg-stone-950/80 backdrop-blur-xl shadow-[0_32px_64px_rgba(26,28,26,0.06)] flex justify-between items-center px-6 py-4">
+<span class="font-serif italic text-xl text-stone-900 dark:text-stone-50">Water City Rental</span>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-[#a43c12] dark:text-[#ff7f50]">notifications</span>
+<span class="material-symbols-outlined text-[#a43c12] dark:text-[#ff7f50]">account_circle</span>
+</div>
+</header>
+<!-- Role-aware Sidebars -->
+<div id="sidebar-customer" style="display:none">
+<aside class="hidden md:flex flex-col h-screen w-64 bg-stone-50 dark:bg-stone-950 py-8 pl-6 sticky top-0 z-40 flex-shrink-0">
+<div class="mb-6 pr-6">
+<a href="/" class="font-serif italic text-xl text-stone-900 dark:text-stone-50">Water City Rental</a>
+<p class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold mt-1">Customer Portal</p>
+</div>
+<div class="flex items-center gap-3 mb-8 pr-6">
+<img alt="Alex Johnson" class="w-10 h-10 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSeB-zYy66SB8W1rDS4pQd909FetLqSvRbVmoZF4ecl97g1A85ji5X-SNQvHOYggY7yZ0944htJX5Mn95ifEhMkxYQP4eo5qDzGle2Kh_-ozdA6gcIp7TQh9xKLA5ZXqes7C3nP9sLyorz0zv58Cb-eMlUkKmeJzncS-sTX11wgy3VJIXkhSOaIZ6gaCu57x88-mqA2eW6IshFvSux4bA83AjeB1Kw1XgF51h5hOPuTNkmDfVjlFFkICk8DiTikEsoQDhIEgdBRROz" />
+<div>
+<p class="font-serif italic text-sm text-stone-900 dark:text-stone-50">Alex Johnson</p>
+<p class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Customer</p>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all" href="/dashboard/customer">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-sans text-sm tracking-tight">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all" href="/boats">
+<span class="material-symbols-outlined">directions_boat</span>
+<span class="font-sans text-sm tracking-tight">Browse Boats</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-stone-900 dark:text-white font-bold bg-white dark:bg-stone-900 rounded-l-full shadow-sm translate-x-1 duration-200" href="/my-bookings">
+<span class="material-symbols-outlined">anchor</span>
+<span class="font-sans text-sm tracking-tight">My Bookings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all" href="/boats">
+<span class="material-symbols-outlined">favorite</span>
+<span class="font-sans text-sm tracking-tight">Saved</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all" href="/messages">
+<span class="material-symbols-outlined">mail</span>
+<span class="font-sans text-sm tracking-tight">Messages</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all" href="/profile">
+<span class="material-symbols-outlined">account_circle</span>
+<span class="font-sans text-sm tracking-tight">Profile</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all" href="/login" onclick="localStorage.removeItem('wcr_role')">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-sans text-sm tracking-tight">Logout</span>
+</a>
+</nav>
+<div class="mt-auto pr-6">
+<button onclick="window.parent.location.href='/boats'" class="w-full bg-primary-container text-on-primary-container py-3 rounded-full text-xs font-bold uppercase tracking-widest hover:brightness-105 transition-all">
+                Rent a Boat
+            </button>
+</div>
+</aside>
+</div>
+<div id="sidebar-owner" style="display:none">
+<aside class="hidden md:flex flex-col h-screen w-64 bg-stone-50 dark:bg-stone-950 py-8 pl-6 sticky top-0 z-40 flex-shrink-0">
+<div class="mb-6 pr-6">
+<a href="/" class="font-serif italic text-xl text-stone-900 dark:text-stone-50">Water City Rental</a>
+<p class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold mt-1">Owner Portal</p>
+</div>
+<div class="flex items-center gap-3 mb-8 pr-6">
+<img alt="Sarah Chen" class="w-10 h-10 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC3OYhnErS480ojuXEEWpT2_-H1PbuN7u8tBL71NSoqD9srL2tiMGRrFUlSH7YS8lo4dpxJmELZJWJJDvrlkQVDvZ4NtzW1I9lJ1di0nAubOqY774CpZ1oTZGwmq9lI2eb_SUd9TYy1XYvKQaxHNKXz2RbOfxOa6O_KibCW1EqE3Uy9Whv5ppnv8L4sJaiV7ScJoB4e5azHYx7eyqYYIrbspyDf74_gcVUgtYQyeOJSM9W6WnT4EHPi0jxmQk6DcaITv3k7pHQb_Lbj"/>
+<div>
+<p class="font-serif italic text-sm text-stone-900 dark:text-stone-50">Sarah Chen</p>
+<p class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Boat Owner</p>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all" href="/dashboard/owner">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-sans text-sm tracking-tight">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all" href="/my-boats">
+<span class="material-symbols-outlined">directions_boat</span>
+<span class="font-sans text-sm tracking-tight">My Boats</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-stone-900 dark:text-white font-bold bg-white dark:bg-stone-900 rounded-l-full shadow-sm translate-x-1 duration-200" href="/my-bookings">
+<span class="material-symbols-outlined">anchor</span>
+<span class="font-sans text-sm tracking-tight">Bookings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all" href="/earnings">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-sans text-sm tracking-tight">Earnings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all" href="/messages">
+<span class="material-symbols-outlined">mail</span>
+<span class="font-sans text-sm tracking-tight">Messages</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all" href="/profile">
+<span class="material-symbols-outlined">account_circle</span>
+<span class="font-sans text-sm tracking-tight">Profile</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all" href="/partner-login" onclick="localStorage.removeItem('wcr_role')">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-sans text-sm tracking-tight">Logout</span>
+</a>
+</nav>
+<div class="mt-auto pr-6">
+<button onclick="window.parent.location.href='/list-boat'" class="w-full bg-primary-container text-on-primary-container py-3 rounded-full font-bold text-xs tracking-widest uppercase hover:opacity-90 transition-all">
+                List Your Boat
+            </button>
+</div>
+</aside>
+</div>
+<!-- Main Content Canvas -->
+<main class="flex-1 min-h-screen pt-24 md:pt-16 pb-24 px-6 md:px-16 lg:px-24 xl:px-32 max-w-[1600px] mx-auto w-full">
+<!-- Header Section -->
+<header class="mb-12">
+<h1 class="font-display text-display-lg tracking-tight text-on-surface mb-6" id="page-heading">
+                My <span class="italic text-primary">Bookings</span>
+</h1>
+<!-- Tabs -->
+<div class="flex gap-8 border-b border-outline-variant/15 pb-1 overflow-x-auto no-scrollbar">
+<button class="text-primary font-semibold border-b-2 border-primary pb-2 px-1 whitespace-nowrap">All</button>
+<button class="text-on-surface-variant font-medium pb-2 px-1 hover:text-primary transition-colors whitespace-nowrap">Upcoming</button>
+<button class="text-on-surface-variant font-medium pb-2 px-1 hover:text-primary transition-colors whitespace-nowrap">Completed</button>
+<button class="text-on-surface-variant font-medium pb-2 px-1 hover:text-primary transition-colors whitespace-nowrap">Cancelled</button>
+</div>
+</header>
+<!-- Booking Cards List -->
+<div class="flex flex-col gap-8">
+<!-- Card 1: Confirmed -->
+<article class="bg-surface-container-lowest rounded-xl shadow-[0_32px_64px_rgba(26,28,26,0.06)] overflow-hidden flex flex-col md:flex-row group transition-transform duration-500 hover:-translate-y-1">
+<div class="md:w-1/3 lg:w-1/4 aspect-[4/3] md:aspect-auto relative overflow-hidden">
+<img alt="Azure Serenity" class="object-cover w-full h-full transform group-hover:scale-105 transition-transform duration-700" data-alt="Sleek modern luxury yacht moored in calm azure waters during late afternoon golden hour light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBclUwBljL9mmRgHDqbl9ErceLul60XVz2z9xIHEMhCcuL5kqBVPC_EyKN0CW7O_8UdeIOtsUnS_bkCYZN8RKMw61aQzBi6iWGH2T_ZoV_ju_2F5T2LJviQCyEGdBXOp9aG9PYU8UVrBKHlINnDNcACY_WxR47WehjBS3hbkPQXUitTw8LhcQWMwwUNaxf13dYRk-2Zb6U-GMl6muLAHgvoXcPNOXLpZudCu6RcguJPVygodsDVEkXFAX0gREyxwnJmHiDCmmRTIX4U"/>
+</div>
+<div class="p-6 md:p-8 flex-1 flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start mb-4">
+<div>
+<h2 class="font-display text-2xl text-on-surface mb-2">Azure Serenity</h2>
+<p class="font-body text-sm text-on-surface-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">location_on</span> Monroe Harbor
+                                </p>
+</div>
+<span class="bg-secondary-container text-secondary text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Confirmed</span>
+</div>
+<div class="grid grid-cols-2 gap-y-4 gap-x-8 mb-6 border-l-2 border-surface-container-high pl-6">
+<div>
+<p class="font-label text-label-sm uppercase tracking-[0.05em] text-on-surface-variant mb-1">Dates</p>
+<p class="font-body text-on-surface font-medium">Aug 5–7, 2025</p>
+</div>
+<div>
+<p class="font-label text-label-sm uppercase tracking-[0.05em] text-on-surface-variant mb-1">Captain</p>
+<p class="font-body text-on-surface font-medium">Marco Rossi</p>
+</div>
+</div>
+</div>
+<div class="flex flex-col md:flex-row justify-between items-center gap-4 mt-4 pt-6 border-t border-surface-container-high">
+<p class="font-display text-2xl text-on-surface font-semibold">$2,400</p>
+<div class="flex items-center gap-6 w-full md:w-auto">
+<button class="text-error text-sm font-semibold hover:underline">Cancel Booking</button>
+<button class="bg-primary-container text-on-primary-container px-6 py-3 rounded-full font-semibold hover:bg-primary hover:text-on-primary transition-colors w-full md:w-auto" onclick="window.parent.location.href='/booking/1'">
+                                View Details
+                            </button>
+</div>
+</div>
+</div>
+</article>
+<!-- Card 2: Pending -->
+<article class="bg-surface-container-lowest rounded-xl shadow-[0_32px_64px_rgba(26,28,26,0.06)] overflow-hidden flex flex-col md:flex-row group transition-transform duration-500 hover:-translate-y-1">
+<div class="md:w-1/3 lg:w-1/4 aspect-[4/3] md:aspect-auto relative overflow-hidden">
+<img alt="Wind Dancer" class="object-cover w-full h-full transform group-hover:scale-105 transition-transform duration-700" data-alt="Classic sailing yacht cutting through gentle waves with sails full under clear blue sky" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCMMMPgixUXOjKMNMUWCf8q52vOIulYrkgGuVC8KP4Etug5UNLohZ1VNP6GlGZc3WVzGs3_biUHSu5fwvykf-cRZa95JwdSvaY8cTPEnk2S9F4ca6TQvSSI7zlKK-Tve7bxvIGmM4BMzK9Mbtxa026NzkY2gzq9a9MmEjAQ4sC-gxOtC-kt-kRt4lDTZvCDQJKxzIVl88S66J8jGirprjAYmekJuotYSxJirErBMlHEHRvhNnFl4s3hM2Q5NKpxKjId2J4YeFWLYMmN"/>
+</div>
+<div class="p-6 md:p-8 flex-1 flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start mb-4">
+<div>
+<h2 class="font-display text-2xl text-on-surface mb-2">Wind Dancer</h2>
+<p class="font-body text-sm text-on-surface-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">location_on</span> Navy Pier
+                                </p>
+</div>
+<span class="bg-tertiary-container text-on-tertiary-container text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Pending</span>
+</div>
+<div class="grid grid-cols-2 gap-y-4 gap-x-8 mb-6 border-l-2 border-surface-container-high pl-6">
+<div>
+<p class="font-label text-label-sm uppercase tracking-[0.05em] text-on-surface-variant mb-1">Dates</p>
+<p class="font-body text-on-surface font-medium">Aug 12–14, 2025</p>
+</div>
+<div>
+<p class="font-label text-label-sm uppercase tracking-[0.05em] text-on-surface-variant mb-1">Captain</p>
+<p class="font-body text-on-surface font-medium">Sarah J.</p>
+</div>
+</div>
+</div>
+<div class="flex flex-col md:flex-row justify-between items-center gap-4 mt-4 pt-6 border-t border-surface-container-high">
+<p class="font-display text-2xl text-on-surface font-semibold">$800</p>
+<div class="flex items-center gap-6 w-full md:w-auto">
+<button class="text-error text-sm font-semibold hover:underline">Cancel Request</button>
+<button class="border border-outline text-on-surface px-6 py-3 rounded-full font-semibold hover:bg-surface-container-high transition-colors w-full md:w-auto" onclick="window.parent.location.href='/booking/1'">
+                                View Details
+                            </button>
+</div>
+</div>
+</div>
+</article>
+<!-- Card 3: Completed -->
+<article class="bg-surface-container-lowest rounded-xl shadow-[0_32px_64px_rgba(26,28,26,0.06)] overflow-hidden flex flex-col md:flex-row group transition-transform duration-500 hover:-translate-y-1">
+<div class="md:w-1/3 lg:w-1/4 aspect-[4/3] md:aspect-auto relative overflow-hidden">
+<img alt="Solaris Dream" class="object-cover w-full h-full transform group-hover:scale-105 transition-transform duration-700 opacity-90" data-alt="Large superyacht docked at marina during twilight with warm interior lights glowing" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDy5P1QkYYxP5mWlvbkXdS0GcpKYW-x96u3-1rJYZWix_ydeXxowCYfc8CtsIE41hKBeBnulZDULncf1OEsbOSsIvJKYPioxrGS25NLVgZfrFY-VHynDheEFReObHeMIxph-ObUBXitvJQvDYhJi31sWmNk2k2w4NFbvRpU88Z6tbP00lgcuy-WRiBjBrZD6uofvk5pAqoNbj_AGIk6DY7IktJtIN_86bPaUcVyEWd9xDh3WbGhNODHUMZ90lspohK591i-v13acSAg"/>
+</div>
+<div class="p-6 md:p-8 flex-1 flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start mb-4">
+<div>
+<h2 class="font-display text-2xl text-on-surface mb-2 text-on-surface/80">Solaris Dream</h2>
+<p class="font-body text-sm text-on-surface-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">location_on</span> Belmont Harbor
+                                </p>
+</div>
+<span class="bg-surface-container-high text-on-surface-variant text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Completed</span>
+</div>
+<div class="grid grid-cols-2 gap-y-4 gap-x-8 mb-6 border-l-2 border-surface-container-high pl-6 opacity-80">
+<div>
+<p class="font-label text-label-sm uppercase tracking-[0.05em] text-on-surface-variant mb-1">Dates</p>
+<p class="font-body text-on-surface font-medium">Jul 20–22, 2025</p>
+</div>
+<div>
+<p class="font-label text-label-sm uppercase tracking-[0.05em] text-on-surface-variant mb-1">Captain</p>
+<p class="font-body text-on-surface font-medium">Arthur M.</p>
+</div>
+</div>
+</div>
+<div class="flex flex-col md:flex-row justify-between items-center gap-4 mt-4 pt-6 border-t border-surface-container-high">
+<p class="font-display text-2xl text-on-surface/80 font-semibold">$4,800</p>
+<div class="flex items-center gap-4 w-full md:w-auto">
+<button class="border border-outline text-on-surface px-6 py-3 rounded-full font-semibold hover:bg-surface-container-high transition-colors w-full md:w-auto" onclick="window.parent.location.href='/booking/1'">
+                                View Details
+                            </button>
+<button class="bg-primary-container text-on-primary-container px-6 py-3 rounded-full font-semibold hover:bg-primary hover:text-on-primary transition-colors w-full md:w-auto" onclick="window.parent.location.href='/booking/1'">
+                                Leave Review
+                            </button>
+</div>
+</div>
+</div>
+</article>
+<!-- Card 4: Cancelled -->
+<article class="bg-surface-container-lowest rounded-xl shadow-[0_32px_64px_rgba(26,28,26,0.06)] overflow-hidden flex flex-col md:flex-row group opacity-75 grayscale-[30%]">
+<div class="md:w-1/3 lg:w-1/4 aspect-[4/3] md:aspect-auto relative overflow-hidden">
+<img alt="Morning Mist" class="object-cover w-full h-full" data-alt="Small elegant motorboat resting in quiet harbor waters reflecting overcast misty morning sky" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCOOBEZRaRcLFjOjPrO_JYQV2Ka66FS1ovHNFzSN2CQgfCgJETOHSSKkfQq5yzZWa-nAcFhCLxTBxOXDeOhXuQ4-78pwqFEY-kn6NgwYFnMi6IHcm1d31f6C64_gI3FJ9Cc7_Nff3cC7xkB3goL3mh8_D4AFB8oQsckzspNQ1Icso2mGw0_J786WOgnyK_Py8ZbIq5uBS2G907Jf16pXOknONjhK26HsfTPQ7sJ53D-6vRQ6siPx2s6P8Zxw2LdXZT5vwNxeMIG_OJ9"/>
+</div>
+<div class="p-6 md:p-8 flex-1 flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start mb-4">
+<div>
+<h2 class="font-display text-2xl text-on-surface mb-2 line-through decoration-error/50">Morning Mist</h2>
+<p class="font-body text-sm text-on-surface-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">location_on</span> Burnham Harbor
+                                </p>
+</div>
+<span class="bg-error-container text-error text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Cancelled</span>
+</div>
+<div class="grid grid-cols-2 gap-y-4 gap-x-8 mb-6 border-l-2 border-surface-container-high pl-6">
+<div>
+<p class="font-label text-label-sm uppercase tracking-[0.05em] text-on-surface-variant mb-1">Dates</p>
+<p class="font-body text-on-surface font-medium line-through text-on-surface-variant">Jun 14–15, 2025</p>
+</div>
+<div>
+<p class="font-label text-label-sm uppercase tracking-[0.05em] text-on-surface-variant mb-1">Captain</p>
+<p class="font-body text-on-surface font-medium text-on-surface-variant">Elena S.</p>
+</div>
+</div>
+</div>
+<div class="flex flex-col md:flex-row justify-between items-center gap-4 mt-4 pt-6 border-t border-surface-container-high">
+<p class="font-display text-2xl text-on-surface-variant font-semibold line-through decoration-error/50">$450</p>
+<div class="flex items-center gap-6 w-full md:w-auto">
+<button class="border border-outline-variant text-on-surface-variant px-6 py-3 rounded-full font-semibold hover:bg-surface-container-high transition-colors w-full md:w-auto" onclick="window.parent.location.href='/booking/1'">
+                                View Details
+                            </button>
+</div>
+</div>
+</div>
+</article>
+</div>
+</main>
+<script>
+(function(){
+  var role = localStorage.getItem('wcr_role') || 'customer';
+  if (role !== 'owner') role = 'customer';
+  var el = document.getElementById('sidebar-' + role);
+  if (el) el.style.display = 'block';
+  if (role === 'owner') {
+    var h = document.getElementById('page-heading');
+    if (h) h.innerHTML = 'Bookings on My <span class="italic text-primary">Boats</span>';
+  }
+})();
+</script>
+<script>
+document.addEventListener('click',function(e){
+  var a=e.target.closest('a[href]');
+  if(!a)return;
+  var h=a.getAttribute('href');
+  if(!h||h.startsWith('http')||h==='#')return;
+  e.preventDefault();
+  window.parent.location.href=h;
+});
+</script>
+</body></html>

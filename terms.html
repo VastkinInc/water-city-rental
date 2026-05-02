@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terms of Service | Water City Rental</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--primary:#C4623A;--navy:#1A1A2E;--cream:#FAF7F2;--surface:#F5F0EA;--muted:#6B6560;--dark:#2C2825;--gold:#D4A843}
+body{font-family:'Manrope',sans-serif;background:var(--cream);color:var(--dark);line-height:1.7}
+nav{background:#fff;border-bottom:1px solid #f0ece8;padding:0 40px;height:64px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;box-shadow:0 1px 12px rgba(0,0,0,.04)}
+.nav-logo{font-family:'Playfair Display',serif;font-size:19px;font-weight:600;color:var(--navy);cursor:pointer;text-decoration:none}
+.nav-back{font-size:13px;color:var(--primary);font-weight:600;cursor:pointer;text-decoration:none}
+.hero{background:var(--navy);padding:56px 40px 48px;text-align:center}
+.hero-eyebrow{display:inline-block;background:rgba(212,168,67,.15);color:var(--gold);border:1px solid rgba(212,168,67,.3);border-radius:20px;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:5px 16px;margin-bottom:18px}
+.hero h1{font-family:'Playfair Display',serif;font-size:40px;font-weight:700;color:#fff;margin-bottom:10px}
+.hero h1 em{font-style:italic;color:var(--gold)}
+.hero-sub{font-size:14px;color:rgba(255,255,255,.5);max-width:520px;margin:0 auto 28px}
+.hero-meta{display:flex;justify-content:center;gap:20px;flex-wrap:wrap}
+.hero-meta span{font-size:11px;color:rgba(255,255,255,.35)}
+.tabs-bar{background:#fff;border-bottom:1px solid #f0ece8;padding:0 40px;display:flex;overflow-x:auto;scrollbar-width:none;position:sticky;top:64px;z-index:40}
+.tabs-bar::-webkit-scrollbar{display:none}
+.tab-btn{padding:16px 22px;font-size:13px;font-weight:600;color:var(--muted);border:none;background:none;cursor:pointer;border-bottom:2.5px solid transparent;white-space:nowrap;transition:all .2s;font-family:'Manrope',sans-serif}
+.tab-btn:hover{color:var(--navy)}
+.tab-btn.active{color:var(--primary);border-bottom-color:var(--primary)}
+.main{max-width:780px;margin:0 auto;padding:48px 40px 80px}
+.section{display:none}
+.section.active{display:block}
+.intro-card{background:#fff;border-radius:14px;padding:22px 26px;margin-bottom:36px;border-left:4px solid var(--primary);box-shadow:0 2px 16px rgba(0,0,0,.04)}
+.intro-card p{font-size:14px;color:var(--muted);line-height:1.75}
+.intro-card strong{color:var(--dark)}
+.article{margin-bottom:28px;padding-bottom:28px;border-bottom:1px solid #f0ece8}
+.article:last-of-type{border-bottom:none}
+.art-label{font-size:10px;font-weight:700;color:var(--primary);letter-spacing:.14em;text-transform:uppercase;margin-bottom:5px}
+.art-title{font-family:'Playfair Display',serif;font-size:19px;font-weight:600;color:var(--navy);margin-bottom:12px}
+.art-body{font-size:14px;color:var(--muted);line-height:1.8}
+.art-body p{margin-bottom:8px}
+.art-body ul{padding-left:20px;margin:8px 0}
+.art-body li{margin-bottom:5px}
+.art-body strong{color:var(--dark);font-weight:600}
+.highlight{background:var(--surface);border-radius:10px;padding:14px 18px;margin:12px 0;font-size:13px;color:var(--dark)}
+.zero-fee{background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);border-radius:10px;padding:14px 18px;margin:14px 0;display:flex;gap:10px}
+.zero-fee-icon{font-size:18px;flex-shrink:0}
+.zero-fee p{font-size:13px;color:#15803d;font-weight:500;line-height:1.6}
+.sec-heading{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:var(--navy);margin-bottom:6px}
+.sec-sub{font-size:14px;color:var(--muted);margin-bottom:28px;line-height:1.6}
+.last-updated{text-align:center;font-size:12px;color:var(--muted);margin-top:40px;padding-top:20px;border-top:1px solid #f0ece8}
+@media(max-width:600px){.hero{padding:40px 20px 36px}.hero h1{font-size:28px}.tabs-bar{padding:0 16px}.main{padding:32px 20px 60px}}
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-logo" onclick="window.parent.location.href='/'">Water City Rental</span>
+  <span class="nav-back" onclick="window.parent.location.href='/register'">← Back to Registration</span>
+</nav>
+
+<div class="hero">
+  <div class="hero-eyebrow">Legal Documents</div>
+  <h1>Terms of Service &amp; <em>Agreements</em></h1>
+  <p class="hero-sub">Please read all agreements carefully before using Water City Rental. These terms protect you, your partners, and our platform.</p>
+  <div class="hero-meta">
+    <span>📍 Governing State: Illinois</span>
+    <span>📅 Effective: 2025</span>
+    <span>🔄 Last Updated: April 2025</span>
+  </div>
+</div>
+
+<div class="tabs-bar">
+  <button class="tab-btn active" onclick="showTab('tos',this)">Terms of Service</button>
+  <button class="tab-btn" onclick="showTab('renter',this)">Renter Agreement</button>
+  <button class="tab-btn" onclick="showTab('owner',this)">Boat Owner Agreement</button>
+  <button class="tab-btn" onclick="showTab('captain',this)">Captain Agreement</button>
+</div>
+
+<div class="main">
+
+<!-- TAB 1: TERMS OF SERVICE -->
+<div class="section active" id="tab-tos">
+  <div class="sec-heading">Terms of Service</div>
+  <p class="sec-sub">Welcome to Water City Rental. By accessing or using our platform, you agree to the following Terms.</p>
+  <div class="intro-card"><p>These Terms govern your use of Water City Rental, operated from <strong>Chicago, Illinois</strong>. By creating an account or using our services, you confirm that you have read, understood, and agree to be bound by these terms.</p></div>
+  <div class="article"><div class="art-label">Article 1</div><div class="art-title">Platform Role</div><div class="art-body"><p>Water City Rental operates solely as a <strong>third-party marketplace</strong> connecting boat owners ("Hosts"), renters ("Renters"), and captains ("Captains") in the Chicago, Illinois waterfront area.</p><div class="highlight">We: Do not own or operate boats · Are not a transportation provider · Are not a party to rental agreements between Hosts and Renters.</div></div></div>
+  <div class="article"><div class="art-label">Article 2</div><div class="art-title">User Responsibilities</div><div class="art-body"><p>All users agree to:</p><ul><li>Provide accurate and truthful information at all times</li><li>Comply with all applicable federal, state, and local laws</li><li>Comply with all maritime laws applicable in Illinois and on Lake Michigan</li><li>Use the Platform entirely at your own risk</li></ul></div></div>
+  <div class="article"><div class="art-label">Article 3</div><div class="art-title">Bookings &amp; Payments</div><div class="art-body"><ul><li>Renters pay through the Platform at the time of booking</li><li>Funds may be held until rental completion</li><li>Payments are released to Hosts after trip completion</li></ul><div class="zero-fee"><div class="zero-fee-icon">🎉</div><p><strong>Launch Phase — Zero Platform Fees:</strong> During our initial launch phase, Water City Rental charges no platform service fee to Boat Owners or Captains. This is a limited-time offer for early partners.</p></div><div class="highlight">The Company: Is not a bank or escrow service · Does not guarantee payment outcomes · Is not responsible for refunds or disputes between users.</div></div></div>
+  <div class="article"><div class="art-label">Article 4</div><div class="art-title">No Dispute Obligation</div><div class="art-body"><p>All disputes must be handled directly between Hosts, Renters, and Captains. The Company has no obligation to mediate disputes and may intervene at its sole discretion but is not required to do so.</p></div></div>
+  <div class="article"><div class="art-label">Article 5</div><div class="art-title">Liability Disclaimer</div><div class="art-body"><p>To the maximum extent permitted by the laws of the <strong>State of Illinois</strong>:</p><ul><li>The Company is not liable for injuries, damages, losses, or disputes</li><li>All risks are assumed entirely by users</li><li>Water City Rental is not responsible for the condition, safety, or operation of any vessel</li></ul></div></div>
+  <div class="article"><div class="art-label">Article 6</div><div class="art-title">Waiver Requirement</div><div class="art-body"><p>All users must agree to the <strong>Liability Waiver &amp; Assumption of Risk Agreement</strong> prior to completing any booking.</p></div></div>
+  <div class="article"><div class="art-label">Article 7</div><div class="art-title">Insurance Disclaimer</div><div class="art-body"><p>Water City Rental does not provide any insurance coverage. Users are solely responsible for obtaining boat insurance, liability coverage, and any required permits or licenses.</p></div></div>
+  <div class="article"><div class="art-label">Article 8</div><div class="art-title">Account Suspension</div><div class="art-body"><p>We reserve the right to suspend or terminate accounts, remove listings, and restrict access at our sole discretion for any violation of these terms.</p></div></div>
+  <div class="article"><div class="art-label">Article 9</div><div class="art-title">Intellectual Property</div><div class="art-body"><p>All platform content, including design, logos, and software (excluding user-generated listings), belongs exclusively to Water City Rental LLC.</p></div></div>
+  <div class="article"><div class="art-label">Article 10</div><div class="art-title">Indemnification</div><div class="art-body"><p>You agree to indemnify and hold harmless Water City Rental from any claims, damages, or expenses arising from your use of the Platform, your rental activity, or violations of these Terms.</p></div></div>
+  <div class="article"><div class="art-label">Article 11</div><div class="art-title">Limitation of Liability</div><div class="art-body"><p>The Company's total liability, if any, shall not exceed the amount you paid to the Platform in the 12 months preceding the claim.</p></div></div>
+  <div class="article"><div class="art-label">Article 12</div><div class="art-title">Governing Law</div><div class="art-body"><p>These Terms are governed by the <strong>laws of the State of Illinois</strong>. Any disputes shall be subject to the exclusive jurisdiction of the courts in Cook County, Illinois.</p></div></div>
+  <div class="article"><div class="art-label">Article 13</div><div class="art-title">Acceptance</div><div class="art-body"><p>By using the Platform, creating an account, listing a boat, or completing a booking, you confirm that you have read, understood, and agree to all Terms of Service.</p></div></div>
+  <div class="last-updated">Last updated: April 2025 · Water City Rental LLC · Chicago, Illinois</div>
+</div>
+
+<!-- TAB 2: RENTER AGREEMENT -->
+<div class="section" id="tab-renter">
+  <div class="sec-heading">Renter Agreement</div>
+  <p class="sec-sub">This Agreement applies to all users renting boats through Water City Rental.</p>
+  <div class="intro-card"><p>As a <strong>Renter</strong> on Water City Rental, you are entering into a direct rental agreement with the Boat Host. Water City Rental acts solely as a marketplace and is not a party to your rental.</p></div>
+  <div class="article"><div class="art-label">Section 1</div><div class="art-title">Renter Responsibilities</div><div class="art-body"><p>You agree to:</p><ul><li>Operate any rented vessel safely and in accordance with all applicable laws</li><li>Follow all federal, state, and local maritime regulations in Illinois</li><li>Verify all licensing and certification requirements before operating a vessel</li><li>Return the vessel in the same condition it was received</li><li>Notify the Host immediately of any damage, accident, or incident</li></ul></div></div>
+  <div class="article"><div class="art-label">Section 2</div><div class="art-title">Assumption of Risk</div><div class="art-body"><p>You acknowledge that boating involves inherent risks, and you voluntarily accept full responsibility for injuries, damages, and losses. <div class="highlight"><strong>By completing a booking, you confirm you have read and accept the full Liability Waiver &amp; Assumption of Risk Agreement.</strong></div></p></div></div>
+  <div class="article"><div class="art-label">Section 3</div><div class="art-title">Direct Agreement with Host</div><div class="art-body"><p>You are renting directly from the Boat Host. Water City Rental is not responsible for the condition, safety, or operation of the vessel. Any disputes must be resolved directly with the Host.</p></div></div>
+  <div class="article"><div class="art-label">Section 4</div><div class="art-title">Payments &amp; Refunds</div><div class="art-body"><p>Full payment is required at the time of booking. Cancellation and refund policies are set by the individual Host. Water City Rental is not responsible for refunds, disputes, or boat condition.</p></div></div>
+  <div class="article"><div class="art-label">Section 5</div><div class="art-title">No Insurance Provided</div><div class="art-body"><p>Water City Rental does not provide insurance for renters. You are solely responsible for obtaining appropriate liability insurance before your trip.</p></div></div>
+  <div class="article"><div class="art-label">Section 6</div><div class="art-title">Disputes</div><div class="art-body"><p>All disputes must be handled directly with the Host. Water City Rental may assist at its sole discretion but is under no obligation to mediate.</p></div></div>
+  <div class="article"><div class="art-label">Section 7</div><div class="art-title">Indemnification</div><div class="art-body"><p>You agree to indemnify and hold harmless Water City Rental from any claims arising from your rental or use of the boat.</p></div></div>
+  <div class="article"><div class="art-label">Section 8</div><div class="art-title">Acceptance</div><div class="art-body"><p>By completing a booking, you confirm that you have read, understood, and agree to this Renter Agreement in its entirety.</p></div></div>
+  <div class="last-updated">Last updated: April 2025 · Water City Rental LLC · Chicago, Illinois</div>
+</div>
+
+<!-- TAB 3: BOAT OWNER AGREEMENT -->
+<div class="section" id="tab-owner">
+  <div class="sec-heading">Host Agreement (Boat Owners)</div>
+  <p class="sec-sub">This Agreement applies to all boat owners listing vessels on Water City Rental.</p>
+  <div class="intro-card"><p>As a <strong>Boat Owner (Host)</strong> on Water City Rental, you are responsible for the vessels you list and the experiences of the renters who book them.</p></div>
+  <div class="zero-fee" style="margin-bottom:28px"><div class="zero-fee-icon">🎉</div><p><strong>Zero Joining Fees During Launch Phase:</strong> Water City Rental charges no platform fees to Boat Owners during our initial launch phase.</p></div>
+  <div class="article"><div class="art-label">Section 1</div><div class="art-title">Host Responsibilities</div><div class="art-body"><p>You are solely responsible for:</p><ul><li>The condition, maintenance, and safety of your vessel at all times</li><li>Full compliance with all Illinois maritime laws</li><li>Providing accurate, complete, and truthful listing details</li><li>Ensuring your vessel meets all safety requirements before each rental</li><li>Providing all required safety equipment onboard</li></ul></div></div>
+  <div class="article"><div class="art-label">Section 2</div><div class="art-title">Insurance Requirement</div><div class="art-body"><p>You are solely responsible for maintaining adequate insurance on your vessel. Water City Rental provides no coverage. Your insurance must cover commercial rental activity and passenger liability.</p></div></div>
+  <div class="article"><div class="art-label">Section 3</div><div class="art-title">Liability</div><div class="art-body"><p>You accept full liability for injuries, damages, or accidents involving your vessel, the safety of all passengers aboard, and the seaworthiness of your vessel.</p></div></div>
+  <div class="article"><div class="art-label">Section 4</div><div class="art-title">Rental Agreement</div><div class="art-body"><p>You acknowledge that you are entering into rental agreements directly with Renters. Water City Rental is not a party to those agreements.</p></div></div>
+  <div class="article"><div class="art-label">Section 5</div><div class="art-title">Payments</div><div class="art-body"><p>Payments are processed through the Platform. Funds are released to you after rental completion. Water City Rental is not responsible for chargebacks, disputes, or damage-related refunds.</p></div></div>
+  <div class="article"><div class="art-label">Section 6</div><div class="art-title">Cancellations</div><div class="art-body"><p>You must clearly define and communicate your cancellation policy in your listing.</p></div></div>
+  <div class="article"><div class="art-label">Section 7</div><div class="art-title">Indemnification</div><div class="art-body"><p>You agree to indemnify and hold harmless Water City Rental from any claims arising from your boat, your rental activities, or your actions on the platform.</p></div></div>
+  <div class="article"><div class="art-label">Section 8</div><div class="art-title">Listing Removal</div><div class="art-body"><p>Water City Rental reserves the right to remove any listing at any time for safety concerns, inaccurate information, or violations of these terms.</p></div></div>
+  <div class="article"><div class="art-label">Section 9</div><div class="art-title">Acceptance</div><div class="art-body"><p>By listing a boat, you confirm that you have read, understood, and agree to this Host Agreement.</p></div></div>
+  <div class="last-updated">Last updated: April 2025 · Water City Rental LLC · Chicago, Illinois</div>
+</div>
+
+<!-- TAB 4: CAPTAIN AGREEMENT -->
+<div class="section" id="tab-captain">
+  <div class="sec-heading">Captain Agreement</div>
+  <p class="sec-sub">This Agreement applies to all captains offering services through Water City Rental.</p>
+  <div class="intro-card"><p>As a <strong>Captain</strong> on Water City Rental, you provide professional navigation services to customers who hire you through our platform. Your safety record and professionalism directly reflect on Water City Rental.</p></div>
+  <div class="zero-fee" style="margin-bottom:28px"><div class="zero-fee-icon">🎉</div><p><strong>Zero Joining Fees During Launch Phase:</strong> Water City Rental charges no platform fees to Captains during our initial launch phase.</p></div>
+  <div class="article"><div class="art-label">Section 1</div><div class="art-title">Captain Responsibilities</div><div class="art-body"><p>You are solely responsible for:</p><ul><li>Holding a valid USCG Captain's License or equivalent as required by law</li><li>The safe navigation and operation of any vessel you captain</li><li>Full compliance with all Illinois and federal maritime laws</li><li>The safety of all passengers during your trips</li><li>Maintaining appropriate certifications including First Aid/CPR</li><li>Arriving on time and prepared for every booked trip</li></ul></div></div>
+  <div class="article"><div class="art-label">Section 2</div><div class="art-title">Independent Contractor Status</div><div class="art-body"><p>You are an <strong>independent contractor</strong>, not an employee of Water City Rental. You are solely responsible for your own taxes, insurance, and business obligations. No employment relationship is created by this Agreement.</p></div></div>
+  <div class="article"><div class="art-label">Section 3</div><div class="art-title">Setting Your Rate</div><div class="art-body"><p>You set your own daily and hourly rates on your profile. Your rate is shown transparently to customers at booking. Your captain fee is completely separate from the boat rental fee.</p><div class="highlight">Your earnings = The captain fee the customer paid, minus applicable payment processing fees. Water City Rental does not take a cut during the launch phase.</div></div></div>
+  <div class="article"><div class="art-label">Section 4</div><div class="art-title">Payments</div><div class="art-body"><p>You receive your captain fee after the trip is marked completed. Funds are released to your connected bank account through the platform's payment system.</p></div></div>
+  <div class="article"><div class="art-label">Section 5</div><div class="art-title">Liability &amp; Insurance</div><div class="art-body"><p>You accept full liability for your navigation decisions and any incidents during your watch. Water City Rental does not provide liability insurance for Captains. You are responsible for maintaining required professional liability coverage.</p></div></div>
+  <div class="article"><div class="art-label">Section 6</div><div class="art-title">Trip Acceptance &amp; Cancellation</div><div class="art-body"><p>You may accept or decline trip requests at your discretion. Once accepted, you commit to completing the trip. Repeated cancellations after acceptance may result in account suspension.</p></div></div>
+  <div class="article"><div class="art-label">Section 7</div><div class="art-title">Conduct &amp; Professionalism</div><div class="art-body"><p>You agree to:</p><ul><li>Maintain a professional and courteous demeanor with all customers</li><li>Never operate a vessel under the influence of alcohol or substances</li><li>Prioritize passenger safety above all other considerations</li></ul></div></div>
+  <div class="article"><div class="art-label">Section 8</div><div class="art-title">Indemnification</div><div class="art-body"><p>You agree to indemnify and hold harmless Water City Rental from any claims arising from your activities as a Captain on the platform, including navigation decisions, passenger safety, and compliance with maritime law.</p></div></div>
+  <div class="article"><div class="art-label">Section 9</div><div class="art-title">Profile Removal</div><div class="art-body"><p>Water City Rental may remove any Captain profile at any time for safety concerns, repeated cancellations, poor ratings, or violations of these terms.</p></div></div>
+  <div class="article"><div class="art-label">Section 10</div><div class="art-title">Acceptance</div><div class="art-body"><p>By registering as a Captain, you confirm that you have read, understood, and agree to this Captain Agreement. You further confirm that you hold all required licenses and certifications.</p></div></div>
+  <div class="last-updated">Last updated: April 2025 · Water City Rental LLC · Chicago, Illinois</div>
+</div>
+
+</div>
+
+<script>
+function showTab(name,btn){
+  document.querySelectorAll('.section').forEach(function(s){s.classList.remove('active')});
+  document.querySelectorAll('.tab-btn').forEach(function(b){b.classList.remove('active')});
+  document.getElementById('tab-'+name).classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+document.addEventListener('click',function(e){
+  var a=e.target.closest('a[href]');
+  if(!a)return;
+  var h=a.getAttribute('href');
+  if(!h||h.startsWith('http')||h==='#')return;
+  e.preventDefault();
+  window.parent.location.href=h;
+});
+</script>
+</body>
+</html>

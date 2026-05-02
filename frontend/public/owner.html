@@ -3,7 +3,7 @@
 <html class="light" lang="en"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Water City Rentals | Owner's Deck</title>
+<title>Water City Rental | Owner's Deck</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400;1,700&amp;family=Manrope:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
@@ -89,52 +89,53 @@
     </style>
 </head>
 <body class="bg-background font-body text-on-surface">
+<script>localStorage.setItem('wcr_role','owner')</script>
 <div class="flex min-h-screen">
-<!-- SideNavBar Component -->
-<aside class="hidden md:flex flex-col h-screen w-64 bg-stone-50 dark:bg-stone-950 py-8 pl-6 sticky top-0 bg-stone-100 dark:bg-stone-900">
-<div class="mb-10 pr-6">
-<span class="font-serif italic text-xl text-stone-900 dark:text-stone-50">Water City Rentals</span>
+<!-- SideNavBar Component (Owner) -->
+<aside class="hidden md:flex flex-col h-screen w-64 bg-stone-50 dark:bg-stone-950 py-8 pl-6 sticky top-0 z-40 flex-shrink-0">
+<div class="mb-6 pr-6">
+<a href="/" class="font-serif italic text-xl text-stone-900 dark:text-stone-50">Water City Rental</a>
+<p class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold mt-1">Owner Portal</p>
 </div>
-<div class="flex items-center gap-4 mb-10 pr-6">
-<div class="w-12 h-12 rounded-full overflow-hidden bg-surface-variant">
-<img alt="Sarah Chen" data-alt="professional portrait of a confident woman in a nautical environment with warm sunset lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC3OYhnErS480ojuXEEWpT2_-H1PbuN7u8tBL71NSoqD9srL2tiMGRrFUlSH7YS8lo4dpxJmELZJWJJDvrlkQVDvZ4NtzW1I9lJ1di0nAubOqY774CpZ1oTZGwmq9lI2eb_SUd9TYy1XYvKQaxHNKXz2RbOfxOa6O_KibCW1EqE3Uy9Whv5ppnv8L4sJaiV7ScJoB4e5azHYx7eyqYYIrbspyDf74_gcVUgtYQyeOJSM9W6WnT4EHPi0jxmQk6DcaITv3k7pHQb_Lbj"/>
-</div>
+<div class="flex items-center gap-3 mb-8 pr-6">
+<img alt="Sarah Chen" class="w-10 h-10 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC3OYhnErS480ojuXEEWpT2_-H1PbuN7u8tBL71NSoqD9srL2tiMGRrFUlSH7YS8lo4dpxJmELZJWJJDvrlkQVDvZ4NtzW1I9lJ1di0nAubOqY774CpZ1oTZGwmq9lI2eb_SUd9TYy1XYvKQaxHNKXz2RbOfxOa6O_KibCW1EqE3Uy9Whv5ppnv8L4sJaiV7ScJoB4e5azHYx7eyqYYIrbspyDf74_gcVUgtYQyeOJSM9W6WnT4EHPi0jxmQk6DcaITv3k7pHQb_Lbj"/>
 <div>
-<h3 class="text-sm font-bold text-on-surface">Sarah Chen</h3>
-<p class="text-xs text-on-surface-variant tracking-tight">Premier Member</p>
+<p class="font-serif italic text-sm text-stone-900 dark:text-stone-50">Sarah Chen</p>
+<p class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Boat Owner</p>
 </div>
 </div>
-<nav class="flex-1 space-y-2">
-<a class="flex items-center gap-3 py-3 pl-4 text-stone-900 dark:text-white font-bold bg-white dark:bg-stone-900 rounded-l-full shadow-sm translate-x-1 duration-200" href="#">
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-stone-900 dark:text-white font-bold bg-white dark:bg-stone-900 rounded-l-full shadow-sm translate-x-1 duration-200" href="/dashboard/owner">
 <span class="material-symbols-outlined">dashboard</span>
-<span class="text-sm tracking-tight">Overview</span>
+<span class="font-sans text-sm tracking-tight">Dashboard</span>
 </a>
-<a class="flex items-center gap-3 py-3 pl-4 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all" href="#">
+<a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all" href="/my-boats">
 <span class="material-symbols-outlined">directions_boat</span>
-<span class="text-sm tracking-tight">My Boats</span>
+<span class="font-sans text-sm tracking-tight">My Boats</span>
 </a>
-<a class="flex items-center gap-3 py-3 pl-4 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all justify-between pr-6" href="#">
-<div class="flex items-center gap-3">
+<a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all" href="/my-bookings">
 <span class="material-symbols-outlined">anchor</span>
-<span class="text-sm tracking-tight">Booking Requests</span>
-</div>
-<span class="bg-primary text-on-primary text-[10px] font-bold px-2 py-0.5 rounded-full">3</span>
+<span class="font-sans text-sm tracking-tight">Bookings</span>
 </a>
-<a class="flex items-center gap-3 py-3 pl-4 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all" href="#">
+<a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all" href="/earnings">
 <span class="material-symbols-outlined">payments</span>
-<span class="text-sm tracking-tight">Earnings</span>
+<span class="font-sans text-sm tracking-tight">Earnings</span>
 </a>
-<a class="flex items-center gap-3 py-3 pl-4 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all" href="#">
-<span class="material-symbols-outlined">reviews</span>
-<span class="text-sm tracking-tight">Reviews</span>
+<a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all" href="/messages">
+<span class="material-symbols-outlined">mail</span>
+<span class="font-sans text-sm tracking-tight">Messages</span>
 </a>
-<a class="flex items-center gap-3 py-3 pl-4 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all" href="#">
-<span class="material-symbols-outlined">settings</span>
-<span class="text-sm tracking-tight">Settings</span>
+<a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all" href="/profile">
+<span class="material-symbols-outlined">account_circle</span>
+<span class="font-sans text-sm tracking-tight">Profile</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all" href="/partner-login" onclick="localStorage.removeItem('wcr_role')">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-sans text-sm tracking-tight">Logout</span>
 </a>
 </nav>
 <div class="mt-auto pr-6">
-<button class="w-full bg-primary-container text-on-primary-container py-3 rounded-full font-bold text-xs tracking-widest uppercase hover:opacity-90 transition-all">
+<button onclick="window.parent.location.href='/list-boat'" class="w-full bg-primary-container text-on-primary-container py-3 rounded-full font-bold text-xs tracking-widest uppercase hover:opacity-90 transition-all">
                     List Your Boat
                 </button>
 </div>
@@ -504,8 +505,8 @@
 <span class="material-symbols-outlined">dashboard</span>
 <span class="text-[10px] font-bold uppercase">Overview</span>
 </a>
-<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="#">
-<span class="material-symbols-outlined">directions_boat</span>
+<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="/boats">
+                    <span class="material-symbols-outlined">directions_boat</span>
 <span class="text-[10px] font-bold uppercase">Boats</span>
 </a>
 <div class="relative">
@@ -521,14 +522,13 @@
 </a>
 </nav>
 <script>
-  // Make all internal links navigate the parent React app
-  document.addEventListener('click', function(e) {
-    const link = e.target.closest('a[href]');
-    if (!link) return;
-    const href = link.getAttribute('href');
-    if (!href || href.startsWith('http') || href.startsWith('mailto') || href === '#') return;
-    e.preventDefault();
-    window.parent.location.href = href;
-  });
+document.addEventListener('click',function(e){
+  var a=e.target.closest('a[href]');
+  if(!a)return;
+  var h=a.getAttribute('href');
+  if(!h||h.startsWith('http')||h==='#')return;
+  e.preventDefault();
+  window.parent.location.href=h;
+});
 </script>
 </body></html>

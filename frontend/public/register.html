@@ -143,9 +143,7 @@
                         </div>
                     </div>
                     <div class="flex flex-col gap-4">
-                        <button
-                            class="w-full bg-primary-container text-on-primary-container font-extrabold py-4 rounded-full shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all"
-                            type="submit">
+                        <button class="w-full bg-primary-container text-on-primary-container font-extrabold py-4 rounded-full shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all" type="button" onclick="window.parent.location.href=\'/dashboard/customer\'">
                             Sign In
                         </button>
                         <div class="relative flex items-center py-4">
@@ -301,18 +299,16 @@
                         </div>
                     </div>
                     <div class="space-y-6">
-                        <div class="flex items-start gap-3">
-                            <input class="mt-1 rounded text-primary focus:ring-primary border-outline-variant"
-                                id="terms" type="checkbox" />
-                            <label class="text-xs text-on-surface-variant leading-relaxed" for="terms">
-                                I agree to the <a class="text-on-surface font-bold hover:underline" href="#">Terms of
-                                    Service</a> and <a class="text-on-surface font-bold hover:underline"
-                                    href="#">Privacy Policy</a>, including the luxury standards of conduct.
-                            </label>
+                        <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:16px">
+                          <input type="checkbox" id="terms" required style="margin-top:3px;accent-color:#C4623A">
+                          <label for="terms" style="font-size:13px;color:#6B6560;line-height:1.5">
+                            I agree to the
+                            <a href="/terms" onclick="window.parent.location.href='/terms';return false;" style="color:#C4623A;font-weight:600;text-decoration:underline">Terms of Service</a>
+                            and
+                            <a href="/terms" onclick="window.parent.location.href='/terms';return false;" style="color:#C4623A;font-weight:600;text-decoration:underline">Liability Waiver</a>
+                          </label>
                         </div>
-                        <button
-                            class="w-full bg-primary-container text-on-primary-container font-extrabold py-4 rounded-full shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all"
-                            type="submit">
+                        <button class="w-full bg-primary-container text-on-primary-container font-extrabold py-4 rounded-full shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all" type="button" onclick="window.parent.location.href=\'/dashboard/customer\'">
                             Create Account
                         </button>
                     </div>
@@ -325,15 +321,14 @@
         </section>
     </main>
 <script>
-  // Make all internal links navigate the parent React app
-  document.addEventListener('click', function(e) {
-    const link = e.target.closest('a[href]');
-    if (!link) return;
-    const href = link.getAttribute('href');
-    if (!href || href.startsWith('http') || href.startsWith('mailto') || href === '#') return;
-    e.preventDefault();
-    window.parent.location.href = href;
-  });
+document.addEventListener('click',function(e){
+  var a=e.target.closest('a[href]');
+  if(!a)return;
+  var h=a.getAttribute('href');
+  if(!h||h.startsWith('http')||h==='#')return;
+  e.preventDefault();
+  window.parent.location.href=h;
+});
 </script>
 </body>
 

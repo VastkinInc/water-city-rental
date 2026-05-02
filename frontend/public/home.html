@@ -89,14 +89,15 @@
 <div class="flex justify-between items-center px-8 py-4 max-w-screen-2xl mx-auto">
 <a class="font-serif italic text-2xl text-stone-900" href="/" style="">Water City Rental</a>
 <div class="hidden md:flex space-x-8">
-<a class="text-orange-700 font-bold border-b-2 border-orange-600 font-sans tracking-wide uppercase text-xs" href="/boats">Charters</a>
+<a class="text-orange-700 font-bold border-b-2 border-orange-600 font-sans tracking-wide uppercase text-xs" href="/">Charters</a>
 <a class="text-stone-600 font-medium hover:text-orange-500 transition-colors duration-300 font-sans tracking-wide uppercase text-xs" href="/harbors">Harbors</a>
 <a class="text-stone-600 font-medium hover:text-orange-500 transition-colors duration-300 font-sans tracking-wide uppercase text-xs" href="/events">Events</a>
-<a class="text-stone-600 font-medium hover:text-orange-500 transition-colors duration-300 font-sans tracking-wide uppercase text-xs" href="/concierge">Concierge`</a>
+<a class="text-stone-600 font-medium hover:text-orange-500 transition-colors duration-300 font-sans tracking-wide uppercase text-xs" href="/concierge">Concierge</a>
 </div>
-<div class="flex items-center space-x-6">
+<div class="flex items-center space-x-3">
 <span class="material-symbols-outlined text-stone-900 cursor-pointer" style="">account_circle</span>
-<button class="bg-primary-container text-on-primary-container px-6 py-2 rounded-full font-bold text-xs uppercase tracking-widest hover:scale-105 active:scale-95 transition-all" style="">Book Now</button>
+<button class="bg-primary-container text-on-primary-container px-6 py-2 rounded-full font-bold text-xs uppercase tracking-widest hover:scale-105 active:scale-95 transition-all" onclick="window.parent.location.href='/login'">Rent a Boat</button>
+<button class="hidden md:inline-flex border border-stone-900 text-stone-900 px-5 py-2 rounded-full font-bold text-xs uppercase tracking-widest hover:bg-stone-900 hover:text-white transition-all" onclick="window.parent.location.href='/partner'">Partner With Us</button>
 </div>
 </div>
 </nav>
@@ -139,7 +140,7 @@
 <input class="w-full bg-white/50 border-none rounded-xl p-4 text-stone-900 focus:ring-2 focus:ring-tertiary" type="number" value="4">
 </div>
 </div>
-<button class="w-full bg-primary text-white py-5 rounded-full font-bold uppercase tracking-[0.2em] text-sm shadow-lg hover:shadow-primary/30 transition-all active:scale-[0.98]" style="">
+<button class="w-full bg-primary text-white py-5 rounded-full font-bold uppercase tracking-[0.2em] text-sm shadow-lg hover:shadow-primary/30 transition-all active:scale-[0.98]" style="" onclick="window.parent.location.href='/boats'">
                         Search Availability
                     </button>
 </div>
@@ -294,7 +295,7 @@
 <div class="text-xl font-serif font-bold text-stone-900" style="">$850<span class="text-sm font-sans font-normal text-stone-500" style="">/day</span></div>
 <div class="text-[10px] text-stone-400 uppercase tracking-wider" style="">Total incl. crew</div>
 </div>
-<button class="bg-primary hover:bg-primary/90 text-white px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-widest transition-colors" style="">Book</button>
+<button class="bg-primary hover:bg-primary/90 text-white px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-widest transition-colors" style="" onclick="window.parent.location.href='/boats/1'">Book</button>
 </div>
 </div>
 </div>
@@ -329,7 +330,7 @@
 <div class="text-xl font-serif font-bold text-stone-900" style="">$1,200<span class="text-sm font-sans font-normal text-stone-500" style="">/day</span></div>
 <div class="text-[10px] text-stone-400 uppercase tracking-wider" style="">Total incl. crew</div>
 </div>
-<button class="bg-primary hover:bg-primary/90 text-white px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-widest transition-colors" style="">Book</button>
+<button class="bg-primary hover:bg-primary/90 text-white px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-widest transition-colors" style="" onclick="window.parent.location.href='/boats/1'">Book</button>
 </div>
 </div>
 </div>
@@ -364,7 +365,7 @@
 <div class="text-xl font-serif font-bold text-stone-900" style="">$2,400<span class="text-sm font-sans font-normal text-stone-500" style="">/day</span></div>
 <div class="text-[10px] text-stone-400 uppercase tracking-wider" style="">Total incl. crew</div>
 </div>
-<button class="bg-primary hover:bg-primary/90 text-white px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-widest transition-colors" style="">Book</button>
+<button class="bg-primary hover:bg-primary/90 text-white px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-widest transition-colors" style="" onclick="window.parent.location.href='/boats/1'">Book</button>
 </div>
 </div>
 </div>
@@ -544,6 +545,54 @@
 </div>
 </div>
 </section>
+<!-- Partner With Us Section -->
+<section class="bg-stone-900 text-stone-100 py-24">
+<div class="max-w-screen-2xl mx-auto px-8 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+<!-- Left -->
+<div class="space-y-8">
+<span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-stone-800/80 border border-stone-700 text-[11px] font-bold uppercase tracking-[0.2em] text-stone-200">
+<span aria-hidden="true">🤝</span> Become a Partner
+</span>
+<h2 class="font-serif text-5xl md:text-6xl italic leading-tight text-stone-50">
+Have a Boat or <span class="text-primary-container">Captain Skills?</span>
+</h2>
+<p class="text-stone-300 text-lg leading-relaxed max-w-xl font-light">
+Join Water City Rental and start earning. Zero fees to get started during our launch phase.
+</p>
+<ul class="space-y-4 max-w-xl">
+<li class="flex items-start gap-4">
+<span class="flex-shrink-0 text-3xl" aria-hidden="true">⛵</span>
+<span class="text-stone-200 text-lg leading-relaxed pt-1"><span class="font-bold text-stone-50">List your boat</span> — earn up to $8,400/month</span>
+</li>
+<li class="flex items-start gap-4">
+<span class="flex-shrink-0 text-3xl" aria-hidden="true">⚓</span>
+<span class="text-stone-200 text-lg leading-relaxed pt-1"><span class="font-bold text-stone-50">Join as captain</span> — work on your schedule</span>
+</li>
+</ul>
+<div class="pt-2 space-y-3">
+<button class="bg-primary-container text-on-primary-container px-8 py-4 rounded-full font-extrabold text-sm uppercase tracking-widest hover:scale-105 active:scale-95 transition-all shadow-xl shadow-primary/20" onclick="window.parent.location.href='/partner'">
+Partner With Us — It's Free &rarr;
+</button>
+<p class="text-xs text-stone-400 tracking-wide">No joining fees · Cancel anytime</p>
+</div>
+</div>
+<!-- Right: 3 stacked stat cards -->
+<div class="space-y-4">
+<div class="bg-stone-800/60 border border-stone-700 rounded-3xl p-8 backdrop-blur-sm flex items-center justify-between gap-6 hover:border-primary-container/40 transition-colors">
+<div class="font-serif text-5xl md:text-6xl text-primary-container font-bold leading-none">$42,000</div>
+<div class="text-right text-stone-300 text-sm uppercase tracking-[0.18em] font-bold max-w-[180px]">Top owner earnings this year</div>
+</div>
+<div class="bg-stone-800/60 border border-stone-700 rounded-3xl p-8 backdrop-blur-sm flex items-center justify-between gap-6 hover:border-primary-container/40 transition-colors">
+<div class="font-serif text-5xl md:text-6xl text-primary-container font-bold leading-none">4.9★</div>
+<div class="text-right text-stone-300 text-sm uppercase tracking-[0.18em] font-bold max-w-[180px]">Average captain rating</div>
+</div>
+<div class="bg-stone-800/60 border border-stone-700 rounded-3xl p-8 backdrop-blur-sm flex items-center justify-between gap-6 hover:border-primary-container/40 transition-colors">
+<div class="font-serif text-5xl md:text-6xl text-primary-container font-bold leading-none italic">Zero</div>
+<div class="text-right text-stone-300 text-sm uppercase tracking-[0.18em] font-bold max-w-[180px]">Joining fees during launch</div>
+</div>
+</div>
+</div>
+</section>
 <!-- Footer -->
 <footer class="bg-stone-900 text-stone-400 py-24">
 <div class="max-w-screen-2xl mx-auto px-8 grid grid-cols-1 md:grid-cols-4 gap-12 border-b border-stone-800 pb-16">
@@ -598,14 +647,13 @@
 </div>
 </footer>
 <script>
-  // Make all internal links navigate the parent React app
-  document.addEventListener('click', function(e) {
-    const link = e.target.closest('a[href]');
-    if (!link) return;
-    const href = link.getAttribute('href');
-    if (!href || href.startsWith('http') || href.startsWith('mailto') || href === '#') return;
-    e.preventDefault();
-    window.parent.location.href = href;
-  });
+document.addEventListener('click',function(e){
+  var a=e.target.closest('a[href]');
+  if(!a)return;
+  var h=a.getAttribute('href');
+  if(!h||h.startsWith('http')||h==='#')return;
+  e.preventDefault();
+  window.parent.location.href=h;
+});
 </script>
 </body></html>

@@ -100,59 +100,63 @@
 </head>
 
 <body class="bg-background text-on-surface">
+    <script>localStorage.setItem('wcr_role','customer')</script>
     <div class="flex min-h-screen">
-        <!-- SideNavBar Component -->
-        <aside class="hidden md:flex flex-col h-screen w-64 bg-stone-50 dark:bg-stone-950 py-8 pl-6 sticky top-0">
-            <div class="mb-10 pr-6">
-                <span class="font-serif italic text-xl text-stone-900 dark:text-stone-50">Water City Rentals</span>
+        <!-- SideNavBar Component (Customer) -->
+        <aside class="hidden md:flex flex-col h-screen w-64 bg-stone-50 dark:bg-stone-950 py-8 pl-6 sticky top-0 z-40">
+            <div class="mb-6 pr-6">
+                <a href="/" class="font-serif italic text-xl text-stone-900 dark:text-stone-50">Water City Rental</a>
+                <p class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold mt-1">Customer Portal</p>
             </div>
             <div class="flex items-center gap-3 mb-8 pr-6">
-                <img alt="User profile photo" class="w-10 h-10 rounded-full object-cover"
-                    data-alt="Close-up portrait of a professional man with a friendly smile, outdoor lighting with warm sunset tones"
+                <img alt="Alex Johnson" class="w-10 h-10 rounded-full object-cover"
                     src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSeB-zYy66SB8W1rDS4pQd909FetLqSvRbVmoZF4ecl97g1A85ji5X-SNQvHOYggY7yZ0944htJX5Mn95ifEhMkxYQP4eo5qDzGle2Kh_-ozdA6gcIp7TQh9xKLA5ZXqes7C3nP9sLyorz0zv58Cb-eMlUkKmeJzncS-sTX11wgy3VJIXkhSOaIZ6gaCu57x88-mqA2eW6IshFvSux4bA83AjeB1Kw1XgF51h5hOPuTNkmDfVjlFFkICk8DiTikEsoQDhIEgdBRROz" />
                 <div>
-                    <p class="font-serif italic text-sm text-stone-900 dark:text-stone-50">Captain's Lounge</p>
-                    <p class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Premier Member
-                    </p>
+                    <p class="font-serif italic text-sm text-stone-900 dark:text-stone-50">Alex Johnson</p>
+                    <p class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Customer</p>
                 </div>
             </div>
             <nav class="flex-1 space-y-1">
-                <!-- Dashboard Active -->
                 <a class="flex items-center gap-3 px-4 py-3 text-stone-900 dark:text-white font-bold bg-white dark:bg-stone-900 rounded-l-full shadow-sm translate-x-1 duration-200"
-                    href="#">
+                    href="/dashboard/customer">
                     <span class="material-symbols-outlined">dashboard</span>
                     <span class="font-sans text-sm tracking-tight">Dashboard</span>
                 </a>
-                <a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all group"
-                    href="#">
+                <a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all"
+                    href="/boats">
                     <span class="material-symbols-outlined">directions_boat</span>
                     <span class="font-sans text-sm tracking-tight">Browse Boats</span>
                 </a>
                 <a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all"
-                    href="#">
+                    href="/my-bookings">
                     <span class="material-symbols-outlined">anchor</span>
                     <span class="font-sans text-sm tracking-tight">My Bookings</span>
                 </a>
                 <a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all"
-                    href="#">
+                    href="/boats">
                     <span class="material-symbols-outlined">favorite</span>
                     <span class="font-sans text-sm tracking-tight">Saved</span>
                 </a>
                 <a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all"
-                    href="#">
+                    href="/messages">
                     <span class="material-symbols-outlined">mail</span>
                     <span class="font-sans text-sm tracking-tight">Messages</span>
                 </a>
                 <a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all"
-                    href="#">
+                    href="/profile">
                     <span class="material-symbols-outlined">account_circle</span>
                     <span class="font-sans text-sm tracking-tight">Profile</span>
                 </a>
+                <a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all"
+                    href="/login" onclick="localStorage.removeItem('wcr_role')">
+                    <span class="material-symbols-outlined">logout</span>
+                    <span class="font-sans text-sm tracking-tight">Logout</span>
+                </a>
             </nav>
             <div class="mt-auto pr-6">
-                <button
+                <button onclick="window.parent.location.href='/boats'"
                     class="w-full bg-primary-container text-on-primary-container py-3 rounded-full text-xs font-bold uppercase tracking-widest hover:brightness-105 transition-all">
-                    List Your Boat
+                    Rent a Boat
                 </button>
             </div>
         </aside>
@@ -193,7 +197,7 @@
             <section class="mb-16">
                 <div class="flex items-center justify-between mb-8">
                     <h2 class="text-2xl font-serif italic text-on-surface">Upcoming Trips</h2>
-                    <a class="text-xs uppercase font-bold tracking-widest text-primary hover:underline" href="#">View
+                    <a class="text-xs uppercase font-bold tracking-widest text-primary hover:underline" href="/boats">View
                         Calendar</a>
                 </div>
                 <div class="grid md:grid-cols-2 gap-8">
@@ -275,7 +279,7 @@
                         <h2 class="text-2xl font-serif italic text-on-surface">Recommended For You</h2>
                         <p class="text-sm text-on-surface-variant">Recommended based on your recent searches</p>
                     </div>
-                    <a class="text-xs uppercase font-bold tracking-widest text-primary hover:underline" href="#">Explore
+                    <a class="text-xs uppercase font-bold tracking-widest text-primary hover:underline" href="/boats">Explore
                         More</a>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -445,8 +449,8 @@
             <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
             <span class="text-[10px] font-bold uppercase tracking-tighter">Dash</span>
         </a>
-        <a class="flex flex-col items-center gap-1 text-on-surface-variant" href="#">
-            <span class="material-symbols-outlined">directions_boat</span>
+        <a class="flex flex-col items-center gap-1 text-on-surface-variant" href="/boats">
+                    <span class="material-symbols-outlined">directions_boat</span>
             <span class="text-[10px] font-bold uppercase tracking-tighter">Browse</span>
         </a>
         <a class="flex flex-col items-center gap-1 text-on-surface-variant" href="#">
@@ -459,15 +463,14 @@
         </a>
     </nav>
 <script>
-  // Make all internal links navigate the parent React app
-  document.addEventListener('click', function(e) {
-    const link = e.target.closest('a[href]');
-    if (!link) return;
-    const href = link.getAttribute('href');
-    if (!href || href.startsWith('http') || href.startsWith('mailto') || href === '#') return;
-    e.preventDefault();
-    window.parent.location.href = href;
-  });
+document.addEventListener('click',function(e){
+  var a=e.target.closest('a[href]');
+  if(!a)return;
+  var h=a.getAttribute('href');
+  if(!h||h.startsWith('http')||h==='#')return;
+  e.preventDefault();
+  window.parent.location.href=h;
+});
 </script>
 </body>
 

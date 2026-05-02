@@ -11,6 +11,19 @@ import AdminDashboard from "./pages/AdminDashboard";
 import HarborsPage from "./pages/HarborsPage";
 import EventsPage from "./pages/EventsPage";
 import ConciergePage from "./pages/ConciergePage";
+import PartnerPage from "./pages/PartnerPage";
+import PartnerLogin from "./pages/PartnerLogin";
+import TermsPage from "./pages/TermsPage";
+import ListBoat from "./pages/ListBoat";
+import MyBoats from "./pages/MyBoats";
+import MyBookings from "./pages/MyBookings";
+import MyTrips from "./pages/MyTrips";
+import BookingDetail from "./pages/BookingDetail";
+import Earnings from "./pages/Earnings";
+import Profile from "./pages/Profile";
+import Messages from "./pages/Messages";
+import Checkout from "./pages/Checkout";
+import BookingConfirmed from "./pages/BookingConfirmed";
 
 export default function App() {
   return (
@@ -28,6 +41,20 @@ export default function App() {
         <Route path="/harbors" element={<HarborsPage />} />
         <Route path="/events" element={<EventsPage />} />
         <Route path="/concierge" element={<ConciergePage />} />
+        <Route path="/partner" element={<PartnerPage />} />
+        <Route path="/partner-login" element={<PartnerLogin />} />
+        <Route path="/terms" element={<TermsPage />} />
+        <Route path="/list-boat" element={<ListBoat />} />
+        <Route path="/my-boats" element={<MyBoats />} />
+        <Route path="/my-bookings" element={<MyBookings />} />
+        <Route path="/my-trips" element={<MyTrips />} />
+        <Route path="/booking/:id" element={<BookingDetail />} />
+        <Route path="/earnings" element={<Earnings />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/messages" element={<Messages />} />
+        <Route path="/checkout" element={<Checkout />} />
+        <Route path="/booking-confirmed" element={<BookingConfirmed />} />
+        <Route path="/booking/new" element={<Checkout />} />
       </Routes>
     </BrowserRouter>
   );

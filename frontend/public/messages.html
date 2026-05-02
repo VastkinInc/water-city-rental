@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Messages | Water City Rental</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&amp;family=Noto+Serif:ital,wght@0,400;0,700;1,400;1,700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-tint": "#a43c12",
+                    "error-container": "#ffdad6",
+                    "on-tertiary-fixed-variant": "#574500",
+                    "inverse-surface": "#2f312f",
+                    "on-secondary-fixed": "#001f23",
+                    "surface-container-high": "#e9e8e5",
+                    "primary-fixed-dim": "#ffb59c",
+                    "secondary-fixed": "#9ff0fb",
+                    "secondary": "#006972",
+                    "on-primary-container": "#6c2000",
+                    "secondary-container": "#9ff0fb",
+                    "on-primary": "#ffffff",
+                    "tertiary-container": "#c4a028",
+                    "surface-container-lowest": "#ffffff",
+                    "outline": "#8b7169",
+                    "on-secondary-fixed-variant": "#004f56",
+                    "on-secondary": "#ffffff",
+                    "on-tertiary": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "primary-container": "#ff7f50",
+                    "tertiary-fixed-dim": "#e9c349",
+                    "surface-dim": "#dbdad7",
+                    "surface-container-highest": "#e3e2e0",
+                    "primary-fixed": "#ffdbcf",
+                    "on-primary-fixed": "#380c00",
+                    "background": "#faf9f6",
+                    "tertiary-fixed": "#ffe088",
+                    "on-tertiary-container": "#483800",
+                    "inverse-primary": "#ffb59c",
+                    "surface-container": "#efeeeb",
+                    "on-primary-fixed-variant": "#822800",
+                    "on-tertiary-fixed": "#241a00",
+                    "tertiary": "#735c00",
+                    "surface-container-low": "#f4f3f1",
+                    "on-secondary-container": "#066f79",
+                    "surface-variant": "#e3e2e0",
+                    "on-background": "#1a1c1a",
+                    "error": "#ba1a1a",
+                    "on-surface-variant": "#57423b",
+                    "inverse-on-surface": "#f2f1ee",
+                    "outline-variant": "#dec0b6",
+                    "on-surface": "#1a1c1a",
+                    "surface": "#faf9f6",
+                    "secondary-fixed-dim": "#82d3de",
+                    "primary": "#a43c12",
+                    "on-error": "#ffffff",
+                    "surface-bright": "#faf9f6"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {},
+            "fontFamily": {
+                    "headline": [
+                            "Noto Serif"
+                    ],
+                    "display": [
+                            "Noto Serif"
+                    ],
+                    "body": [
+                            "Manrope"
+                    ],
+                    "label": [
+                            "Manrope"
+                    ]
+            },
+            "fontSize": {}
+    },
+        },
+      }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body h-screen flex overflow-hidden">
+<!-- Role-aware Sidebars -->
+<div id="sidebar-customer" style="display:none">
+<aside class="hidden md:flex flex-col h-screen w-64 bg-stone-50 dark:bg-stone-950 py-8 pl-6 sticky top-0 z-40 flex-shrink-0">
+<div class="mb-6 pr-6">
+<a href="/" class="font-serif italic text-xl text-stone-900 dark:text-stone-50">Water City Rental</a>
+<p class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold mt-1">Customer Portal</p>
+</div>
+<div class="flex items-center gap-3 mb-8 pr-6">
+<img alt="Alex Johnson" class="w-10 h-10 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSeB-zYy66SB8W1rDS4pQd909FetLqSvRbVmoZF4ecl97g1A85ji5X-SNQvHOYggY7yZ0944htJX5Mn95ifEhMkxYQP4eo5qDzGle2Kh_-ozdA6gcIp7TQh9xKLA5ZXqes7C3nP9sLyorz0zv58Cb-eMlUkKmeJzncS-sTX11wgy3VJIXkhSOaIZ6gaCu57x88-mqA2eW6IshFvSux4bA83AjeB1Kw1XgF51h5hOPuTNkmDfVjlFFkICk8DiTikEsoQDhIEgdBRROz" />
+<div>
+<p class="font-serif italic text-sm text-stone-900 dark:text-stone-50">Alex Johnson</p>
+<p class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Customer</p>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all" href="/dashboard/customer">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-sans text-sm tracking-tight">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all" href="/boats">
+<span class="material-symbols-outlined">directions_boat</span>
+<span class="font-sans text-sm tracking-tight">Browse Boats</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all" href="/my-bookings">
+<span class="material-symbols-outlined">anchor</span>
+<span class="font-sans text-sm tracking-tight">My Bookings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all" href="/boats">
+<span class="material-symbols-outlined">favorite</span>
+<span class="font-sans text-sm tracking-tight">Saved</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-stone-900 dark:text-white font-bold bg-white dark:bg-stone-900 rounded-l-full shadow-sm translate-x-1 duration-200" href="/messages">
+<span class="material-symbols-outlined">mail</span>
+<span class="font-sans text-sm tracking-tight">Messages</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all" href="/profile">
+<span class="material-symbols-outlined">account_circle</span>
+<span class="font-sans text-sm tracking-tight">Profile</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all" href="/login" onclick="localStorage.removeItem('wcr_role')">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-sans text-sm tracking-tight">Logout</span>
+</a>
+</nav>
+<div class="mt-auto pr-6">
+<button onclick="window.parent.location.href='/boats'" class="w-full bg-primary-container text-on-primary-container py-3 rounded-full text-xs font-bold uppercase tracking-widest hover:brightness-105 transition-all">
+                Rent a Boat
+            </button>
+</div>
+</aside>
+</div>
+<div id="sidebar-owner" style="display:none">
+<aside class="hidden md:flex flex-col h-screen w-64 bg-stone-50 dark:bg-stone-950 py-8 pl-6 sticky top-0 z-40 flex-shrink-0">
+<div class="mb-6 pr-6">
+<a href="/" class="font-serif italic text-xl text-stone-900 dark:text-stone-50">Water City Rental</a>
+<p class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold mt-1">Owner Portal</p>
+</div>
+<div class="flex items-center gap-3 mb-8 pr-6">
+<img alt="Sarah Chen" class="w-10 h-10 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC3OYhnErS480ojuXEEWpT2_-H1PbuN7u8tBL71NSoqD9srL2tiMGRrFUlSH7YS8lo4dpxJmELZJWJJDvrlkQVDvZ4NtzW1I9lJ1di0nAubOqY774CpZ1oTZGwmq9lI2eb_SUd9TYy1XYvKQaxHNKXz2RbOfxOa6O_KibCW1EqE3Uy9Whv5ppnv8L4sJaiV7ScJoB4e5azHYx7eyqYYIrbspyDf74_gcVUgtYQyeOJSM9W6WnT4EHPi0jxmQk6DcaITv3k7pHQb_Lbj"/>
+<div>
+<p class="font-serif italic text-sm text-stone-900 dark:text-stone-50">Sarah Chen</p>
+<p class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Boat Owner</p>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all" href="/dashboard/owner">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-sans text-sm tracking-tight">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all" href="/my-boats">
+<span class="material-symbols-outlined">directions_boat</span>
+<span class="font-sans text-sm tracking-tight">My Boats</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all" href="/my-bookings">
+<span class="material-symbols-outlined">anchor</span>
+<span class="font-sans text-sm tracking-tight">Bookings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all" href="/earnings">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-sans text-sm tracking-tight">Earnings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-stone-900 dark:text-white font-bold bg-white dark:bg-stone-900 rounded-l-full shadow-sm translate-x-1 duration-200" href="/messages">
+<span class="material-symbols-outlined">mail</span>
+<span class="font-sans text-sm tracking-tight">Messages</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all" href="/profile">
+<span class="material-symbols-outlined">account_circle</span>
+<span class="font-sans text-sm tracking-tight">Profile</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all" href="/partner-login" onclick="localStorage.removeItem('wcr_role')">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-sans text-sm tracking-tight">Logout</span>
+</a>
+</nav>
+<div class="mt-auto pr-6">
+<button onclick="window.parent.location.href='/list-boat'" class="w-full bg-primary-container text-on-primary-container py-3 rounded-full font-bold text-xs tracking-widest uppercase hover:opacity-90 transition-all">
+                List Your Boat
+            </button>
+</div>
+</aside>
+</div>
+<div id="sidebar-captain" style="display:none">
+<aside class="hidden md:flex flex-col h-screen w-64 bg-stone-50 dark:bg-stone-950 py-8 pl-6 sticky top-0 z-40 flex-shrink-0">
+<div class="mb-6 pr-6">
+<a href="/" class="font-serif italic text-xl text-stone-900 dark:text-stone-50">Water City Rental</a>
+<p class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold mt-1">Captain Portal</p>
+</div>
+<div class="flex items-center gap-3 mb-8 pr-6">
+<img alt="Marco Rossi" class="w-10 h-10 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBMq0Ql9wa47BDanjWsV1gGErbALm6ygkV-hiAKVRThQy9zbJ8P6vt9rM9vKXmzLse5WCHMezM7zJThqPdGjRtD_tcO4nXS3aHe5-l-pZxke5aW3N0wQ8utHaLhBKvMABSIJw2-gFjdNX57AWmV_T86yeY3x9pA5_SncHVUyhoeWqa-us-VC98aNc2s9RbtqhuitVG3a5J0RIDT9ly7BKk6KH2_HvGAOcbIRJ1wONvOXl3hJmmW1GugyrbukF2lmuJ1D1735cb0RnoT" />
+<div>
+<p class="font-serif italic text-sm text-stone-900 dark:text-stone-50">Marco Rossi</p>
+<p class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Captain</p>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all" href="/dashboard/captain">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-sans text-sm tracking-tight">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all" href="/my-trips">
+<span class="material-symbols-outlined">directions_boat</span>
+<span class="font-sans text-sm tracking-tight">My Trips</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-stone-900 dark:text-white font-bold bg-white dark:bg-stone-900 rounded-l-full shadow-sm translate-x-1 duration-200" href="/messages">
+<span class="material-symbols-outlined">mail</span>
+<span class="font-sans text-sm tracking-tight">Messages</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all" href="/profile">
+<span class="material-symbols-outlined">account_circle</span>
+<span class="font-sans text-sm tracking-tight">Profile</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all" href="/partner-login" onclick="localStorage.removeItem('wcr_role')">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-sans text-sm tracking-tight">Logout</span>
+</a>
+</nav>
+</aside>
+</div>
+<script>
+(function(){
+  var role = localStorage.getItem('wcr_role') || 'customer';
+  if (role !== 'customer' && role !== 'owner' && role !== 'captain') role = 'customer';
+  var el = document.getElementById('sidebar-' + role);
+  if (el) el.style.display = 'block';
+})();
+</script>
+<!-- Main Content Area -->
+<main class="flex-1 flex h-screen bg-surface-container-low pt-4 pb-4 pr-4 pl-4 md:pl-0">
+<!-- Chat Interface Container (Glassmorphism & Shadows) -->
+<div class="flex-1 flex bg-surface-container-lowest rounded-xl shadow-[0_8px_32px_rgba(26,28,26,0.06)] overflow-hidden">
+<!-- LEFT COLUMN: Conversation List -->
+<div class="w-full md:w-[35%] flex flex-col bg-surface border-r border-outline-variant/15">
+<!-- Search Header -->
+<div class="p-6 pb-4">
+<h2 class="font-headline text-2xl text-on-background mb-4">Messages</h2>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container rounded-full border-none text-sm focus:ring-2 focus:ring-tertiary focus:outline-none placeholder-on-surface-variant/70 text-on-background transition-shadow" placeholder="Search messages..." type="text"/>
+</div>
+</div>
+<!-- Conversation List -->
+<div class="flex-1 overflow-y-auto" id="conversation-list">
+<!-- Item 1: Active & Unread -->
+<div class="conversation-item flex items-center px-6 py-4 bg-surface-container-low cursor-pointer hover:bg-surface-container-low transition-colors" data-name="Captain Marcus" onclick="selectConversation(this, 'Captain Marcus')">
+<div class="relative flex-shrink-0">
+<img alt="Captain Marcus" class="w-12 h-12 rounded-full object-cover border-2 border-surface-container-lowest" data-alt="Portrait of a rugged captain with a beard, natural sunlight, ocean background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBu0keb2vDvdPbQm8koicHCM3ORVZYYNTLIao-jzmm9UXcp_KhX9bB2fj63fB__2al6a3ftgpfXcVJ6T-Zum74JEouHEmrZLkNYko0evLCpf4-fZeuLhjLo0qH_P1P7pDMJRtXXbR_63eHBTbWbskgin-y7K1ZXYmUqEsDjQu4dZ6JEKFkJ0BUmI87zoO2lAIT_hqlQOS5-VqWDFSpaqmTUNixXcfpTMQwGOKXB_XFFLzLjUXeiy8-K3fN9j8kmQ9nwpr5weVbNmqQV"/>
+<div class="absolute bottom-0 right-0 w-3 h-3 bg-primary-container rounded-full border-2 border-surface-container-lowest"></div>
+</div>
+<div class="ml-4 flex-1 min-w-0">
+<div class="flex justify-between items-baseline">
+<h3 class="text-sm font-bold text-on-background truncate">Captain Marcus</h3>
+<span class="text-xs text-primary font-bold">10:30 AM</span>
+</div>
+<p class="text-sm text-on-background font-semibold truncate mt-0.5">The Azimut is ready for your boarding.</p>
+</div>
+</div>
+<!-- Item 2: Unread -->
+<div class="conversation-item flex items-center px-6 py-4 cursor-pointer hover:bg-surface-container transition-colors" data-name="Eleanor Vance" onclick="selectConversation(this, 'Eleanor Vance')">
+<div class="relative flex-shrink-0">
+<img alt="Eleanor Vance" class="w-12 h-12 rounded-full object-cover" data-alt="Portrait of a sophisticated woman smiling, golden hour lighting, marina setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCNLbRc5WQrbCyZUPuupf1xNGovOixdWFKqKtIAaGDqSmzhrs-1BnfT-xf3np5e2B7uAXUJwQPIZ56OR0HATYcgdJi9bW8f9G7-mGTSaHfmJDqCajC6Yel_jLOJcxKOotSK0xdlVFIzZbqFP1Z5yVD7N0Vp_sgjbilC_WSzM2tCj0ndNT4uWx-Tlkwd9trW6fIgJBXziYZjXUkGdkGEUQ05FXf9XdgAVgTPsRdL4C_VEdRNh2kU68fH7cC_wfDSz7VSb3tycAGQjtpe"/>
+<div class="absolute bottom-0 right-0 w-3 h-3 bg-primary-container rounded-full border-2 border-surface-container-lowest"></div>
+</div>
+<div class="ml-4 flex-1 min-w-0">
+<div class="flex justify-between items-baseline">
+<h3 class="text-sm font-bold text-on-background truncate">Eleanor Vance</h3>
+<span class="text-xs text-primary font-bold">Yesterday</span>
+</div>
+<p class="text-sm text-on-background font-semibold truncate mt-0.5">Could we arrange catering for 6 guests?</p>
+</div>
+</div>
+<!-- Item 3: Read -->
+<div class="conversation-item flex items-center px-6 py-4 cursor-pointer hover:bg-surface-container transition-colors" data-name="Julian Thorne" onclick="selectConversation(this, 'Julian Thorne')">
+<div class="relative flex-shrink-0">
+<img alt="Julian Thorne" class="w-12 h-12 rounded-full object-cover" data-alt="Portrait of a distinguished man in sunglasses, bright sunny day, near luxury yacht" src="https://lh3.googleusercontent.com/aida-public/AB6AXuALhA_cw3FYUkCW3puVncgiZk5pr6IbPNM-IvUoypX0p1cnKrHXoq96MxkdcNqsk2kN04JL9iqy1jjw9GaxbYR_KA3b_KhILbb0-MunuNfY33QQfoqEdiGZ0vsHv2gicjBdYPXMbKiq4VVr6ru4Pjmz0D4Jl6YbIj5Y0uqWrHK5DbyACswxK02n_fgw_lywABkESq0KuO_69oK95mBr9fyy_P6M4wLbANaiWIhXQrtkNpeXjIMOoXyVmVflktHmAByM4IAoOZxMuhV8"/>
+</div>
+<div class="ml-4 flex-1 min-w-0">
+<div class="flex justify-between items-baseline">
+<h3 class="text-sm font-bold text-on-background truncate">Julian Thorne</h3>
+<span class="text-xs text-on-surface-variant">Mon</span>
+</div>
+<p class="text-sm text-on-surface-variant truncate mt-0.5">Thank you, the itinerary looks perfect.</p>
+</div>
+</div>
+<!-- Item 4: Read -->
+<div class="conversation-item flex items-center px-6 py-4 cursor-pointer hover:bg-surface-container transition-colors" data-name="Starlight Concierge" onclick="selectConversation(this, 'Starlight Concierge')">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-secondary-fixed text-on-secondary-fixed flex items-center justify-center font-bold text-lg">
+                            SC
+                        </div>
+<div class="ml-4 flex-1 min-w-0">
+<div class="flex justify-between items-baseline">
+<h3 class="text-sm font-bold text-on-background truncate">Starlight Concierge</h3>
+<span class="text-xs text-on-surface-variant">Aug 2</span>
+</div>
+<p class="text-sm text-on-surface-variant truncate mt-0.5">Your transfer from the airport is confirmed.</p>
+</div>
+</div>
+<!-- Item 5: Read -->
+<div class="conversation-item flex items-center px-6 py-4 cursor-pointer hover:bg-surface-container transition-colors" data-name="Chloe Davis" onclick="selectConversation(this, 'Chloe Davis')">
+<div class="relative flex-shrink-0">
+<img alt="Chloe Davis" class="w-12 h-12 rounded-full object-cover" data-alt="Portrait of a young woman looking thoughtful, soft seaside background, overcast lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAMO49MJ8I_wvyvz9Et6sGETbF-9hrr6r8S9nLy2t-r7LOYflTrhPWXPIvFMUhQxID55r9hRTMrKcX8NjZO7n85xHygE_afPIQ8Hj-hG9v9CD24o_-TLs-QmldBDDqJBmUG5pJu0TjCHnts9QMvuBEIKD9A8pML_2G-DiWBJLvcQbAlmOGMdmsTt8qErSlhXKF96y3fn0y1tjAQc6917L-oTUs-ADckhskU-1Wr4SvYYADfdP-Wn4izwfPDW0ZyzN4Q_7KdZfDOAR8P"/>
+</div>
+<div class="ml-4 flex-1 min-w-0">
+<div class="flex justify-between items-baseline">
+<h3 class="text-sm font-bold text-on-background truncate">Chloe Davis</h3>
+<span class="text-xs text-on-surface-variant">Jul 28</span>
+</div>
+<p class="text-sm text-on-surface-variant truncate mt-0.5">Is snorkeling gear included on the Princess 62?</p>
+</div>
+</div>
+<!-- Item 6: Read -->
+<div class="conversation-item flex items-center px-6 py-4 cursor-pointer hover:bg-surface-container transition-colors" data-name="David Sterling" onclick="selectConversation(this, 'David Sterling')">
+<div class="relative flex-shrink-0">
+<img alt="David Sterling" class="w-12 h-12 rounded-full object-cover" data-alt="Portrait of a smiling mature man, casual luxury attire, soft sunset lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA9vM0w3Fm2e4nz_p6jndy8rWwucqnXC-bWaVf2ofU6RJlKXPRvcczmi9MnxyKkuWKubpJCCNwu4faHZdgmNsrwlpt-IGmZ9wBWo1fcGJ078wmKYZ8tnSRq9Xi6ZJXq2TXaH9z46ubt8fvXLvW5IFtfkafMfoRS4fbihapiTaemwmaaHdAp-ql91hDB5-iZc5YBbLiZ00PJDGhQEc-Ql-MFdruwuj0APREMT2cKfM4JevBLMyfRDnJqCw1-RI8IDVVEZtVKJcWHSRJu"/>
+</div>
+<div class="ml-4 flex-1 min-w-0">
+<div class="flex justify-between items-baseline">
+<h3 class="text-sm font-bold text-on-background truncate">David Sterling</h3>
+<span class="text-xs text-on-surface-variant">Jul 15</span>
+</div>
+<p class="text-sm text-on-surface-variant truncate mt-0.5">Great experience, will book again next season.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- RIGHT COLUMN: Chat Area -->
+<div class="hidden md:flex flex-col w-[65%] bg-surface-container-lowest">
+<!-- Chat Header -->
+<div class="flex items-center justify-between px-8 py-6 border-b border-outline-variant/15 bg-surface-container-lowest/80 backdrop-blur-md z-10">
+<div class="flex items-center">
+<img alt="Captain Marcus" class="w-10 h-10 rounded-full object-cover" data-alt="Portrait of a rugged captain with a beard, natural sunlight, ocean background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCPy7_LL2zBS4UmPT2OjjWulHyeI9Bd6xS8iFDTPMwQ9EvVG9GFRBZyAv28jXtqKHH4YOD32XOmNVsibM_cOTvE1urOcwaPxRDY1Ai1wnPGDjc91DXFeybHE5FOAYD6WLFqnqhzdr9qHETQjZQ-jh_0WU6YannuntN8BsNrdWjKvWKU0WjXuQNLZtcjWj9FaGmhiMAf28rlmIR8lkSC4wZLiquwELR7mAsQ5fB6NNHv7VUsTDiHPnTabIuyx6Tsqd9aDZhQjCHIW5B-"/>
+<div class="ml-4">
+<h2 class="text-base font-bold text-on-background leading-tight" id="active-chat-name">Captain Marcus</h2>
+<div class="flex items-center mt-0.5">
+<div class="w-2 h-2 rounded-full bg-secondary mr-2"></div>
+<span class="text-xs text-on-surface-variant font-medium">Online</span>
+</div>
+</div>
+</div>
+<div class="flex space-x-4 text-on-surface-variant">
+<button class="hover:text-primary transition-colors">
+<span class="material-symbols-outlined">call</span>
+</button>
+<button class="hover:text-primary transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Messages Area -->
+<div class="flex-1 overflow-y-auto px-8 py-6 space-y-6 bg-surface-container-lowest">
+<!-- Date Separator -->
+<div class="flex justify-center">
+<span class="text-[0.6875rem] uppercase tracking-[0.05em] font-bold text-on-surface-variant bg-surface-container px-3 py-1 rounded-full">August 2nd</span>
+</div>
+<!-- Received Message -->
+<div class="flex items-end space-x-3">
+<img alt="Captain Marcus" class="w-8 h-8 rounded-full object-cover mb-1" data-alt="Portrait of a rugged captain with a beard, natural sunlight, ocean background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCMUoeXZsLY5F-PleLVLqw-uu-CAWbQ7Xo0WUdfpMLI2Am2A3xTbA0HGGDyRVWc9BdLSAQ60pOms73UHyaPDQLDLNXD81FQGqVHhWag7F5275QIzZ24KH8J7Y2F-Y0V_F_RgytDX-J4Nc2id3RyUsDD-Viixa9eUtn0bT-_l_EI4LbRR8gsYUH6G0BWSxGdnn8Y0XtYBttslyi_gkyCVSH28CCHFpQVwr-5aO5kkBwT5Nc-_zeOcDGapQZsxBOAa_ElGQXUmpYbc_x-"/>
+<div class="bg-surface-container-high text-on-background px-5 py-3 rounded-2xl rounded-bl-sm max-w-[70%]">
+<p class="text-sm">Good morning! Just confirming our departure for tomorrow at 9 AM from slip B-44.</p>
+<span class="text-[0.65rem] text-on-surface-variant mt-1 block text-right">09:15 AM</span>
+</div>
+</div>
+<!-- Sent Message -->
+<div class="flex items-end justify-end space-x-3">
+<div class="bg-primary-container text-on-primary-container px-5 py-3 rounded-2xl rounded-br-sm max-w-[70%]">
+<p class="text-sm">Morning Captain! Yes, 9 AM works perfectly for us. We'll be 4 people.</p>
+<span class="text-[0.65rem] text-on-primary-container/70 mt-1 block text-right">09:30 AM</span>
+</div>
+</div>
+<!-- Received Message -->
+<div class="flex items-end space-x-3">
+<img alt="Captain Marcus" class="w-8 h-8 rounded-full object-cover mb-1" data-alt="Portrait of a rugged captain with a beard, natural sunlight, ocean background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBSCRyi9r2sOHyszdHF4ZDZrFh9hFOzngcHKvMi5-Yp3qVi5pmR_HIP69wpWWtG7-6vFoLImUg2r1VFHakXWrcJlE40VoLm5JyESbEHdSJldlhwlYcY78dadO2Eb9hPZN59-JNPd2bRONu4M4LAJNGajWScaElyYvO4fvRq9mV6xGumQdfm3unCUHXW0CUZwdT-OXZTbKk1w4rjoZTbDxRG1PHP6xMIl0ruoMcT3Dlf6lr3yRDgjaBYsMY4nJzk0cuCjHmGlLw-vvmj"/>
+<div class="bg-surface-container-high text-on-background px-5 py-3 rounded-2xl rounded-bl-sm max-w-[70%]">
+<p class="text-sm">Excellent. I've stocked the cooler with sparkling water and some local citrus. Do you need any specific catering arranged?</p>
+<span class="text-[0.65rem] text-on-surface-variant mt-1 block text-right">09:45 AM</span>
+</div>
+</div>
+<!-- Sent Message -->
+<div class="flex items-end justify-end space-x-3">
+<div class="bg-primary-container text-on-primary-container px-5 py-3 rounded-2xl rounded-br-sm max-w-[70%]">
+<p class="text-sm">That sounds lovely. No need for heavy catering, maybe just a light charcuterie board if possible?</p>
+<span class="text-[0.65rem] text-on-primary-container/70 mt-1 block text-right">10:05 AM</span>
+</div>
+</div>
+<!-- Date Separator -->
+<div class="flex justify-center mt-8">
+<span class="text-[0.6875rem] uppercase tracking-[0.05em] font-bold text-on-surface-variant bg-surface-container px-3 py-1 rounded-full">Today</span>
+</div>
+<!-- Received Message -->
+<div class="flex items-end space-x-3">
+<img alt="Captain Marcus" class="w-8 h-8 rounded-full object-cover mb-1" data-alt="Portrait of a rugged captain with a beard, natural sunlight, ocean background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCPCHRPY7JRzSr7Njbii50s8PlzvhhZIGd5mglkw6XPZxWkM9sI6iCzJkhso-aegmx2RaaKkf_7z7aXMwBgACcHaUDsf7FnjVAh7o0WDc_y39W2jsRuSBI9xTa9R7PLUNV7IXNlCO6DJPhq81PuDxmcpomnAj9bqVrBrRhu4KThfC-HR8Pmut3HdxxE_yerhlUQtclfC3T_OKOAl9WL_bbBgEzilVi3RpP4UzgSsoadfWerSBkyIwcK4yTAouJuy2kb3b57yJVxt0Tp"/>
+<div class="bg-surface-container-high text-on-background px-5 py-3 rounded-2xl rounded-bl-sm max-w-[70%]">
+<p class="text-sm">Board ordered from The Artisan Galley. It will be waiting on deck.</p>
+<span class="text-[0.65rem] text-on-surface-variant mt-1 block text-right">08:12 AM</span>
+</div>
+</div>
+<!-- Received Message -->
+<div class="flex items-end space-x-3">
+<div class="w-8 h-8 rounded-full mb-1 flex-shrink-0 invisible"></div>
+<div class="bg-surface-container-high text-on-background px-5 py-3 rounded-2xl rounded-tl-sm max-w-[70%]">
+<p class="text-sm">The Azimut is ready for your boarding. See you shortly.</p>
+<span class="text-[0.65rem] text-on-surface-variant mt-1 block text-right">10:30 AM</span>
+</div>
+</div>
+</div>
+<!-- Input Area -->
+<div class="p-6 bg-surface-container-lowest border-t border-outline-variant/15">
+<div class="flex items-end bg-surface-container rounded-3xl p-2 focus-within:ring-2 focus-within:ring-tertiary transition-shadow">
+<button class="p-3 text-on-surface-variant hover:text-primary transition-colors flex-shrink-0 rounded-full">
+<span class="material-symbols-outlined">attach_file</span>
+</button>
+<textarea class="w-full bg-transparent border-none focus:ring-0 resize-none py-3 px-2 text-sm text-on-background placeholder-on-surface-variant/70 max-h-32" placeholder="Type a message..." rows="1" style="min-height: 48px;"></textarea>
+<button class="bg-primary-container text-on-primary-container p-3 rounded-full hover:bg-primary-fixed transition-colors flex-shrink-0 shadow-sm ml-2">
+<span class="material-symbols-outlined text-base">send</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<script>
+function selectConversation(el, name) {
+  document.querySelectorAll('.conversation-item').forEach(function(c){
+    c.classList.remove('bg-surface-container-low');
+  });
+  el.classList.add('bg-surface-container-low');
+  var nameEl = document.getElementById('active-chat-name');
+  if (nameEl) nameEl.textContent = name;
+}
+</script>
+<script>
+document.addEventListener('click',function(e){
+  var a=e.target.closest('a[href]');
+  if(!a)return;
+  var h=a.getAttribute('href');
+  if(!h||h.startsWith('http')||h==='#')return;
+  e.preventDefault();
+  window.parent.location.href=h;
+});
+</script>
+</body></html>

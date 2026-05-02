@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Control Center | Water City Rentals</title>
+    <title>Control Center | Water City Rental</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&amp;family=Manrope:wght@300;400;500;600;700;800&amp;family=Noto+Serif:ital,wght@0,400;0,700;1,400&amp;display=swap"
@@ -107,12 +107,13 @@
 
 <body
     class="bg-background text-on-background selection:bg-primary-fixed selection:text-on-primary-fixed min-h-screen flex">
+    <script>localStorage.setItem('wcr_role','admin')</script>
     <!-- Sidebar Navigation -->
     <aside
         class="hidden md:flex flex-col h-screen w-64 bg-stone-50 fixed left-0 top-0 py-8 pl-6 border-r-0 z-40 bg-stone-100/50">
         <div class="mb-10 pr-6">
-            <h1 class="font-serif italic text-xl text-stone-900 tracking-tight">Water City Rentals</h1>
-            <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-on-surface-variant mt-2">Internal Operations
+            <a href="/" class="font-serif italic text-xl text-stone-900 tracking-tight block">Water City Rental</a>
+            <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-on-surface-variant mt-2">Admin Portal
             </p>
         </div>
         <nav class="flex-1 space-y-1 pr-6">
@@ -157,8 +158,8 @@
                     data-alt="Close-up portrait of a professional male administrator in a clean modern office environment, natural lighting"
                     src="https://lh3.googleusercontent.com/aida-public/AB6AXuCjf81BXy3XOCZDujtlB9TSRPu4xi7Ozg2eKlUD67GFfdLaGUNhmsv-X4QEUTKNC3k4si5hBxPetnK_CCzxYJLYAHKRKut2TlIv4ggt3o0XOTDlH6DjCkx4Sw-igAJPle85WdQlZ2nex_DA6BXhOiDrPgtfbAXFV7fNWxAXIG05OsvIE6eEtiZGAAoAIm6jSV4KL6OrmrgGhOlYso3Nikkj1qORh9-F8j51E1D0mZ-f6bCMWVg1RtrDl_huzbJ85UcImscddwIoeg7u" />
                 <div class="overflow-hidden">
-                    <p class="text-xs font-bold truncate">Captain's Lounge</p>
-                    <p class="text-[10px] text-on-surface-variant font-medium">Premier Member</p>
+                    <p class="text-xs font-bold truncate">System Admin</p>
+                    <p class="text-[10px] text-on-surface-variant font-medium uppercase tracking-widest">Admin</p>
                 </div>
             </div>
         </div>
@@ -529,7 +530,7 @@
         <!-- Footer / System Info -->
         <footer
             class="mt-auto p-8 flex flex-col md:flex-row justify-between items-center text-[10px] font-bold uppercase tracking-widest text-on-surface-variant/60">
-            <p>© 2024 Water City Rentals Operations Unit</p>
+            <p>© 2024 Water City Rental Operations Unit</p>
             <div class="flex gap-6 mt-4 md:mt-0">
                 <a class="hover:text-primary transition-colors" href="#">API Docs</a>
                 <a class="hover:text-primary transition-colors" href="#">Server Status</a>
@@ -543,15 +544,14 @@
         <span class="material-symbols-outlined text-2xl">add</span>
     </button>
 <script>
-  // Make all internal links navigate the parent React app
-  document.addEventListener('click', function(e) {
-    const link = e.target.closest('a[href]');
-    if (!link) return;
-    const href = link.getAttribute('href');
-    if (!href || href.startsWith('http') || href.startsWith('mailto') || href === '#') return;
-    e.preventDefault();
-    window.parent.location.href = href;
-  });
+document.addEventListener('click',function(e){
+  var a=e.target.closest('a[href]');
+  if(!a)return;
+  var h=a.getAttribute('href');
+  if(!h||h.startsWith('http')||h==='#')return;
+  e.preventDefault();
+  window.parent.location.href=h;
+});
 </script>
 </body>
 

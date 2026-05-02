@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Partner Login - Water City Rental</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&amp;family=Noto+Serif:ital,wght@0,400;0,700;1,400;1,700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-surface": "#2f312f",
+                        "tertiary-fixed": "#ffe088",
+                        "on-primary-fixed-variant": "#822800",
+                        "error-container": "#ffdad6",
+                        "surface-container": "#efeeeb",
+                        "surface-container-high": "#e9e8e5",
+                        "on-primary-container": "#6c2000",
+                        "on-secondary-container": "#066f79",
+                        "surface-variant": "#e3e2e0",
+                        "on-surface-variant": "#57423b",
+                        "on-tertiary-container": "#483800",
+                        "inverse-primary": "#ffb59c",
+                        "secondary-fixed": "#9ff0fb",
+                        "on-primary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "tertiary-fixed-dim": "#e9c349",
+                        "primary-fixed-dim": "#ffb59c",
+                        "tertiary": "#735c00",
+                        "on-tertiary-fixed": "#241a00",
+                        "on-surface": "#1a1c1a",
+                        "tertiary-container": "#c4a028",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-bright": "#faf9f6",
+                        "primary-container": "#ff7f50",
+                        "on-secondary-fixed-variant": "#004f56",
+                        "on-error-container": "#93000a",
+                        "error": "#ba1a1a",
+                        "primary-fixed": "#ffdbcf",
+                        "outline": "#8b7169",
+                        "on-background": "#1a1c1a",
+                        "on-secondary-fixed": "#001f23",
+                        "on-primary-fixed": "#380c00",
+                        "on-secondary": "#ffffff",
+                        "secondary": "#006972",
+                        "on-tertiary": "#ffffff",
+                        "surface": "#faf9f6",
+                        "inverse-on-surface": "#f2f1ee",
+                        "surface-dim": "#dbdad7",
+                        "secondary-fixed-dim": "#82d3de",
+                        "secondary-container": "#9ff0fb",
+                        "background": "#faf9f6",
+                        "primary": "#a43c12",
+                        "surface-container-low": "#f4f3f1",
+                        "surface-tint": "#a43c12",
+                        "on-tertiary-fixed-variant": "#574500",
+                        "outline-variant": "#dec0b6",
+                        "surface-container-highest": "#e3e2e0"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Noto Serif", "serif"],
+                        "display": ["Noto Serif", "serif"],
+                        "body": ["Manrope", "sans-serif"],
+                        "label": ["Manrope", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.fill {
+            font-variation-settings: 'FILL' 1;
+        }
+        .glass-panel {
+            background: rgba(250, 249, 246, 0.6);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+        }
+        .role-card.selected {
+            border-color: #a43c12;
+            background-color: #ffdbcf;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body min-h-screen flex flex-col md:flex-row antialiased">
+<!-- Left Side: Form Area -->
+<div class="w-full md:w-1/2 lg:w-5/12 xl:w-1/3 flex flex-col justify-center px-8 py-12 md:px-16 lg:px-24 bg-surface z-10 relative">
+<!-- Logo -->
+<div class="absolute top-12 left-8 md:left-16 lg:left-24">
+<a href="/"><h1 class="font-display italic text-2xl text-on-surface font-bold">Water City Rental</h1></a>
+</div>
+<div class="max-w-md w-full mx-auto mt-16 md:mt-0">
+<!-- Step 1: Role Selection (Active View) -->
+<div class="flex flex-col gap-8" id="step-1">
+<div>
+<h2 class="font-headline text-4xl text-on-surface mb-3">Welcome <span class="italic">Back</span>, Partner</h2>
+<p class="text-on-surface-variant font-body text-lg">Select your role to continue</p>
+</div>
+<!-- Role Cards -->
+<div class="grid grid-cols-2 gap-4">
+<!-- Boat Owner Card -->
+<button class="role-card flex flex-col items-center justify-center p-6 bg-surface-container-lowest rounded-2xl border border-outline-variant/15 shadow-[0_8px_32px_rgba(26,28,26,0.04)] hover:shadow-[0_12px_48px_rgba(26,28,26,0.06)] transition-all duration-300 group focus:outline-none focus:ring-2 focus:ring-tertiary" data-role="owner" onclick="selectRole('owner')">
+<div class="w-16 h-16 rounded-full bg-surface-container flex items-center justify-center mb-4 group-hover:bg-primary-container/20 transition-colors">
+<span class="material-symbols-outlined text-3xl text-primary">sailing</span>
+</div>
+<span class="font-headline text-lg font-medium text-on-surface">Boat Owner</span>
+</button>
+<!-- Captain Card -->
+<button class="role-card flex flex-col items-center justify-center p-6 bg-surface-container-lowest rounded-2xl border border-outline-variant/15 shadow-[0_8px_32px_rgba(26,28,26,0.04)] hover:shadow-[0_12px_48px_rgba(26,28,26,0.06)] transition-all duration-300 group focus:outline-none focus:ring-2 focus:ring-tertiary" data-role="captain" onclick="selectRole('captain')">
+<div class="w-16 h-16 rounded-full bg-surface-container flex items-center justify-center mb-4 group-hover:bg-primary-container/20 transition-colors">
+<span class="material-symbols-outlined text-3xl text-primary">anchor</span>
+</div>
+<span class="font-headline text-lg font-medium text-on-surface">Captain</span>
+</button>
+</div>
+<!-- Action -->
+<button class="w-full py-4 px-6 mt-4 bg-gradient-to-r from-primary to-primary-container text-on-primary-container font-body font-bold rounded-full flex items-center justify-center gap-2 hover:opacity-90 transition-opacity shadow-[0_4px_20px_rgba(255,127,80,0.2)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-container disabled:opacity-50 disabled:cursor-not-allowed" disabled="" id="continue-btn" onclick="goToStep2()">
+                    Continue
+                    <span class="material-symbols-outlined text-lg">arrow_forward</span>
+</button>
+<!-- Footer Link -->
+<div class="text-center mt-6">
+<a class="text-on-surface-variant font-body hover:text-primary transition-colors flex items-center justify-center gap-1 group" href="/partner">
+                        Not a partner yet? Join free
+                        <span class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</a>
+</div>
+</div>
+<!-- Step 2: Login Form -->
+<div class="hidden flex-col gap-8" id="step-2">
+<div>
+<button class="text-on-surface-variant hover:text-primary transition-colors flex items-center gap-1 mb-4 font-body text-sm" onclick="goToStep1()">
+<span class="material-symbols-outlined text-sm">arrow_back</span>
+                        Change role
+                    </button>
+<div class="inline-flex items-center gap-2 bg-primary-fixed text-on-primary-fixed px-3 py-1 rounded-full mb-4">
+<span class="material-symbols-outlined text-sm" id="role-badge-icon">sailing</span>
+<span class="font-label text-xs uppercase tracking-widest font-bold" id="role-badge-text">Boat Owner</span>
+</div>
+<h2 class="font-headline text-4xl text-on-surface mb-3">Welcome <span class="italic">back</span>.</h2>
+<p class="text-on-surface-variant font-body text-lg">Sign in to manage your <span id="role-context">fleet</span>.</p>
+</div>
+<form class="flex flex-col gap-5" onsubmit="event.preventDefault(); signIn();">
+<div>
+<label class="block font-label text-sm uppercase tracking-widest text-on-surface-variant mb-2" for="email">Email Address</label>
+<input class="w-full bg-surface-container-lowest border-0 px-4 py-4 rounded-xl text-on-surface focus:ring-2 focus:ring-tertiary shadow-[0_2px_12px_rgba(26,28,26,0.03)]" id="email" placeholder="partner@example.com" type="email"/>
+</div>
+<div>
+<div class="flex justify-between items-baseline mb-2">
+<label class="block font-label text-sm uppercase tracking-widest text-on-surface-variant" for="password">Password</label>
+<a class="font-label text-xs text-primary hover:underline" href="#">Forgot?</a>
+</div>
+<input class="w-full bg-surface-container-lowest border-0 px-4 py-4 rounded-xl text-on-surface focus:ring-2 focus:ring-tertiary shadow-[0_2px_12px_rgba(26,28,26,0.03)]" id="password" placeholder="••••••••" type="password"/>
+</div>
+<button class="w-full py-4 px-6 mt-4 bg-gradient-to-r from-primary to-primary-container text-on-primary-container font-body font-bold rounded-full hover:opacity-90 transition-opacity shadow-[0_4px_20px_rgba(255,127,80,0.2)]" onclick="signIn()" type="button">
+                        Sign In
+                    </button>
+</form>
+</div>
+</div>
+</div>
+<!-- Right Side: Visual Area -->
+<div class="hidden md:flex md:w-1/2 lg:w-7/12 xl:w-2/3 relative bg-surface-container-high overflow-hidden">
+<!-- Background Image -->
+<div class="absolute inset-0 bg-cover bg-center" data-alt="A breathtaking, high-quality photograph of a sleek, modern luxury yacht docked in a bustling harbor during the 'Golden Hour' sunset. The warm, coral-orange sunlight violently reflects off the deep navy water, creating a stunning contrast. The lighting is dramatic and moody, emphasizing the premium, high-end lifestyle aesthetic associated with elite nautical travel. The overall color palette perfectly blends the warm setting sun with the cool, deep tones of the ocean." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD2P4sfdHXahYJPVjOpdN7f54daZ7qf81bkpmGfi0eRreLifHsjDS9EKNIdCxSdvod9iFUKrxMRuBcgm804qM0T3WY_fyXLoUOGgJ7yX-aGIcdrHZCyNLi58WMAMifVg-tSXv-OFnKPc3-FqCAbbq_EZAM5K731wnMX3v1-KcFKFQgCF0yT-VKmW9i06zKil5HN1FPw5oPwDZMHvbg-O8jEyFagCD8J8l-JD-u9E3uFLxJoeanEfuu1nX6bzVkntOWBHrpr4POas4PB');">
+</div>
+<!-- Gradient Overlay for better readability -->
+<div class="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent"></div>
+<!-- Glassmorphism Floating Card -->
+<div class="relative z-10 m-auto max-w-sm w-full p-8 glass-panel rounded-3xl border border-surface-container-lowest/20 shadow-[0_32px_64px_rgba(26,28,26,0.08)]">
+<div class="flex flex-col items-center text-center">
+<h3 class="font-display italic text-xl text-on-surface mb-8 font-bold opacity-90">Water City Rental</h3>
+<div class="mb-8">
+<div class="font-headline text-5xl text-primary font-bold mb-2 tracking-tight">$42,000</div>
+<div class="font-label text-xs uppercase tracking-widest text-on-surface-variant">Top partner earnings this year</div>
+</div>
+<div class="w-full h-px bg-outline-variant/30 my-4 hidden"></div>
+<div class="flex items-center justify-center gap-2 bg-surface-container-lowest/80 px-4 py-2 rounded-full mt-4">
+<span class="material-symbols-outlined text-secondary text-lg fill">star</span>
+<span class="font-body font-bold text-on-surface">4.9</span>
+<span class="font-label text-xs uppercase tracking-widest text-on-surface-variant ml-1">Average rating</span>
+</div>
+</div>
+</div>
+</div>
+<script>
+var selectedRole = null;
+
+function selectRole(role) {
+  selectedRole = role;
+  document.querySelectorAll('.role-card').forEach(function(c){
+    c.classList.remove('selected');
+  });
+  document.querySelector('.role-card[data-role="'+role+'"]').classList.add('selected');
+  document.getElementById('continue-btn').disabled = false;
+}
+
+function goToStep2() {
+  if (!selectedRole) return;
+  document.getElementById('step-1').classList.add('hidden');
+  document.getElementById('step-1').classList.remove('flex');
+  document.getElementById('step-2').classList.remove('hidden');
+  document.getElementById('step-2').classList.add('flex');
+  if (selectedRole === 'owner') {
+    document.getElementById('role-badge-icon').textContent = 'sailing';
+    document.getElementById('role-badge-text').textContent = 'Boat Owner';
+    document.getElementById('role-context').textContent = 'fleet';
+  } else {
+    document.getElementById('role-badge-icon').textContent = 'anchor';
+    document.getElementById('role-badge-text').textContent = 'Captain';
+    document.getElementById('role-context').textContent = 'trips';
+  }
+}
+
+function goToStep1() {
+  document.getElementById('step-2').classList.add('hidden');
+  document.getElementById('step-2').classList.remove('flex');
+  document.getElementById('step-1').classList.remove('hidden');
+  document.getElementById('step-1').classList.add('flex');
+}
+
+function signIn() {
+  if (selectedRole === 'owner') {
+    localStorage.setItem('wcr_role','owner');
+    window.parent.location.href = '/dashboard/owner';
+  } else if (selectedRole === 'captain') {
+    localStorage.setItem('wcr_role','captain');
+    window.parent.location.href = '/dashboard/captain';
+  }
+}
+</script>
+<script>
+document.addEventListener('click',function(e){
+  var a=e.target.closest('a[href]');
+  if(!a)return;
+  var h=a.getAttribute('href');
+  if(!h||h.startsWith('http')||h==='#')return;
+  e.preventDefault();
+  window.parent.location.href=h;
+});
+</script>
+</body></html>

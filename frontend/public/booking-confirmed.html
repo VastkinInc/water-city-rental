@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Booking Confirmed · Water City Rental</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        primary: '#C4623A',
+        'primary-dark': '#A8512F',
+        cream: '#FAF7F2',
+        navy: '#1A1A2E',
+        gold: '#D4A843',
+        surface: '#F5F0EA',
+        muted: '#6B6560',
+        teal: '#2A9D8F',
+        'on-surface': '#1A1A2E',
+        'on-surface-variant': '#6B6560',
+        'outline-variant': '#D4C5B5',
+      },
+      fontFamily: {
+        serif: ['"Playfair Display"', 'serif'],
+        sans: ['Manrope', 'sans-serif'],
+      },
+    },
+  },
+};
+</script>
+<style>
+  body { font-family: 'Manrope', sans-serif; background-color: #FAF7F2; color: #1A1A2E; }
+  h1, h2, h3, h4, .font-serif { font-family: 'Playfair Display', serif; }
+  @keyframes scaleIn {
+    0%   { transform: scale(0); opacity: 0; }
+    60%  { transform: scale(1.15); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  .check-pop { animation: scaleIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+</style>
+</head>
+<body class="min-h-screen">
+
+<!-- Top bar -->
+<header class="bg-white border-b border-outline-variant/40">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    <a href="/" class="flex items-center gap-2">
+      <span class="material-symbols-outlined text-primary" style='font-variation-settings: "FILL" 1;'>sailing</span>
+      <span class="font-serif text-xl text-navy">Water City Rental</span>
+    </a>
+  </div>
+</header>
+
+<main class="max-w-2xl mx-auto px-6 py-12">
+
+  <!-- Top check -->
+  <div class="text-center mb-10">
+    <div class="check-pop w-24 h-24 mx-auto rounded-full bg-teal flex items-center justify-center mb-6">
+      <span class="material-symbols-outlined text-white text-6xl" style='font-variation-settings: "FILL" 1;'>check</span>
+    </div>
+    <h1 class="font-serif text-5xl text-navy mb-3">Booking Confirmed!</h1>
+    <p class="text-muted text-lg">Your nautical adventure is locked in. Anchors aweigh!</p>
+  </div>
+
+  <!-- Confirmation card -->
+  <div class="bg-cream border border-outline-variant/40 rounded-2xl p-8 text-center mb-6">
+    <p class="text-xs uppercase tracking-widest text-muted mb-2 font-bold">Booking Reference</p>
+    <p class="font-serif text-3xl text-navy" data-confirm="booking-id">WCR-2025-0847</p>
+  </div>
+
+  <!-- Trip summary -->
+  <div class="bg-white rounded-2xl border border-outline-variant/40 p-6 mb-6">
+    <h3 class="font-bold text-xs uppercase tracking-widest text-muted mb-4">Your Trip</h3>
+    <div class="flex gap-4 mb-5 pb-5 border-b border-outline-variant/40">
+      <div class="w-[80px] h-[80px] flex-shrink-0 rounded-xl bg-cover bg-center" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD1y3sWgPFVL3VW5JKBe2KyvVTH-rRT-VNqRZlGsT8U_BdaFrIKmJoxR3UqmzG-Q6-pX6m8Gd_tx6tH3BC78F2C-l4sAqcAPkYxJKn_R5DjvMmRjYFHl7BKt-1jEaPgxyaJMpQHkQK3PYC0KRhJyKFRrDEcJeI1XlOZ3qRtLG1y7B-rgJoY8tCVs-nlqEJX4a3D9Y_aIzpHIcZyhI3v0BlOqHrJFqKkkHuGB-SX-MZSHsbiwMbN5C8kGhLFLg1L8JPp9VJSLP7QXZK3");'></div>
+      <div class="flex-1">
+        <h4 class="font-serif text-2xl text-navy" data-confirm="boat-name">Azure Serenity</h4>
+        <p class="text-sm text-muted mt-1 flex items-center gap-1">
+          <span class="material-symbols-outlined text-sm">location_on</span>
+          <span data-confirm="harbor">Monroe Harbor</span>
+        </p>
+      </div>
+    </div>
+    <div class="space-y-3 text-sm">
+      <div class="flex items-center gap-3">
+        <span class="material-symbols-outlined text-primary">event</span>
+        <span class="text-on-surface" data-confirm="dates">Aug 5 – Aug 7, 2025</span>
+      </div>
+      <div class="flex items-center gap-3">
+        <span class="material-symbols-outlined text-primary">person</span>
+        <span class="text-on-surface" data-confirm="captain">Capt. Marco Rossi</span>
+      </div>
+      <div class="flex items-center gap-3 pt-3 border-t border-outline-variant/40">
+        <span class="material-symbols-outlined text-primary">receipt_long</span>
+        <span class="text-on-surface font-bold">Total paid: <span data-confirm="total">$3,100</span></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- What happens next -->
+  <div class="bg-cream border-l-4 border-gold rounded-r-xl p-5 mb-8">
+    <h4 class="font-bold text-base text-navy mb-3">What's next?</h4>
+    <ul class="space-y-2.5">
+      <li class="flex items-start gap-3 text-sm text-on-surface">
+        <span class="material-symbols-outlined text-teal text-xl flex-shrink-0">check_circle</span>
+        Confirmation email sent to your inbox
+      </li>
+      <li class="flex items-start gap-3 text-sm text-on-surface">
+        <span class="material-symbols-outlined text-teal text-xl flex-shrink-0">check_circle</span>
+        Your captain will message you 24 hours before departure
+      </li>
+      <li class="flex items-start gap-3 text-sm text-on-surface">
+        <span class="material-symbols-outlined text-teal text-xl flex-shrink-0">check_circle</span>
+        Show this booking reference at the marina
+      </li>
+    </ul>
+  </div>
+
+  <!-- Buttons -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
+    <button onclick="window.parent.location.href='/booking/1'" class="bg-primary text-white py-4 rounded-full font-sans tracking-widest uppercase text-sm font-extrabold hover:bg-primary-dark transition-all active:scale-95">
+      View Booking Details
+    </button>
+    <button onclick="window.parent.location.href='/boats'" class="border-2 border-primary text-primary py-4 rounded-full font-sans tracking-widest uppercase text-sm font-extrabold hover:bg-primary hover:text-white transition-all active:scale-95">
+      Browse More Boats
+    </button>
+  </div>
+
+  <p class="text-center text-sm text-muted">
+    Need help? Email <a href="mailto:support@watercityrental.com" class="text-primary font-medium">support@watercityrental.com</a>
+  </p>
+
+</main>
+
+<script>
+var booking = JSON.parse(localStorage.getItem('wcr_last_booking') || '{}');
+function setText(sel, val){
+  var el = document.querySelector(sel);
+  if(el && val) el.textContent = val;
+}
+setText('[data-confirm="booking-id"]', booking.bookingId || 'WCR-2025-0847');
+setText('[data-confirm="boat-name"]',  booking.boatName  || 'Azure Serenity');
+setText('[data-confirm="dates"]',      booking.dates     || 'Aug 5 – Aug 7, 2025');
+setText('[data-confirm="harbor"]',     booking.harbor    || 'Monroe Harbor');
+setText('[data-confirm="captain"]',    booking.captainName || 'Capt. Marco Rossi');
+setText('[data-confirm="total"]',      '$'+(booking.total || 3100).toLocaleString());
+</script>
+
+<script>
+document.addEventListener('click',function(e){
+  var a=e.target.closest('a[href]');
+  if(!a)return;
+  var h=a.getAttribute('href');
+  if(!h||h.startsWith('http')||h==='#')return;
+  e.preventDefault();
+  window.parent.location.href=h;
+});
+</script>
+
+</body>
+</html>
