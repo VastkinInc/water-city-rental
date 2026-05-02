@@ -49,7 +49,12 @@
       "Bash(curl -s -w \"HTTP %{http_code}\\\\n\" -X PATCH http://localhost:5000/api/captains/me/profile -H \"Content-Type: application/json\" -b /tmp/marco-cookies.txt -d '{\"dayRate\":260,\"hourlyRate\":42}')",
       "Bash(curl -s -w \"HTTP %{http_code}\\\\n\" http://localhost:5000/api/health -o /dev/null)",
       "Bash(git rm *)",
-      "Bash(git add *)"
+      "Bash(git add *)",
+      "Bash(grep -E \"^backend/\\\\.env$\")",
+      "Bash(git commit *)",
+      "Bash(git push *)",
+      "Bash(curl -s http://localhost:5000/api/health)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:5000/api/bookings)"
     ]
   }
 }

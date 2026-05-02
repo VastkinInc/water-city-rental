@@ -13,6 +13,7 @@ import healthRouter from './routes/health.js';
 import authRouter from './routes/auth.js';
 import boatsRouter from './routes/boats.js';
 import captainsRouter from './routes/captains.js';
+import bookingsRouter from './routes/bookings.js';
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -41,6 +42,7 @@ app.use('/api/health', healthRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/boats', boatsRouter);
 app.use('/api/captains', captainsRouter);
+app.use('/api/bookings', bookingsRouter);
 
 // Error handlers (must be last)
 app.use(notFound);
