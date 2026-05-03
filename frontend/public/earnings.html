@@ -5,6 +5,7 @@
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Earnings - Water City Rental Chicago</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script src="/api.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&amp;family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
@@ -180,7 +181,7 @@
 <div class="bg-surface-container-lowest p-6 rounded-2xl box-shadow-ambient relative overflow-hidden">
 <div class="absolute -right-4 -top-4 w-24 h-24 bg-primary-container opacity-20 rounded-full blur-xl"></div>
 <p class="font-label text-xs uppercase tracking-widest text-on-surface-variant mb-2">This Month</p>
-<p class="font-headline text-3xl font-bold text-on-surface">$8,400</p>
+<p class="font-headline text-3xl font-bold text-on-surface" data-stat="this-month">$0</p>
 <p class="text-xs text-secondary mt-2 flex items-center gap-1 font-medium">
 <span class="material-symbols-outlined text-[14px]">trending_up</span>
                         +12% vs last month
@@ -188,16 +189,16 @@
 </div>
 <div class="bg-surface-container-lowest p-6 rounded-2xl box-shadow-ambient">
 <p class="font-label text-xs uppercase tracking-widest text-on-surface-variant mb-2">Last Month</p>
-<p class="font-headline text-3xl text-on-surface">$6,200</p>
+<p class="font-headline text-3xl text-on-surface" data-stat="last-month">$0</p>
 </div>
 <div class="bg-surface-container-lowest p-6 rounded-2xl box-shadow-ambient relative overflow-hidden">
 <div class="absolute -right-4 -top-4 w-24 h-24 bg-tertiary opacity-10 rounded-full blur-xl"></div>
 <p class="font-label text-xs uppercase tracking-widest text-on-surface-variant mb-2">This Year</p>
-<p class="font-headline text-3xl text-on-surface">$42,000</p>
+<p class="font-headline text-3xl text-on-surface" data-stat="this-year">$0</p>
 </div>
 <div class="bg-surface-container-lowest p-6 rounded-2xl box-shadow-ambient">
 <p class="font-label text-xs uppercase tracking-widest text-on-surface-variant mb-2">Total Lifetime</p>
-<p class="font-headline text-3xl text-on-surface">$67,500</p>
+<p class="font-headline text-3xl text-on-surface" data-stat="total-lifetime">$0</p>
 </div>
 </section>
 <!-- Chart & Payout Info Row -->
@@ -309,95 +310,8 @@
 <th class="py-4 px-8 font-label text-xs uppercase tracking-widest text-on-surface-variant font-semibold text-center">Status</th>
 </tr>
 </thead>
-<tbody class="divide-y divide-outline-variant/10 text-sm">
-<!-- Row 1 (Pending) -->
-<tr class="hover:bg-surface-container-low/50 transition-colors cursor-pointer" onclick="window.parent.location.href='/booking/1'">
-<td class="py-4 px-8 text-on-surface">Jul 28, 2025</td>
-<td class="py-4 px-8 text-on-surface-variant font-mono text-xs"><a href="/booking/1">#B-8829</a></td>
-<td class="py-4 px-8 text-on-surface font-medium">The Silver Lady</td>
-<td class="py-4 px-8 text-on-surface-variant">Jul 26 - Jul 27</td>
-<td class="py-4 px-8 text-on-surface font-semibold text-right">$1,200</td>
-<td class="py-4 px-8 text-center">
-<span class="inline-block px-3 py-1 bg-tertiary-container/20 text-tertiary-container text-[10px] font-label uppercase tracking-widest rounded-full font-bold">Pending</span>
-</td>
-</tr>
-<!-- Row 2 (Pending) -->
-<tr class="hover:bg-surface-container-low/50 transition-colors cursor-pointer" onclick="window.parent.location.href='/booking/1'">
-<td class="py-4 px-8 text-on-surface">Jul 28, 2025</td>
-<td class="py-4 px-8 text-on-surface-variant font-mono text-xs"><a href="/booking/1">#B-8830</a></td>
-<td class="py-4 px-8 text-on-surface font-medium">Ocean Whisper</td>
-<td class="py-4 px-8 text-on-surface-variant">Jul 25 - Jul 26</td>
-<td class="py-4 px-8 text-on-surface font-semibold text-right">$1,200</td>
-<td class="py-4 px-8 text-center">
-<span class="inline-block px-3 py-1 bg-tertiary-container/20 text-tertiary-container text-[10px] font-label uppercase tracking-widest rounded-full font-bold">Pending</span>
-</td>
-</tr>
-<!-- Row 3 (Paid) -->
-<tr class="hover:bg-surface-container-low/50 transition-colors cursor-pointer" onclick="window.parent.location.href='/booking/1'">
-<td class="py-4 px-8 text-on-surface">Jul 15, 2025</td>
-<td class="py-4 px-8 text-on-surface-variant font-mono text-xs"><a href="/booking/1">#B-8712</a></td>
-<td class="py-4 px-8 text-on-surface font-medium">The Silver Lady</td>
-<td class="py-4 px-8 text-on-surface-variant">Jul 10 - Jul 12</td>
-<td class="py-4 px-8 text-on-surface font-semibold text-right">$3,600</td>
-<td class="py-4 px-8 text-center">
-<span class="inline-block px-3 py-1 bg-secondary-container/20 text-secondary text-[10px] font-label uppercase tracking-widest rounded-full font-bold">Paid</span>
-</td>
-</tr>
-<!-- Row 4 (Paid) -->
-<tr class="hover:bg-surface-container-low/50 transition-colors cursor-pointer" onclick="window.parent.location.href='/booking/1'">
-<td class="py-4 px-8 text-on-surface">Jul 08, 2025</td>
-<td class="py-4 px-8 text-on-surface-variant font-mono text-xs"><a href="/booking/1">#B-8650</a></td>
-<td class="py-4 px-8 text-on-surface font-medium">Azure Dream</td>
-<td class="py-4 px-8 text-on-surface-variant">Jul 04 - Jul 05</td>
-<td class="py-4 px-8 text-on-surface font-semibold text-right">$2,400</td>
-<td class="py-4 px-8 text-center">
-<span class="inline-block px-3 py-1 bg-secondary-container/20 text-secondary text-[10px] font-label uppercase tracking-widest rounded-full font-bold">Paid</span>
-</td>
-</tr>
-<!-- Row 5 (Paid) -->
-<tr class="hover:bg-surface-container-low/50 transition-colors cursor-pointer" onclick="window.parent.location.href='/booking/1'">
-<td class="py-4 px-8 text-on-surface">Jun 30, 2025</td>
-<td class="py-4 px-8 text-on-surface-variant font-mono text-xs"><a href="/booking/1">#B-8544</a></td>
-<td class="py-4 px-8 text-on-surface font-medium">Ocean Whisper</td>
-<td class="py-4 px-8 text-on-surface-variant">Jun 25 - Jun 28</td>
-<td class="py-4 px-8 text-on-surface font-semibold text-right">$4,500</td>
-<td class="py-4 px-8 text-center">
-<span class="inline-block px-3 py-1 bg-secondary-container/20 text-secondary text-[10px] font-label uppercase tracking-widest rounded-full font-bold">Paid</span>
-</td>
-</tr>
-<!-- Row 6 (Paid) -->
-<tr class="hover:bg-surface-container-low/50 transition-colors cursor-pointer" onclick="window.parent.location.href='/booking/1'">
-<td class="py-4 px-8 text-on-surface">Jun 15, 2025</td>
-<td class="py-4 px-8 text-on-surface-variant font-mono text-xs"><a href="/booking/1">#B-8421</a></td>
-<td class="py-4 px-8 text-on-surface font-medium">The Silver Lady</td>
-<td class="py-4 px-8 text-on-surface-variant">Jun 10 - Jun 11</td>
-<td class="py-4 px-8 text-on-surface font-semibold text-right">$1,700</td>
-<td class="py-4 px-8 text-center">
-<span class="inline-block px-3 py-1 bg-secondary-container/20 text-secondary text-[10px] font-label uppercase tracking-widest rounded-full font-bold">Paid</span>
-</td>
-</tr>
-<!-- Row 7 (Paid) -->
-<tr class="hover:bg-surface-container-low/50 transition-colors cursor-pointer" onclick="window.parent.location.href='/booking/1'">
-<td class="py-4 px-8 text-on-surface">May 28, 2025</td>
-<td class="py-4 px-8 text-on-surface-variant font-mono text-xs"><a href="/booking/1">#B-8310</a></td>
-<td class="py-4 px-8 text-on-surface font-medium">Azure Dream</td>
-<td class="py-4 px-8 text-on-surface-variant">May 22 - May 25</td>
-<td class="py-4 px-8 text-on-surface font-semibold text-right">$5,200</td>
-<td class="py-4 px-8 text-center">
-<span class="inline-block px-3 py-1 bg-secondary-container/20 text-secondary text-[10px] font-label uppercase tracking-widest rounded-full font-bold">Paid</span>
-</td>
-</tr>
-<!-- Row 8 (Paid) -->
-<tr class="hover:bg-surface-container-low/50 transition-colors cursor-pointer" onclick="window.parent.location.href='/booking/1'">
-<td class="py-4 px-8 text-on-surface">May 12, 2025</td>
-<td class="py-4 px-8 text-on-surface-variant font-mono text-xs"><a href="/booking/1">#B-8205</a></td>
-<td class="py-4 px-8 text-on-surface font-medium">Ocean Whisper</td>
-<td class="py-4 px-8 text-on-surface-variant">May 05 - May 06</td>
-<td class="py-4 px-8 text-on-surface font-semibold text-right">$1,300</td>
-<td class="py-4 px-8 text-center">
-<span class="inline-block px-3 py-1 bg-secondary-container/20 text-secondary text-[10px] font-label uppercase tracking-widest rounded-full font-bold">Paid</span>
-</td>
-</tr>
+<tbody id="payouts-tbody" class="divide-y divide-outline-variant/10 text-sm">
+<!-- Rows rendered dynamically by /api.js -->
 </tbody>
 </table>
 </div>
@@ -407,6 +321,94 @@
 </section>
 </main>
 </div>
+<script>
+(function(){
+  if (!WCR.isLoggedIn()) { window.parent.location.href = '/login'; return; }
+  var user = WCR.getUser() || {};
+  if (user.role !== 'owner' && user.role !== 'admin') {
+    window.parent.location.href = '/login';
+    return;
+  }
+
+  function escapeHtml(s){
+    if (s == null) return '';
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+  function fmtDate(str){
+    if (!str) return '';
+    var d = new Date(str);
+    return isNaN(d) ? '' : d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+  }
+  function setText(sel, val){
+    var el = document.querySelector(sel);
+    if (el && val != null) el.textContent = val;
+  }
+
+  async function loadEarnings(){
+    try {
+      var resp = await WCR.myBookings();
+      var bookings = resp.data || resp.bookings || resp || [];
+      var completed = bookings.filter(function(b){ return b.status === 'completed'; });
+
+      var now = new Date();
+      var monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+      var lastMonthStart = new Date(now.getFullYear(), now.getMonth()-1, 1);
+      var lastMonthEnd = new Date(now.getFullYear(), now.getMonth(), 0, 23,59,59);
+      var yearStart = new Date(now.getFullYear(), 0, 1);
+
+      function sumOwnerEarnings(arr){
+        return arr.reduce(function(s, b){ return s + ((b.pricing && b.pricing.boatTotal) || 0); }, 0);
+      }
+
+      var thisMonth = sumOwnerEarnings(completed.filter(function(b){
+        var d = new Date(b.updatedAt || b.endDate);
+        return d >= monthStart;
+      }));
+      var lastMonth = sumOwnerEarnings(completed.filter(function(b){
+        var d = new Date(b.updatedAt || b.endDate);
+        return d >= lastMonthStart && d <= lastMonthEnd;
+      }));
+      var thisYear = sumOwnerEarnings(completed.filter(function(b){
+        var d = new Date(b.updatedAt || b.endDate);
+        return d >= yearStart;
+      }));
+      var lifetime = sumOwnerEarnings(completed);
+
+      setText('[data-stat="this-month"]',     '$' + thisMonth.toLocaleString());
+      setText('[data-stat="last-month"]',     '$' + lastMonth.toLocaleString());
+      setText('[data-stat="this-year"]',      '$' + thisYear.toLocaleString());
+      setText('[data-stat="total-lifetime"]', '$' + lifetime.toLocaleString());
+
+      var tbody = document.getElementById('payouts-tbody');
+      if (tbody) {
+        if (completed.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="6" style="padding:32px;text-align:center;color:#6B6560;">No payouts yet — completed bookings will show here.</td></tr>';
+        } else {
+          completed.sort(function(a,b){ return new Date(b.updatedAt) - new Date(a.updatedAt); });
+          tbody.innerHTML = completed.slice(0, 8).map(function(b){
+            var ownerEarnings = (b.pricing && b.pricing.boatTotal) || 0;
+            return ''
+              + '<tr style="border-bottom:1px solid #E8DFD3;">'
+              +   '<td style="padding:12px;">' + fmtDate(b.updatedAt) + '</td>'
+              +   '<td style="padding:12px;">' + escapeHtml(b.bookingNumber || '') + '</td>'
+              +   '<td style="padding:12px;">' + escapeHtml(b.boat ? b.boat.name : '') + '</td>'
+              +   '<td style="padding:12px;">' + fmtDate(b.startDate) + ' → ' + fmtDate(b.endDate) + '</td>'
+              +   '<td style="padding:12px;font-weight:600;">$' + ownerEarnings.toLocaleString() + '</td>'
+              +   '<td style="padding:12px;"><span style="background:#D1FAE5;color:#065F46;padding:3px 8px;border-radius:999px;font-size:11px;font-weight:600;">PAID</span></td>'
+              + '</tr>';
+          }).join('');
+        }
+      }
+    } catch (err) {
+      if (err.status === 401) { window.parent.location.href = '/login'; return; }
+      console.error('[WCR] earnings load failed:', err);
+    }
+  }
+
+  if (document.readyState !== 'loading') loadEarnings();
+  else document.addEventListener('DOMContentLoaded', loadEarnings);
+})();
+</script>
 <script>
 document.addEventListener('click',function(e){
   var a=e.target.closest('a[href]');

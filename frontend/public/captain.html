@@ -149,8 +149,7 @@
                 <div>
                     <h1 class="font-serif italic text-4xl md:text-5xl text-stone-900 leading-tight">Captain's Bridge
                     </h1>
-                    <p class="mt-2 text-on-surface-variant font-body">Welcome back, <span class="font-bold">Marco
-                            Rossi</span>. The tide is favorable today.</p>
+                    <p class="mt-2 text-on-surface-variant font-body">Welcome back, <span class="font-bold" data-user="firstName">Marco</span>. The tide is favorable today.</p>
                 </div>
                 <div
                     class="flex items-center gap-4 bg-surface-container-lowest px-6 py-3 rounded-full shadow-sm border border-outline-variant/15">
@@ -166,23 +165,20 @@
             <!-- STATS BENTO -->
             <section class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-12">
                 <div class="bg-surface-container-lowest p-6 rounded-2xl border border-outline-variant/10 shadow-sm">
-                    <p class="text-xs font-label uppercase tracking-widest text-on-surface-variant mb-2">Assigned</p>
-                    <p class="text-3xl font-headline text-stone-900">6</p>
+                    <p class="text-xs font-label uppercase tracking-widest text-on-surface-variant mb-2">Total Trips</p>
+                    <p class="text-3xl font-headline text-stone-900" data-stat="total-trips">0</p>
                 </div>
                 <div class="bg-surface-container-lowest p-6 rounded-2xl border border-outline-variant/10 shadow-sm">
                     <p class="text-xs font-label uppercase tracking-widest text-on-surface-variant mb-2">Upcoming</p>
-                    <p class="text-3xl font-headline text-stone-900">2</p>
+                    <p class="text-3xl font-headline text-stone-900" data-stat="upcoming-trips">0</p>
                 </div>
                 <div class="bg-surface-container-lowest p-6 rounded-2xl border border-outline-variant/10 shadow-sm">
-                    <p class="text-xs font-label uppercase tracking-widest text-on-surface-variant mb-2">Completed</p>
-                    <p class="text-3xl font-headline text-stone-900">8</p>
+                    <p class="text-xs font-label uppercase tracking-widest text-on-surface-variant mb-2">This Month</p>
+                    <p class="text-3xl font-headline text-stone-900" data-stat="month-earnings">$0</p>
                 </div>
                 <div class="bg-surface-container-lowest p-6 rounded-2xl border border-outline-variant/10 shadow-sm">
-                    <p class="text-xs font-label uppercase tracking-widest text-on-surface-variant mb-2">Avg Rating</p>
-                    <div class="flex items-baseline gap-1">
-                        <p class="text-3xl font-headline text-stone-900">4.9</p>
-                        <span class="text-xs text-secondary font-bold">/5.0</span>
-                    </div>
+                    <p class="text-xs font-label uppercase tracking-widest text-on-surface-variant mb-2">Lifetime</p>
+                    <p class="text-3xl font-headline text-stone-900" data-stat="lifetime-earnings">$0</p>
                 </div>
             </section>
             <!-- NEXT TRIP: FEATURED -->
@@ -243,111 +239,8 @@
                                 class="px-4 py-1.5 rounded-full text-xs font-medium text-on-surface-variant hover:bg-white/50">Completed</button>
                         </div>
                     </div>
-                    <div class="space-y-4">
-                        <!-- ROW 1: NEW -->
-                        <div
-                            class="bg-surface-container-lowest p-5 rounded-2xl flex flex-col md:flex-row md:items-center justify-between gap-4 border border-outline-variant/10 hover:shadow-md transition-shadow">
-                            <div class="flex items-center gap-4">
-                                <div class="w-16 h-16 rounded-xl overflow-hidden bg-stone-100 flex-shrink-0">
-                                    <img alt="Vessel" class="w-full h-full object-cover"
-                                        data-alt="sleek modern speed boat docked at a pier with crystal clear water background"
-                                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuAOnpANYBidFvnwgTZpf3JKSOCddhdrUL5nxaIefh39ITUTojhlrAzG8E5T769369AaOslwTVeIPdb4CODyhh-Boc10SXaqG_Vu_osgn3CekHgm0KC0xS4ntLxQ8jnSaKCnb8I-a-6KdBOIFFdUyhVY7Za4amI9d_i5QgrAPywPgWJurK6kljFgdiI4-LtDfaIRSM3932kFSUmdTgoOM2iKJqrtZDf1dFq-fnDwAg2O2Z6Sww3rUrOvQP5JotDfFu3STXOTZc4ykwAV" />
-                                </div>
-                                <div>
-                                    <div class="flex items-center gap-2 mb-1">
-                                        <h4 class="font-bold text-stone-900">Golden Horizon</h4>
-                                        <span
-                                            class="bg-primary-fixed text-on-primary-fixed-variant px-2 py-0.5 rounded text-[10px] font-bold uppercase">New</span>
-                                    </div>
-                                    <p class="text-xs text-on-surface-variant">July 28 • 10:30 AM • Belmont Harbor</p>
-                                </div>
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <button
-                                    class="px-5 py-2 rounded-full border border-outline text-xs font-bold hover:bg-surface-container transition-colors">Decline</button>
-                                <button
-                                    class="px-5 py-2 rounded-full bg-primary-container text-on-primary-container text-xs font-bold shadow-sm hover:opacity-90">Accept</button>
-                            </div>
-                        </div>
-                        <!-- ROW 2: ACCEPTED -->
-                        <div
-                            class="bg-surface-container-lowest p-5 rounded-2xl flex flex-col md:flex-row md:items-center justify-between gap-4 border border-outline-variant/10 hover:shadow-md transition-shadow">
-                            <div class="flex items-center gap-4">
-                                <div class="w-16 h-16 rounded-xl overflow-hidden bg-stone-100 flex-shrink-0">
-                                    <img alt="Vessel" class="w-full h-full object-cover"
-                                        data-alt="aerial perspective of a large white sailing yacht on deep blue ocean"
-                                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_Pzmbrc9ZGyqEp0EidEI-P53B-7XES9QJyOuubNXmr-XOPTmfaiWLO9nM3SOpsZM7NPwd6hk0qb6iXhkmT48dUZa12TaiGIe8ucNohNOA8NmsnTSbDIaE8NKA9J1mCmJO8BL5sCuNpCmJ9ZM_lEGFyespgfyqjwuxn3RMvHdGvX-eED56ytXCc_ITaQJXX50YIU5JyVnSSrCITQI3ffZilezxcJxxvzVJ7N80FzPE5D_HwaStwxjpOp74SrmlkMiHZCx90KdsAFky" />
-                                </div>
-                                <div>
-                                    <div class="flex items-center gap-2 mb-1">
-                                        <h4 class="font-bold text-stone-900">Pearl Explorer</h4>
-                                        <span
-                                            class="bg-secondary-container text-on-secondary-container px-2 py-0.5 rounded text-[10px] font-bold uppercase">Accepted</span>
-                                    </div>
-                                    <p class="text-xs text-on-surface-variant">July 30 • 02:00 PM • DuSable Harbor</p>
-                                </div>
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <button
-                                    class="px-5 py-2 rounded-full bg-secondary text-white text-xs font-bold shadow-sm hover:opacity-90">Mark
-                                    Ongoing</button>
-                            </div>
-                        </div>
-                        <!-- ROW 3: ONGOING -->
-                        <div
-                            class="bg-surface-container-lowest p-5 rounded-2xl flex flex-col md:flex-row md:items-center justify-between gap-4 border border-outline-variant/10 border-l-4 border-l-tertiary shadow-md">
-                            <div class="flex items-center gap-4">
-                                <div class="w-16 h-16 rounded-xl overflow-hidden bg-stone-100 flex-shrink-0">
-                                    <img alt="Vessel" class="w-full h-full object-cover"
-                                        data-alt="close up of a yacht cockpit with glowing digital navigation displays at twilight"
-                                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3ASCRAPFyWcjoTrPedSHEZAdhi2crPJ-1pwJLEi1d_4Xu7br-5zTvifMsnaGQqWzzc2WVlTzI4RXNIRjsZGUdX1etqSX93IbjkjPGuD1vxTadL8DoAGzfFi93fRzXE5_xhM3HIPjFsQr4i2ofsdPnvxWUZxnhOKjhs1KUPOsPO6Vp5OpRXv8S4cKI07FN2XRMiKkXhIWp0TaqKyxvdHz7PvyVDVIKhPe54QqCInhOGTim-SZdyvqZXg5X2MWuNzfayqt0FTg0PEiD" />
-                                </div>
-                                <div>
-                                    <div class="flex items-center gap-2 mb-1">
-                                        <h4 class="font-bold text-stone-900">Sea Spirit</h4>
-                                        <span
-                                            class="bg-tertiary-container text-on-tertiary-container px-2 py-0.5 rounded text-[10px] font-bold uppercase">Ongoing</span>
-                                    </div>
-                                    <p class="text-xs text-on-surface-variant">Active Now • Started 09:15 AM</p>
-                                </div>
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <button
-                                    class="px-5 py-2 rounded-full bg-stone-900 text-white text-xs font-bold shadow-sm hover:bg-stone-800">Mark
-                                    Complete</button>
-                            </div>
-                        </div>
-                        <!-- ROW 4: COMPLETED -->
-                        <div
-                            class="bg-surface-container-lowest p-5 rounded-2xl flex flex-col md:flex-row md:items-center justify-between gap-4 border border-outline-variant/5 opacity-80 grayscale-[0.3]">
-                            <div class="flex items-center gap-4">
-                                <div class="w-16 h-16 rounded-xl overflow-hidden bg-stone-100 flex-shrink-0">
-                                    <img alt="Vessel" class="w-full h-full object-cover"
-                                        data-alt="wooden classic boat interior with luxurious leather seating and brass details"
-                                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuAsxO6BCX9HvOwFFRXInqt8x4ZHc3DErNj-qIa_lPtoKH55_TCQs2dIWtU7Uuxv_MYJ0ixbWbQqedvplPJDftKhj5u9hSH5KYKc82vf3qeTe7PM5wmZWlfZ0kpOILQLquzdLPW7kwk5JPrr3f7OPFm8D_zr5vHu8KHBhVUjS7Qhwkjsef6Vz1wePGvtKl7DyWw8UIRyY58-xB5LdwV7EcfZxMtzK3cbKSIdsR74Q2e-gp-Jg__-ZItQU0CDc3_utn7mmhQ1l7Sfzm6M" />
-                                </div>
-                                <div>
-                                    <div class="flex items-center gap-2 mb-1">
-                                        <h4 class="font-bold text-stone-900">Wind Dancer</h4>
-                                        <span
-                                            class="bg-stone-100 text-stone-500 px-2 py-0.5 rounded text-[10px] font-bold uppercase">Completed</span>
-                                    </div>
-                                    <p class="text-xs text-on-surface-variant">July 25 • 05:00 PM • Monroe Harbor</p>
-                                </div>
-                            </div>
-                            <div class="flex items-center gap-1 text-tertiary">
-                                <span class="material-symbols-outlined text-sm"
-                                    style="font-variation-settings: 'FILL' 1;">star</span>
-                                <span class="material-symbols-outlined text-sm"
-                                    style="font-variation-settings: 'FILL' 1;">star</span>
-                                <span class="material-symbols-outlined text-sm"
-                                    style="font-variation-settings: 'FILL' 1;">star</span>
-                                <span class="material-symbols-outlined text-sm"
-                                    style="font-variation-settings: 'FILL' 1;">star</span>
-                                <span class="material-symbols-outlined text-sm"
-                                    style="font-variation-settings: 'FILL' 1;">star</span>
-                            </div>
-                        </div>
+                    <div id="captain-upcoming-list" class="space-y-4">
+                        <!-- Trip cards rendered dynamically by /api.js -->
                     </div>
                 </section>
                 <!-- SCHEDULE SIDEBAR -->
@@ -447,6 +340,90 @@
             <span class="text-[10px] font-medium">Profile</span>
         </a>
     </nav>
+<script>
+(function(){
+  if (!WCR.isLoggedIn()) { window.parent.location.href = '/login'; return; }
+  var user = WCR.getUser() || {};
+  if (user.role !== 'captain' && user.role !== 'admin') {
+    window.parent.location.href = '/login';
+    return;
+  }
+
+  function escapeHtml(s){
+    if (s == null) return '';
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+  function setText(sel, val){
+    var el = document.querySelector(sel);
+    if (el && val != null) el.textContent = val;
+  }
+  function fmtDate(str){
+    if (!str) return '';
+    var d = new Date(str);
+    return isNaN(d) ? '' : d.toLocaleDateString('en-US',{month:'short',day:'numeric'});
+  }
+
+  function renderUpcomingTrip(b){
+    var bookingId = b._id || b.id;
+    var photo = b.boat && b.boat.photos && b.boat.photos[0] ? b.boat.photos[0].url : '';
+    var boatName = b.boat ? b.boat.name : '';
+    var customerName = b.customer ? b.customer.name : '';
+    var dates = fmtDate(b.startDate) + ' → ' + fmtDate(b.endDate);
+    var payout = b.pricing && b.pricing.captainTotal ? b.pricing.captainTotal.toLocaleString() : '0';
+    return ''
+      + '<div onclick="window.parent.location.href=\'/booking/' + bookingId + '\'" style="display:flex;gap:14px;padding:14px;background:#FAF7F2;border-radius:10px;border:1px solid #E8DFD3;cursor:pointer;align-items:center;">'
+      +   '<div style="width:64px;height:64px;background-image:url(' + escapeHtml(photo) + ');background-size:cover;background-position:center;background-color:#F5F0EA;border-radius:8px;flex-shrink:0;"></div>'
+      +   '<div style="flex:1;">'
+      +     '<h4 style="margin:0;font-family:\'Playfair Display\',serif;font-size:16px;color:#1A1A2E;">' + escapeHtml(boatName) + '</h4>'
+      +     '<p style="margin:2px 0;font-size:13px;color:#6B6560;">' + escapeHtml(customerName) + ' · ' + dates + '</p>'
+      +     '<p style="margin:0;font-size:14px;font-weight:600;color:#C4623A;">$' + payout + ' payout</p>'
+      +   '</div>'
+      + '</div>';
+  }
+
+  async function loadCaptainDashboard(){
+    try {
+      setText('[data-user="firstName"]', (user.name || '').split(' ')[0] || 'there');
+
+      var resp = await WCR.myBookings();
+      var trips = resp.data || resp.bookings || resp || [];
+
+      var upcoming = trips.filter(function(b){ return b.status === 'pending' || b.status === 'confirmed'; });
+      var completed = trips.filter(function(b){ return b.status === 'completed'; });
+
+      var now = new Date();
+      var monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+      var monthEarnings = completed
+        .filter(function(b){ return new Date(b.updatedAt || b.endDate) >= monthStart; })
+        .reduce(function(s, b){ return s + ((b.pricing && b.pricing.captainTotal) || 0); }, 0);
+      var lifetimeEarnings = completed.reduce(function(s, b){
+        return s + ((b.pricing && b.pricing.captainTotal) || 0);
+      }, 0);
+
+      setText('[data-stat="total-trips"]',       trips.length);
+      setText('[data-stat="upcoming-trips"]',    upcoming.length);
+      setText('[data-stat="month-earnings"]',    '$' + monthEarnings.toLocaleString());
+      setText('[data-stat="lifetime-earnings"]', '$' + lifetimeEarnings.toLocaleString());
+
+      var listEl = document.getElementById('captain-upcoming-list');
+      if (listEl) {
+        if (upcoming.length === 0) {
+          listEl.innerHTML = '<div style="padding:24px;text-align:center;color:#6B6560;background:#FAF7F2;border-radius:10px;">No upcoming trips.</div>';
+        } else {
+          upcoming.sort(function(a,b){ return new Date(a.startDate) - new Date(b.startDate); });
+          listEl.innerHTML = upcoming.slice(0, 5).map(renderUpcomingTrip).join('');
+        }
+      }
+    } catch (err) {
+      if (err.status === 401) { window.parent.location.href = '/login'; return; }
+      console.error('[WCR] captain dashboard load failed:', err);
+    }
+  }
+
+  if (document.readyState !== 'loading') loadCaptainDashboard();
+  else document.addEventListener('DOMContentLoaded', loadCaptainDashboard);
+})();
+</script>
 <script>
 document.addEventListener('click',function(e){
   var a=e.target.closest('a[href]');

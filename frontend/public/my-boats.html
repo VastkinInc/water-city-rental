@@ -5,6 +5,7 @@
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>My Boats | Water City Rental</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script src="/api.js"></script>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&amp;family=Noto+Serif:ital,wght@0,400;0,700;1,400;1,700&amp;display=swap" rel="stylesheet"/>
@@ -160,134 +161,14 @@
 </header>
 <!-- Filters / Tabs -->
 <div class="flex items-center gap-6 mb-12 border-b border-outline-variant/15 pb-4 overflow-x-auto no-scrollbar">
-<button class="text-on-surface font-semibold text-sm tracking-wide uppercase border-b-2 border-primary pb-4 -mb-[17px] whitespace-nowrap">All Vessels</button>
-<button class="text-on-surface-variant hover:text-on-surface text-sm tracking-wide uppercase pb-4 -mb-[17px] whitespace-nowrap transition-colors">Active</button>
-<button class="text-on-surface-variant hover:text-on-surface text-sm tracking-wide uppercase pb-4 -mb-[17px] whitespace-nowrap transition-colors">Pending</button>
-<button class="text-on-surface-variant hover:text-on-surface text-sm tracking-wide uppercase pb-4 -mb-[17px] whitespace-nowrap transition-colors">Inactive</button>
+<button data-filter="all" class="text-on-surface font-semibold text-sm tracking-wide uppercase border-b-2 border-primary pb-4 -mb-[17px] whitespace-nowrap">All Vessels</button>
+<button data-filter="active" class="text-on-surface-variant hover:text-on-surface text-sm tracking-wide uppercase pb-4 -mb-[17px] whitespace-nowrap transition-colors">Active</button>
+<button data-filter="pending" class="text-on-surface-variant hover:text-on-surface text-sm tracking-wide uppercase pb-4 -mb-[17px] whitespace-nowrap transition-colors">Pending</button>
+<button data-filter="inactive" class="text-on-surface-variant hover:text-on-surface text-sm tracking-wide uppercase pb-4 -mb-[17px] whitespace-nowrap transition-colors">Inactive</button>
 </div>
 <!-- Vessel List -->
-<div class="flex flex-col gap-8 mb-20">
-<!-- Card 1 -->
-<article class="bg-surface-container-lowest rounded-2xl ambient-shadow flex flex-col md:flex-row overflow-hidden group">
-<div class="w-full md:w-48 h-48 md:h-auto shrink-0 relative">
-<img alt="Azure Serenity Sailing Yacht" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Luxurious white sailing yacht on deep blue water at sunset, elegant perspective" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDscAeU1dDBLO3OKI_cTXwZboH0YjZsie3ThOGMc629h76awtDCkjHHxvviJ_UQl4r1PqKnlAF3seMSQ4oveFdRIt9i8V9AZF6ptq-9QskWPrzGwOGUr1hruhOUUYVTAVo8fde6A-cvywPG3y-H1UaNPEKPmID6eetoTS8tYjyBhF51KcNHpOCQ3dwp8WH4zqZgxmhrr3UHqiK2083ALYbZu89N1wr44GqRLYPXwu6MJkCO3FqhDFAqUUI0sMysZvaw68KqDViQs_A0"/>
-<div class="absolute top-4 left-4 md:hidden">
-<span class="bg-secondary-container text-secondary px-3 py-1 text-xs font-bold uppercase tracking-wider rounded-full shadow-sm">Active</span>
-</div>
-</div>
-<div class="p-6 md:p-8 flex-grow flex flex-col justify-between">
-<div class="flex justify-between items-start mb-4">
-<div>
-<h3 class="font-headline text-2xl text-on-surface mb-1">Azure Serenity</h3>
-<p class="text-on-surface-variant text-sm flex items-center gap-1">
-<span class="material-symbols-outlined text-[16px]">location_on</span>
-                                    Monroe Harbor
-                                </p>
-</div>
-<div class="hidden md:block">
-<span class="bg-secondary-container text-secondary px-3 py-1 text-[0.6875rem] font-bold uppercase tracking-[0.05em] rounded-full">Active</span>
-</div>
-</div>
-<div class="flex flex-wrap gap-x-6 gap-y-2 mb-6 text-sm text-on-surface-variant font-medium">
-<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px] text-outline">straighten</span> 42ft</span>
-<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px] text-outline">group</span> 8 guests</span>
-<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px] text-outline">sailing</span> Sailing Yacht</span>
-</div>
-<div class="flex flex-wrap items-center gap-x-6 gap-y-4 pt-4 border-t border-outline-variant/15 mt-auto">
-<div class="flex items-center gap-1 text-on-surface font-semibold">
-<span class="material-symbols-outlined text-tertiary-container text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
-                                4.9 <span class="text-on-surface-variant font-normal text-sm ml-1">(24 bookings)</span>
-</div>
-<div class="text-on-surface font-semibold flex items-center gap-1">
-<span class="material-symbols-outlined text-[18px] text-primary">payments</span>
-                                $42,000 <span class="text-on-surface-variant font-normal text-sm ml-1">earned</span>
-</div>
-</div>
-</div>
-<div class="p-6 md:p-8 bg-surface-container-low flex md:flex-col justify-end md:justify-center items-center gap-3 border-t md:border-t-0 md:border-l border-outline-variant/15 md:w-56 shrink-0">
-<button class="w-full py-2 px-4 rounded-full border border-outline text-on-surface hover:bg-surface-container-highest transition-colors text-sm font-semibold whitespace-nowrap" onclick="window.parent.location.href='/list-boat'">Edit Boat</button>
-<button class="w-full py-2 px-4 rounded-full border border-outline text-on-surface hover:bg-surface-container-highest transition-colors text-sm font-semibold whitespace-nowrap" onclick="window.parent.location.href='/my-bookings'">View Bookings</button>
-</div>
-</article>
-<!-- Card 2 -->
-<article class="bg-surface-container-lowest rounded-2xl ambient-shadow flex flex-col md:flex-row overflow-hidden group">
-<div class="w-full md:w-48 h-48 md:h-auto shrink-0 relative">
-<img alt="Golden Horizon Catamaran" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Modern spacious catamaran anchored in calm bay with golden hour lighting reflecting off white hull" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCDNe0_Fu4vc7PmImD88FsEXNBx5wFiOj6MWMj6ghbxKOXv9ixQdy_iDIWxMJ3Am602_o9cWI2q6kKRoyAvR-CVyMDeiHYWtZs-uYxsdY1QnI61dnlVWMyHdgsPU7bldgGizkqQEdGCLAFKCkfN2q3Twh6SN3a_EbPSHqvFgRr14m0l6rThBg73sQ0A-l6uTwcoolcm3RsfJSmd0cj2D3Sj0tGnd_evmUVwe7se9-km_lszCvxfaMC1rADsUXQLHlEqPgqLBQHkK8Sc"/>
-<div class="absolute top-4 left-4 md:hidden">
-<span class="bg-secondary-container text-secondary px-3 py-1 text-xs font-bold uppercase tracking-wider rounded-full shadow-sm">Active</span>
-</div>
-</div>
-<div class="p-6 md:p-8 flex-grow flex flex-col justify-between">
-<div class="flex justify-between items-start mb-4">
-<div>
-<h3 class="font-headline text-2xl text-on-surface mb-1">Golden Horizon</h3>
-<p class="text-on-surface-variant text-sm flex items-center gap-1">
-<span class="material-symbols-outlined text-[16px]">location_on</span>
-                                    Burnham Harbor
-                                </p>
-</div>
-<div class="hidden md:block">
-<span class="bg-secondary-container text-secondary px-3 py-1 text-[0.6875rem] font-bold uppercase tracking-[0.05em] rounded-full">Active</span>
-</div>
-</div>
-<div class="flex flex-wrap gap-x-6 gap-y-2 mb-6 text-sm text-on-surface-variant font-medium">
-<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px] text-outline">straighten</span> 38ft</span>
-<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px] text-outline">group</span> 12 guests</span>
-<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px] text-outline">directions_boat</span> Catamaran</span>
-</div>
-<div class="flex flex-wrap items-center gap-x-6 gap-y-4 pt-4 border-t border-outline-variant/15 mt-auto">
-<div class="flex items-center gap-1 text-on-surface font-semibold">
-<span class="material-symbols-outlined text-tertiary-container text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
-                                4.8 <span class="text-on-surface-variant font-normal text-sm ml-1">(18 bookings)</span>
-</div>
-<div class="text-on-surface font-semibold flex items-center gap-1">
-<span class="material-symbols-outlined text-[18px] text-primary">payments</span>
-                                $26,500 <span class="text-on-surface-variant font-normal text-sm ml-1">earned</span>
-</div>
-</div>
-</div>
-<div class="p-6 md:p-8 bg-surface-container-low flex md:flex-col justify-end md:justify-center items-center gap-3 border-t md:border-t-0 md:border-l border-outline-variant/15 md:w-56 shrink-0">
-<button class="w-full py-2 px-4 rounded-full border border-outline text-on-surface hover:bg-surface-container-highest transition-colors text-sm font-semibold whitespace-nowrap" onclick="window.parent.location.href='/list-boat'">Edit Boat</button>
-<button class="w-full py-2 px-4 rounded-full border border-outline text-on-surface hover:bg-surface-container-highest transition-colors text-sm font-semibold whitespace-nowrap" onclick="window.parent.location.href='/my-bookings'">View Bookings</button>
-</div>
-</article>
-<!-- Card 3 (Pending) -->
-<article class="bg-surface-container-lowest rounded-2xl ambient-shadow flex flex-col md:flex-row overflow-hidden group opacity-90">
-<div class="w-full md:w-48 h-48 md:h-auto shrink-0 relative">
-<img alt="Sea Whisper Motorboat" class="w-full h-full object-cover grayscale-[30%] transition-transform duration-700 group-hover:scale-105" data-alt="Sleek modern motorboat docked in a quiet marina, slightly muted lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDhdhvsiIDYlr9Lk4cmBKK3iYtcr60Yec0DzzGRoOzs8PnKRn9xXnRAySL5ZFW5fvNZpL5bCCavyjYld4FCVeXcxJP7y3uJQKGHoxDNwD8z3jSULWsKnUMic-4kMQ7JyL3RQcYZSJZGSkcm61HvQksEZkY24PNSr_1q0A5xG6x2laAfw-xbN-oVcf4piM49OvqTpXqKKG8GkXbdKxuxfNST-gNrEWt84141ECraDRPPif_FhcnbehqDvOOsB6wtBbau4oUjwI99xzFa"/>
-<div class="absolute top-4 left-4 md:hidden">
-<span class="bg-tertiary-fixed text-on-tertiary-fixed px-3 py-1 text-xs font-bold uppercase tracking-wider rounded-full shadow-sm">Pending</span>
-</div>
-</div>
-<div class="p-6 md:p-8 flex-grow flex flex-col justify-between">
-<div class="flex justify-between items-start mb-4">
-<div>
-<h3 class="font-headline text-2xl text-on-surface mb-1">Sea Whisper</h3>
-<p class="text-on-surface-variant text-sm flex items-center gap-1">
-<span class="material-symbols-outlined text-[16px]">location_on</span>
-                                    Diversey Harbor
-                                </p>
-</div>
-<div class="hidden md:block">
-<span class="bg-tertiary-fixed text-on-tertiary-fixed px-3 py-1 text-[0.6875rem] font-bold uppercase tracking-[0.05em] rounded-full">Pending Approval</span>
-</div>
-</div>
-<div class="flex flex-wrap gap-x-6 gap-y-2 mb-6 text-sm text-on-surface-variant font-medium">
-<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px] text-outline">straighten</span> 24ft</span>
-<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px] text-outline">group</span> 6 guests</span>
-<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px] text-outline">directions_boat</span> Motorboat</span>
-</div>
-<div class="flex items-center pt-4 border-t border-outline-variant/15 mt-auto">
-<span class="text-tertiary flex items-center gap-2 text-sm font-semibold italic">
-<span class="material-symbols-outlined text-[18px]">info</span>
-                                New listing under review
-                            </span>
-</div>
-</div>
-<div class="p-6 md:p-8 bg-surface-container-low flex md:flex-col justify-end md:justify-center items-center gap-3 border-t md:border-t-0 md:border-l border-outline-variant/15 md:w-56 shrink-0">
-<button class="w-full py-2 px-4 rounded-full border border-outline text-on-surface hover:bg-surface-container-highest transition-colors text-sm font-semibold whitespace-nowrap" onclick="window.parent.location.href='/list-boat'">Edit Draft</button>
-</div>
-</article>
+<div id="my-boats-list" class="flex flex-col gap-8 mb-20">
+<!-- Boat cards rendered dynamically by /api.js -->
 </div>
 <!-- Empty State / Promo Section -->
 <section class="mt-24 pt-20 border-t border-outline-variant/15 text-center flex flex-col items-center justify-center max-w-2xl mx-auto px-4 pb-20">
@@ -303,6 +184,102 @@
 </section>
 </div>
 </main>
+<script>
+(function(){
+  if (!WCR.isLoggedIn()) { window.parent.location.href = '/login'; return; }
+  var user = WCR.getUser() || {};
+  if (user.role !== 'owner' && user.role !== 'admin') {
+    window.parent.location.href = '/login';
+    return;
+  }
+
+  var allBoats = [];
+  var currentFilter = 'all';
+
+  function escapeHtml(s){
+    if (s == null) return '';
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+  function statusBadge(status){
+    var colors = {
+      'active':   { bg:'#D1FAE5', fg:'#065F46', label:'ACTIVE' },
+      'pending':  { bg:'#FEF3C7', fg:'#92400E', label:'PENDING APPROVAL' },
+      'inactive': { bg:'#E5E7EB', fg:'#1F2937', label:'INACTIVE' }
+    };
+    var c = colors[status] || colors.pending;
+    return '<span style="background:'+c.bg+';color:'+c.fg+';padding:4px 10px;border-radius:999px;font-size:11px;font-weight:600;letter-spacing:0.05em;">'+c.label+'</span>';
+  }
+  function renderBoatCard(boat){
+    var photo = boat.photos && boat.photos[0] ? boat.photos[0].url : '';
+    var rateLabel = boat.rateType === 'daily'
+      ? '$' + (boat.dayRate || 0).toLocaleString() + '/day'
+      : '$' + (boat.hourlyRate || 0).toLocaleString() + '/hr';
+    var rating = boat.rating ? boat.rating.toFixed(1) : '—';
+    var bookings = boat.totalBookings || 0;
+    return ''
+      + '<div style="display:flex;gap:20px;padding:20px;background:#fff;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.05);margin-bottom:16px;align-items:center;">'
+      +   '<div style="width:140px;height:140px;background-image:url(' + escapeHtml(photo) + ');background-size:cover;background-position:center;background-color:#F5F0EA;border-radius:10px;flex-shrink:0;"></div>'
+      +   '<div style="flex:1;">'
+      +     '<div style="display:flex;justify-content:space-between;align-items:start;gap:8px;margin-bottom:6px;">'
+      +       '<h3 style="font-family:\'Playfair Display\',serif;font-size:22px;color:#1A1A2E;margin:0;">' + escapeHtml(boat.name) + '</h3>'
+      +       statusBadge(boat.status)
+      +     '</div>'
+      +     '<p style="margin:0 0 4px;color:#6B6560;font-size:14px;">📍 ' + escapeHtml(boat.harbor) + ' · ' + escapeHtml(boat.type) + ' · ' + (boat.length || '?') + 'ft</p>'
+      +     '<p style="margin:0 0 12px;color:#1A1A2E;font-size:13px;">★ ' + rating + ' · ' + bookings + ' bookings · ' + rateLabel + '</p>'
+      +     '<div style="display:flex;gap:10px;">'
+      +       '<button onclick="alert(\'Edit boat coming in Day 5\')" style="padding:8px 16px;background:transparent;border:1px solid #1A1A2E;border-radius:8px;color:#1A1A2E;font-weight:600;cursor:pointer;">Edit</button>'
+      +       '<button onclick="window.parent.location.href=\'/my-bookings\'" style="padding:8px 16px;background:transparent;border:1px solid #1A1A2E;border-radius:8px;color:#1A1A2E;font-weight:600;cursor:pointer;">View Bookings</button>'
+      +     '</div>'
+      +   '</div>'
+      + '</div>';
+  }
+
+  function applyFilter(){
+    var listEl = document.getElementById('my-boats-list');
+    if (!listEl) return;
+    var filtered = currentFilter === 'all' ? allBoats : allBoats.filter(function(b){ return b.status === currentFilter; });
+    if (filtered.length === 0) {
+      listEl.innerHTML = '<div style="padding:48px;text-align:center;color:#6B6560;">No boats in this category.</div>';
+    } else {
+      listEl.innerHTML = filtered.map(renderBoatCard).join('');
+    }
+  }
+
+  async function loadBoats(){
+    var listEl = document.getElementById('my-boats-list');
+    if (listEl) listEl.innerHTML = '<div style="padding:32px;text-align:center;color:#6B6560;">Loading your fleet…</div>';
+    try {
+      var resp = await WCR._call('GET', '/boats/me/list');
+      allBoats = resp.data || resp.boats || resp || [];
+      applyFilter();
+    } catch (err) {
+      if (err.status === 401) { window.parent.location.href = '/login'; return; }
+      if (listEl) listEl.innerHTML = '<div style="padding:32px;text-align:center;color:#C4623A;">Could not load boats.</div>';
+    }
+  }
+
+  function init(){
+    var tabs = document.querySelectorAll('[data-filter]');
+    tabs.forEach(function(tab){
+      tab.addEventListener('click', function(e){
+        e.preventDefault();
+        tabs.forEach(function(t){
+          t.classList.remove('text-on-surface','font-semibold','border-b-2','border-primary');
+          t.classList.add('text-on-surface-variant');
+        });
+        tab.classList.remove('text-on-surface-variant');
+        tab.classList.add('text-on-surface','font-semibold','border-b-2','border-primary');
+        currentFilter = tab.getAttribute('data-filter');
+        applyFilter();
+      });
+    });
+    loadBoats();
+  }
+
+  if (document.readyState !== 'loading') init();
+  else document.addEventListener('DOMContentLoaded', init);
+})();
+</script>
 <script>
 document.addEventListener('click',function(e){
   var a=e.target.closest('a[href]');

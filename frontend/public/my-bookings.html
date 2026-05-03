@@ -229,6 +229,9 @@
     return;
   }
 
+  var user = WCR.getUser() || {};
+  var isOwner = user.role === 'owner';
+
   var allBookings = [];
   var currentFilter = 'all';
 
@@ -259,7 +262,21 @@
     var captainName = b.captain ? b.captain.name : '';
     var dates = fmtDate(b.startDate) + ' → ' + fmtDate(b.endDate);
     var total = (b.pricing && b.pricing.grandTotal) ? b.pricing.grandTotal.toLocaleString() : '0';
-    var canCancel = b.status === 'pending' || b.status === 'confirmed';
+
+    var actionsHtml = '';
+    if (isOwner) {
+      if (b.status === 'pending') {
+        actionsHtml = ''
+          + '<button onclick="ownerApproveFromList(\'' + bookingId + '\')" style="padding:8px 16px;background:#C4623A;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;">Approve</button>'
+          + '<button onclick="ownerDeclineFromList(\'' + bookingId + '\')" style="padding:8px 16px;background:#FEE2E2;border:1px solid #FCA5A5;border-radius:8px;color:#991B1B;font-weight:600;cursor:pointer;">Decline</button>';
+      }
+    } else {
+      var canCancel = b.status === 'pending' || b.status === 'confirmed';
+      if (canCancel) {
+        actionsHtml = '<button onclick="cancelBookingFromList(\'' + bookingId + '\')" style="padding:8px 16px;background:#FEE2E2;border:1px solid #FCA5A5;border-radius:8px;color:#991B1B;font-weight:600;cursor:pointer;">Cancel</button>';
+      }
+    }
+
     return ''
       + '<div style="display:flex;gap:20px;padding:20px;background:#fff;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.05);margin-bottom:16px;">'
       +   '<div style="width:140px;height:140px;background-image:url(' + escapeHtml(photo) + ');background-size:cover;background-position:center;background-color:#F5F0EA;border-radius:10px;flex-shrink:0;"></div>'
@@ -278,9 +295,7 @@
       +       '<span style="font-size:18px;font-weight:600;color:#1A1A2E;">$' + total + '</span>'
       +       '<div style="display:flex;gap:10px;">'
       +         '<button onclick="window.parent.location.href=\'/booking/' + bookingId + '\'" style="padding:8px 16px;background:transparent;border:1px solid #1A1A2E;border-radius:8px;color:#1A1A2E;font-weight:600;cursor:pointer;">View Details</button>'
-      +         (canCancel
-                  ? '<button onclick="cancelBookingFromList(\'' + bookingId + '\')" style="padding:8px 16px;background:#FEE2E2;border:1px solid #FCA5A5;border-radius:8px;color:#991B1B;font-weight:600;cursor:pointer;">Cancel</button>'
-                  : '')
+      +         actionsHtml
       +       '</div>'
       +     '</div>'
       +   '</div>'
@@ -314,6 +329,26 @@
       await loadBookings();
     } catch (err) {
       alert('Could not cancel: ' + (err.message || 'Unknown error'));
+    }
+  };
+
+  window.ownerApproveFromList = async function(bookingId){
+    if (!confirm('Approve this booking?')) return;
+    try {
+      await WCR._call('PATCH', '/bookings/' + bookingId + '/approve', null);
+      await loadBookings();
+    } catch (err) {
+      alert('Could not approve: ' + (err.message || 'Error'));
+    }
+  };
+
+  window.ownerDeclineFromList = async function(bookingId){
+    if (!confirm('Decline this booking? The customer will be notified.')) return;
+    try {
+      await WCR._call('PATCH', '/bookings/' + bookingId + '/decline', { cancellationReason: 'Declined by owner' });
+      await loadBookings();
+    } catch (err) {
+      alert('Could not decline: ' + (err.message || 'Error'));
     }
   };
 

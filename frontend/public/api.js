@@ -56,6 +56,11 @@
       try { data = await response.json(); } catch(e) { data = {}; }
 
       if (!response.ok) {
+        // Auto-clear stale credentials on 401 (except for /auth/login itself,
+        // where 401 just means bad password — token was never valid).
+        if (response.status === 401 && !/\/auth\/login$/.test(path)) {
+          clearToken();
+        }
         var err = new Error(data.message || 'Request failed');
         err.status = response.status;
         err.data = data;

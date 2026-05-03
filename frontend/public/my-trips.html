@@ -5,6 +5,7 @@
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>My Trips | Water City Rental</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script src="/api.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&amp;family=Manrope:wght@400;500;600;700&amp;family=Noto+Serif:ital,wght@0,400;0,700;1,400;1,700&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
@@ -160,237 +161,173 @@
 </div>
 <!-- Custom Tabs -->
 <div class="flex space-x-8 mb-10 overflow-x-auto pb-2 scrollbar-hide">
-<button class="text-on-surface font-bold text-sm uppercase tracking-widest pb-2 relative group whitespace-nowrap">
+<button data-filter="all" class="text-on-surface font-bold text-sm uppercase tracking-widest pb-2 relative group whitespace-nowrap">
                     All
                     <span class="absolute bottom-0 left-0 w-full h-[2px] bg-primary rounded-t-full"></span>
 </button>
-<button class="text-on-surface-variant hover:text-on-surface font-medium text-sm uppercase tracking-widest pb-2 relative group whitespace-nowrap transition-colors">
+<button data-filter="pending" class="text-on-surface-variant hover:text-on-surface font-medium text-sm uppercase tracking-widest pb-2 relative group whitespace-nowrap transition-colors">
                     New
                     <span class="absolute bottom-0 left-0 w-0 h-[2px] bg-primary-container rounded-t-full group-hover:w-full transition-all duration-300"></span>
 </button>
-<button class="text-on-surface-variant hover:text-on-surface font-medium text-sm uppercase tracking-widest pb-2 relative group whitespace-nowrap transition-colors">
+<button data-filter="confirmed" class="text-on-surface-variant hover:text-on-surface font-medium text-sm uppercase tracking-widest pb-2 relative group whitespace-nowrap transition-colors">
                     Upcoming
                     <span class="absolute bottom-0 left-0 w-0 h-[2px] bg-primary-container rounded-t-full group-hover:w-full transition-all duration-300"></span>
 </button>
-<button class="text-on-surface-variant hover:text-on-surface font-medium text-sm uppercase tracking-widest pb-2 relative group whitespace-nowrap transition-colors">
+<button data-filter="ongoing" class="text-on-surface-variant hover:text-on-surface font-medium text-sm uppercase tracking-widest pb-2 relative group whitespace-nowrap transition-colors">
                     Ongoing
                     <span class="absolute bottom-0 left-0 w-0 h-[2px] bg-primary-container rounded-t-full group-hover:w-full transition-all duration-300"></span>
 </button>
-<button class="text-on-surface-variant hover:text-on-surface font-medium text-sm uppercase tracking-widest pb-2 relative group whitespace-nowrap transition-colors">
+<button data-filter="completed" class="text-on-surface-variant hover:text-on-surface font-medium text-sm uppercase tracking-widest pb-2 relative group whitespace-nowrap transition-colors">
                     Completed
                     <span class="absolute bottom-0 left-0 w-0 h-[2px] bg-primary-container rounded-t-full group-hover:w-full transition-all duration-300"></span>
 </button>
 </div>
 <!-- Trips List (Bento-inspired Horizontal Cards) -->
-<div class="space-y-6">
-<!-- Card 1: NEW -->
-<article class="bg-surface-container-lowest rounded-2xl p-6 shadow-ambient flex flex-col md:flex-row items-start md:items-center justify-between gap-6 hover:shadow-lg transition-shadow duration-300 relative overflow-hidden group">
-<!-- Subtle left border accent for NEW -->
-<div class="absolute left-0 top-0 bottom-0 w-1 bg-primary-container"></div>
-<div class="flex-1 flex flex-col md:flex-row items-start md:items-center gap-6">
-<div class="w-24 h-24 rounded-xl overflow-hidden flex-shrink-0 relative">
-<img alt="Azure Serenity Boat" class="w-full h-full object-cover" data-alt="Luxury motor yacht docked in calm blue harbor waters reflecting morning sunlight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAMEbv9H_1PDnMz1Jn3mitP2iFcZl5PScKNRjexcVT68UG2e1tFJTTGLezG15X7Kxwoph6BeG1UF8_FpOyXztTQXgxdEkasaYXfiCrRV9Qvs0L4ucZjCbbclFA9cCKrOxNlSs8rLKPupLu_0bPqFf2J17a3ZY9ABUomCvvmorvnxh1C0MPtjgrf_Idhgx7KzrxVzcWVT2ISq8Hz2l4QAWl8Jahbrbkud6V934s6PhLwqJl33DRYRpPsjK03mp7EplY9K6H9F-J1FUTU"/>
-<div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
-</div>
-<div class="space-y-2">
-<div class="flex items-center space-x-3 mb-1">
-<span class="px-3 py-1 rounded-full text-[0.6875rem] uppercase tracking-widest font-bold bg-primary-fixed text-on-primary-fixed">NEW</span>
-<span class="text-sm text-on-surface-variant font-medium flex items-center">
-<span class="material-symbols-outlined text-[16px] mr-1">person</span> James Wilson
-                                </span>
-</div>
-<h3 class="font-serif text-2xl text-on-surface">Azure Serenity</h3>
-<p class="text-sm text-on-surface-variant flex items-center">
-<span class="material-symbols-outlined text-[16px] mr-1 text-primary-container">location_on</span> Monroe Harbor
-                            </p>
-</div>
-</div>
-<div class="flex-1 grid grid-cols-2 gap-4 border-l-0 md:border-l border-outline-variant/15 md:pl-6">
-<div>
-<p class="text-[0.6875rem] uppercase tracking-widest text-on-surface-variant mb-1">Departure</p>
-<p class="font-medium text-on-surface">Aug 5, 2025</p>
-<p class="text-sm text-on-surface-variant">9:00 AM</p>
-</div>
-<div>
-<p class="text-[0.6875rem] uppercase tracking-widest text-on-surface-variant mb-1">Duration</p>
-<p class="font-medium text-on-surface">2 days</p>
-</div>
-</div>
-<div class="flex-shrink-0 flex flex-col items-end gap-4 min-w-[140px] border-l-0 md:border-l border-outline-variant/15 md:pl-6">
-<div class="text-right">
-<p class="text-[0.6875rem] uppercase tracking-widest text-on-surface-variant mb-1">Payout</p>
-<p class="text-2xl font-serif text-on-surface">$480</p>
-</div>
-<div class="flex space-x-2">
-<button class="px-4 py-2 rounded-full border border-outline text-on-surface-variant hover:bg-surface-container-highest transition-colors text-sm font-medium">
-                                Decline
-                            </button>
-<button class="px-5 py-2 rounded-full bg-gradient-to-r from-primary to-primary-container text-on-primary font-medium hover:shadow-md transition-all text-sm">
-                                Accept Trip
-                            </button>
-</div>
-</div>
-</article>
-<!-- Card 2: UPCOMING -->
-<article class="bg-surface-container-lowest rounded-2xl p-6 shadow-ambient flex flex-col md:flex-row items-start md:items-center justify-between gap-6 hover:shadow-lg transition-shadow duration-300">
-<div class="flex-1 flex flex-col md:flex-row items-start md:items-center gap-6">
-<div class="w-24 h-24 rounded-xl overflow-hidden flex-shrink-0">
-<img alt="Wind Dancer Sailboat" class="w-full h-full object-cover" data-alt="Classic wooden sailboat anchored near a pier with white sails partially furled against a clear blue sky" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9El4rxNJ5QKXodKHi3Q7HplpVHsMVvmtpd0G24u0zlS4IB5v0HuPDYnnI2Rh1MfLLQ7DULOVbEBBoL2iLV1azDIBnPSVQckYQWwpm_GoIWV3DZJ-r-INTuelLdHMiUCWkYblpIuZqyFkfYtdFQmK1ShenBYAHgSva2Jslmodx_aJMhmS2VptEjZdycfqXZpP8YKZOCs1WRTY7ItsUZuZJ4waUZJIZm34Flztv-pS4bvs29LZ29Y0fFoMHup2ke0hdhvoTrouM4KmW"/>
-</div>
-<div class="space-y-2">
-<div class="flex items-center space-x-3 mb-1">
-<span class="px-3 py-1 rounded-full text-[0.6875rem] uppercase tracking-widest font-bold bg-tertiary-fixed text-on-tertiary-fixed">UPCOMING</span>
-<span class="text-sm text-on-surface-variant font-medium flex items-center">
-<span class="material-symbols-outlined text-[16px] mr-1">person</span> Maria Garcia
-                                </span>
-</div>
-<h3 class="font-serif text-2xl text-on-surface">Wind Dancer</h3>
-<p class="text-sm text-on-surface-variant flex items-center">
-<span class="material-symbols-outlined text-[16px] mr-1 text-primary-container">location_on</span> Navy Pier
-                            </p>
-</div>
-</div>
-<div class="flex-1 grid grid-cols-2 gap-4 border-l-0 md:border-l border-outline-variant/15 md:pl-6">
-<div>
-<p class="text-[0.6875rem] uppercase tracking-widest text-on-surface-variant mb-1">Departure</p>
-<p class="font-medium text-on-surface">Aug 12, 2025</p>
-<p class="text-sm text-on-surface-variant">10:30 AM</p>
-</div>
-<div>
-<p class="text-[0.6875rem] uppercase tracking-widest text-on-surface-variant mb-1">Duration</p>
-<p class="font-medium text-on-surface">1 day</p>
-</div>
-</div>
-<div class="flex-shrink-0 flex flex-col items-end gap-4 min-w-[140px] border-l-0 md:border-l border-outline-variant/15 md:pl-6">
-<div class="text-right">
-<p class="text-[0.6875rem] uppercase tracking-widest text-on-surface-variant mb-1">Payout</p>
-<p class="text-2xl font-serif text-on-surface">$180</p>
-</div>
-<button class="px-5 py-2 rounded-full border border-outline text-on-surface hover:bg-surface-container-high transition-colors text-sm font-medium" onclick="window.parent.location.href='/booking/1'">
-                            View Details
-                        </button>
-</div>
-</article>
-<!-- Card 3: ONGOING -->
-<article class="bg-surface-container-lowest rounded-2xl p-6 shadow-ambient flex flex-col md:flex-row items-start md:items-center justify-between gap-6 hover:shadow-lg transition-shadow duration-300 ring-1 ring-secondary/20">
-<div class="flex-1 flex flex-col md:flex-row items-start md:items-center gap-6">
-<div class="w-24 h-24 rounded-xl overflow-hidden flex-shrink-0">
-<img alt="Solaris Dream Boat" class="w-full h-full object-cover" data-alt="Modern catamaran cruising on open turquoise water leaving a white wake behind under bright sunlight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDsYkn_5zOjWMCIernSFR774STS-NmTR_Z3pPeL1XOYRfnM21D59U7y9NlRsxlwD9MHKL5j5gELlJa4EqGQ_yU-APSPR79bxUS6NUuCiJe7Zop1xIYcCsCa8ld42ihpo4qkifg24kvzSz2Fg5_se4e1_MkekjpsE1BsZezeVppiwU2OMKgmVacR2TX2M_z3EsX5rHq6HTKvP3cnTLaGGQCsOT4jQ2R4yJLqCl6xdz5xcE61gPj3Q3WpFk0qCYIWjQBQD7JlBZjq5C5H"/>
-</div>
-<div class="space-y-2">
-<div class="flex items-center space-x-3 mb-1">
-<span class="px-3 py-1 rounded-full text-[0.6875rem] uppercase tracking-widest font-bold bg-secondary-fixed text-on-secondary-fixed">ONGOING</span>
-<span class="text-sm text-on-surface-variant font-medium flex items-center">
-<span class="material-symbols-outlined text-[16px] mr-1">person</span> Robert Chen
-                                </span>
-</div>
-<h3 class="font-serif text-2xl text-on-surface">Solaris Dream</h3>
-<p class="text-sm text-on-surface-variant flex items-center">
-<span class="material-symbols-outlined text-[16px] mr-1 text-primary-container">location_on</span> Belmont Harbor
-                            </p>
-</div>
-</div>
-<div class="flex-1 grid grid-cols-2 gap-4 border-l-0 md:border-l border-outline-variant/15 md:pl-6">
-<div>
-<p class="text-[0.6875rem] uppercase tracking-widest text-on-surface-variant mb-1">Started</p>
-<p class="font-medium text-on-surface">Jul 30, 2025</p>
-<p class="text-sm text-on-surface-variant">2:00 PM</p>
-</div>
-<div>
-<p class="text-[0.6875rem] uppercase tracking-widest text-on-surface-variant mb-1">Duration</p>
-<p class="font-medium text-on-surface">3 days</p>
-</div>
-</div>
-<div class="flex-shrink-0 flex flex-col items-end gap-4 min-w-[140px] border-l-0 md:border-l border-outline-variant/15 md:pl-6">
-<div class="text-right">
-<p class="text-[0.6875rem] uppercase tracking-widest text-on-surface-variant mb-1">Payout</p>
-<p class="text-2xl font-serif text-on-surface">$960</p>
-</div>
-<button class="px-5 py-2 rounded-full bg-secondary text-on-secondary font-medium hover:bg-on-secondary-container transition-colors text-sm flex items-center">
-<span class="material-symbols-outlined text-[18px] mr-2">check_circle</span>
-                            Mark Complete
-                        </button>
-</div>
-</article>
-<!-- Card 4: COMPLETED -->
-<article class="bg-surface-container-low rounded-2xl p-6 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-6 opacity-80 hover:opacity-100 transition-opacity">
-<div class="flex-1 flex flex-col md:flex-row items-start md:items-center gap-6">
-<div class="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 grayscale-[30%]">
-<img alt="Morning Mist Boat" class="w-full h-full object-cover" data-alt="Small elegant speedboat moored at a wooden dock during foggy morning twilight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDMWl4GVmZZoXgi23WxBxMaLtUO7ZxocJNo_H0CnwRhwBzTnmNEYeV601nqp_4WA5TIS-RkjPtNi2tpv27U8bAJ0wvdQ970qIVVUkbXVm7hkyt1lK97gfBTF8dC_EVXJEBYTv4RydUF8ZfggBKoxFgZlBSh9y7yjPTj61V2jUp0fm7HuKtfslk_YVkOBBO-SCuCpnbPe2YV7WFyb1KMiMMDuO7-bCHyEF3CaIaTlxSTE6o5FKU0r-aREW9njRjCMS209ojw2tGi65P_"/>
-</div>
-<div class="space-y-1">
-<div class="flex items-center space-x-3 mb-1">
-<span class="px-3 py-1 rounded-full text-[0.6875rem] uppercase tracking-widest font-bold bg-surface-container-highest text-on-surface-variant">COMPLETED</span>
-<span class="text-sm text-on-surface-variant font-medium flex items-center">
-<span class="material-symbols-outlined text-[16px] mr-1">person</span> Sarah M.
-                                </span>
-</div>
-<h3 class="font-serif text-xl text-on-surface">Morning Mist</h3>
-<p class="text-sm text-on-surface-variant">Burnham Harbor</p>
-</div>
-</div>
-<div class="flex-1 flex items-center gap-8 border-l-0 md:border-l border-outline-variant/15 md:pl-6">
-<div>
-<p class="text-[0.6875rem] uppercase tracking-widest text-on-surface-variant mb-1">Date</p>
-<p class="font-medium text-on-surface">Jul 15, 2025</p>
-</div>
-</div>
-<div class="flex-shrink-0 flex items-center gap-6 border-l-0 md:border-l border-outline-variant/15 md:pl-6">
-<div class="text-right">
-<p class="text-[0.6875rem] uppercase tracking-widest text-on-surface-variant mb-1">Payout</p>
-<p class="text-xl font-serif text-on-surface-variant">$120</p>
-</div>
-<button class="text-secondary font-medium text-sm flex items-center hover:underline" onclick="window.parent.location.href='/booking/1'">
-                            View Details <span class="material-symbols-outlined text-[18px] ml-1">chevron_right</span>
-</button>
-</div>
-</article>
-<!-- Card 5: NEW -->
-<article class="bg-surface-container-lowest rounded-2xl p-6 shadow-ambient flex flex-col md:flex-row items-start md:items-center justify-between gap-6 hover:shadow-lg transition-shadow duration-300 relative overflow-hidden group">
-<div class="absolute left-0 top-0 bottom-0 w-1 bg-primary-container"></div>
-<div class="flex-1 flex flex-col md:flex-row items-start md:items-center gap-6">
-<div class="w-24 h-24 rounded-xl overflow-hidden flex-shrink-0">
-<img alt="The Odyssey Boat" class="w-full h-full object-cover" data-alt="Sleek modern yacht bow cutting through calm dark blue water on an overcast day" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDoR7UWbm-x_P_rqEvwQl-vDx5fPrw3zBqDE7HUUY9HTUVSOqQUhNHlwPf2XRziCdGBApFxgsmFljkMdd_E78c95gwfs_vxQyW1Abco4ZrxRX46n9yHas1L0j_8zd45bWqM4f98RF_uRZLTHPWpNywGVVh4B1ILNcLzyG3y8PH6yNxrV6Ox8mpBgoeoFfeuV1G-Ok4ZqbQG8APUhuf_bXyltkkJqKcBmCnDxMel6z9P7ma-_11Xd6IHasPF_S8nEoP0lqUHGwUfoMWY"/>
-</div>
-<div class="space-y-2">
-<div class="flex items-center space-x-3 mb-1">
-<span class="px-3 py-1 rounded-full text-[0.6875rem] uppercase tracking-widest font-bold bg-primary-fixed text-on-primary-fixed">NEW</span>
-<span class="text-sm text-on-surface-variant font-medium flex items-center">
-<span class="material-symbols-outlined text-[16px] mr-1">person</span> Elena S.
-                                </span>
-</div>
-<h3 class="font-serif text-2xl text-on-surface">The Odyssey</h3>
-<p class="text-sm text-on-surface-variant flex items-center">
-<span class="material-symbols-outlined text-[16px] mr-1 text-primary-container">location_on</span> Burnham Harbor
-                            </p>
-</div>
-</div>
-<div class="flex-1 flex items-center border-l-0 md:border-l border-outline-variant/15 md:pl-6">
-<div>
-<p class="text-[0.6875rem] uppercase tracking-widest text-on-surface-variant mb-1">Requested Date</p>
-<p class="font-medium text-on-surface">Aug 20, 2025</p>
-</div>
-</div>
-<div class="flex-shrink-0 flex flex-col items-end gap-4 min-w-[140px] border-l-0 md:border-l border-outline-variant/15 md:pl-6">
-<div class="text-right">
-<p class="text-[0.6875rem] uppercase tracking-widest text-on-surface-variant mb-1">Est. Payout</p>
-<p class="text-2xl font-serif text-on-surface">$240</p>
-</div>
-<div class="flex space-x-2">
-<button class="px-4 py-2 rounded-full border border-outline text-on-surface-variant hover:bg-surface-container-highest transition-colors text-sm font-medium">
-                                Decline
-                            </button>
-<button class="px-5 py-2 rounded-full bg-gradient-to-r from-primary to-primary-container text-on-primary font-medium hover:shadow-md transition-all text-sm">
-                                Accept Trip
-                            </button>
-</div>
-</div>
-</article>
+<div id="trips-list" class="space-y-6">
+<!-- Trip cards rendered dynamically by /api.js -->
 </div>
 <!-- Bottom spacing -->
 <div class="h-24"></div>
 </div>
 </main>
+<script>
+(function(){
+  if (!WCR.isLoggedIn()) { window.parent.location.href = '/login'; return; }
+  var user = WCR.getUser() || {};
+  if (user.role !== 'captain' && user.role !== 'admin') {
+    window.parent.location.href = '/login';
+    return;
+  }
+
+  var allTrips = [];
+  var currentFilter = 'all';
+
+  function escapeHtml(s){
+    if (s == null) return '';
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+  function fmtDate(str){
+    if (!str) return '';
+    var d = new Date(str);
+    return isNaN(d) ? '' : d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+  }
+  function isOngoing(b){
+    if (b.status !== 'confirmed') return false;
+    var now = new Date(); now.setHours(0,0,0,0);
+    var start = new Date(b.startDate); start.setHours(0,0,0,0);
+    var end = new Date(b.endDate); end.setHours(23,59,59,999);
+    return now >= start && now <= end;
+  }
+  function statusBadge(b){
+    var status = b.status, label, c;
+    if (status === 'pending')        { label='NEW';       c={bg:'#FEF3C7',fg:'#92400E'}; }
+    else if (isOngoing(b))           { label='ONGOING';   c={bg:'#D1FAE5',fg:'#065F46'}; }
+    else if (status === 'confirmed') { label='UPCOMING';  c={bg:'#DBEAFE',fg:'#1E40AF'}; }
+    else if (status === 'completed') { label='COMPLETED'; c={bg:'#E5E7EB',fg:'#1F2937'}; }
+    else if (status === 'cancelled') { label='CANCELLED'; c={bg:'#FEE2E2',fg:'#991B1B'}; }
+    else                             { label = status.toUpperCase(); c={bg:'#E5E7EB',fg:'#1F2937'}; }
+    return '<span style="background:'+c.bg+';color:'+c.fg+';padding:4px 10px;border-radius:999px;font-size:11px;font-weight:600;letter-spacing:0.05em;">'+label+'</span>';
+  }
+
+  function renderTripCard(b){
+    var bookingId = b._id || b.id;
+    var photo = b.boat && b.boat.photos && b.boat.photos[0] ? b.boat.photos[0].url : '';
+    var boatName = b.boat ? b.boat.name : '';
+    var harbor = b.boat ? b.boat.harbor : '';
+    var customerName = b.customer ? b.customer.name : '';
+    var dates = fmtDate(b.startDate) + ' → ' + fmtDate(b.endDate);
+    var payout = b.pricing && b.pricing.captainTotal ? b.pricing.captainTotal.toLocaleString() : '0';
+
+    var actions = '';
+    if (b.status === 'confirmed' && isOngoing(b)) {
+      actions = '<button onclick="captainComplete(\'' + bookingId + '\')" style="padding:8px 16px;background:#065F46;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;">Mark Complete</button>';
+    } else {
+      actions = '<button onclick="window.parent.location.href=\'/booking/' + bookingId + '\'" style="padding:8px 16px;background:transparent;border:1px solid #1A1A2E;border-radius:8px;color:#1A1A2E;font-weight:600;cursor:pointer;">View Details</button>';
+    }
+
+    return ''
+      + '<div style="display:flex;gap:20px;padding:20px;background:#fff;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.05);margin-bottom:16px;">'
+      +   '<div style="width:140px;height:140px;background-image:url(' + escapeHtml(photo) + ');background-size:cover;background-position:center;background-color:#F5F0EA;border-radius:10px;flex-shrink:0;"></div>'
+      +   '<div style="flex:1;">'
+      +     '<div style="display:flex;justify-content:space-between;align-items:start;gap:8px;margin-bottom:6px;">'
+      +       '<h3 style="font-family:\'Playfair Display\',serif;font-size:20px;color:#1A1A2E;margin:0;">' + escapeHtml(boatName) + '</h3>'
+      +       statusBadge(b)
+      +     '</div>'
+      +     '<p style="margin:0 0 4px;color:#1A1A2E;font-size:14px;">📍 ' + escapeHtml(harbor) + '</p>'
+      +     '<p style="margin:0 0 4px;color:#1A1A2E;font-size:14px;">👤 ' + escapeHtml(customerName) + '</p>'
+      +     '<p style="margin:0 0 12px;color:#1A1A2E;font-size:14px;">📅 ' + dates + '</p>'
+      +     '<div style="display:flex;justify-content:space-between;align-items:center;">'
+      +       '<span style="font-size:16px;font-weight:600;color:#C4623A;">$' + payout + ' payout</span>'
+      +       '<div>' + actions + '</div>'
+      +     '</div>'
+      +   '</div>'
+      + '</div>';
+  }
+
+  window.captainComplete = async function(bookingId){
+    if (!confirm('Mark this trip as complete? This finalizes the booking.')) return;
+    try {
+      await WCR._call('PATCH', '/bookings/' + bookingId + '/complete', null);
+      await loadTrips();
+    } catch (err) {
+      alert('Could not mark complete: ' + (err.message || 'Error'));
+    }
+  };
+
+  function applyFilter(){
+    var listEl = document.getElementById('trips-list');
+    if (!listEl) return;
+    var filtered;
+    if      (currentFilter === 'all')        filtered = allTrips;
+    else if (currentFilter === 'pending')    filtered = allTrips.filter(function(b){ return b.status === 'pending'; });
+    else if (currentFilter === 'confirmed')  filtered = allTrips.filter(function(b){ return b.status === 'confirmed' && !isOngoing(b); });
+    else if (currentFilter === 'ongoing')    filtered = allTrips.filter(isOngoing);
+    else if (currentFilter === 'completed')  filtered = allTrips.filter(function(b){ return b.status === 'completed'; });
+    else                                     filtered = allTrips;
+
+    if (filtered.length === 0) {
+      listEl.innerHTML = '<div style="padding:48px;text-align:center;color:#6B6560;">No trips in this category.</div>';
+    } else {
+      filtered.sort(function(a,b){ return new Date(b.startDate) - new Date(a.startDate); });
+      listEl.innerHTML = filtered.map(renderTripCard).join('');
+    }
+  }
+
+  async function loadTrips(){
+    var listEl = document.getElementById('trips-list');
+    if (listEl) listEl.innerHTML = '<div style="padding:32px;text-align:center;color:#6B6560;">Loading trips…</div>';
+    try {
+      var resp = await WCR.myBookings();
+      allTrips = resp.data || resp.bookings || resp || [];
+      applyFilter();
+    } catch (err) {
+      if (err.status === 401) { window.parent.location.href = '/login'; return; }
+      if (listEl) listEl.innerHTML = '<div style="padding:32px;text-align:center;color:#C4623A;">Could not load trips.</div>';
+    }
+  }
+
+  function init(){
+    var tabs = document.querySelectorAll('[data-filter]');
+    tabs.forEach(function(tab){
+      tab.addEventListener('click', function(e){
+        e.preventDefault();
+        tabs.forEach(function(t){
+          t.classList.remove('text-on-surface','font-bold');
+          t.classList.add('text-on-surface-variant','font-medium');
+        });
+        tab.classList.remove('text-on-surface-variant','font-medium');
+        tab.classList.add('text-on-surface','font-bold');
+        currentFilter = tab.getAttribute('data-filter');
+        applyFilter();
+      });
+    });
+    loadTrips();
+  }
+
+  if (document.readyState !== 'loading') init();
+  else document.addEventListener('DOMContentLoaded', init);
+})();
+</script>
 <script>
 document.addEventListener('click',function(e){
   var a=e.target.closest('a[href]');
