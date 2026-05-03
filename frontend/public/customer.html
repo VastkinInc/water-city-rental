@@ -15,6 +15,7 @@
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
         rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script src="/api.js"></script>
     <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
@@ -148,7 +149,7 @@
                     <span class="font-sans text-sm tracking-tight">Profile</span>
                 </a>
                 <a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all"
-                    href="/login" onclick="localStorage.removeItem('wcr_role')">
+                    href="/login" onclick="(function(){if(window.WCR){WCR.logout().finally(function(){window.parent.location.href='/login';});}else{localStorage.clear();window.parent.location.href='/login';}})(); return false;">
                     <span class="material-symbols-outlined">logout</span>
                     <span class="font-sans text-sm tracking-tight">Logout</span>
                 </a>

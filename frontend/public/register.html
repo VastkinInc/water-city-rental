@@ -16,6 +16,7 @@
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
         rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script src="/api.js"></script>
     <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
@@ -308,7 +309,8 @@
                             <a href="/terms" onclick="window.parent.location.href='/terms';return false;" style="color:#C4623A;font-weight:600;text-decoration:underline">Liability Waiver</a>
                           </label>
                         </div>
-                        <button class="w-full bg-primary-container text-on-primary-container font-extrabold py-4 rounded-full shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all" type="button" onclick="window.parent.location.href=\'/dashboard/customer\'">
+                        <p id="register-error" style="display:none;color:#ba1a1a;font-size:13px;text-align:center;margin:0 0 12px"></p>
+                        <button id="register-button" class="w-full bg-primary-container text-on-primary-container font-extrabold py-4 rounded-full shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all" type="button">
                             Create Account
                         </button>
                     </div>
@@ -320,6 +322,53 @@
             </div>
         </section>
     </main>
+<script>
+(function(){
+  if (window.WCR && WCR.isLoggedIn()) {
+    var u = WCR.getUser();
+    if (u && u.role) { window.parent.location.href = '/dashboard/' + u.role; return; }
+  }
+
+  function showErr(msg){
+    var el = document.getElementById('register-error');
+    if (!el) return;
+    el.textContent = msg;
+    el.style.display = msg ? 'block' : 'none';
+  }
+
+  var btn = document.getElementById('register-button');
+  if (!btn) return;
+  btn.addEventListener('click', async function(){
+    showErr('');
+    var name = (document.getElementById('reg-name').value || '').trim();
+    var email = (document.getElementById('reg-email').value || '').trim();
+    var password = document.getElementById('reg-password').value || '';
+    var roleEl = document.querySelector('input[name="role"]:checked');
+    var role = roleEl ? roleEl.value : 'customer';
+    var termsEl = document.getElementById('terms');
+
+    if (name.length < 2)         { showErr('Name must be at least 2 characters.'); return; }
+    if (!email)                  { showErr('Email is required.'); return; }
+    if (password.length < 8)     { showErr('Password must be at least 8 characters.'); return; }
+    if (termsEl && !termsEl.checked) { showErr('Please accept the Terms of Service.'); return; }
+
+    var origLabel = btn.innerHTML;
+    btn.disabled = true; btn.innerHTML = 'Creating account…'; btn.style.opacity = '0.7';
+    try {
+      await WCR.register({ name: name, email: email, password: password, role: role });
+      window.parent.location.href = '/dashboard/' + role;
+    } catch (err) {
+      if (err && err.status === 409) {
+        showErr('This email is already registered. Try logging in.');
+      } else {
+        showErr((err && err.message) || 'Could not create account.');
+      }
+    } finally {
+      btn.disabled = false; btn.innerHTML = origLabel; btn.style.opacity = '1';
+    }
+  });
+})();
+</script>
 <script>
 document.addEventListener('click',function(e){
   var a=e.target.closest('a[href]');

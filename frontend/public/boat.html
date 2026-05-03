@@ -5,6 +5,7 @@
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Azure Serenity - Water City Rental</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script src="/api.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&amp;family=Manrope:wght@300;400;500;600;700;800&amp;family=Noto+Serif:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
@@ -111,12 +112,12 @@
 <span class="material-symbols-outlined text-xs" style="">chevron_right</span>
 <a class="hover:text-primary" href="/boats" style="">Fleet</a>
 <span class="material-symbols-outlined text-xs" style="">chevron_right</span>
-<span class="text-on-surface font-semibold" style="">Azure Serenity</span>
+<span class="text-on-surface font-semibold" data-boat="name" style="">Azure Serenity</span>
 </nav>
 <!-- Photo Grid Section -->
 <section class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-12 h-[500px] overflow-hidden rounded-xl">
 <div class="md:col-span-2 relative h-full group overflow-hidden">
-<img alt="Azure Serenity Main" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="High-quality luxury sailing yacht on calm blue water" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAiuDJaiLHtJ2uwMlw2G7dBPZw2SearEfcXG6XiB5S5nvCZO3ntzqtX_6LLU0-SJ6t9cdNemMOpXpakmmHH3pHxpPI-nLzZfT15Zk3sTHP_Ph6RkeqNVx_ALGJ6eZ-SRoylO5eSGx1GJDU1_GGYveCpzCXEImTAMl-3VeFvKq3QYOghHWVRmohFcsgHt0sd3hBbTK3K_1BDZe5gt1ePpbv1NtcAmxIKr1aEY8mimxnAbrqi8NcZzQl2_UMPGQieZfFf3NxBCl8i6t_h" style=""/>
+<img alt="Boat photo" data-boat="photo" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="High-quality luxury sailing yacht on calm blue water" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAiuDJaiLHtJ2uwMlw2G7dBPZw2SearEfcXG6XiB5S5nvCZO3ntzqtX_6LLU0-SJ6t9cdNemMOpXpakmmHH3pHxpPI-nLzZfT15Zk3sTHP_Ph6RkeqNVx_ALGJ6eZ-SRoylO5eSGx1GJDU1_GGYveCpzCXEImTAMl-3VeFvKq3QYOghHWVRmohFcsgHt0sd3hBbTK3K_1BDZe5gt1ePpbv1NtcAmxIKr1aEY8mimxnAbrqi8NcZzQl2_UMPGQieZfFf3NxBCl8i6t_h" style=""/>
 </div>
 <div class="hidden md:flex flex-col gap-4 h-full">
 <div class="h-1/2 relative group overflow-hidden">
@@ -134,13 +135,13 @@
 <header class="mb-10">
 <div class="flex justify-between items-start gap-4">
 <div>
-<h1 class="font-serif text-5xl text-on-surface mb-2 font-headline" style="font-family: 'Playfair Display', serif;">Azure Serenity</h1>
-<p class="font-serif italic text-2xl text-primary mb-6 font-headline" style="">Exclusive 42ft Sailing Yacht</p>
+<h1 class="font-serif text-5xl text-on-surface mb-2 font-headline" data-boat="title" style="font-family: 'Playfair Display', serif;">Azure Serenity</h1>
+<p class="font-serif italic text-2xl text-primary mb-6 font-headline" data-boat="subtitle" style="">Exclusive 42ft Sailing Yacht</p>
 <div class="flex items-center gap-6 text-sm font-medium">
 <div class="flex items-center gap-1">
 <span class="material-symbols-outlined text-tertiary-container" style='font-variation-settings: "FILL" 1;'>star</span>
-<span class="text-on-surface font-bold" style="">4.92</span>
-<span class="text-on-surface-variant underline ml-1" style="">124 reviews</span>
+<span class="text-on-surface font-bold" data-boat="rating" style="">4.92</span>
+<span class="text-on-surface-variant underline ml-1" data-boat="reviews" style="">124 reviews</span>
 </div>
 <div class="flex items-center gap-2 bg-secondary-container px-3 py-1 rounded-full text-on-secondary-container">
 <span class="material-symbols-outlined text-sm" style="">verified_user</span>
@@ -178,10 +179,10 @@
 </section>
 <section class="prose prose-stone max-w-none mb-16">
 <h2 class="text-on-surface text-lg font-bold uppercase tracking-widest mb-4 font-headline" style="font-family: 'Playfair Display', serif;">About this Yacht</h2>
-<p class="text-on-surface-variant leading-relaxed text-lg" style="">
+<p class="text-on-surface-variant leading-relaxed text-lg" data-boat="description" style="">
                         Experience the pinnacle of Mediterranean sailing aboard the <span class="italic text-primary" style="">Azure Serenity</span>. This meticulously maintained Beneteau Oceanis 42.1 combines effortless performance with the comfort of a high-end coastal villa.
                     </p>
-<p class="text-on-surface-variant leading-relaxed mt-4" style="">
+<p class="text-on-surface-variant leading-relaxed mt-4" data-boat="description-extra" style="">
                         Whether you're seeking a romantic sunset cruise or an adventurous week-long exploration of the Balearic Islands, the Azure Serenity offers unparalleled stability and style. The interior features triple-cabin luxury with artisanal teak woodwork and ambient lighting designed to mirror the soft glow of the horizon.
                     </p>
 </section>
@@ -219,15 +220,15 @@
 <p class="text-on-surface-variant mb-8">Every Water City charter is captained — for your safety and a relaxing day on the water.</p>
 <div class="bg-surface-container-lowest p-6 rounded-2xl border-l-4 border-primary shadow-sm flex flex-col md:flex-row items-center justify-between gap-6 mb-4">
 <div class="flex flex-col md:flex-row items-center gap-6">
-<img alt="Capt. Marco Rossi" class="w-20 h-20 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDaoqyAtH6q4sX0gn75h1nqEqKymxOwqzsRLnUevvb8wr79UsS54DVixe7F4s3uEIu4_PRwpOW_oPLSdBXPFuWc5Jl_LsZhYUUyBBo7dXPXb84NgreYtWqibeqkpMUycURtrwa28UoHXX246ASdK1N-fC566yV5USZfeqT6FLZQyk4e-L3K0923OfSahz9GFcsVFcsAeQBjGHSkMrqYaHmLhIdWfbxLHJqsQpjYWjh_JF4X6yistyUuXg9zAj9idsxZRhjK4ILIvZMf"/>
+<img alt="Captain avatar" data-captain="avatar" class="w-20 h-20 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDaoqyAtH6q4sX0gn75h1nqEqKymxOwqzsRLnUevvb8wr79UsS54DVixe7F4s3uEIu4_PRwpOW_oPLSdBXPFuWc5Jl_LsZhYUUyBBo7dXPXb84NgreYtWqibeqkpMUycURtrwa28UoHXX246ASdK1N-fC566yV5USZfeqT6FLZQyk4e-L3K0923OfSahz9GFcsVFcsAeQBjGHSkMrqYaHmLhIdWfbxLHJqsQpjYWjh_JF4X6yistyUuXg9zAj9idsxZRhjK4ILIvZMf"/>
 <div class="text-center md:text-left">
 <span class="bg-tertiary-fixed text-on-tertiary-fixed text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-widest mb-2 inline-block">OWNER'S RECOMMENDED CAPTAIN</span>
 <h3 class="font-serif text-xl text-on-surface font-headline" data-captain="name" style="font-family: 'Playfair Display', serif;">Capt. Marco Rossi</h3>
 <div class="flex items-center justify-center md:justify-start gap-1 text-sm mb-1">
 <span class="font-bold" data-captain="rating">★ 4.9</span>
-<span class="text-on-surface-variant">(127 trips)</span>
+<span class="text-on-surface-variant" data-captain="trips">(127 trips)</span>
 </div>
-<p class="text-sm text-on-surface-variant italic">USCG licensed · 12 years on Lake Michigan</p>
+<p class="text-sm text-on-surface-variant italic" data-captain="bio">USCG licensed · 12 years on Lake Michigan</p>
 </div>
 </div>
 <div class="text-center md:text-right">
@@ -247,7 +248,8 @@
 <div id="captain-picker-view" style="display:none">
 <section class="mb-16">
 <h2 class="text-on-surface text-lg font-bold uppercase tracking-widest mb-6 font-headline" style="font-family: 'Playfair Display', serif;">Available Captains</h2>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+<div id="captain-picker-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+<!-- Captain cards rendered dynamically by /api.js -->
 <!-- Marco Rossi -->
 <div class="bg-surface-container-low p-4 rounded-xl border border-outline-variant/30 flex items-center gap-4 cursor-pointer selected" data-captain-card="marco" onclick="selectCaptain('marco')">
 <img alt="Marco Rossi" class="w-16 h-16 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDaoqyAtH6q4sX0gn75h1nqEqKymxOwqzsRLnUevvb8wr79UsS54DVixe7F4s3uEIu4_PRwpOW_oPLSdBXPFuWc5Jl_LsZhYUUyBBo7dXPXb84NgreYtWqibeqkpMUycURtrwa28UoHXX246ASdK1N-fC566yV5USZfeqT6FLZQyk4e-L3K0923OfSahz9GFcsVFcsAeQBjGHSkMrqYaHmLhIdWfbxLHJqsQpjYWjh_JF4X6yistyUuXg9zAj9idsxZRhjK4ILIvZMf"/>
@@ -383,7 +385,7 @@
 <span class="font-bold text-lg" data-price="grand-total">$3,100</span>
 </div>
 </div>
-<button class="w-full bg-primary-container text-on-primary-container py-5 rounded-full font-sans tracking-widest uppercase text-sm font-extrabold hover:bg-primary transition-all active:scale-95 mb-6" onclick="var c=getCaptain(selectedCaptainId);localStorage.setItem('wcr_booking',JSON.stringify({boatName:'Azure Serenity',harbor:'Monroe Harbor, Chicago',dates:'Aug 5 – Aug 7, 2025',guests:4,boatRate:BOAT_RATE,days:NUM_DAYS,captainName:c.name,captainRate:c.rate}));window.parent.location.href='/checkout';" style="">Reserve Now</button>
+<button class="w-full bg-primary-container text-on-primary-container py-5 rounded-full font-sans tracking-widest uppercase text-sm font-extrabold hover:bg-primary transition-all active:scale-95 mb-6" onclick="var c=getCaptain(selectedCaptainId);localStorage.setItem('wcr_booking',JSON.stringify({boatId:(BOAT&&BOAT._id)||null,boatName:(BOAT&&BOAT.name)||'Azure Serenity',harbor:((BOAT&&BOAT.harbor)||'Monroe Harbor')+', Chicago',dates:'Aug 5 – Aug 7, 2025',guests:4,boatRate:BOAT_RATE,days:NUM_DAYS,captainId:c.id,captainName:c.name,captainRate:(BOAT&&BOAT.rateType==='hourly')?c.hourly:c.rate}));window.parent.location.href='/checkout';" style="">Reserve Now</button>
 <p class="text-center text-xs text-on-surface-variant mb-8" style="">You won't be charged yet</p>
 <!-- Price Guarantee Box -->
 <div class="bg-surface-container p-4 rounded-xl flex gap-3">
@@ -427,47 +429,74 @@
 </div>
 </footer>
 <script>
-var CAPTAINS = [
-  {id:'marco',  name:'Capt. Marco Rossi',    rate:240, hourly:40, rating:4.9, years:12},
-  {id:'sofia',  name:'Capt. Sofia Martinez', rate:200, hourly:35, rating:4.8, years:8},
-  {id:'james',  name:'Capt. James Chen',     rate:280, hourly:45, rating:5.0, years:15},
-  {id:'diana',  name:'Capt. Diana Webb',     rate:180, hourly:30, rating:4.7, years:6}
-];
-var BOAT_RATE   = 1200;
-var NUM_DAYS    = 2;
+// Module state — populated from API on load
+var CAPTAINS = [];
+var BOAT = null;
+var BOAT_RATE = 1200;
+var NUM_DAYS  = 2;
+var NUM_HOURS = 4;
 var SERVICE_FEE = 220;
-var selectedCaptainId = 'marco';
+var RECOMMENDED_CAPTAIN_ID = null;
+var selectedCaptainId = null;
+
+function escapeHtml(s){
+  if (s == null) return '';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
 
 function getCaptain(id){
   for (var i=0;i<CAPTAINS.length;i++) if(CAPTAINS[i].id===id) return CAPTAINS[i];
-  return CAPTAINS[0];
+  return CAPTAINS[0] || { id:null, name:'(no captain)', rate:0, hourly:0, rating:0, years:0 };
+}
+
+function captainDisplayRate(c){
+  if (BOAT && BOAT.rateType === 'hourly') return '$' + (c.hourly || 0) + '/hr';
+  return '$' + (c.rate || 0) + '/day';
 }
 
 function updatePrice(){
   var c = getCaptain(selectedCaptainId);
-  var boatTotal    = BOAT_RATE * NUM_DAYS;
-  var captainTotal = c.rate    * NUM_DAYS;
+  var quantity, unit, boatRate, captainRate;
+  if (BOAT && BOAT.rateType === 'hourly') {
+    quantity = NUM_HOURS; unit = 'hours';
+    boatRate = BOAT_RATE;
+    captainRate = c.hourly || 0;
+  } else {
+    quantity = NUM_DAYS; unit = 'days';
+    boatRate = BOAT_RATE;
+    captainRate = c.rate || 0;
+  }
+  var boatTotal    = boatRate * quantity;
+  var captainTotal = captainRate * quantity;
   var grandTotal   = boatTotal + captainTotal + SERVICE_FEE;
   var set = function(sel, val){
     var el = document.querySelector(sel);
     if(el) el.textContent = val;
   };
-  set('[data-price="boat-line"]',    '$'+BOAT_RATE.toLocaleString()+' × '+NUM_DAYS+' days');
+  set('[data-price="boat-line"]',    '$'+boatRate.toLocaleString()+' × '+quantity+' '+unit);
   set('[data-price="boat-total"]',   '$'+boatTotal.toLocaleString());
-  set('[data-price="captain-line"]', '$'+c.rate+' × '+NUM_DAYS+' days');
+  set('[data-price="captain-line"]', '$'+captainRate+' × '+quantity+' '+unit);
   set('[data-price="captain-total"]','$'+captainTotal.toLocaleString());
   set('[data-price="service"]',      '$'+SERVICE_FEE);
   set('[data-price="grand-total"]',  '$'+grandTotal.toLocaleString());
+
+  // Update recommended-card top-of-page captain summary
   set('[data-captain="name"]',       c.name);
-  set('[data-captain="rate"]',       '$'+c.rate+'/day');
-  set('[data-captain="rating"]',     '★ '+c.rating);
+  set('[data-captain="rate"]',       captainDisplayRate(c));
+  set('[data-captain="rating"]',     '★ ' + (c.rating || '—'));
+  var trips = document.querySelector('[data-captain="trips"]');
+  if (trips) trips.textContent = '(' + (c.totalTrips || 0) + ' trips)';
+  var bioEl = document.querySelector('[data-captain="bio"]');
+  if (bioEl) bioEl.textContent = c.bio || '';
+  var avEl = document.querySelector('[data-captain="avatar"]');
+  if (avEl && c.avatar) avEl.setAttribute('src', c.avatar);
 }
 
 function selectCaptain(id){
   selectedCaptainId = id;
   updatePrice();
   var cards = document.querySelectorAll('[data-captain-card]');
-  cards.forEach(function(card){
+  Array.prototype.forEach.call(cards, function(card){
     card.classList.toggle('selected', card.getAttribute('data-captain-card') === id);
   });
   showRecommendedView();
@@ -487,7 +516,120 @@ function showRecommendedView(){
   if(picker) picker.style.display = 'none';
 }
 
-document.addEventListener('DOMContentLoaded', function(){ updatePrice(); });
+function renderCaptainPickerCard(c){
+  var isRecommended = (c.id === RECOMMENDED_CAPTAIN_ID);
+  var isSelected    = (c.id === selectedCaptainId);
+  var badge = isRecommended
+    ? '<span class="text-[8px] bg-tertiary-fixed text-on-tertiary-fixed font-bold px-1.5 py-0.5 rounded uppercase">RECOMMENDED</span>'
+    : '';
+  var avatar = c.avatar
+    ? '<img alt="'+escapeHtml(c.name)+'" class="w-16 h-16 rounded-full object-cover" src="'+escapeHtml(c.avatar)+'"/>'
+    : '<div class="w-16 h-16 rounded-full bg-stone-200 flex items-center justify-center text-stone-500 font-bold">'+escapeHtml((c.name||'??').replace('Capt. ','').split(' ').map(function(p){return p[0]||'';}).join('').slice(0,2).toUpperCase())+'</div>';
+  return ''
+    + '<div class="bg-surface-container-low p-4 rounded-xl border border-outline-variant/30 flex items-center gap-4 cursor-pointer'+(isSelected?' selected':'')+'" data-captain-card="'+escapeHtml(c.id)+'" onclick="selectCaptain(\''+escapeHtml(c.id)+'\')">'
+    +   avatar
+    +   '<div class="flex-1 min-w-0">'
+    +     badge
+    +     '<h4 class="font-serif text-base truncate font-headline">'+escapeHtml(c.name||'')+'</h4>'
+    +     '<p class="text-xs text-on-surface-variant">★'+(c.rating||'—')+' · '+(c.years||0)+' yrs · '+captainDisplayRate(c)+'</p>'
+    +   '</div>'
+    +   '<button class="px-4 py-1.5 rounded-full border border-primary text-primary text-xs font-bold hover:bg-primary/5 transition-colors">Select</button>'
+    + '</div>';
+}
+
+function renderCaptainPicker(){
+  var grid = document.getElementById('captain-picker-grid');
+  if (!grid) return;
+  grid.innerHTML = CAPTAINS.map(renderCaptainPickerCard).join('');
+}
+
+function applyBoatToDom(boat){
+  BOAT = boat;
+  if (boat.rateType === 'daily') {
+    BOAT_RATE = boat.dayRate || 0;
+  } else {
+    BOAT_RATE = boat.hourlyRate || 0;
+  }
+  var setText = function(sel, val){ var el=document.querySelector(sel); if(el && val!=null) el.textContent = val; };
+  setText('[data-boat="name"]',     boat.name);
+  setText('[data-boat="title"]',    boat.name);
+  var subtitleParts = [];
+  if (boat.length) subtitleParts.push(boat.length + 'ft');
+  if (boat.type)   subtitleParts.push(boat.type);
+  if (subtitleParts.length) setText('[data-boat="subtitle"]', subtitleParts.join(' · '));
+  setText('[data-boat="rating"]',   (boat.rating || 0).toFixed(2));
+  setText('[data-boat="reviews"]',  (boat.totalBookings || 0) + ' bookings');
+  setText('[data-boat="description"]',       boat.description || '');
+  setText('[data-boat="description-extra"]', '');
+
+  var photoEl = document.querySelector('[data-boat="photo"]');
+  if (photoEl && boat.photos && boat.photos[0]) {
+    photoEl.setAttribute('src', boat.photos[0].url);
+    photoEl.setAttribute('alt', boat.name);
+  }
+
+  document.title = boat.name + ' - Water City Rental';
+}
+
+function applyCaptainsToState(captains, recommendedRaw){
+  CAPTAINS = (captains || []).map(function(c){
+    var prof = c.captainProfile || {};
+    return {
+      id: c._id || c.id,
+      name: c.name && c.name.indexOf('Capt.') === 0 ? c.name : ('Capt. ' + (c.name || '')),
+      rate:  prof.dayRate || 0,
+      hourly: prof.hourlyRate || 0,
+      rating: prof.rating || 0,
+      years:  prof.yearsExperience || 0,
+      totalTrips: prof.totalTrips || 0,
+      bio: prof.bio || '',
+      avatar: c.avatar || ''
+    };
+  });
+
+  var recId = null;
+  if (recommendedRaw) {
+    recId = recommendedRaw._id || recommendedRaw.id || recommendedRaw;
+    if (typeof recId !== 'string') recId = String(recId);
+  }
+  RECOMMENDED_CAPTAIN_ID = recId && CAPTAINS.find(function(c){ return c.id === recId; }) ? recId : (CAPTAINS[0] && CAPTAINS[0].id) || null;
+  selectedCaptainId = RECOMMENDED_CAPTAIN_ID;
+}
+
+async function bootBoatPage(){
+  // Read boatId from parent URL
+  var pathMatch = (function(){
+    try { return window.parent.location.pathname.match(/\/boats\/([^\/?#]+)/); } catch(e) { return null; }
+  })();
+  var boatId = pathMatch ? pathMatch[1] : null;
+  if (!boatId || boatId === '1') {
+    console.warn('[WCR] No real boat ID in URL; using fallback hardcoded data.');
+    return; // existing hardcoded captain cards remain visible
+  }
+
+  try {
+    var boatResp = await WCR.getBoat(boatId);
+    var captainsResp = await WCR.listCaptains();
+    var boat = boatResp.data;
+    var captains = (captainsResp && captainsResp.data) || [];
+    applyBoatToDom(boat);
+    applyCaptainsToState(captains, boat.recommendedCaptain);
+    renderCaptainPicker();
+    updatePrice();
+  } catch (err) {
+    console.error('[WCR] Failed to load boat detail:', err);
+  }
+}
+
+document.addEventListener('DOMContentLoaded', function(){
+  // Initial render with hardcoded fallback values, then async fetch overwrites
+  updatePrice();
+  bootBoatPage();
+});
+if (document.readyState !== 'loading') {
+  updatePrice();
+  bootBoatPage();
+}
 </script>
 <script>
 document.addEventListener('click',function(e){

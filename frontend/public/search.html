@@ -7,6 +7,7 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>Boat Search Results - The Nautical Editorial</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script src="/api.js"></script>
     <link
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
         rel="stylesheet" />
@@ -192,31 +193,31 @@
                         </h3>
                         <div class="space-y-3 font-normal capitalize tracking-normal text-sm text-on-surface-variant">
                             <label class="flex items-center gap-3 cursor-pointer group">
-                                <input checked=""
+                                <input data-filter-type="Sailboat"
                                     class="rounded text-primary focus:ring-tertiary focus:ring-2 w-4 h-4 border-outline-variant bg-surface-container-lowest"
                                     type="checkbox" />
                                 <span class="group-hover:text-primary transition-colors">Sailboat</span>
                             </label>
                             <label class="flex items-center gap-3 cursor-pointer group">
-                                <input checked=""
+                                <input data-filter-type="Luxury Yacht"
                                     class="rounded text-primary focus:ring-tertiary focus:ring-2 w-4 h-4 border-outline-variant bg-surface-container-lowest"
                                     type="checkbox" />
                                 <span class="group-hover:text-primary transition-colors">Yacht</span>
                             </label>
                             <label class="flex items-center gap-3 cursor-pointer group">
-                                <input
+                                <input data-filter-type="Powerboat"
                                     class="rounded text-primary focus:ring-tertiary focus:ring-2 w-4 h-4 border-outline-variant bg-surface-container-lowest"
                                     type="checkbox" />
                                 <span class="group-hover:text-primary transition-colors">Powerboat</span>
                             </label>
                             <label class="flex items-center gap-3 cursor-pointer group">
-                                <input
+                                <input data-filter-type="Catamaran"
                                     class="rounded text-primary focus:ring-tertiary focus:ring-2 w-4 h-4 border-outline-variant bg-surface-container-lowest"
                                     type="checkbox" />
                                 <span class="group-hover:text-primary transition-colors">Catamaran</span>
                             </label>
                             <label class="flex items-center gap-3 cursor-pointer group">
-                                <input
+                                <input data-filter-type="Speedboat"
                                     class="rounded text-primary focus:ring-tertiary focus:ring-2 w-4 h-4 border-outline-variant bg-surface-container-lowest"
                                     type="checkbox" />
                                 <span class="group-hover:text-primary transition-colors">Speedboat</span>
@@ -233,7 +234,7 @@
                             <button
                                 class="w-8 h-8 rounded-full bg-surface-container-lowest flex items-center justify-center text-on-surface-variant hover:text-primary shadow-sm"><span
                                     class="material-symbols-outlined text-sm" data-icon="remove">remove</span></button>
-                            <span class="text-on-surface font-medium text-base">4 Guests</span>
+                            <span id="filter-guests" class="text-on-surface font-medium text-base">4 Guests</span>
                             <button
                                 class="w-8 h-8 rounded-full bg-surface-container-lowest flex items-center justify-center text-on-surface-variant hover:text-primary shadow-sm"><span
                                     class="material-symbols-outlined text-sm" data-icon="add">add</span></button>
@@ -278,7 +279,7 @@
                     </div>
                 </div>
                 <div class="mt-8">
-                    <button
+                    <button id="filter-apply"
                         class="w-full rounded-full bg-gradient-to-r from-primary to-primary-container text-on-primary-container py-3 px-6 font-semibold tracking-wide text-sm hover:opacity-90 transition-opacity shadow-[inset_0_1px_1px_rgba(255,255,255,0.2)]">Apply
                         Filters</button>
                 </div>
@@ -308,188 +309,159 @@
                     <button class="text-primary text-sm hover:underline ml-2">Clear all</button>
                 </div>
                 <!-- Grid of Cards -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-8 mb-12">
-                    <!-- Card 1 -->
-                    <article
-                        class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0_32px_64px_rgba(26,28,26,0.04)] hover:-translate-y-1 transition-transform duration-300 group" onclick="window.parent.location.href='/boats/1'" style="cursor:pointer">
-                        <div class="relative h-64 overflow-hidden">
-                            <img alt="Luxury yacht anchored in calm turquoise waters during golden hour"
-                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                                data-alt="Luxury yacht anchored in calm turquoise waters during golden hour with warm sunset lighting"
-                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBtvbv0mZaD2usUklwufkk65JHL72LEyoG2RdDbB0raBa0IvcsZpOMqiDqCXX91DU3YxUUD-yLSmVWz1VhNMIcJYxfDmga4nzPGmXrk65pxXAYLYYI3kYwA3UR3xYhwN8YdFmFC4sXqt8vJKKHQL8r4U9c88fFkT5xpvJi297PxuNlBvE1lWsFdrKGGmKpt6UM2fCj53W5coDQDWVTL31aEPkVrkV96KkofuzdIDybGIFsqf-Fwe8BMU-Tl5tUsWwHmKJoQH_LKdpJV" />
-                            <button onclick="event.stopPropagation();"
-                                class="absolute top-4 right-4 text-surface-container-lowest drop-shadow-md hover:text-primary-container transition-colors">
-                                <span class="material-symbols-outlined"
-                                    data-icon="favorite_border">favorite_border</span>
-                            </button>
-                            <div
-                                class="absolute bottom-4 left-4 bg-surface-container-lowest/90 backdrop-blur-md rounded-full px-3 py-1 text-xs font-semibold tracking-widest uppercase text-on-surface">
-                                Yacht
-                            </div>
-                        </div>
-                        <div class="p-6">
-                            <div class="flex justify-between items-start mb-2">
-                                <h3 class="font-headline text-xl text-on-surface">The <span
-                                        class="italic text-primary">Odyssey</span></h3>
-                                <div class="flex items-center gap-1 text-sm font-medium">
-                                    <span class="material-symbols-outlined text-primary text-sm" data-icon="star"
-                                        data-weight="fill">star</span>
-                                    <span>4.9</span>
-                                </div>
-                            </div>
-                            <p class="text-on-surface-variant text-sm mb-4">Burnham Harbor, Chicago</p>
-                            <div class="flex gap-4 mb-6">
-                                <div
-                                    class="flex items-center gap-1 text-xs uppercase tracking-widest text-on-surface-variant font-semibold">
-                                    <span class="material-symbols-outlined text-secondary text-sm"
-                                        data-icon="group">group</span> 12 Guests
-                                </div>
-                                <div
-                                    class="flex items-center gap-1 text-xs uppercase tracking-widest text-on-surface-variant font-semibold">
-                                    <span class="material-symbols-outlined text-secondary text-sm"
-                                        data-icon="straighten">straighten</span> 45ft
-                                </div>
-                            </div>
-                            <div class="flex justify-between items-end">
-                                <div>
-                                    <span class="text-lg font-bold text-on-surface">$850</span>
-                                    <span class="text-sm text-on-surface-variant">/ day</span>
-                                </div>
-                                <button onclick="window.parent.location.href='/boats/1'"
-                                    class="rounded-full bg-surface-container text-on-surface px-4 py-2 text-sm font-semibold hover:bg-primary-container hover:text-on-primary-container transition-colors">View
-                                    Details</button>
-                            </div>
-                        </div>
-                    </article>
-                    <!-- Card 2 -->
-                    <article
-                        class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0_32px_64px_rgba(26,28,26,0.04)] hover:-translate-y-1 transition-transform duration-300 group" onclick="window.parent.location.href='/boats/1'" style="cursor:pointer">
-                        <div class="relative h-64 overflow-hidden">
-                            <img alt="Classic wooden sailboat cruising with sails up under a warm late afternoon sun"
-                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                                data-alt="Classic wooden sailboat cruising with white sails up under a warm late afternoon sun with deep blue water"
-                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDIvlY8lGiJMdkN3IzFng62-fkOtplODXhY3g8-V0Vl8uX5u7VluOYl48mMCBVqHhXMpc788saaMphcWaOG0JAWHhNOtDtBl8dAnQfXOW_0XwN64MlztmeuNdofp7BG96odc6qo-0ZDXOYe8sJ6TZ5QusrJPkPtCXl3gAQuXACbj1idwjZQV1ePp-gARxk6NDC-YfWbG9TRPRDAhIQzCr2ob8rg7M7WxV1j4Wm9a6H-VO5xUoPMumP1nItRylLXcuxkrxRBXp3o4bbE" />
-                            <button onclick="event.stopPropagation();"
-                                class="absolute top-4 right-4 text-surface-container-lowest drop-shadow-md hover:text-primary-container transition-colors">
-                                <span class="material-symbols-outlined"
-                                    data-icon="favorite_border">favorite_border</span>
-                            </button>
-                            <div
-                                class="absolute bottom-4 left-4 bg-surface-container-lowest/90 backdrop-blur-md rounded-full px-3 py-1 text-xs font-semibold tracking-widest uppercase text-on-surface">
-                                Sailboat
-                            </div>
-                        </div>
-                        <div class="p-6">
-                            <div class="flex justify-between items-start mb-2">
-                                <h3 class="font-headline text-xl text-on-surface">Wind <span
-                                        class="italic text-primary">Dancer</span></h3>
-                                <div class="flex items-center gap-1 text-sm font-medium">
-                                    <span class="material-symbols-outlined text-primary text-sm" data-icon="star"
-                                        data-weight="fill">star</span>
-                                    <span>4.7</span>
-                                </div>
-                            </div>
-                            <p class="text-on-surface-variant text-sm mb-4">Monroe Harbor, Chicago</p>
-                            <div class="flex gap-4 mb-6">
-                                <div
-                                    class="flex items-center gap-1 text-xs uppercase tracking-widest text-on-surface-variant font-semibold">
-                                    <span class="material-symbols-outlined text-secondary text-sm"
-                                        data-icon="group">group</span> 6 Guests
-                                </div>
-                                <div
-                                    class="flex items-center gap-1 text-xs uppercase tracking-widest text-on-surface-variant font-semibold">
-                                    <span class="material-symbols-outlined text-secondary text-sm"
-                                        data-icon="straighten">straighten</span> 32ft
-                                </div>
-                            </div>
-                            <div class="flex justify-between items-end">
-                                <div>
-                                    <span class="text-lg font-bold text-on-surface">$400</span>
-                                    <span class="text-sm text-on-surface-variant">/ day</span>
-                                </div>
-                                <button onclick="window.parent.location.href='/boats/1'"
-                                    class="rounded-full bg-surface-container text-on-surface px-4 py-2 text-sm font-semibold hover:bg-primary-container hover:text-on-primary-container transition-colors">View
-                                    Details</button>
-                            </div>
-                        </div>
-                    </article>
-                    <!-- Card 3 -->
-                    <article
-                        class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0_32px_64px_rgba(26,28,26,0.04)] hover:-translate-y-1 transition-transform duration-300 group" onclick="window.parent.location.href='/boats/1'" style="cursor:pointer">
-                        <div class="relative h-64 overflow-hidden">
-                            <img alt="Sleek modern motor yacht speeding through calm water with sunset reflections"
-                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                                data-alt="Sleek modern motor yacht speeding through calm water with vibrant orange sunset reflections on the hull"
-                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBko_uNokjg9i7SMfeglnH7woNZX8BzZ0I5KQDuau9feG72rfELBqX8DN2R3cwBc-KLn42PMGBmQvAwMOUv50pTZzcrh2iE5gXq55jugsXfwqDMzcE_bENkjYGZj5mug0kjCJN1yCl1vkokoMXEXdsMpm_mE0agoZ39JU1-N5xnO8Ha2Cm3nl6FItmU_ubS1OAgoyJzmyFPLVhLnvsLLOk0zaV2psqixsb_qLoUaRoRn0AqqBMrMSiWi-Gyh52T7X2pAtfjNFvdncqr" />
-                            <button onclick="event.stopPropagation();"
-                                class="absolute top-4 right-4 text-surface-container-lowest drop-shadow-md hover:text-primary-container transition-colors">
-                                <span class="material-symbols-outlined text-primary-container" data-icon="favorite"
-                                    data-weight="fill">favorite</span>
-                            </button>
-                            <div
-                                class="absolute bottom-4 left-4 bg-surface-container-lowest/90 backdrop-blur-md rounded-full px-3 py-1 text-xs font-semibold tracking-widest uppercase text-on-surface">
-                                Yacht
-                            </div>
-                        </div>
-                        <div class="p-6">
-                            <div class="flex justify-between items-start mb-2">
-                                <h3 class="font-headline text-xl text-on-surface">Azure <span
-                                        class="italic text-primary">Dream</span></h3>
-                                <div class="flex items-center gap-1 text-sm font-medium">
-                                    <span class="material-symbols-outlined text-primary text-sm" data-icon="star"
-                                        data-weight="fill">star</span>
-                                    <span>5.0</span>
-                                </div>
-                            </div>
-                            <p class="text-on-surface-variant text-sm mb-4">DuSable Harbor, Chicago</p>
-                            <div class="flex gap-4 mb-6">
-                                <div
-                                    class="flex items-center gap-1 text-xs uppercase tracking-widest text-on-surface-variant font-semibold">
-                                    <span class="material-symbols-outlined text-secondary text-sm"
-                                        data-icon="group">group</span> 8 Guests
-                                </div>
-                                <div
-                                    class="flex items-center gap-1 text-xs uppercase tracking-widest text-on-surface-variant font-semibold">
-                                    <span class="material-symbols-outlined text-secondary text-sm"
-                                        data-icon="straighten">straighten</span> 50ft
-                                </div>
-                            </div>
-                            <div class="flex justify-between items-end">
-                                <div>
-                                    <span class="text-lg font-bold text-on-surface">$1,200</span>
-                                    <span class="text-sm text-on-surface-variant">/ day</span>
-                                </div>
-                                <button onclick="window.parent.location.href='/boats/1'"
-                                    class="rounded-full bg-surface-container text-on-surface px-4 py-2 text-sm font-semibold hover:bg-primary-container hover:text-on-primary-container transition-colors">View
-                                    Details</button>
-                            </div>
-                        </div>
-                    </article>
+                <div id="boat-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-8 mb-12">
+                    <!-- Cards rendered dynamically by /api.js -->
                 </div>
                 <!-- Pagination -->
-                <div class="flex justify-center items-center gap-2 mt-12">
-                    <button
-                        class="w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container transition-colors disabled:opacity-50"
-                        disabled="">
-                        <span class="material-symbols-outlined" data-icon="chevron_left">chevron_left</span>
-                    </button>
-                    <button
-                        class="w-10 h-10 rounded-full flex items-center justify-center bg-primary text-on-primary font-semibold">1</button>
-                    <button
-                        class="w-10 h-10 rounded-full flex items-center justify-center text-on-surface hover:bg-surface-container transition-colors font-semibold">2</button>
-                    <button
-                        class="w-10 h-10 rounded-full flex items-center justify-center text-on-surface hover:bg-surface-container transition-colors font-semibold">3</button>
-                    <span class="text-on-surface-variant">...</span>
-                    <button
-                        class="w-10 h-10 rounded-full flex items-center justify-center text-on-surface hover:bg-surface-container transition-colors font-semibold">8</button>
-                    <button
-                        class="w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container transition-colors">
-                        <span class="material-symbols-outlined" data-icon="chevron_right">chevron_right</span>
-                    </button>
-                </div>
+                <div id="pagination" class="flex justify-center items-center gap-2 mt-12"></div>
             </section>
         </div>
     </main>
+<script>
+(function(){
+  var state = { page: 1, limit: 12, total: 0, totalPages: 1, filters: {} };
+
+  function escapeHtml(s) {
+    if (s == null) return '';
+    return String(s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  function formatPrice(boat) {
+    if (boat.rateType === 'daily') return '$' + boat.dayRate.toLocaleString() + '/day';
+    return '$' + boat.hourlyRate.toLocaleString() + '/hr';
+  }
+
+  function renderBoatCard(boat) {
+    var firstPhoto = boat.photos && boat.photos[0] ? boat.photos[0].url : '';
+    var photoBg = firstPhoto
+      ? 'background-image:url(' + escapeHtml(firstPhoto) + ');background-size:cover;background-position:center;'
+      : 'background:#F5F0EA;';
+    var rating = boat.rating ? boat.rating.toFixed(1) : '—';
+    return ''
+      + '<a href="/boats/' + escapeHtml(boat._id || boat.id) + '" class="boat-card-link" style="text-decoration:none;color:inherit;">'
+      + '<div class="boat-card" style="border-radius:12px;overflow:hidden;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,0.06);cursor:pointer;">'
+      +   '<div class="boat-photo" style="' + photoBg + 'aspect-ratio:4/3;position:relative;">'
+      +     '<span style="position:absolute;top:12px;left:12px;background:rgba(26,26,46,0.85);color:#fff;padding:4px 10px;border-radius:999px;font-size:12px;letter-spacing:0.05em;text-transform:uppercase;">' + escapeHtml(boat.type) + '</span>'
+      +   '</div>'
+      +   '<div class="boat-info" style="padding:18px;">'
+      +     '<div style="display:flex;justify-content:space-between;align-items:flex-start;">'
+      +       '<h3 style="font-family:\'Playfair Display\',serif;font-size:20px;margin:0;color:#1A1A2E;">' + escapeHtml(boat.name) + '</h3>'
+      +       '<span style="color:#D4A843;font-size:14px;">★ ' + rating + '</span>'
+      +     '</div>'
+      +     '<p style="margin:8px 0 12px;color:#6B6560;font-size:14px;">' + escapeHtml(boat.harbor) + ', Chicago</p>'
+      +     '<div style="display:flex;gap:14px;color:#1A1A2E;font-size:13px;margin-bottom:14px;">'
+      +       '<span>👥 ' + boat.maxGuests + ' guests</span>'
+      +       '<span>📏 ' + (boat.length || '?') + 'ft</span>'
+      +     '</div>'
+      +     '<div style="display:flex;justify-content:space-between;align-items:center;">'
+      +       '<span style="font-size:18px;font-weight:600;color:#1A1A2E;">' + formatPrice(boat) + '</span>'
+      +       '<span style="color:#C4623A;font-weight:500;">View Details →</span>'
+      +     '</div>'
+      +   '</div>'
+      + '</div>'
+      + '</a>';
+  }
+
+  function renderEmpty() {
+    return '<div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:#6B6560;"><p style="font-size:18px;">No boats match your filters.</p><p>Try adjusting your search.</p></div>';
+  }
+
+  function renderError(msg) {
+    return '<div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:#C4623A;"><p style="font-size:18px;">Could not load boats.</p><p>' + escapeHtml(msg) + '</p></div>';
+  }
+
+  function renderPagination() {
+    var el = document.getElementById('pagination');
+    if (!el) return;
+    if (state.totalPages <= 1) { el.innerHTML = ''; return; }
+    var html = '';
+    for (var i = 1; i <= state.totalPages; i++) {
+      var active = i === state.page ? 'background:#C4623A;color:#fff;' : 'background:#fff;color:#1A1A2E;';
+      html += '<button data-page="' + i + '" style="' + active + 'border:1px solid #ddd;border-radius:50%;width:36px;height:36px;margin:0 4px;cursor:pointer;font-weight:600;">' + i + '</button>';
+    }
+    el.innerHTML = html;
+    Array.prototype.forEach.call(el.querySelectorAll('button'), function(btn){
+      btn.addEventListener('click', function(){
+        state.page = parseInt(btn.getAttribute('data-page'));
+        loadBoats();
+      });
+    });
+  }
+
+  async function loadBoats() {
+    var grid = document.getElementById('boat-grid');
+    if (!grid) return;
+    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:#6B6560;">Loading boats…</div>';
+
+    var query = Object.assign({}, state.filters, { page: state.page, limit: state.limit });
+
+    try {
+      var resp = await WCR.listBoats(query);
+      var boats = resp.data && resp.data.boats ? resp.data.boats : [];
+      state.total = resp.data ? resp.data.total : 0;
+      state.totalPages = resp.data ? resp.data.totalPages : 1;
+
+      if (boats.length === 0) {
+        grid.innerHTML = renderEmpty();
+      } else {
+        grid.innerHTML = boats.map(renderBoatCard).join('');
+      }
+      renderPagination();
+    } catch (err) {
+      console.error('[WCR] listBoats failed:', err);
+      grid.innerHTML = renderError(err.message || 'Network error');
+    }
+  }
+
+  function readFilters() {
+    var f = {};
+    var typeBoxes = document.querySelectorAll('[data-filter-type]:checked');
+    if (typeBoxes.length === 1) {
+      f.type = typeBoxes[0].getAttribute('data-filter-type');
+    }
+    var g = document.getElementById('filter-guests');
+    if (g) {
+      var n = parseInt(g.textContent || g.value || '0');
+      if (n > 0) f.guests = n;
+    }
+    var s = document.getElementById('filter-search');
+    if (s && s.value && s.value.trim()) f.search = s.value.trim();
+    var sort = document.getElementById('filter-sort');
+    if (sort && sort.value) f.sort = sort.value;
+    return f;
+  }
+
+  function applyFilters() {
+    state.page = 1;
+    state.filters = readFilters();
+    loadBoats();
+  }
+
+  document.addEventListener('DOMContentLoaded', function(){
+    var applyBtn = document.getElementById('filter-apply');
+    if (applyBtn) {
+      applyBtn.addEventListener('click', function(e){
+        e.preventDefault();
+        applyFilters();
+      });
+    }
+    var searchInput = document.getElementById('filter-search');
+    if (searchInput) {
+      searchInput.addEventListener('keypress', function(e){
+        if (e.key === 'Enter') { e.preventDefault(); applyFilters(); }
+      });
+    }
+    loadBoats();
+  });
+  if (document.readyState !== 'loading') {
+    var applyBtn = document.getElementById('filter-apply');
+    if (applyBtn) applyBtn.addEventListener('click', function(e){ e.preventDefault(); applyFilters(); });
+    loadBoats();
+  }
+})();
+</script>
 <script>
 document.addEventListener('click',function(e){
   var a=e.target.closest('a[href]');

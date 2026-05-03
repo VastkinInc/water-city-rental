@@ -16,6 +16,7 @@
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
         rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script src="/api.js"></script>
     <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
@@ -135,7 +136,8 @@
                                 id="password" name="password" type="password" />
                         </div>
                     </div>
-                    <button type="submit"
+                    <p id="signin-error" style="display:none;color:#ba1a1a;font-size:13px;text-align:center;margin:0"></p>
+                    <button type="submit" id="signin-button"
                         class="w-full bg-primary-container text-on-primary-container font-extrabold py-4 rounded-full shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all">
                         Sign In
                     </button>
@@ -283,7 +285,8 @@
                                     href="#">Privacy Policy</a>, including the luxury standards of conduct.
                             </label>
                         </div>
-                        <button class="w-full bg-primary-container text-on-primary-container font-extrabold py-4 rounded-full shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all" type="button" onclick="(function(){var r=document.querySelector('input[name=role]:checked').value;localStorage.setItem('wcr_role',r);window.parent.location.href='/dashboard/'+r;})()">
+                        <p id="register-error" style="display:none;color:#ba1a1a;font-size:13px;text-align:center;margin:0 0 12px"></p>
+                        <button id="register-button" class="w-full bg-primary-container text-on-primary-container font-extrabold py-4 rounded-full shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all" type="button">
                             Create Account
                         </button>
                     </div>
@@ -296,12 +299,108 @@
         </section>
     </main>
 <script>
-  // Sign in → customer dashboard
-  document.getElementById('signin-form').addEventListener('submit', function(e) {
-    e.preventDefault();
-    localStorage.setItem('wcr_role','customer');
-    window.parent.location.href = '/dashboard/customer';
-  });
+(function(){
+  function dashboardFor(role){ return '/dashboard/' + role; }
+
+  // Auto-redirect if already logged in
+  if (window.WCR && WCR.isLoggedIn()) {
+    var u = WCR.getUser();
+    if (u && u.role) {
+      window.parent.location.href = dashboardFor(u.role);
+      return;
+    }
+  }
+
+  function showErr(elId, msg){
+    var el = document.getElementById(elId);
+    if (!el) return;
+    el.textContent = msg;
+    el.style.display = msg ? 'block' : 'none';
+  }
+
+  // ───── SIGN IN ─────
+  var signinForm = document.getElementById('signin-form');
+  if (signinForm) {
+    signinForm.addEventListener('submit', async function(e){
+      e.preventDefault();
+      showErr('signin-error', '');
+      var btn = document.getElementById('signin-button');
+      var origLabel = btn ? btn.innerHTML : '';
+      var email = document.getElementById('email').value.trim();
+      var password = document.getElementById('password').value;
+      if (!email || !password) {
+        showErr('signin-error', 'Email and password are required.');
+        return;
+      }
+      if (btn) { btn.disabled = true; btn.innerHTML = 'Signing in…'; btn.style.opacity = '0.7'; }
+      try {
+        var res = await WCR.login(email, password);
+        var role = res.user && res.user.role;
+        var pending = localStorage.getItem('wcr_pending_role');
+        if (pending && role !== pending) {
+          if (pending !== 'customer') {
+            showErr('signin-error', "This account isn't a " + pending + " account. Use Partner Login.");
+            WCR.clearToken();
+            return;
+          }
+          if (pending === 'customer' && role !== 'customer') {
+            showErr('signin-error', "This account isn't a customer account. Use Partner Login.");
+            WCR.clearToken();
+            return;
+          }
+        }
+        localStorage.removeItem('wcr_pending_role');
+        window.parent.location.href = dashboardFor(role || 'customer');
+      } catch (err) {
+        if (err && err.status === 401) {
+          showErr('signin-error', 'Invalid email or password');
+        } else {
+          showErr('signin-error', 'Something went wrong. Try again.');
+        }
+      } finally {
+        if (btn) { btn.disabled = false; btn.innerHTML = origLabel; btn.style.opacity = '1'; }
+      }
+    });
+  }
+
+  // ───── REGISTER (inline registration block) ─────
+  var regBtn = document.getElementById('register-button');
+  if (regBtn) {
+    regBtn.addEventListener('click', async function(){
+      showErr('register-error', '');
+      var nameEl = document.getElementById('reg-name');
+      var emailEl = document.getElementById('reg-email');
+      var pwEl = document.getElementById('reg-password');
+      var roleEl = document.querySelector('input[name="role"]:checked');
+      var termsEl = document.getElementById('terms');
+
+      var name = nameEl ? nameEl.value.trim() : '';
+      var email = emailEl ? emailEl.value.trim() : '';
+      var password = pwEl ? pwEl.value : '';
+      var role = roleEl ? roleEl.value : 'customer';
+
+      if (name.length < 2) { showErr('register-error', 'Name must be at least 2 characters.'); return; }
+      if (!email)          { showErr('register-error', 'Email is required.'); return; }
+      if (password.length < 8) { showErr('register-error', 'Password must be at least 8 characters.'); return; }
+      if (termsEl && !termsEl.checked) { showErr('register-error', 'Please accept the Terms of Service.'); return; }
+
+      var origLabel = regBtn.innerHTML;
+      regBtn.disabled = true; regBtn.innerHTML = 'Creating account…'; regBtn.style.opacity = '0.7';
+      try {
+        await WCR.register({ name: name, email: email, password: password, role: role });
+        window.parent.location.href = dashboardFor(role);
+      } catch (err) {
+        if (err && err.status === 409) {
+          showErr('register-error', 'This email is already registered. Try logging in.');
+        } else {
+          showErr('register-error', (err && err.message) || 'Could not create account.');
+        }
+      } finally {
+        regBtn.disabled = false; regBtn.innerHTML = origLabel; regBtn.style.opacity = '1';
+      }
+    });
+  }
+})();
 </script>
 <script>
 document.addEventListener('click',function(e){
