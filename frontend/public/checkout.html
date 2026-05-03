@@ -9,6 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<script src="/api.js"></script>
 <script>
 tailwind.config = {
   theme: {
@@ -224,8 +225,11 @@ tailwind.config = {
 
         <!-- Pay button -->
         <button id="pay-button" class="w-full bg-primary text-white py-4 rounded-full font-sans tracking-widest uppercase text-sm font-extrabold hover:bg-primary-dark transition-all active:scale-95 mb-4">
-          Pay <span data-summary="pay-amount">$3,100</span>
+          Confirm Booking
         </button>
+        <p style="color:#6B6560;font-size:13px;text-align:center;margin-top:12px;">
+          Demo mode — no payment will be charged. Real Stripe integration coming soon.
+        </p>
 
         <!-- Security text -->
         <div class="space-y-2 text-center">
@@ -253,75 +257,136 @@ tailwind.config = {
 </main>
 
 <script>
-var booking = JSON.parse(localStorage.getItem('wcr_booking') || '{}');
+(function(){
+  // 1. Load pending booking payload
+  var payloadRaw = localStorage.getItem('wcr_pending_booking');
+  if (!payloadRaw) {
+    window.parent.location.href = '/boats';
+    return;
+  }
+  var payload;
+  try { payload = JSON.parse(payloadRaw); } catch(e) {
+    window.parent.location.href = '/boats';
+    return;
+  }
 
-var data = {
-  boatName:    booking.boatName    || 'Azure Serenity',
-  boatPhoto:   booking.boatPhoto   || '/boats/azure-serenity.jpg',
-  harbor:      booking.harbor      || 'Monroe Harbor, Chicago',
-  dates:       booking.dates       || 'Aug 5 – Aug 7, 2025',
-  guests:      booking.guests      || 4,
-  boatRate:    booking.boatRate    || 1200,
-  days:        booking.days        || 2,
-  captainName: booking.captainName || 'Capt. Marco Rossi',
-  captainRate: booking.captainRate || 240,
-  serviceFee:  220
-};
+  // 2. Require login
+  if (!WCR.isLoggedIn()) {
+    localStorage.setItem('wcr_post_login_redirect', '/checkout');
+    window.parent.location.href = '/login';
+    return;
+  }
 
-var boatTotal    = data.boatRate    * data.days;
-var captainTotal = data.captainRate * data.days;
-var grandTotal   = boatTotal + captainTotal + data.serviceFee;
+  function setText(sel, val) {
+    var el = document.querySelector(sel);
+    if (el && val != null) el.textContent = val;
+  }
 
-function setText(sel, val){
-  var el = document.querySelector(sel);
-  if(el) el.textContent = val;
-}
-setText('[data-summary="boat-name"]',    data.boatName);
-setText('[data-summary="harbor"]',       data.harbor);
-setText('[data-summary="dates-guests"]', data.dates + '  ·  ' + data.guests + ' guests');
-setText('[data-summary="captain-name"]', data.captainName);
-setText('[data-summary="boat-line"]',    '$'+data.boatRate.toLocaleString()+' × '+data.days+' days');
-setText('[data-summary="boat-total"]',   '$'+boatTotal.toLocaleString());
-setText('[data-summary="captain-line"]', '$'+data.captainRate+' × '+data.days+' days');
-setText('[data-summary="captain-total"]','$'+captainTotal.toLocaleString());
-setText('[data-summary="service"]',      '$'+data.serviceFee);
-setText('[data-summary="grand-total"]',  '$'+grandTotal.toLocaleString());
-setText('[data-summary="pay-amount"]',   '$'+grandTotal.toLocaleString());
+  // 3. Render summary using preview data
+  var preview = payload._preview || {};
+  setText('[data-summary="boat-name"]',    preview.boatName || '—');
+  setText('[data-summary="harbor"]',       (preview.boatHarbor || '') + (preview.boatHarbor ? ', Chicago' : ''));
+  setText('[data-summary="captain-name"]', preview.captainName || '—');
 
-function processFakePayment(){
-  var btn = document.getElementById('pay-button');
-  if(!btn) return;
-  btn.disabled = true;
-  btn.innerHTML = '⏳ Processing payment...';
-  btn.style.opacity = '0.7';
+  var dateLabel = (payload.startDate || '') + ' → ' + (payload.endDate || '');
+  setText('[data-summary="dates-guests"]', dateLabel + '  ·  ' + (payload.numGuests || 0) + ' guests');
 
-  localStorage.setItem('wcr_last_booking', JSON.stringify({
-    bookingId:   'WCR-' + Date.now(),
-    total:       grandTotal,
-    boatName:    data.boatName,
-    harbor:      data.harbor,
-    dates:       data.dates,
-    guests:      data.guests,
-    boatRate:    data.boatRate,
-    days:        data.days,
-    captainName: data.captainName,
-    captainRate: data.captainRate
-  }));
+  var photoEl = document.querySelector('[data-summary="boat-photo"]');
+  if (photoEl && preview.boatPhoto) {
+    if (photoEl.tagName === 'IMG') photoEl.src = preview.boatPhoto;
+    else photoEl.style.backgroundImage = 'url(' + preview.boatPhoto + ')';
+  }
 
-  setTimeout(function(){
-    window.parent.location.href = '/booking-confirmed';
-  }, 2000);
-}
+  // Visible boat-photo div uses inline background-image — try the first photo card
+  var firstPhotoCard = document.querySelector('.bg-cover.bg-center');
+  if (firstPhotoCard && preview.boatPhoto) {
+    firstPhotoCard.style.backgroundImage = 'url("' + preview.boatPhoto + '")';
+  }
 
-document.addEventListener('DOMContentLoaded', function(){
-  var btn = document.getElementById('pay-button');
-  if(btn) btn.addEventListener('click', processFakePayment);
-});
-// Fallback if DOMContentLoaded already fired
-if (document.readyState !== 'loading') {
-  var btn = document.getElementById('pay-button');
-  if(btn && !btn._wired){ btn._wired = true; btn.addEventListener('click', processFakePayment); }
-}
+  // 4. Compute full breakdown from preview data (server still validates on submit)
+  var SERVICE_FEE = 220;
+  var boatRate    = preview.boatRate    || 0;
+  var captainRate = preview.captainRate || 0;
+  var duration    = preview.duration    || 0;
+  var unit        = preview.durationUnit || 'day';
+  var unitPlural  = duration === 1 ? unit : (unit + 's');
+
+  var boatTotal    = boatRate    * duration;
+  var captainTotal = captainRate * duration;
+  var grandTotal   = boatTotal + captainTotal + SERVICE_FEE;
+
+  setText('[data-summary="boat-line"]',     '$' + boatRate.toLocaleString() + ' × ' + duration + ' ' + unitPlural);
+  setText('[data-summary="boat-total"]',    '$' + boatTotal.toLocaleString());
+  setText('[data-summary="captain-line"]',  '$' + captainRate.toLocaleString() + ' × ' + duration + ' ' + unitPlural);
+  setText('[data-summary="captain-total"]', '$' + captainTotal.toLocaleString());
+  setText('[data-summary="service"]',       '$' + SERVICE_FEE);
+  setText('[data-summary="grand-total"]',   '$' + grandTotal.toLocaleString());
+  setText('[data-summary="pay-amount"]',    '$' + grandTotal.toLocaleString());
+
+  // 5. On Pay button click → real booking creation
+  var payBtn = document.getElementById('pay-button');
+  if (!payBtn) {
+    console.error('[WCR] No #pay-button found on checkout page');
+    return;
+  }
+
+  function ensureErrBox(){
+    var errBox = document.getElementById('checkout-error');
+    if (!errBox) {
+      errBox = document.createElement('div');
+      errBox.id = 'checkout-error';
+      errBox.style.cssText = 'color:#C4623A;background:#FAF0E8;border:1px solid #C4623A;border-radius:8px;padding:12px;margin:12px 0;font-size:14px;';
+      payBtn.parentNode.insertBefore(errBox, payBtn);
+    }
+    return errBox;
+  }
+
+  payBtn.addEventListener('click', async function(){
+    var errBox = document.getElementById('checkout-error');
+    if (errBox) errBox.style.display = 'none';
+
+    payBtn.disabled = true;
+    var originalLabel = payBtn.innerHTML;
+    payBtn.innerHTML = 'Creating booking…';
+    payBtn.style.opacity = '0.7';
+
+    var apiPayload = {
+      boatId:    payload.boatId,
+      captainId: payload.captainId,
+      startDate: payload.startDate,
+      endDate:   payload.endDate,
+      numGuests: payload.numGuests,
+      specialRequests: ''
+    };
+
+    try {
+      var resp = await WCR.createBooking(apiPayload);
+      var booking = resp.data || resp.booking || resp;
+      var bookingId = booking._id || booking.id;
+      if (!bookingId) throw new Error('No booking ID returned');
+
+      localStorage.removeItem('wcr_pending_booking');
+      window.parent.location.href = '/booking-confirmed?id=' + bookingId;
+    } catch (err) {
+      payBtn.disabled = false;
+      payBtn.innerHTML = originalLabel;
+      payBtn.style.opacity = '1';
+
+      var msg = err.message || 'Could not create booking.';
+      if (err.status === 409) msg = 'Sorry — this boat is already booked for those dates.';
+      if (err.status === 401) {
+        alert('Your session expired. Please log in again.');
+        localStorage.setItem('wcr_post_login_redirect', '/checkout');
+        window.parent.location.href = '/login';
+        return;
+      }
+
+      var box = ensureErrBox();
+      box.textContent = msg;
+      box.style.display = 'block';
+    }
+  });
+})();
 </script>
 
 <script>

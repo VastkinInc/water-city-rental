@@ -213,6 +213,31 @@
 </div>
 </div>
 </section>
+<!-- Trip Dates Section -->
+<section class="trip-dates-card" style="background:#FAF7F2;border:1px solid #E8DFD3;border-radius:12px;padding:24px;margin-bottom:24px;">
+  <h2 style="font-family:'Playfair Display',serif;font-size:24px;color:#1A1A2E;margin:0 0 8px;">Choose Your Dates</h2>
+  <p style="color:#6B6560;margin:0 0 20px;font-size:14px;">Pick your start and end dates to see live pricing.</p>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+    <div>
+      <label style="display:block;font-size:12px;letter-spacing:0.05em;text-transform:uppercase;color:#1A1A2E;margin-bottom:6px;font-weight:600;">Start Date</label>
+      <input type="date" id="trip-start-date" style="width:100%;padding:12px;border:1px solid #D4C9B8;border-radius:8px;font-family:'Manrope',sans-serif;font-size:15px;background:#fff;">
+    </div>
+    <div>
+      <label style="display:block;font-size:12px;letter-spacing:0.05em;text-transform:uppercase;color:#1A1A2E;margin-bottom:6px;font-weight:600;">End Date</label>
+      <input type="date" id="trip-end-date" style="width:100%;padding:12px;border:1px solid #D4C9B8;border-radius:8px;font-family:'Manrope',sans-serif;font-size:15px;background:#fff;">
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px;">
+    <div>
+      <label style="display:block;font-size:12px;letter-spacing:0.05em;text-transform:uppercase;color:#1A1A2E;margin-bottom:6px;font-weight:600;">Guests</label>
+      <input type="number" id="trip-guests" min="1" max="50" value="4" style="width:100%;padding:12px;border:1px solid #D4C9B8;border-radius:8px;font-family:'Manrope',sans-serif;font-size:15px;background:#fff;">
+    </div>
+    <div style="display:flex;align-items:flex-end;">
+      <span id="trip-duration-label" style="color:#C4623A;font-weight:600;font-size:14px;">Select dates above</span>
+    </div>
+  </div>
+  <div id="trip-dates-error" style="color:#C4623A;font-size:13px;margin-top:10px;display:none;"></div>
+</section>
 <!-- Captain Recommended View -->
 <div id="captain-recommended-view">
 <section class="mb-16">
@@ -351,18 +376,18 @@
 <div class="grid grid-cols-2 ring-1 ring-outline rounded-xl overflow-hidden">
 <div class="p-3 border-r border-outline">
 <label class="block text-[10px] font-extrabold uppercase tracking-widest text-on-surface-variant mb-1" style="">Check-In</label>
-<div class="text-sm font-bold" style="">Oct 5, 2023</div>
+<div class="text-sm font-bold" data-summary="checkin-date" style="">—</div>
 </div>
 <div class="p-3">
 <label class="block text-[10px] font-extrabold uppercase tracking-widest text-on-surface-variant mb-1" style="">Check-Out</label>
-<div class="text-sm font-bold" style="">Oct 7, 2023</div>
+<div class="text-sm font-bold" data-summary="checkout-date" style="">—</div>
 </div>
 </div>
 <div class="ring-1 ring-outline rounded-xl p-3">
 <label class="block text-[10px] font-extrabold uppercase tracking-widest text-on-surface-variant mb-1" style="">Guests</label>
 <div class="flex justify-between items-center">
-<span class="text-sm font-bold" style="">4 Guests</span>
-<span class="material-symbols-outlined" style="">expand_more</span>
+<span class="text-sm font-bold" data-summary="guests-pill" style="">4 Guests</span>
+<span class="material-symbols-outlined opacity-30" style="">lock</span>
 </div>
 </div>
 </div>
@@ -385,7 +410,7 @@
 <span class="font-bold text-lg" data-price="grand-total">$3,100</span>
 </div>
 </div>
-<button class="w-full bg-primary-container text-on-primary-container py-5 rounded-full font-sans tracking-widest uppercase text-sm font-extrabold hover:bg-primary transition-all active:scale-95 mb-6" onclick="var c=getCaptain(selectedCaptainId);localStorage.setItem('wcr_booking',JSON.stringify({boatId:(BOAT&&BOAT._id)||null,boatName:(BOAT&&BOAT.name)||'Azure Serenity',harbor:((BOAT&&BOAT.harbor)||'Monroe Harbor')+', Chicago',dates:'Aug 5 – Aug 7, 2025',guests:4,boatRate:BOAT_RATE,days:NUM_DAYS,captainId:c.id,captainName:c.name,captainRate:(BOAT&&BOAT.rateType==='hourly')?c.hourly:c.rate}));window.parent.location.href='/checkout';" style="">Reserve Now</button>
+<button class="w-full bg-primary-container text-on-primary-container py-5 rounded-full font-sans tracking-widest uppercase text-sm font-extrabold hover:bg-primary transition-all active:scale-95 mb-6" onclick="reserveNow(); return false;" style="">Reserve Now</button>
 <p class="text-center text-xs text-on-surface-variant mb-8" style="">You won't be charged yet</p>
 <!-- Price Guarantee Box -->
 <div class="bg-surface-container p-4 rounded-xl flex gap-3">
@@ -454,42 +479,178 @@ function captainDisplayRate(c){
   return '$' + (c.rate || 0) + '/day';
 }
 
+function getTripDates(){
+  var startEl = document.getElementById('trip-start-date');
+  var endEl   = document.getElementById('trip-end-date');
+  var startStr = startEl ? startEl.value : '';
+  var endStr   = endEl   ? endEl.value   : '';
+  if (!startStr || !endStr) return null;
+  var start = new Date(startStr + 'T00:00:00');
+  var end   = new Date(endStr   + 'T23:59:59');
+  if (isNaN(start) || isNaN(end)) return null;
+  return { start: start, end: end, startStr: startStr, endStr: endStr };
+}
+
+function getDurationFromDates(boat, dates){
+  if (!boat || !dates) return 0;
+  var ms = dates.end - dates.start;
+  if (boat.rateType === 'daily') {
+    return Math.max(1, Math.ceil(ms / (1000*60*60*24)));
+  }
+  return Math.max(1, Math.ceil(ms / (1000*60*60)));
+}
+
+function showDateError(msg){
+  var box = document.getElementById('trip-dates-error');
+  if (!box) return;
+  if (!msg) { box.style.display = 'none'; box.textContent = ''; return; }
+  box.textContent = msg;
+  box.style.display = 'block';
+}
+
+function updateDurationLabel(){
+  var label = document.getElementById('trip-duration-label');
+  if (!label) return;
+  var dates = getTripDates();
+  if (!BOAT || !dates) { label.textContent = 'Select dates above'; return; }
+  var duration = getDurationFromDates(BOAT, dates);
+  var unit = BOAT.rateType === 'daily' ? 'days' : 'hours';
+  var noun = duration === 1 ? unit.slice(0,-1) : unit;
+  label.textContent = duration + ' ' + noun;
+}
+
+function fmtNiceDate(str){
+  if (!str) return '—';
+  var d = new Date(str + 'T00:00:00');
+  if (isNaN(d)) return str;
+  return d.toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
+}
+
+function syncStickySidebar(){
+  var startEl  = document.getElementById('trip-start-date');
+  var endEl    = document.getElementById('trip-end-date');
+  var guestsEl = document.getElementById('trip-guests');
+  var setText = function(sel, val){
+    var el = document.querySelector(sel);
+    if (el && val != null) el.textContent = val;
+  };
+  if (startEl) setText('[data-summary="checkin-date"]',  fmtNiceDate(startEl.value));
+  if (endEl)   setText('[data-summary="checkout-date"]', fmtNiceDate(endEl.value));
+  if (guestsEl) {
+    var n = parseInt(guestsEl.value || '4');
+    if (!n || n < 1) n = 1;
+    setText('[data-summary="guests-pill"]', n + (n === 1 ? ' Guest' : ' Guests'));
+  }
+}
+
 function updatePrice(){
   var c = getCaptain(selectedCaptainId);
-  var quantity, unit, boatRate, captainRate;
-  if (BOAT && BOAT.rateType === 'hourly') {
-    quantity = NUM_HOURS; unit = 'hours';
-    boatRate = BOAT_RATE;
-    captainRate = c.hourly || 0;
-  } else {
-    quantity = NUM_DAYS; unit = 'days';
-    boatRate = BOAT_RATE;
-    captainRate = c.rate || 0;
-  }
-  var boatTotal    = boatRate * quantity;
-  var captainTotal = captainRate * quantity;
-  var grandTotal   = boatTotal + captainTotal + SERVICE_FEE;
-  var set = function(sel, val){
+  var setText = function(sel, val){
     var el = document.querySelector(sel);
     if(el) el.textContent = val;
   };
-  set('[data-price="boat-line"]',    '$'+boatRate.toLocaleString()+' × '+quantity+' '+unit);
-  set('[data-price="boat-total"]',   '$'+boatTotal.toLocaleString());
-  set('[data-price="captain-line"]', '$'+captainRate+' × '+quantity+' '+unit);
-  set('[data-price="captain-total"]','$'+captainTotal.toLocaleString());
-  set('[data-price="service"]',      '$'+SERVICE_FEE);
-  set('[data-price="grand-total"]',  '$'+grandTotal.toLocaleString());
 
-  // Update recommended-card top-of-page captain summary
-  set('[data-captain="name"]',       c.name);
-  set('[data-captain="rate"]',       captainDisplayRate(c));
-  set('[data-captain="rating"]',     '★ ' + (c.rating || '—'));
+  // Update captain-summary fields regardless of dates
+  setText('[data-captain="name"]',       c.name);
+  setText('[data-captain="rate"]',       captainDisplayRate(c));
+  setText('[data-captain="rating"]',     '★ ' + (c.rating || '—'));
   var trips = document.querySelector('[data-captain="trips"]');
   if (trips) trips.textContent = '(' + (c.totalTrips || 0) + ' trips)';
   var bioEl = document.querySelector('[data-captain="bio"]');
   if (bioEl) bioEl.textContent = c.bio || '';
   var avEl = document.querySelector('[data-captain="avatar"]');
   if (avEl && c.avatar) avEl.setAttribute('src', c.avatar);
+
+  updateDurationLabel();
+  syncStickySidebar();
+
+  if (!BOAT) return;
+
+  var dates = getTripDates();
+  if (!dates) {
+    setText('[data-price="grand-total"]', 'Pick dates');
+    return;
+  }
+
+  var today = new Date(); today.setHours(0,0,0,0);
+  if (dates.start < today) {
+    showDateError('Start date must be today or in the future.');
+    setText('[data-price="grand-total"]', '—');
+    return;
+  }
+  if (dates.end <= dates.start) {
+    showDateError('End date must be after start date.');
+    setText('[data-price="grand-total"]', '—');
+    return;
+  }
+  showDateError('');
+
+  var duration = getDurationFromDates(BOAT, dates);
+  var unit = BOAT.rateType === 'daily' ? 'days' : 'hours';
+  var boatRate = BOAT.rateType === 'daily' ? BOAT.dayRate : BOAT.hourlyRate;
+  var captainRate = BOAT.rateType === 'daily' ? (c.rate || 0) : (c.hourly || 0);
+
+  var boatTotal    = boatRate * duration;
+  var captainTotal = captainRate * duration;
+  var grandTotal   = boatTotal + captainTotal + SERVICE_FEE;
+
+  setText('[data-price="boat-line"]',    '$' + boatRate.toLocaleString() + ' × ' + duration + ' ' + unit);
+  setText('[data-price="boat-total"]',   '$' + boatTotal.toLocaleString());
+  setText('[data-price="captain-line"]', '$' + captainRate + ' × ' + duration + ' ' + unit);
+  setText('[data-price="captain-total"]','$' + captainTotal.toLocaleString());
+  setText('[data-price="service"]',      '$' + SERVICE_FEE);
+  setText('[data-price="grand-total"]',  '$' + grandTotal.toLocaleString());
+}
+
+function reserveNow(){
+  if (!BOAT) { showDateError('Boat data not loaded yet. Please wait.'); return; }
+  var dates = getTripDates();
+  if (!dates) { showDateError('Please select start and end dates.'); return; }
+  var today = new Date(); today.setHours(0,0,0,0);
+  if (dates.start < today) { showDateError('Start date must be today or in the future.'); return; }
+  if (dates.end <= dates.start) { showDateError('End date must be after start date.'); return; }
+
+  var guestsInput = document.getElementById('trip-guests');
+  var numGuests = parseInt(guestsInput ? guestsInput.value : '4');
+  if (!numGuests || numGuests < 1) numGuests = 1;
+  if (BOAT.maxGuests && numGuests > BOAT.maxGuests) {
+    showDateError('Max ' + BOAT.maxGuests + ' guests allowed on this boat.');
+    return;
+  }
+  showDateError('');
+
+  if (!WCR.isLoggedIn()) {
+    try { localStorage.setItem('wcr_post_login_redirect', window.parent.location.pathname); } catch(e) {}
+    window.parent.location.href = '/login';
+    return;
+  }
+
+  var c = getCaptain(selectedCaptainId);
+  var duration = getDurationFromDates(BOAT, dates);
+  var boatRate = BOAT.rateType === 'daily' ? BOAT.dayRate : BOAT.hourlyRate;
+  var captainRate = BOAT.rateType === 'daily' ? (c.rate || 0) : (c.hourly || 0);
+  var payload = {
+    boatId:    BOAT._id || BOAT.id,
+    captainId: c._id || c.id || c.id,
+    startDate: dates.startStr,
+    endDate:   dates.endStr,
+    numGuests: numGuests,
+    _preview: {
+      boatName:   BOAT.name,
+      boatPhoto:  (BOAT.photos && BOAT.photos[0]) ? BOAT.photos[0].url : '',
+      boatHarbor: BOAT.harbor,
+      captainName:   c.name,
+      captainRating: c.rating || 0,
+      rateType:      BOAT.rateType,
+      boatRate:      boatRate,
+      captainRate:   captainRate,
+      duration:      duration,
+      durationUnit:  BOAT.rateType === 'daily' ? 'day' : 'hour'
+    }
+  };
+
+  localStorage.setItem('wcr_pending_booking', JSON.stringify(payload));
+  window.parent.location.href = '/checkout';
 }
 
 function selectCaptain(id){
@@ -596,6 +757,48 @@ function applyCaptainsToState(captains, recommendedRaw){
   selectedCaptainId = RECOMMENDED_CAPTAIN_ID;
 }
 
+function setupDateInputs(){
+  var startInput  = document.getElementById('trip-start-date');
+  var endInput    = document.getElementById('trip-end-date');
+  var guestsInput = document.getElementById('trip-guests');
+
+  var fmt = function(d){ return d.toISOString().slice(0,10); };
+  var todayStr = fmt(new Date());
+
+  // Sensible defaults: tomorrow → tomorrow + 2 days (or +4 hours for hourly)
+  var tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate() + 1);
+  var defaultEnd = new Date(tomorrow);
+  if (BOAT && BOAT.rateType === 'hourly') {
+    defaultEnd.setHours(defaultEnd.getHours() + 4);
+  } else {
+    defaultEnd.setDate(defaultEnd.getDate() + 2);
+  }
+
+  if (startInput && !startInput.value) startInput.value = fmt(tomorrow);
+  if (endInput && !endInput.value)     endInput.value   = fmt(defaultEnd);
+
+  if (startInput) {
+    startInput.setAttribute('min', todayStr);
+    if (!startInput._wired) {
+      startInput.addEventListener('change', function(){
+        if (endInput) endInput.setAttribute('min', startInput.value);
+        updatePrice();
+      });
+      startInput._wired = true;
+    }
+  }
+  if (endInput) {
+    if (!endInput._wired) {
+      endInput.addEventListener('change', updatePrice);
+      endInput._wired = true;
+    }
+  }
+  if (guestsInput && !guestsInput._wired) {
+    guestsInput.addEventListener('input', function(){ syncStickySidebar(); });
+    guestsInput._wired = true;
+  }
+}
+
 async function bootBoatPage(){
   // Read boatId from parent URL
   var pathMatch = (function(){
@@ -604,7 +807,9 @@ async function bootBoatPage(){
   var boatId = pathMatch ? pathMatch[1] : null;
   if (!boatId || boatId === '1') {
     console.warn('[WCR] No real boat ID in URL; using fallback hardcoded data.');
-    return; // existing hardcoded captain cards remain visible
+    setupDateInputs();
+    updatePrice();
+    return;
   }
 
   try {
@@ -615,19 +820,19 @@ async function bootBoatPage(){
     applyBoatToDom(boat);
     applyCaptainsToState(captains, boat.recommendedCaptain);
     renderCaptainPicker();
+    setupDateInputs();
     updatePrice();
   } catch (err) {
     console.error('[WCR] Failed to load boat detail:', err);
+    setupDateInputs();
+    updatePrice();
   }
 }
 
 document.addEventListener('DOMContentLoaded', function(){
-  // Initial render with hardcoded fallback values, then async fetch overwrites
-  updatePrice();
   bootBoatPage();
 });
 if (document.readyState !== 'loading') {
-  updatePrice();
   bootBoatPage();
 }
 </script>

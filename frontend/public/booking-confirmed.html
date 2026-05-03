@@ -9,6 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<script src="/api.js"></script>
 <script>
 tailwind.config = {
   theme: {
@@ -124,7 +125,7 @@ tailwind.config = {
 
   <!-- Buttons -->
   <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
-    <button onclick="window.parent.location.href='/booking/1'" class="bg-primary text-white py-4 rounded-full font-sans tracking-widest uppercase text-sm font-extrabold hover:bg-primary-dark transition-all active:scale-95">
+    <button data-link="booking-details" onclick="window.parent.location.href='/booking/1'" class="bg-primary text-white py-4 rounded-full font-sans tracking-widest uppercase text-sm font-extrabold hover:bg-primary-dark transition-all active:scale-95">
       View Booking Details
     </button>
     <button onclick="window.parent.location.href='/boats'" class="border-2 border-primary text-primary py-4 rounded-full font-sans tracking-widest uppercase text-sm font-extrabold hover:bg-primary hover:text-white transition-all active:scale-95">
@@ -139,17 +140,69 @@ tailwind.config = {
 </main>
 
 <script>
-var booking = JSON.parse(localStorage.getItem('wcr_last_booking') || '{}');
-function setText(sel, val){
-  var el = document.querySelector(sel);
-  if(el && val) el.textContent = val;
-}
-setText('[data-confirm="booking-id"]', booking.bookingId || 'WCR-2025-0847');
-setText('[data-confirm="boat-name"]',  booking.boatName  || 'Azure Serenity');
-setText('[data-confirm="dates"]',      booking.dates     || 'Aug 5 – Aug 7, 2025');
-setText('[data-confirm="harbor"]',     booking.harbor    || 'Monroe Harbor');
-setText('[data-confirm="captain"]',    booking.captainName || 'Capt. Marco Rossi');
-setText('[data-confirm="total"]',      '$'+(booking.total || 3100).toLocaleString());
+(function(){
+  var search = '';
+  try { search = window.parent.location.search || ''; } catch(e) { search = window.location.search || ''; }
+  var match = search.match(/[?&]id=([^&]+)/);
+  var bookingId = match ? decodeURIComponent(match[1]) : null;
+
+  function setText(sel, val) {
+    var el = document.querySelector(sel);
+    if (el && val != null) el.textContent = val;
+  }
+
+  if (!bookingId) {
+    setText('[data-confirm="booking-id"]', '—');
+    return;
+  }
+
+  if (!WCR.isLoggedIn()) {
+    window.parent.location.href = '/login';
+    return;
+  }
+
+  async function loadBooking(){
+    try {
+      var resp = await WCR._call('GET', '/bookings/' + bookingId);
+      var booking = resp.data || resp.booking || resp;
+      if (!booking) throw new Error('Booking not found');
+
+      var boat    = booking.boat    || {};
+      var captain = booking.captain || {};
+      var pricing = booking.pricing || {};
+
+      setText('[data-confirm="booking-id"]', booking.bookingNumber || booking._id);
+      setText('[data-confirm="boat-name"]',  boat.name);
+      setText('[data-confirm="harbor"]',     (boat.harbor || '') + (boat.harbor ? ', Chicago' : ''));
+
+      var startStr = (booking.startDate || '').slice(0,10);
+      var endStr   = (booking.endDate   || '').slice(0,10);
+      setText('[data-confirm="dates"]',  startStr + ' → ' + endStr);
+      var captainName = captain.name || '';
+      if (captainName && captainName.indexOf('Capt.') !== 0) captainName = 'Capt. ' + captainName;
+      setText('[data-confirm="captain"]', captainName);
+      setText('[data-confirm="total"]', '$' + ((pricing.grandTotal || 0).toLocaleString()));
+
+      var detailLinks = document.querySelectorAll('[data-link="booking-details"]');
+      Array.prototype.forEach.call(detailLinks, function(a){
+        a.setAttribute('href', '/booking/' + (booking._id || bookingId));
+        a.onclick = function(e){
+          e.preventDefault();
+          window.parent.location.href = '/booking/' + (booking._id || bookingId);
+          return false;
+        };
+      });
+    } catch (err) {
+      console.error('[WCR] Could not load booking:', err);
+      setText('[data-confirm="booking-id"]', 'Error loading');
+      var heading = document.querySelector('h1, [data-confirm="title"]');
+      if (heading) heading.textContent = err.message || 'Could not load booking details.';
+    }
+  }
+
+  if (document.readyState !== 'loading') loadBooking();
+  else document.addEventListener('DOMContentLoaded', loadBooking);
+})();
 </script>
 
 <script>
