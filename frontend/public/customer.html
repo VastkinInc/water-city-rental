@@ -166,7 +166,7 @@
             <!-- Header -->
             <header class="mb-12">
                 <h1 class="text-4xl md:text-5xl font-serif text-on-surface">
-                    Welcome back, <span class="italic">Alex</span>
+                    Welcome back, <span class="italic" data-user="firstName">Alex</span>
                 </h1>
                 <p class="text-on-surface-variant mt-2 font-medium">Your next nautical adventure is just over the
                     horizon.</p>
@@ -177,21 +177,21 @@
                     class="bg-surface-container-lowest p-6 rounded-2xl shadow-[0_32px_64px_rgba(26,28,26,0.04)] group hover:bg-surface-container-low transition-colors">
                     <p class="text-[10px] uppercase tracking-[0.1em] text-on-surface-variant font-bold mb-1">Total
                         Bookings</p>
-                    <p class="text-3xl font-serif text-primary">8</p>
+                    <p class="text-3xl font-serif text-primary" data-stat="total-bookings">0</p>
                 </div>
                 <div class="bg-surface-container-lowest p-6 rounded-2xl shadow-[0_32px_64px_rgba(26,28,26,0.04)]">
                     <p class="text-[10px] uppercase tracking-[0.1em] text-on-surface-variant font-bold mb-1">Upcoming
                     </p>
-                    <p class="text-3xl font-serif text-secondary">2</p>
+                    <p class="text-3xl font-serif text-secondary" data-stat="upcoming">0</p>
                 </div>
                 <div class="bg-surface-container-lowest p-6 rounded-2xl shadow-[0_32px_64px_rgba(26,28,26,0.04)]">
                     <p class="text-[10px] uppercase tracking-[0.1em] text-on-surface-variant font-bold mb-1">Completed
                     </p>
-                    <p class="text-3xl font-serif text-on-surface">5</p>
+                    <p class="text-3xl font-serif text-on-surface" data-stat="completed">0</p>
                 </div>
                 <div class="bg-surface-container-lowest p-6 rounded-2xl shadow-[0_32px_64px_rgba(26,28,26,0.04)]">
                     <p class="text-[10px] uppercase tracking-[0.1em] text-on-surface-variant font-bold mb-1">Saved</p>
-                    <p class="text-3xl font-serif text-tertiary">12</p>
+                    <p class="text-3xl font-serif text-tertiary" data-stat="saved">12</p>
                 </div>
             </section>
             <!-- Upcoming Trips -->
@@ -201,76 +201,8 @@
                     <a class="text-xs uppercase font-bold tracking-widest text-primary hover:underline" href="/boats">View
                         Calendar</a>
                 </div>
-                <div class="grid md:grid-cols-2 gap-8">
-                    <!-- Trip Card 1 -->
-                    <div
-                        class="bg-surface-container-lowest rounded-3xl overflow-hidden flex flex-col md:flex-row group">
-                        <div class="md:w-1/2 relative h-48 md:h-auto overflow-hidden">
-                            <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                                data-alt="Luxury modern yacht moored in a calm harbor with teal water and clear sky during daytime"
-                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDc7GcpGfPZYI8hYoouhqNHRtCred_IGETh7s1NR1WeyJhznOSiwKRNYZE4TOW7pbbao071qRBsU2LL6p1kgK2U1oGXj_zv9MBgKvrPnb2TPUbrjnQRQQ2KLyQlQesPet0eYu2rK5GJTlm5CVcMdrT-Ec7M1wo6gmwhI9cdLgyTWAMa4_v63SSOTwb3n_5BKkPK2kUVvYcfV44wD7eEz6TRTI1ClMtFqqejN2Md7nn2oU6ceffhnZTioH_WBN4emMJKhzVQg9aum0UJ" />
-                            <div class="absolute top-4 left-4">
-                                <span
-                                    class="bg-secondary-container text-on-secondary-container px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest backdrop-blur-md">CONFIRMED</span>
-                            </div>
-                        </div>
-                        <div class="md:w-1/2 p-6 flex flex-col justify-between">
-                            <div>
-                                <h3 class="text-xl font-serif italic mb-1">Azure Serenity</h3>
-                                <div class="flex items-center gap-1 text-on-surface-variant text-sm mb-4">
-                                    <span class="material-symbols-outlined text-sm">location_on</span>
-                                    <span>Monroe Harbor</span>
-                                </div>
-                                <div class="space-y-2">
-                                    <div class="flex items-center gap-3">
-                                        <span class="material-symbols-outlined text-secondary">calendar_today</span>
-                                        <span class="text-sm font-medium">Aug 5 - Aug 7</span>
-                                    </div>
-                                    <div class="flex items-center gap-3">
-                                        <span class="material-symbols-outlined text-secondary">person_pin</span>
-                                        <span class="text-sm font-medium">Captain Sarah</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <button
-                                class="mt-6 border border-outline text-on-surface py-2 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-surface-container transition-colors">Details</button>
-                        </div>
-                    </div>
-                    <!-- Trip Card 2 -->
-                    <div
-                        class="bg-surface-container-lowest rounded-3xl overflow-hidden flex flex-col md:flex-row group">
-                        <div class="md:w-1/2 relative h-48 md:h-auto overflow-hidden">
-                            <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                                data-alt="Sleek black motorboat cutting through crystal blue lake water at high speed leaving a white wake"
-                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_W4n3ormsw76h-3w7_EYSul_yaj7c2rs7YWhHUZgUndUK0dWLYhp7uq453jIP35GwFtxpFgBC1yU1YYRI0qpnv2ZJISBZo2OoQvXvfwXDSN4_HhSRPoCOII58o9WQp0MjTMX-EDBt7u65nT-p8LiGfSn4bnGxuhhk7QedzUNzxeSND3qyiQTMoZRGBGaKcH6Au7bTHD_NUQ-ZXXHFrW9RJ0YZzCk3zqPf-ZTJYbCBDshbAF-4SULp9jUQ9CIlznpOAOoaLeIqX3AW" />
-                            <div class="absolute top-4 left-4">
-                                <span
-                                    class="bg-tertiary-container text-on-tertiary-container px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest backdrop-blur-md">PENDING</span>
-                            </div>
-                        </div>
-                        <div class="md:w-1/2 p-6 flex flex-col justify-between">
-                            <div>
-                                <h3 class="text-xl font-serif italic mb-1">Lake Sovereign</h3>
-                                <div class="flex items-center gap-1 text-on-surface-variant text-sm mb-4">
-                                    <span class="material-symbols-outlined text-sm">location_on</span>
-                                    <span>North Pier Marina</span>
-                                </div>
-                                <div class="space-y-2">
-                                    <div class="flex items-center gap-3">
-                                        <span class="material-symbols-outlined text-tertiary">calendar_today</span>
-                                        <span class="text-sm font-medium">Sep 12 - Sep 13</span>
-                                    </div>
-                                    <div class="flex items-center gap-3 text-on-surface-variant italic">
-                                        <span class="material-symbols-outlined text-tertiary">info</span>
-                                        <span class="text-sm">Awaiting owner confirmation</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <button
-                                class="mt-6 border border-outline text-on-surface py-2 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-surface-container transition-colors">Message
-                                Owner</button>
-                        </div>
-                    </div>
+                <div id="customer-upcoming-list">
+                    <!-- Upcoming trip cards rendered dynamically by /api.js -->
                 </div>
             </section>
             <!-- Recommended For You (Editorial Bento-ish Layout) -->
@@ -463,6 +395,93 @@
             <span class="text-[10px] font-bold uppercase tracking-tighter">Mail</span>
         </a>
     </nav>
+<script>
+(function(){
+  if (!WCR.isLoggedIn()) {
+    window.parent.location.href = '/login';
+    return;
+  }
+
+  function escapeHtml(s){
+    if (s == null) return '';
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+  function setText(sel, val){
+    var el = document.querySelector(sel);
+    if (el && val != null) el.textContent = val;
+  }
+  function fmtDate(str){
+    if (!str) return '';
+    var d = new Date(str);
+    return isNaN(d) ? '' : d.toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
+  }
+  function statusBadge(status){
+    var colors = {
+      'pending':   { bg:'#FEF3C7', fg:'#92400E', label:'PENDING' },
+      'confirmed': { bg:'#D1FAE5', fg:'#065F46', label:'CONFIRMED' },
+      'cancelled': { bg:'#FEE2E2', fg:'#991B1B', label:'CANCELLED' },
+      'completed': { bg:'#E5E7EB', fg:'#1F2937', label:'COMPLETED' }
+    };
+    var c = colors[status] || colors.pending;
+    return '<span style="background:'+c.bg+';color:'+c.fg+';padding:4px 10px;border-radius:999px;font-size:11px;font-weight:600;letter-spacing:0.05em;">'+c.label+'</span>';
+  }
+  function renderUpcomingCard(b){
+    var photo = b.boat && b.boat.photos && b.boat.photos[0] ? b.boat.photos[0].url : '';
+    var name = b.boat ? b.boat.name : '';
+    var captainName = b.captain ? b.captain.name : '';
+    var harbor = b.boat ? b.boat.harbor : '';
+    var dates = fmtDate(b.startDate) + ' → ' + fmtDate(b.endDate);
+    var bookingId = b._id || b.id;
+    return ''
+      + '<div onclick="window.parent.location.href=\'/booking/' + bookingId + '\'" style="display:flex;gap:16px;padding:16px;background:#FAF7F2;border-radius:12px;cursor:pointer;border:1px solid #E8DFD3;margin-bottom:12px;">'
+      +   '<div style="width:100px;height:100px;background:#F5F0EA;background-image:url(' + escapeHtml(photo) + ');background-size:cover;background-position:center;border-radius:8px;flex-shrink:0;"></div>'
+      +   '<div style="flex:1;">'
+      +     '<div style="display:flex;justify-content:space-between;align-items:start;gap:8px;">'
+      +       '<h3 style="font-family:\'Playfair Display\',serif;font-size:18px;color:#1A1A2E;margin:0;">' + escapeHtml(name) + '</h3>'
+      +       statusBadge(b.status)
+      +     '</div>'
+      +     '<p style="margin:6px 0 4px;color:#6B6560;font-size:13px;">📍 ' + escapeHtml(harbor) + '</p>'
+      +     '<p style="margin:0 0 4px;color:#1A1A2E;font-size:14px;">📅 ' + dates + '</p>'
+      +     '<p style="margin:0;color:#6B6560;font-size:13px;">⚓ Capt. ' + escapeHtml(captainName) + '</p>'
+      +   '</div>'
+      + '</div>';
+  }
+
+  async function loadDashboard(){
+    try {
+      var user = WCR.getUser() || {};
+      setText('[data-user="firstName"]', (user.name || '').split(' ')[0] || 'there');
+
+      var resp = await WCR.myBookings();
+      var bookings = resp.data || resp.bookings || resp || [];
+
+      var total = bookings.length;
+      var upcoming = bookings.filter(function(b){ return b.status === 'pending' || b.status === 'confirmed'; });
+      var completed = bookings.filter(function(b){ return b.status === 'completed'; }).length;
+
+      setText('[data-stat="total-bookings"]', total);
+      setText('[data-stat="upcoming"]',       upcoming.length);
+      setText('[data-stat="completed"]',      completed);
+
+      var listEl = document.getElementById('customer-upcoming-list');
+      if (listEl) {
+        if (upcoming.length === 0) {
+          listEl.innerHTML = '<div style="padding:32px;text-align:center;color:#6B6560;background:#FAF7F2;border-radius:12px;border:1px dashed #D4C9B8;"><p style="margin:0 0 8px;">No upcoming trips yet.</p><a href="/boats" style="color:#C4623A;font-weight:600;">Browse boats →</a></div>';
+        } else {
+          upcoming.sort(function(a,b){ return new Date(a.startDate) - new Date(b.startDate); });
+          listEl.innerHTML = upcoming.slice(0, 3).map(renderUpcomingCard).join('');
+        }
+      }
+    } catch (err) {
+      console.error('[WCR] dashboard load failed:', err);
+      if (err.status === 401) window.parent.location.href = '/login';
+    }
+  }
+
+  if (document.readyState !== 'loading') loadDashboard();
+  else document.addEventListener('DOMContentLoaded', loadDashboard);
+})();
+</script>
 <script>
 document.addEventListener('click',function(e){
   var a=e.target.closest('a[href]');

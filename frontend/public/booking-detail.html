@@ -5,6 +5,7 @@
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Booking Detail - Water City Rental</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script src="/api.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&amp;family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
@@ -236,28 +237,28 @@
 <nav aria-label="Breadcrumb" class="flex items-center gap-2 text-sm text-on-surface-variant mb-8">
 <a class="hover:text-primary transition-colors" href="/my-bookings">My Bookings</a>
 <span class="material-symbols-outlined text-sm">chevron_right</span>
-<span class="font-semibold text-on-surface">Booking #WCR-2025-0847</span>
+<span class="font-semibold text-on-surface" data-detail="booking-number">Booking #—</span>
 </nav>
 <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
 <!-- Left Column (65%) -->
 <div class="lg:col-span-8 flex flex-col gap-8">
 <!-- Status Banner -->
-<div class="bg-secondary-container rounded-2xl p-6 flex items-start gap-4">
-<span class="material-symbols-outlined text-secondary text-2xl mt-1" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<div id="status-banner-box" class="bg-secondary-container rounded-2xl p-6 flex items-start gap-4">
+<span class="material-symbols-outlined text-2xl mt-1" style="font-variation-settings: 'FILL' 1;">check_circle</span>
 <div>
-<h2 class="font-headline text-xl text-on-secondary-container font-semibold mb-1">CONFIRMED — Your booking is confirmed!</h2>
-<p class="text-on-secondary-container/80 text-sm">You're all set for your upcoming trip.</p>
+<h2 class="font-headline text-xl font-semibold mb-1" data-detail="status-banner">Loading…</h2>
+<p class="text-sm opacity-80">Booking status will appear here.</p>
 </div>
 </div>
 <!-- Boat Info Card -->
 <section class="bg-surface-container-lowest rounded-3xl overflow-hidden shadow-[0_32px_64px_rgba(26,28,26,0.04)]">
 <div class="aspect-video relative w-full bg-surface-container-low">
-<img alt="Azure Serenity" class="w-full h-full object-cover" data-alt="Sleek modern luxury yacht anchored in calm turquoise waters during golden hour with warm sunlight reflecting off the hull" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA7k57XZiA1E8ION6kG6lPXvRHXXO5vw0jsFhIbnSMyPz8ecuAiQ-lqQePjT4DCS2OpzAWtIZ5cXq8cNp-LmuS53jetRgFgxRYFCMIG8JsUwI7mMpvW3JVV1ufXBq1B0aFbREThCZuNdDgPUbfwIujimMeIqbKpNZPUetRa8MvxnKGGPQo1-hU6exjc7W5loxXIAUo_WEmfQvabH7YZZXavaymdpcBCtGoJR528cj6vSfl3n1I61kAHHBmShl_Ff-u_C7x4EkBbxTaE"/>
+<img alt="Boat photo" data-detail="boat-photo" class="w-full h-full object-cover" data-alt="Sleek modern luxury yacht anchored in calm turquoise waters during golden hour with warm sunlight reflecting off the hull" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA7k57XZiA1E8ION6kG6lPXvRHXXO5vw0jsFhIbnSMyPz8ecuAiQ-lqQePjT4DCS2OpzAWtIZ5cXq8cNp-LmuS53jetRgFgxRYFCMIG8JsUwI7mMpvW3JVV1ufXBq1B0aFbREThCZuNdDgPUbfwIujimMeIqbKpNZPUetRa8MvxnKGGPQo1-hU6exjc7W5loxXIAUo_WEmfQvabH7YZZXavaymdpcBCtGoJR528cj6vSfl3n1I61kAHHBmShl_Ff-u_C7x4EkBbxTaE"/>
 </div>
 <div class="p-8">
-<h1 class="font-headline text-3xl md:text-4xl text-on-surface mb-2">Azure <span class="italic text-primary">Serenity</span></h1>
+<h1 class="font-headline text-3xl md:text-4xl text-on-surface mb-2" data-detail="boat-name">Loading…</h1>
 <p class="text-on-surface-variant text-sm tracking-widest uppercase mb-6 flex items-center gap-2">
-<span class="material-symbols-outlined text-base">location_on</span> Monroe Harbor · 45ft · 12 Guests
+<span class="material-symbols-outlined text-base">location_on</span> <span data-detail="harbor">—</span>
                         </p>
 <a class="inline-flex items-center gap-2 text-primary font-semibold hover:text-primary-container transition-colors group" href="/boats/1">
                             View boat details
@@ -271,18 +272,18 @@
 <div class="grid grid-cols-1 md:grid-cols-2 gap-y-8 gap-x-12">
 <div>
 <p class="text-sm text-on-surface-variant uppercase tracking-widest mb-1">Check-in</p>
-<p class="font-semibold text-lg">Aug 5, 2025</p>
+<p class="font-semibold text-lg" data-detail="checkin-date">—</p>
 <p class="text-on-surface-variant">9:00 AM</p>
 </div>
 <div>
 <p class="text-sm text-on-surface-variant uppercase tracking-widest mb-1">Check-out</p>
-<p class="font-semibold text-lg">Aug 7, 2025</p>
+<p class="font-semibold text-lg" data-detail="checkout-date">—</p>
 <p class="text-on-surface-variant">6:00 PM</p>
 </div>
 <div>
 <p class="text-sm text-on-surface-variant uppercase tracking-widest mb-1">Duration &amp; Guests</p>
-<p class="font-semibold text-lg">2 days</p>
-<p class="text-on-surface-variant">4 Guests</p>
+<p class="font-semibold text-lg" data-detail="duration">—</p>
+<p class="text-on-surface-variant" data-detail="guests">—</p>
 </div>
 <div>
 <p class="text-sm text-on-surface-variant uppercase tracking-widest mb-1">Pickup Location</p>
@@ -293,12 +294,12 @@
 </section>
 <!-- Captain Card -->
 <section class="bg-surface-container-lowest rounded-3xl p-8 shadow-[0_32px_64px_rgba(26,28,26,0.04)] flex flex-col md:flex-row items-center md:items-start gap-6">
-<img alt="Capt. Marco Rossi" class="w-24 h-24 rounded-full object-cover" data-alt="Portrait of a smiling middle-aged sea captain with a short beard wearing a white polo shirt, outdoors with soft natural lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBYmXR_-CLcvD9lYP5LThrZXnx1deiJ4cp7AxatmO89tNbsK6Q8mrS_F7eVt6xFTYrnQfe3p6H8ncAabF4oVje79uHp0s6VUl6cCXwwJmmPOY2-yY6iEdzebPGI5JTbcPSE57NFsJM_UfjZsSBlQQV9ZEvhtdQzebgj7sPog6Yr_Gw3LRtTAnttrAUMVLsmQeUaZ03h_o2l8lh7loynR9x5A9WthCBxsTDP-Qlb-AwFVNqNHz7EBKBocl3jgz1syM3c9ErLIMi1Dp0w"/>
+<img alt="Captain avatar" data-detail="captain-avatar" class="w-24 h-24 rounded-full object-cover" data-alt="Captain portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBYmXR_-CLcvD9lYP5LThrZXnx1deiJ4cp7AxatmO89tNbsK6Q8mrS_F7eVt6xFTYrnQfe3p6H8ncAabF4oVje79uHp0s6VUl6cCXwwJmmPOY2-yY6iEdzebPGI5JTbcPSE57NFsJM_UfjZsSBlQQV9ZEvhtdQzebgj7sPog6Yr_Gw3LRtTAnttrAUMVLsmQeUaZ03h_o2l8lh7loynR9x5A9WthCBxsTDP-Qlb-AwFVNqNHz7EBKBocl3jgz1syM3c9ErLIMi1Dp0w"/>
 <div class="flex-1 text-center md:text-left">
-<h3 class="font-headline text-xl mb-1">Capt. Marco Rossi</h3>
+<h3 class="font-headline text-xl mb-1" data-detail="captain-name">Loading…</h3>
 <div class="flex items-center justify-center md:justify-start gap-3 text-sm text-on-surface-variant mb-4">
-<span class="flex items-center gap-1 text-on-surface font-semibold">
-<span class="material-symbols-outlined text-tertiary-container" style="font-variation-settings: 'FILL' 1;">star</span> 4.9
+<span class="flex items-center gap-1 text-on-surface font-semibold" data-detail="captain-rating">
+<span class="material-symbols-outlined text-tertiary-container" style="font-variation-settings: 'FILL' 1;">star</span> —
                             </span>
 <span>·</span>
 <span>Host since 2018</span>
@@ -360,18 +361,22 @@
 </div>
 <div class="flex flex-col gap-4 mb-6 text-on-surface-variant">
 <div class="flex justify-between">
-<span>$1,200 × 2 days</span>
-<span>$2,400</span>
+<span>Boat rental: <span data-detail="boat-line">—</span></span>
+<span class="font-semibold text-on-surface" data-detail="boat-total">—</span>
+</div>
+<div class="flex justify-between">
+<span>Captain fee: <span data-detail="captain-line">—</span></span>
+<span class="font-semibold text-on-surface" data-detail="captain-total">—</span>
 </div>
 <div class="flex justify-between">
 <span>Service fee</span>
-<span>$220</span>
+<span class="font-semibold text-on-surface" data-detail="service">—</span>
 </div>
 </div>
 <div class="pt-6 border-t border-surface-container-high mb-6">
 <div class="flex justify-between items-end">
 <span class="font-semibold">Total paid</span>
-<span class="font-headline text-2xl text-primary">$2,620</span>
+<span class="font-headline text-2xl text-primary" data-detail="grand-total">—</span>
 </div>
 </div>
 <div class="flex items-center gap-3 text-sm text-on-surface-variant bg-surface-container-low p-4 rounded-xl">
@@ -383,7 +388,7 @@
 <section class="bg-surface-container-highest rounded-3xl p-8">
 <h3 class="font-headline text-lg mb-2 text-on-surface">Cancellation Policy</h3>
 <p class="text-sm text-on-surface-variant mb-6">Free cancellation until Aug 3, 2025</p>
-<button class="w-full py-3 rounded-full border border-error text-error hover:bg-error-container/50 transition-colors font-semibold">
+<button id="cancel-btn" class="w-full py-3 rounded-full border border-error text-error hover:bg-error-container/50 transition-colors font-semibold">
                         Cancel Booking
                     </button>
 </section>
@@ -405,6 +410,139 @@
             Profile
         </a>
 </nav>
+<script>
+(function(){
+  if (!WCR.isLoggedIn()) {
+    window.parent.location.href = '/login';
+    return;
+  }
+
+  var pathMatch = (function(){
+    try { return window.parent.location.pathname.match(/\/booking\/([^\/?#]+)/); } catch(e) { return null; }
+  })();
+  var bookingId = pathMatch ? pathMatch[1] : null;
+  if (!bookingId) {
+    window.parent.location.href = '/my-bookings';
+    return;
+  }
+
+  function setText(sel, val){
+    var el = document.querySelector(sel);
+    if (el && val != null) el.textContent = val;
+  }
+  function fmtDateTime(str){
+    if (!str) return '';
+    var d = new Date(str);
+    return isNaN(d) ? '' : d.toLocaleDateString('en-US', { month:'long', day:'numeric', year:'numeric' });
+  }
+  function statusBannerStyle(status){
+    var styles = {
+      'pending':   { bg:'#FEF3C7', fg:'#92400E', text:'⏳ Awaiting owner approval' },
+      'confirmed': { bg:'#D1FAE5', fg:'#065F46', text:'✓ Your booking is confirmed!' },
+      'cancelled': { bg:'#FEE2E2', fg:'#991B1B', text:'✗ This booking has been cancelled' },
+      'completed': { bg:'#E5E7EB', fg:'#1F2937', text:'✓ Trip completed' }
+    };
+    return styles[status] || styles.pending;
+  }
+  function diffDays(a, b){
+    var ms = new Date(b) - new Date(a);
+    return Math.max(1, Math.ceil(ms / (1000*60*60*24)));
+  }
+
+  async function loadBooking(){
+    try {
+      var resp = await WCR._call('GET', '/bookings/' + bookingId);
+      var b = resp.data || resp.booking || resp;
+      if (!b) throw new Error('Booking not found');
+
+      var boat = b.boat || {};
+      var captain = b.captain || {};
+      var pricing = b.pricing || {};
+      var breakdown = pricing.breakdown || {};
+
+      setText('[data-detail="boat-name"]',      boat.name);
+      setText('[data-detail="harbor"]',         (boat.harbor || '') + (boat.harbor ? ', Chicago' : ''));
+      setText('[data-detail="booking-number"]', 'Booking #' + (b.bookingNumber || ''));
+
+      var banner = statusBannerStyle(b.status);
+      setText('[data-detail="status-banner"]', banner.text);
+      var bannerBox = document.getElementById('status-banner-box');
+      if (bannerBox) {
+        bannerBox.style.background = banner.bg;
+        bannerBox.style.color      = banner.fg;
+      }
+
+      setText('[data-detail="checkin-date"]',  fmtDateTime(b.startDate));
+      setText('[data-detail="checkout-date"]', fmtDateTime(b.endDate));
+      setText('[data-detail="duration"]',      (b.days || diffDays(b.startDate, b.endDate)) + ' days');
+      setText('[data-detail="guests"]',        (b.numGuests || 0) + ' guests');
+
+      var captainName = captain.name || '';
+      if (captainName && captainName.indexOf('Capt.') !== 0) captainName = 'Capt. ' + captainName;
+      setText('[data-detail="captain-name"]',   captainName);
+      var ratingEl = document.querySelector('[data-detail="captain-rating"]');
+      if (ratingEl) {
+        var r = (captain.captainProfile && captain.captainProfile.rating) || '—';
+        ratingEl.innerHTML = '<span class="material-symbols-outlined text-tertiary-container" style="font-variation-settings: \'FILL\' 1;">star</span> ' + r;
+      }
+
+      var boatPhoto = (boat.photos && boat.photos[0]) ? boat.photos[0].url : '';
+      var photoEl = document.querySelector('[data-detail="boat-photo"]');
+      if (photoEl && boatPhoto) {
+        if (photoEl.tagName === 'IMG') photoEl.src = boatPhoto;
+        else photoEl.style.backgroundImage = 'url(' + boatPhoto + ')';
+      }
+      var avatarEl = document.querySelector('[data-detail="captain-avatar"]');
+      if (avatarEl && captain.avatar) {
+        if (avatarEl.tagName === 'IMG') avatarEl.src = captain.avatar;
+        else avatarEl.style.backgroundImage = 'url(' + captain.avatar + ')';
+      }
+
+      var bb = breakdown.boat    || {};
+      var cb = breakdown.captain || {};
+      setText('[data-detail="boat-line"]',     '$' + (bb.rate || 0).toLocaleString() + ' × ' + (bb.quantity || 0) + ' ' + (bb.unit || 'day') + 's');
+      setText('[data-detail="boat-total"]',    '$' + (pricing.boatTotal || 0).toLocaleString());
+      setText('[data-detail="captain-line"]',  '$' + (cb.rate || 0).toLocaleString() + ' × ' + (cb.quantity || 0) + ' ' + (cb.unit || 'day') + 's');
+      setText('[data-detail="captain-total"]', '$' + (pricing.captainTotal || 0).toLocaleString());
+      setText('[data-detail="service"]',       '$' + (pricing.serviceFee || 0).toLocaleString());
+      setText('[data-detail="grand-total"]',   '$' + (pricing.grandTotal || 0).toLocaleString());
+
+      var cancelBtn = document.getElementById('cancel-btn');
+      if (cancelBtn) {
+        var canCancel = b.status === 'pending' || b.status === 'confirmed';
+        cancelBtn.style.display = canCancel ? '' : 'none';
+        cancelBtn.onclick = async function(){
+          if (!confirm('Cancel this booking? This cannot be undone.')) return;
+          cancelBtn.disabled = true;
+          cancelBtn.textContent = 'Cancelling…';
+          try {
+            await WCR._call('PATCH', '/bookings/' + bookingId + '/cancel', {
+              cancellationReason: 'Cancelled by customer'
+            });
+            window.parent.location.href = '/my-bookings';
+          } catch (err) {
+            cancelBtn.disabled = false;
+            cancelBtn.textContent = 'Cancel Booking';
+            alert('Could not cancel: ' + (err.message || 'Unknown error'));
+          }
+        };
+      }
+    } catch (err) {
+      console.error('[WCR] booking detail load failed:', err);
+      if (err.status === 401) { window.parent.location.href = '/login'; return; }
+      if (err.status === 403 || err.status === 404) {
+        alert('Booking not found or you do not have permission to view it.');
+        window.parent.location.href = '/my-bookings';
+        return;
+      }
+      alert('Could not load booking: ' + (err.message || 'Unknown error'));
+    }
+  }
+
+  if (document.readyState !== 'loading') loadBooking();
+  else document.addEventListener('DOMContentLoaded', loadBooking);
+})();
+</script>
 <script>
 document.addEventListener('click',function(e){
   var a=e.target.closest('a[href]');
