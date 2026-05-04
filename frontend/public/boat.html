@@ -363,13 +363,13 @@
 <div class="bg-surface-container-lowest p-8 rounded-3xl shadow-xl shadow-stone-200/50 ring-1 ring-outline-variant/10">
 <div class="flex items-baseline justify-between mb-8">
 <div>
-<span class="font-serif text-3xl font-bold font-headline" style="">$1,200</span>
-<span class="text-on-surface-variant text-sm ml-1" style="">/ day</span>
+<span class="font-serif text-3xl font-bold font-headline" style="" data-headline="rate">$1,200</span>
+<span class="text-on-surface-variant text-sm ml-1" style="" data-headline="rate-unit">/ day</span>
 </div>
 <div class="flex items-center gap-1 text-sm font-bold" style="">
 <span class="material-symbols-outlined text-xs" style='font-variation-settings: "FILL" 1;'>star</span>
-                                4.92
-                            </div>
+<span data-headline="rating">4.92</span>
+</div>
 </div>
 <!-- Date/Guest Selection -->
 <div class="space-y-4 mb-8">
@@ -493,11 +493,16 @@ function getTripDates(){
 
 function getDurationFromDates(boat, dates){
   if (!boat || !dates) return 0;
-  var ms = dates.end - dates.start;
-  if (boat.rateType === 'daily') {
-    return Math.max(1, Math.ceil(ms / (1000*60*60*24)));
-  }
-  return Math.max(1, Math.ceil(ms / (1000*60*60)));
+  // Count CALENDAR DAYS between start and end so hourly + daily share one convention.
+  // May 22 → May 25 = 3 days = 72 hours (NOT 96).
+  var startDay = new Date(dates.start);
+  startDay.setHours(0, 0, 0, 0);
+  var endDay = new Date(dates.end);
+  endDay.setHours(0, 0, 0, 0);
+  var ms = endDay - startDay;
+  var days = Math.max(1, Math.round(ms / (1000*60*60*24)));
+  if (boat.rateType === 'daily') return days;
+  return days * 24;
 }
 
 function showDateError(msg){
@@ -720,6 +725,16 @@ function applyBoatToDom(boat){
   if (subtitleParts.length) setText('[data-boat="subtitle"]', subtitleParts.join(' · '));
   setText('[data-boat="rating"]',   (boat.rating || 0).toFixed(2));
   setText('[data-boat="reviews"]',  (boat.totalBookings || 0) + ' bookings');
+
+  if (boat.rateType === 'daily') {
+    setText('[data-headline="rate"]',      '$' + (boat.dayRate || 0).toLocaleString());
+    setText('[data-headline="rate-unit"]', '/ day');
+  } else {
+    setText('[data-headline="rate"]',      '$' + (boat.hourlyRate || 0).toLocaleString());
+    setText('[data-headline="rate-unit"]', '/ hr');
+  }
+  setText('[data-headline="rating"]', (boat.rating || 0).toFixed(2));
+
   setText('[data-boat="description"]',       boat.description || '');
   setText('[data-boat="description-extra"]', '');
 

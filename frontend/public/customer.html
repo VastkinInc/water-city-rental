@@ -149,7 +149,7 @@
                     <span class="font-sans text-sm tracking-tight">Profile</span>
                 </a>
                 <a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all"
-                    href="/login" onclick="(function(){if(window.WCR){WCR.logout().finally(function(){window.parent.location.href='/login';});}else{localStorage.clear();window.parent.location.href='/login';}})(); return false;">
+                    href="/login" onclick="event.preventDefault(); WCR.logout(); return false;">
                     <span class="material-symbols-outlined">logout</span>
                     <span class="font-sans text-sm tracking-tight">Logout</span>
                 </a>
@@ -415,15 +415,9 @@
     var d = new Date(str);
     return isNaN(d) ? '' : d.toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
   }
-  function statusBadge(status){
-    var colors = {
-      'pending':   { bg:'#FEF3C7', fg:'#92400E', label:'PENDING' },
-      'confirmed': { bg:'#D1FAE5', fg:'#065F46', label:'CONFIRMED' },
-      'cancelled': { bg:'#FEE2E2', fg:'#991B1B', label:'CANCELLED' },
-      'completed': { bg:'#E5E7EB', fg:'#1F2937', label:'COMPLETED' }
-    };
-    var c = colors[status] || colors.pending;
-    return '<span style="background:'+c.bg+';color:'+c.fg+';padding:4px 10px;border-radius:999px;font-size:11px;font-weight:600;letter-spacing:0.05em;">'+c.label+'</span>';
+  function statusBadge(b){
+    var c = WCR.computeStatus(b);
+    return '<span style="background:'+c.bg+';color:'+c.fg+';padding:4px 10px;border-radius:999px;font-size:11px;font-weight:600;letter-spacing:0.05em;white-space:nowrap;">'+c.label+'</span>';
   }
   function renderUpcomingCard(b){
     var photo = b.boat && b.boat.photos && b.boat.photos[0] ? b.boat.photos[0].url : '';
@@ -438,7 +432,7 @@
       +   '<div style="flex:1;">'
       +     '<div style="display:flex;justify-content:space-between;align-items:start;gap:8px;">'
       +       '<h3 style="font-family:\'Playfair Display\',serif;font-size:18px;color:#1A1A2E;margin:0;">' + escapeHtml(name) + '</h3>'
-      +       statusBadge(b.status)
+      +       statusBadge(b)
       +     '</div>'
       +     '<p style="margin:6px 0 4px;color:#6B6560;font-size:13px;">📍 ' + escapeHtml(harbor) + '</p>'
       +     '<p style="margin:0 0 4px;color:#1A1A2E;font-size:14px;">📅 ' + dates + '</p>'
@@ -456,7 +450,9 @@
       var bookings = resp.data || resp.bookings || resp || [];
 
       var total = bookings.length;
-      var upcoming = bookings.filter(function(b){ return b.status === 'pending' || b.status === 'confirmed'; });
+      var upcoming = bookings.filter(function(b){
+        return b.status === 'pending' || b.status === 'needs_new_captain' || b.status === 'confirmed';
+      });
       var completed = bookings.filter(function(b){ return b.status === 'completed'; }).length;
 
       setText('[data-stat="total-bookings"]', total);

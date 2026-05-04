@@ -121,7 +121,7 @@
 <span class="material-symbols-outlined">account_circle</span>
 <span class="font-sans text-sm tracking-tight">Profile</span>
 </a>
-<a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all" href="/partner-login" onclick="localStorage.removeItem('wcr_role')">
+<a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all" href="/partner-login" onclick="event.preventDefault(); WCR.logout(); return false;">
 <span class="material-symbols-outlined">logout</span>
 <span class="font-sans text-sm tracking-tight">Logout</span>
 </a>
@@ -219,14 +219,12 @@
     return now >= start && now <= end;
   }
   function statusBadge(b){
-    var status = b.status, label, c;
-    if (status === 'pending')        { label='NEW';       c={bg:'#FEF3C7',fg:'#92400E'}; }
-    else if (isOngoing(b))           { label='ONGOING';   c={bg:'#D1FAE5',fg:'#065F46'}; }
-    else if (status === 'confirmed') { label='UPCOMING';  c={bg:'#DBEAFE',fg:'#1E40AF'}; }
-    else if (status === 'completed') { label='COMPLETED'; c={bg:'#E5E7EB',fg:'#1F2937'}; }
-    else if (status === 'cancelled') { label='CANCELLED'; c={bg:'#FEE2E2',fg:'#991B1B'}; }
-    else                             { label = status.toUpperCase(); c={bg:'#E5E7EB',fg:'#1F2937'}; }
-    return '<span style="background:'+c.bg+';color:'+c.fg+';padding:4px 10px;border-radius:999px;font-size:11px;font-weight:600;letter-spacing:0.05em;">'+label+'</span>';
+    // For confirmed trips that are happening today, override the label with "ONGOING".
+    if (b.status === 'confirmed' && isOngoing(b)) {
+      return '<span style="background:#D1FAE5;color:#065F46;padding:4px 10px;border-radius:999px;font-size:11px;font-weight:600;letter-spacing:0.05em;white-space:nowrap;">ONGOING</span>';
+    }
+    var c = WCR.computeStatus(b);
+    return '<span style="background:'+c.bg+';color:'+c.fg+';padding:4px 10px;border-radius:999px;font-size:11px;font-weight:600;letter-spacing:0.05em;white-space:nowrap;">'+c.label+'</span>';
   }
 
   function renderTripCard(b){
@@ -239,7 +237,11 @@
     var payout = b.pricing && b.pricing.captainTotal ? b.pricing.captainTotal.toLocaleString() : '0';
 
     var actions = '';
-    if (b.status === 'confirmed' && isOngoing(b)) {
+    if (b.status === 'pending' && !b.captainApproved) {
+      actions = ''
+        + '<button onclick="captainAcceptTrip(\'' + bookingId + '\')" style="padding:8px 16px;background:#065F46;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;">Accept Trip</button>'
+        + '<button onclick="captainDeclineTrip(\'' + bookingId + '\')" style="padding:8px 16px;background:transparent;color:#991B1B;border:1px solid #FCA5A5;border-radius:8px;font-weight:600;cursor:pointer;margin-left:8px;">Decline</button>';
+    } else if (b.status === 'confirmed' && isOngoing(b)) {
       actions = '<button onclick="captainComplete(\'' + bookingId + '\')" style="padding:8px 16px;background:#065F46;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;">Mark Complete</button>';
     } else {
       actions = '<button onclick="window.parent.location.href=\'/booking/' + bookingId + '\'" style="padding:8px 16px;background:transparent;border:1px solid #1A1A2E;border-radius:8px;color:#1A1A2E;font-weight:600;cursor:pointer;">View Details</button>';
@@ -273,13 +275,32 @@
       alert('Could not mark complete: ' + (err.message || 'Error'));
     }
   };
+  window.captainAcceptTrip = async function(id){
+    if (!confirm('Accept this trip?')) return;
+    try {
+      await WCR._call('PATCH', '/bookings/' + id + '/captain-accept', null);
+      await loadTrips();
+    } catch (err) {
+      alert('Could not accept: ' + (err.message || 'Error'));
+    }
+  };
+  window.captainDeclineTrip = async function(id){
+    if (!confirm('Decline this trip? The owner will be asked to assign a new captain.')) return;
+    try {
+      await WCR._call('PATCH', '/bookings/' + id + '/captain-decline', null);
+      await loadTrips();
+    } catch (err) {
+      alert('Could not decline: ' + (err.message || 'Error'));
+    }
+  };
 
   function applyFilter(){
     var listEl = document.getElementById('trips-list');
     if (!listEl) return;
     var filtered;
+    // "New" tab (data-filter=pending) = trips awaiting THIS captain's acceptance.
     if      (currentFilter === 'all')        filtered = allTrips;
-    else if (currentFilter === 'pending')    filtered = allTrips.filter(function(b){ return b.status === 'pending'; });
+    else if (currentFilter === 'pending')    filtered = allTrips.filter(function(b){ return b.status === 'pending' && !b.captainApproved; });
     else if (currentFilter === 'confirmed')  filtered = allTrips.filter(function(b){ return b.status === 'confirmed' && !isOngoing(b); });
     else if (currentFilter === 'ongoing')    filtered = allTrips.filter(isOngoing);
     else if (currentFilter === 'completed')  filtered = allTrips.filter(function(b){ return b.status === 'completed'; });

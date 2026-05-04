@@ -125,7 +125,7 @@
 <span class="material-symbols-outlined">account_circle</span>
 <span class="font-sans text-sm tracking-tight">Profile</span>
 </a>
-<a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all" href="/login" onclick="localStorage.removeItem('wcr_role')">
+<a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all" href="/login" onclick="event.preventDefault(); WCR.logout(); return false;">
 <span class="material-symbols-outlined">logout</span>
 <span class="font-sans text-sm tracking-tight">Logout</span>
 </a>
@@ -175,7 +175,7 @@
 <span class="material-symbols-outlined">account_circle</span>
 <span class="font-sans text-sm tracking-tight">Profile</span>
 </a>
-<a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all" href="/partner-login" onclick="localStorage.removeItem('wcr_role')">
+<a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all" href="/partner-login" onclick="event.preventDefault(); WCR.logout(); return false;">
 <span class="material-symbols-outlined">logout</span>
 <span class="font-sans text-sm tracking-tight">Logout</span>
 </a>
@@ -217,7 +217,7 @@
 <span class="material-symbols-outlined">account_circle</span>
 <span class="font-sans text-sm tracking-tight">Profile</span>
 </a>
-<a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all" href="/partner-login" onclick="localStorage.removeItem('wcr_role')">
+<a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all" href="/partner-login" onclick="event.preventDefault(); WCR.logout(); return false;">
 <span class="material-symbols-outlined">logout</span>
 <span class="font-sans text-sm tracking-tight">Logout</span>
 </a>
@@ -245,9 +245,11 @@
 <!-- Status Banner -->
 <div id="status-banner-box" class="bg-secondary-container rounded-2xl p-6 flex items-start gap-4">
 <span class="material-symbols-outlined text-2xl mt-1" style="font-variation-settings: 'FILL' 1;">check_circle</span>
-<div>
+<div class="flex-1">
 <h2 class="font-headline text-xl font-semibold mb-1" data-detail="status-banner">Loading…</h2>
-<p class="text-sm opacity-80">Booking status will appear here.</p>
+<p class="text-sm opacity-80" data-detail="status-subtitle">Booking status will appear here.</p>
+<div id="approval-chips" class="flex flex-wrap gap-2 mt-3"></div>
+<div id="role-actions" class="flex flex-wrap gap-2 mt-4"></div>
 </div>
 </div>
 <!-- Boat Info Card -->
@@ -435,14 +437,22 @@
     var d = new Date(str);
     return isNaN(d) ? '' : d.toLocaleDateString('en-US', { month:'long', day:'numeric', year:'numeric' });
   }
-  function statusBannerStyle(status){
-    var styles = {
-      'pending':   { bg:'#FEF3C7', fg:'#92400E', text:'⏳ Awaiting owner approval' },
-      'confirmed': { bg:'#D1FAE5', fg:'#065F46', text:'✓ Your booking is confirmed!' },
-      'cancelled': { bg:'#FEE2E2', fg:'#991B1B', text:'✗ This booking has been cancelled' },
-      'completed': { bg:'#E5E7EB', fg:'#1F2937', text:'✓ Trip completed' }
-    };
-    return styles[status] || styles.pending;
+  function bannerCopy(b){
+    var s = b.status;
+    if (s === 'cancelled') return { title:'✗ This booking has been cancelled', sub:'No further action needed.' };
+    if (s === 'completed') return { title:'✓ Trip completed',                 sub:'Thanks for sailing with us.' };
+    if (s === 'needs_new_captain') return { title:'⚠ Your captain dropped out', sub:'The owner is choosing a replacement captain.' };
+    if (s === 'confirmed') return { title:'✓ Your booking is confirmed!',     sub:'Both the owner and captain have approved.' };
+    // pending — disambiguate
+    if (b.ownerApproved && !b.captainApproved) return { title:'⏳ Awaiting captain acceptance', sub:'The owner approved. Waiting on the captain.' };
+    if (!b.ownerApproved && b.captainApproved) return { title:'⏳ Awaiting owner approval',     sub:'The captain accepted. Waiting on the owner.' };
+    return { title:'⏳ Awaiting owner & captain approval', sub:'Both sides need to approve before this is confirmed.' };
+  }
+  function approvalChip(label, done){
+    var bg = done ? '#D1FAE5' : '#FEF3C7';
+    var fg = done ? '#065F46' : '#92400E';
+    var icon = done ? '✓' : '⏳';
+    return '<span style="background:'+bg+';color:'+fg+';padding:4px 10px;border-radius:999px;font-size:11px;font-weight:600;letter-spacing:0.04em;">'+icon+' '+label+'</span>';
   }
   function diffDays(a, b){
     var ms = new Date(b) - new Date(a);
@@ -464,12 +474,23 @@
       setText('[data-detail="harbor"]',         (boat.harbor || '') + (boat.harbor ? ', Chicago' : ''));
       setText('[data-detail="booking-number"]', 'Booking #' + (b.bookingNumber || ''));
 
-      var banner = statusBannerStyle(b.status);
-      setText('[data-detail="status-banner"]', banner.text);
+      var copy = bannerCopy(b);
+      var sty  = WCR.computeStatus(b);
+      setText('[data-detail="status-banner"]',   copy.title);
+      setText('[data-detail="status-subtitle"]', copy.sub);
       var bannerBox = document.getElementById('status-banner-box');
       if (bannerBox) {
-        bannerBox.style.background = banner.bg;
-        bannerBox.style.color      = banner.fg;
+        bannerBox.style.background = sty.bg;
+        bannerBox.style.color      = sty.fg;
+      }
+      var chipsEl = document.getElementById('approval-chips');
+      if (chipsEl) {
+        if (b.status === 'pending' || b.status === 'needs_new_captain') {
+          chipsEl.innerHTML = approvalChip('Owner approved',   !!b.ownerApproved)
+                            + approvalChip('Captain accepted', !!b.captainApproved);
+        } else {
+          chipsEl.innerHTML = '';
+        }
       }
 
       setText('[data-detail="checkin-date"]',  fmtDateTime(b.startDate));
@@ -507,9 +528,85 @@
       setText('[data-detail="service"]',       '$' + (pricing.serviceFee || 0).toLocaleString());
       setText('[data-detail="grand-total"]',   '$' + (pricing.grandTotal || 0).toLocaleString());
 
+      // Role-aware action buttons inside the status banner.
+      var me = WCR.getUser() || {};
+      var myId = me.id || me._id || '';
+      var ownerId   = (b.owner   && (b.owner._id   || b.owner.id))   || b.owner;
+      var captainId = (b.captain && (b.captain._id || b.captain.id)) || b.captain;
+      var amOwner   = me.role === 'admin' || (me.role === 'owner'   && String(myId) === String(ownerId));
+      var amCaptain = me.role === 'admin' || (me.role === 'captain' && String(myId) === String(captainId));
+
+      var actionsEl = document.getElementById('role-actions');
+      if (actionsEl) {
+        var html = '';
+        if (amOwner && b.status === 'pending' && !b.ownerApproved) {
+          html += '<button onclick="ownerApprove()" style="padding:8px 14px;background:#065F46;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;">Approve</button>'
+                + '<button onclick="ownerDecline()" style="padding:8px 14px;background:transparent;color:#991B1B;border:1px solid #FCA5A5;border-radius:8px;font-weight:600;cursor:pointer;">Decline</button>';
+        }
+        if (amOwner && b.status === 'needs_new_captain') {
+          html += '<button onclick="ownerReassign()" style="padding:8px 14px;background:#9A3412;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;">Reassign Captain</button>';
+        }
+        if (amCaptain && b.status === 'pending' && !b.captainApproved) {
+          html += '<button onclick="captainAcceptHere()" style="padding:8px 14px;background:#065F46;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;">Accept Trip</button>'
+                + '<button onclick="captainDeclineHere()" style="padding:8px 14px;background:transparent;color:#991B1B;border:1px solid #FCA5A5;border-radius:8px;font-weight:600;cursor:pointer;">Decline</button>';
+        }
+        if (amCaptain && b.status === 'confirmed') {
+          var now = new Date(); now.setHours(0,0,0,0);
+          var startD = new Date(b.startDate); startD.setHours(0,0,0,0);
+          var endD   = new Date(b.endDate);   endD.setHours(23,59,59,999);
+          if (now >= startD && now <= endD) {
+            html += '<button onclick="captainCompleteHere()" style="padding:8px 14px;background:#065F46;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;">Mark Complete</button>';
+          }
+        }
+        actionsEl.innerHTML = html;
+      }
+
+      window.ownerApprove = async function(){
+        if (!confirm('Approve this booking?')) return;
+        try { await WCR._call('PATCH', '/bookings/' + bookingId + '/approve', null); loadBooking(); }
+        catch (err) { alert('Could not approve: ' + (err.message || 'Error')); }
+      };
+      window.ownerDecline = async function(){
+        if (!confirm('Decline this booking?')) return;
+        try { await WCR._call('PATCH', '/bookings/' + bookingId + '/decline', { cancellationReason: 'Declined by owner' }); loadBooking(); }
+        catch (err) { alert('Could not decline: ' + (err.message || 'Error')); }
+      };
+      window.ownerReassign = async function(){
+        var resp;
+        try { resp = await WCR.listCaptains(); } catch (err) { alert('Could not load captains: ' + (err.message || 'Error')); return; }
+        var captains = resp.data || resp.captains || resp || [];
+        if (!captains.length) { alert('No captains available.'); return; }
+        var menu = captains.map(function(c, i){
+          var rate = (c.captainProfile && c.captainProfile.dayRate) ? '$' + c.captainProfile.dayRate + '/day' : '';
+          return (i+1) + '. ' + c.name + (rate ? ' — ' + rate : '');
+        }).join('\n');
+        var pick = prompt('Pick a new captain (1-' + captains.length + '):\n\n' + menu);
+        if (!pick) return;
+        var idx = parseInt(pick, 10) - 1;
+        if (isNaN(idx) || idx < 0 || idx >= captains.length) { alert('Invalid choice.'); return; }
+        var newCaptainId = captains[idx]._id || captains[idx].id;
+        try { await WCR._call('PATCH', '/bookings/' + bookingId + '/reassign-captain', { captainId: newCaptainId }); loadBooking(); }
+        catch (err) { alert('Could not reassign: ' + (err.message || 'Error')); }
+      };
+      window.captainAcceptHere = async function(){
+        if (!confirm('Accept this trip?')) return;
+        try { await WCR._call('PATCH', '/bookings/' + bookingId + '/captain-accept', null); loadBooking(); }
+        catch (err) { alert('Could not accept: ' + (err.message || 'Error')); }
+      };
+      window.captainDeclineHere = async function(){
+        if (!confirm('Decline this trip? The owner will be asked to assign a new captain.')) return;
+        try { await WCR._call('PATCH', '/bookings/' + bookingId + '/captain-decline', null); loadBooking(); }
+        catch (err) { alert('Could not decline: ' + (err.message || 'Error')); }
+      };
+      window.captainCompleteHere = async function(){
+        if (!confirm('Mark this trip as complete?')) return;
+        try { await WCR._call('PATCH', '/bookings/' + bookingId + '/complete', null); loadBooking(); }
+        catch (err) { alert('Could not complete: ' + (err.message || 'Error')); }
+      };
+
       var cancelBtn = document.getElementById('cancel-btn');
       if (cancelBtn) {
-        var canCancel = b.status === 'pending' || b.status === 'confirmed';
+        var canCancel = b.status === 'pending' || b.status === 'needs_new_captain' || b.status === 'confirmed';
         cancelBtn.style.display = canCancel ? '' : 'none';
         cancelBtn.onclick = async function(){
           if (!confirm('Cancel this booking? This cannot be undone.')) return;

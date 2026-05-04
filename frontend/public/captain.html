@@ -136,7 +136,7 @@
                     <span class="font-sans text-sm tracking-tight">Profile</span>
                 </a>
                 <a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all"
-                    href="/partner-login" onclick="(function(){if(window.WCR){WCR.logout().finally(function(){window.parent.location.href='/partner-login';});}else{localStorage.clear();window.parent.location.href='/partner-login';}})(); return false;">
+                    href="/partner-login" onclick="event.preventDefault(); WCR.logout(); return false;">
                     <span class="material-symbols-outlined">logout</span>
                     <span class="font-sans text-sm tracking-tight">Logout</span>
                 </a>
@@ -231,12 +231,10 @@
                 <section class="lg:col-span-2">
                     <div class="flex items-center justify-between mb-8">
                         <h3 class="text-2xl font-serif italic text-stone-900">All Trips</h3>
-                        <div class="flex gap-2 p-1 bg-surface-container rounded-full">
-                            <button class="px-4 py-1.5 rounded-full text-xs font-bold bg-white shadow-sm">All</button>
-                            <button
-                                class="px-4 py-1.5 rounded-full text-xs font-medium text-on-surface-variant hover:bg-white/50">Upcoming</button>
-                            <button
-                                class="px-4 py-1.5 rounded-full text-xs font-medium text-on-surface-variant hover:bg-white/50">Completed</button>
+                        <div class="flex gap-2 p-1 bg-surface-container rounded-full" id="captain-filter-tabs">
+                            <button data-filter="all"      class="px-4 py-1.5 rounded-full text-xs font-bold bg-white shadow-sm">All</button>
+                            <button data-filter="upcoming" class="px-4 py-1.5 rounded-full text-xs font-medium text-on-surface-variant hover:bg-white/50">Upcoming</button>
+                            <button data-filter="completed" class="px-4 py-1.5 rounded-full text-xs font-medium text-on-surface-variant hover:bg-white/50">Completed</button>
                         </div>
                     </div>
                     <div id="captain-upcoming-list" class="space-y-4">
@@ -349,6 +347,17 @@
     return;
   }
 
+  var allTrips = [];
+  var currentFilter = 'all';
+
+  function isOngoing(b){
+    if (b.status !== 'confirmed') return false;
+    var now = new Date(); now.setHours(0,0,0,0);
+    var start = new Date(b.startDate); start.setHours(0,0,0,0);
+    var end = new Date(b.endDate); end.setHours(23,59,59,999);
+    return now >= start && now <= end;
+  }
+
   function escapeHtml(s){
     if (s == null) return '';
     return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
@@ -363,6 +372,10 @@
     return isNaN(d) ? '' : d.toLocaleDateString('en-US',{month:'short',day:'numeric'});
   }
 
+  function statusChip(b){
+    var c = WCR.computeStatus(b);
+    return '<span style="background:'+c.bg+';color:'+c.fg+';padding:3px 8px;border-radius:999px;font-size:10px;font-weight:600;letter-spacing:0.04em;white-space:nowrap;">'+c.label+'</span>';
+  }
   function renderUpcomingTrip(b){
     var bookingId = b._id || b.id;
     var photo = b.boat && b.boat.photos && b.boat.photos[0] ? b.boat.photos[0].url : '';
@@ -370,26 +383,63 @@
     var customerName = b.customer ? b.customer.name : '';
     var dates = fmtDate(b.startDate) + ' → ' + fmtDate(b.endDate);
     var payout = b.pricing && b.pricing.captainTotal ? b.pricing.captainTotal.toLocaleString() : '0';
+
+    var actionsHtml = '';
+    if (b.status === 'pending' && !b.captainApproved) {
+      actionsHtml = ''
+        + '<button onclick="event.stopPropagation();captainAcceptTrip(\'' + bookingId + '\')" style="padding:6px 12px;background:#065F46;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:12px;">Accept</button>'
+        + '<button onclick="event.stopPropagation();captainDeclineTrip(\'' + bookingId + '\')" style="padding:6px 12px;background:transparent;color:#991B1B;border:1px solid #FCA5A5;border-radius:8px;font-weight:600;cursor:pointer;font-size:12px;">Decline</button>';
+    }
+
     return ''
-      + '<div onclick="window.parent.location.href=\'/booking/' + bookingId + '\'" style="display:flex;gap:14px;padding:14px;background:#FAF7F2;border-radius:10px;border:1px solid #E8DFD3;cursor:pointer;align-items:center;">'
+      + '<div onclick="window.parent.location.href=\'/booking/' + bookingId + '\'" style="display:flex;gap:14px;padding:14px;background:#FAF7F2;border-radius:10px;border:1px solid #E8DFD3;cursor:pointer;align-items:center;margin-bottom:10px;">'
       +   '<div style="width:64px;height:64px;background-image:url(' + escapeHtml(photo) + ');background-size:cover;background-position:center;background-color:#F5F0EA;border-radius:8px;flex-shrink:0;"></div>'
-      +   '<div style="flex:1;">'
-      +     '<h4 style="margin:0;font-family:\'Playfair Display\',serif;font-size:16px;color:#1A1A2E;">' + escapeHtml(boatName) + '</h4>'
+      +   '<div style="flex:1;min-width:0;">'
+      +     '<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">'
+      +       '<h4 style="margin:0;font-family:\'Playfair Display\',serif;font-size:16px;color:#1A1A2E;">' + escapeHtml(boatName) + '</h4>'
+      +       statusChip(b)
+      +     '</div>'
       +     '<p style="margin:2px 0;font-size:13px;color:#6B6560;">' + escapeHtml(customerName) + ' · ' + dates + '</p>'
       +     '<p style="margin:0;font-size:14px;font-weight:600;color:#C4623A;">$' + payout + ' payout</p>'
       +   '</div>'
+      +   (actionsHtml ? '<div style="display:flex;gap:6px;flex-shrink:0;">' + actionsHtml + '</div>' : '')
       + '</div>';
   }
+
+  window.captainAcceptTrip = async function(id){
+    if (!confirm('Accept this trip? You will be locked in once both sides approve.')) return;
+    try {
+      await WCR._call('PATCH', '/bookings/' + id + '/captain-accept', null);
+      await loadCaptainDashboard();
+    } catch (err) {
+      alert('Could not accept: ' + (err.message || 'Error'));
+    }
+  };
+  window.captainDeclineTrip = async function(id){
+    if (!confirm('Decline this trip? The owner will be asked to assign a new captain.')) return;
+    try {
+      await WCR._call('PATCH', '/bookings/' + id + '/captain-decline', null);
+      await loadCaptainDashboard();
+    } catch (err) {
+      alert('Could not decline: ' + (err.message || 'Error'));
+    }
+  };
 
   async function loadCaptainDashboard(){
     try {
       setText('[data-user="firstName"]', (user.name || '').split(' ')[0] || 'there');
 
       var resp = await WCR.myBookings();
-      var trips = resp.data || resp.bookings || resp || [];
+      allTrips = resp.data || resp.bookings || resp || [];
 
-      var upcoming = trips.filter(function(b){ return b.status === 'pending' || b.status === 'confirmed'; });
-      var completed = trips.filter(function(b){ return b.status === 'completed'; });
+      // Active trips include needs_new_captain so the captain still sees them while owner reassigns.
+      var upcoming = allTrips.filter(function(b){
+        return b.status === 'pending' || b.status === 'needs_new_captain' || b.status === 'confirmed';
+      });
+      var awaitingAccept = allTrips.filter(function(b){
+        return b.status === 'pending' && !b.captainApproved;
+      });
+      var completed = allTrips.filter(function(b){ return b.status === 'completed'; });
 
       var now = new Date();
       var monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
@@ -400,28 +450,78 @@
         return s + ((b.pricing && b.pricing.captainTotal) || 0);
       }, 0);
 
-      setText('[data-stat="total-trips"]',       trips.length);
-      setText('[data-stat="upcoming-trips"]',    upcoming.length);
+      setText('[data-stat="total-trips"]',       allTrips.length);
+      var upcomingLabel = upcoming.length + (awaitingAccept.length ? '  (' + awaitingAccept.length + ' new)' : '');
+      setText('[data-stat="upcoming-trips"]',    upcomingLabel);
       setText('[data-stat="month-earnings"]',    '$' + monthEarnings.toLocaleString());
       setText('[data-stat="lifetime-earnings"]', '$' + lifetimeEarnings.toLocaleString());
 
-      var listEl = document.getElementById('captain-upcoming-list');
-      if (listEl) {
-        if (upcoming.length === 0) {
-          listEl.innerHTML = '<div style="padding:24px;text-align:center;color:#6B6560;background:#FAF7F2;border-radius:10px;">No upcoming trips.</div>';
-        } else {
-          upcoming.sort(function(a,b){ return new Date(a.startDate) - new Date(b.startDate); });
-          listEl.innerHTML = upcoming.slice(0, 5).map(renderUpcomingTrip).join('');
-        }
-      }
+      applyFilter();
     } catch (err) {
       if (err.status === 401) { window.parent.location.href = '/login'; return; }
       console.error('[WCR] captain dashboard load failed:', err);
     }
   }
 
-  if (document.readyState !== 'loading') loadCaptainDashboard();
-  else document.addEventListener('DOMContentLoaded', loadCaptainDashboard);
+  function applyFilter(){
+    var listEl = document.getElementById('captain-upcoming-list');
+    if (!listEl) return;
+
+    var filtered;
+    if (currentFilter === 'all') {
+      filtered = allTrips.filter(function(b){ return b.status !== 'cancelled'; });
+    } else if (currentFilter === 'upcoming') {
+      filtered = allTrips.filter(function(b){
+        return b.status === 'pending'
+            || b.status === 'needs_new_captain'
+            || (b.status === 'confirmed' && !isOngoing(b));
+      });
+    } else if (currentFilter === 'completed') {
+      filtered = allTrips.filter(function(b){ return b.status === 'completed'; });
+    } else {
+      filtered = allTrips;
+    }
+
+    if (filtered.length === 0) {
+      listEl.innerHTML = '<div style="padding:24px;text-align:center;color:#6B6560;background:#FAF7F2;border-radius:10px;">No trips in this category.</div>';
+    } else {
+      // Awaiting-acceptance trips bubble to the top so the captain sees them first.
+      filtered.sort(function(a,b){
+        var aWait = (a.status === 'pending' && !a.captainApproved) ? 0 : 1;
+        var bWait = (b.status === 'pending' && !b.captainApproved) ? 0 : 1;
+        if (aWait !== bWait) return aWait - bWait;
+        return new Date(a.startDate) - new Date(b.startDate);
+      });
+      listEl.innerHTML = filtered.slice(0, 8).map(renderUpcomingTrip).join('');
+    }
+  }
+
+  function wireFilterTabs(){
+    var tabs = document.querySelectorAll('#captain-filter-tabs [data-filter]');
+    var activeOn  = ['font-bold','bg-white','shadow-sm'];
+    var activeOff = ['font-medium','text-on-surface-variant','hover:bg-white/50'];
+    tabs.forEach(function(tab){
+      tab.addEventListener('click', function(e){
+        e.preventDefault();
+        tabs.forEach(function(t){
+          activeOn.forEach(function(c){ t.classList.remove(c); });
+          activeOff.forEach(function(c){ t.classList.add(c); });
+        });
+        activeOff.forEach(function(c){ tab.classList.remove(c); });
+        activeOn.forEach(function(c){ tab.classList.add(c); });
+        currentFilter = tab.getAttribute('data-filter');
+        applyFilter();
+      });
+    });
+  }
+
+  function init(){
+    wireFilterTabs();
+    loadCaptainDashboard();
+  }
+
+  if (document.readyState !== 'loading') init();
+  else document.addEventListener('DOMContentLoaded', init);
 })();
 </script>
 <script>

@@ -128,7 +128,7 @@
 <span class="material-symbols-outlined">account_circle</span>
 <span class="font-sans text-sm tracking-tight">Profile</span>
 </a>
-<a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all" href="/login" onclick="localStorage.removeItem('wcr_role')">
+<a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all" href="/login" onclick="event.preventDefault(); WCR.logout(); return false;">
 <span class="material-symbols-outlined">logout</span>
 <span class="font-sans text-sm tracking-tight">Logout</span>
 </a>
@@ -178,7 +178,7 @@
 <span class="material-symbols-outlined">account_circle</span>
 <span class="font-sans text-sm tracking-tight">Profile</span>
 </a>
-<a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all" href="/partner-login" onclick="localStorage.removeItem('wcr_role')">
+<a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all" href="/partner-login" onclick="event.preventDefault(); WCR.logout(); return false;">
 <span class="material-symbols-outlined">logout</span>
 <span class="font-sans text-sm tracking-tight">Logout</span>
 </a>
@@ -244,15 +244,9 @@
     var d = new Date(str);
     return isNaN(d) ? '' : d.toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
   }
-  function statusBadge(status){
-    var colors = {
-      'pending':   { bg:'#FEF3C7', fg:'#92400E', label:'PENDING' },
-      'confirmed': { bg:'#D1FAE5', fg:'#065F46', label:'CONFIRMED' },
-      'cancelled': { bg:'#FEE2E2', fg:'#991B1B', label:'CANCELLED' },
-      'completed': { bg:'#E5E7EB', fg:'#1F2937', label:'COMPLETED' }
-    };
-    var c = colors[status] || colors.pending;
-    return '<span style="background:'+c.bg+';color:'+c.fg+';padding:4px 10px;border-radius:999px;font-size:11px;font-weight:600;letter-spacing:0.05em;">'+c.label+'</span>';
+  function statusBadge(b){
+    var c = WCR.computeStatus(b);
+    return '<span style="background:'+c.bg+';color:'+c.fg+';padding:4px 10px;border-radius:999px;font-size:11px;font-weight:600;letter-spacing:0.05em;white-space:nowrap;">'+c.label+'</span>';
   }
   function renderBookingCard(b){
     var bookingId = b._id || b.id;
@@ -261,17 +255,30 @@
     var harbor = b.boat ? b.boat.harbor : '';
     var captainName = b.captain ? b.captain.name : '';
     var dates = fmtDate(b.startDate) + ' → ' + fmtDate(b.endDate);
-    var total = (b.pricing && b.pricing.grandTotal) ? b.pricing.grandTotal.toLocaleString() : '0';
+    var amountDisplay, amountLabel;
+    if (isOwner) {
+      var cut = (b.pricing && b.pricing.boatTotal) || 0;
+      amountDisplay = '$' + cut.toLocaleString();
+      amountLabel = 'your earnings';
+    } else {
+      var grand = (b.pricing && b.pricing.grandTotal) || 0;
+      amountDisplay = '$' + grand.toLocaleString();
+      amountLabel = 'total paid';
+    }
 
     var actionsHtml = '';
     if (isOwner) {
-      if (b.status === 'pending') {
+      if (b.status === 'pending' && !b.ownerApproved) {
         actionsHtml = ''
           + '<button onclick="ownerApproveFromList(\'' + bookingId + '\')" style="padding:8px 16px;background:#C4623A;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;">Approve</button>'
           + '<button onclick="ownerDeclineFromList(\'' + bookingId + '\')" style="padding:8px 16px;background:#FEE2E2;border:1px solid #FCA5A5;border-radius:8px;color:#991B1B;font-weight:600;cursor:pointer;">Decline</button>';
+      } else if (b.status === 'pending' && b.ownerApproved && !b.captainApproved) {
+        actionsHtml = '<span style="padding:8px 14px;background:#F0F9FF;color:#0C4A6E;border-radius:8px;font-size:13px;font-weight:500;">Waiting on captain</span>';
+      } else if (b.status === 'needs_new_captain') {
+        actionsHtml = '<button onclick="ownerReassignFromList(\'' + bookingId + '\')" style="padding:8px 16px;background:#9A3412;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;">Reassign Captain</button>';
       }
     } else {
-      var canCancel = b.status === 'pending' || b.status === 'confirmed';
+      var canCancel = b.status === 'pending' || b.status === 'needs_new_captain' || b.status === 'confirmed';
       if (canCancel) {
         actionsHtml = '<button onclick="cancelBookingFromList(\'' + bookingId + '\')" style="padding:8px 16px;background:#FEE2E2;border:1px solid #FCA5A5;border-radius:8px;color:#991B1B;font-weight:600;cursor:pointer;">Cancel</button>';
       }
@@ -286,13 +293,13 @@
       +         '<h3 style="font-family:\'Playfair Display\',serif;font-size:22px;color:#1A1A2E;margin:0;">' + escapeHtml(name) + '</h3>'
       +         '<p style="margin:4px 0 0;color:#6B6560;font-size:13px;">' + escapeHtml(b.bookingNumber || '') + '</p>'
       +       '</div>'
-      +       statusBadge(b.status)
+      +       statusBadge(b)
       +     '</div>'
       +     '<p style="margin:0 0 4px;color:#1A1A2E;font-size:14px;">📍 ' + escapeHtml(harbor) + ', Chicago</p>'
       +     '<p style="margin:0 0 4px;color:#1A1A2E;font-size:14px;">📅 ' + dates + '</p>'
       +     '<p style="margin:0 0 12px;color:#6B6560;font-size:13px;">⚓ Capt. ' + escapeHtml(captainName) + '</p>'
       +     '<div style="margin-top:auto;display:flex;justify-content:space-between;align-items:center;">'
-      +       '<span style="font-size:18px;font-weight:600;color:#1A1A2E;">$' + total + '</span>'
+      +       '<div><span style="font-size:18px;font-weight:600;color:#1A1A2E;">' + amountDisplay + '</span><span style="font-size:12px;color:#6B6560;margin-left:6px;">' + amountLabel + '</span></div>'
       +       '<div style="display:flex;gap:10px;">'
       +         '<button onclick="window.parent.location.href=\'/booking/' + bookingId + '\'" style="padding:8px 16px;background:transparent;border:1px solid #1A1A2E;border-radius:8px;color:#1A1A2E;font-weight:600;cursor:pointer;">View Details</button>'
       +         actionsHtml
@@ -307,7 +314,9 @@
     if (!listEl) return;
     var filtered;
     if (currentFilter === 'all') filtered = allBookings;
-    else if (currentFilter === 'upcoming')  filtered = allBookings.filter(function(b){ return b.status === 'pending' || b.status === 'confirmed'; });
+    else if (currentFilter === 'upcoming')  filtered = allBookings.filter(function(b){
+      return b.status === 'pending' || b.status === 'needs_new_captain' || b.status === 'confirmed';
+    });
     else if (currentFilter === 'completed') filtered = allBookings.filter(function(b){ return b.status === 'completed'; });
     else if (currentFilter === 'cancelled') filtered = allBookings.filter(function(b){ return b.status === 'cancelled'; });
     else filtered = allBookings;
@@ -351,6 +360,34 @@
       alert('Could not decline: ' + (err.message || 'Error'));
     }
   };
+
+  async function ownerReassignPrompt(bookingId){
+    var captains;
+    try {
+      var resp = await WCR.listCaptains();
+      captains = resp.data || resp.captains || resp || [];
+    } catch (err) {
+      alert('Could not load captains list: ' + (err.message || 'Error'));
+      return;
+    }
+    if (!captains.length) { alert('No captains available right now.'); return; }
+    var menu = captains.map(function(c, i){
+      var rate = (c.captainProfile && c.captainProfile.dayRate) ? '$' + c.captainProfile.dayRate + '/day' : '';
+      return (i+1) + '. ' + c.name + (rate ? ' — ' + rate : '');
+    }).join('\n');
+    var pick = prompt('Pick a new captain (enter number 1-' + captains.length + '):\n\n' + menu);
+    if (!pick) return;
+    var idx = parseInt(pick, 10) - 1;
+    if (isNaN(idx) || idx < 0 || idx >= captains.length) { alert('Invalid choice.'); return; }
+    var newCaptainId = captains[idx]._id || captains[idx].id;
+    try {
+      await WCR._call('PATCH', '/bookings/' + bookingId + '/reassign-captain', { captainId: newCaptainId });
+      await loadBookings();
+    } catch (err) {
+      alert('Could not reassign: ' + (err.message || 'Error'));
+    }
+  }
+  window.ownerReassignFromList = ownerReassignPrompt;
 
   async function loadBookings(){
     var listEl = document.getElementById('bookings-list');

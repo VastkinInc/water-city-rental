@@ -52,9 +52,11 @@ const bookingSchema = new mongoose.Schema(
     pricing: { type: pricingSchema, required: true },
     status: {
       type: String,
-      enum: ['pending', 'confirmed', 'cancelled', 'completed'],
+      enum: ['pending', 'needs_new_captain', 'confirmed', 'cancelled', 'completed'],
       default: 'pending'
     },
+    ownerApproved:   { type: Boolean, default: false },
+    captainApproved: { type: Boolean, default: false },
     paymentStatus: {
       type: String,
       enum: ['unpaid', 'paid', 'refunded'],
@@ -80,6 +82,18 @@ bookingSchema.index({ boat: 1, startDate: 1 });
 bookingSchema.virtual('id').get(function () {
   return this._id.toHexString();
 });
+
+bookingSchema.methods.checkAndConfirm = function () {
+  if (
+    this.ownerApproved &&
+    this.captainApproved &&
+    (this.status === 'pending' || this.status === 'needs_new_captain')
+  ) {
+    this.status = 'confirmed';
+    return true;
+  }
+  return false;
+};
 
 bookingSchema.pre('save', async function (next) {
   if (this.bookingNumber) return next();

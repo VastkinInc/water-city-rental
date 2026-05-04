@@ -96,8 +96,23 @@
           return r;
         });
     },
-    logout: function() {
-      return apiCall('POST', '/auth/logout', null).finally(clearToken);
+    logout: async function() {
+      try {
+        await fetch(API_BASE + '/auth/logout', { method: 'POST', credentials: 'include' });
+      } catch (e) { /* best effort — never block logout */ }
+      try {
+        localStorage.removeItem('wcr_access_token');
+        localStorage.removeItem('wcr_user');
+        localStorage.removeItem('wcr_role');
+        localStorage.removeItem('wcr_pending_booking');
+        localStorage.removeItem('wcr_post_login_redirect');
+      } catch (e) { /* private mode etc. */ }
+      var target = '/login';
+      if (window.parent && window.parent.location) {
+        window.parent.location.href = target;
+      } else {
+        window.location.href = target;
+      }
     },
     me: function() {
       return apiCall('GET', '/auth/me');
@@ -123,6 +138,28 @@
     },
     myBookings: function() {
       return apiCall('GET', '/bookings');
+    },
+
+    /**
+     * Unified status display for bookings (Day 4c parallel approval).
+     * Takes the FULL booking object so it can read ownerApproved/captainApproved.
+     * Returns { label, bg, fg } for badge rendering.
+     */
+    computeStatus: function(b) {
+      if (!b) return { label:'—', bg:'#E5E7EB', fg:'#1F2937' };
+      var s = b.status;
+      if (s === 'cancelled') return { label:'CANCELLED', bg:'#FEE2E2', fg:'#991B1B' };
+      if (s === 'completed') return { label:'COMPLETED', bg:'#E5E7EB', fg:'#1F2937' };
+      if (s === 'needs_new_captain') return { label:'NEEDS NEW CAPTAIN', bg:'#FFEDD5', fg:'#9A3412' };
+      if (s === 'confirmed') return { label:'CONFIRMED', bg:'#D1FAE5', fg:'#065F46' };
+      // pending — disambiguate by which side has approved
+      if (b.ownerApproved && !b.captainApproved) {
+        return { label:'OWNER ✓ · CAPTAIN ⏳', bg:'#CFFAFE', fg:'#155E75' };
+      }
+      if (!b.ownerApproved && b.captainApproved) {
+        return { label:'CAPTAIN ✓ · OWNER ⏳', bg:'#CFFAFE', fg:'#155E75' };
+      }
+      return { label:'PENDING', bg:'#FEF3C7', fg:'#92400E' };
     },
 
     _call: apiCall
