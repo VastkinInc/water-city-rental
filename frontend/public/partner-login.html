@@ -163,7 +163,7 @@
 <div>
 <div class="flex justify-between items-baseline mb-2">
 <label class="block font-label text-sm uppercase tracking-widest text-on-surface-variant" for="password">Password</label>
-<a class="font-label text-xs text-primary hover:underline" href="#">Forgot?</a>
+<a id="forgot-password-link" class="font-label text-xs text-primary hover:underline cursor-pointer" href="#">Forgot password?</a>
 </div>
 <input class="w-full bg-surface-container-lowest border-0 px-4 py-4 rounded-xl text-on-surface focus:ring-2 focus:ring-tertiary shadow-[0_2px_12px_rgba(26,28,26,0.03)]" id="password" placeholder="••••••••" type="password"/>
 </div>
@@ -242,6 +242,21 @@ function showSigninErr(msg){
   el.style.display = msg ? 'block' : 'none';
 }
 
+function showToast(msg){
+  var existing = document.getElementById('wcr-toast');
+  if (existing) existing.remove();
+  var toast = document.createElement('div');
+  toast.id = 'wcr-toast';
+  toast.style.cssText = 'position:fixed;top:24px;left:50%;transform:translateX(-50%);background:#1A1A2E;color:#FAF7F2;padding:14px 24px;border-radius:8px;font-family:Manrope,sans-serif;font-size:14px;font-weight:500;box-shadow:0 4px 16px rgba(0,0,0,0.2);z-index:9999;max-width:90%;text-align:center;';
+  toast.textContent = msg;
+  document.body.appendChild(toast);
+  setTimeout(function(){
+    toast.style.transition = 'opacity 0.3s';
+    toast.style.opacity = '0';
+    setTimeout(function(){ toast.remove(); }, 300);
+  }, 2400);
+}
+
 async function signIn() {
   showSigninErr('');
   if (!selectedRole) {
@@ -259,13 +274,29 @@ async function signIn() {
   if (btn) { btn.disabled = true; btn.innerHTML = 'Signing in…'; btn.style.opacity = '0.7'; }
   try {
     var res = await WCR.login(email, password);
-    var role = res.user && res.user.role;
-    if (role !== selectedRole) {
-      showSigninErr("This account isn't a " + selectedRole + " account.");
-      WCR.clearToken();
+    var user = res.user || res.data;
+    var role = user && user.role;
+    var firstName = (user && user.name || '').split(' ')[0] || '';
+
+    // Customer logged in via partner portal — bounce them to /login
+    if (role === 'customer') {
+      showToast('You have a customer account. Taking you to the customer login…');
+      setTimeout(function(){
+        WCR.clearToken();
+        window.parent.location.href = '/login';
+      }, 1500);
       return;
     }
-    window.parent.location.href = '/dashboard/' + role;
+
+    // Picked one role but logged in as the other — friendly correction
+    if (selectedRole && role !== selectedRole) {
+      showToast('Welcome back' + (firstName ? ', ' + firstName : '') + '. You’re a ' + role + '. Redirecting…');
+      setTimeout(function(){ WCR.redirectToDashboard(user); }, 1500);
+      return;
+    }
+
+    // Match — direct redirect
+    WCR.redirectToDashboard(user);
   } catch (err) {
     if (err && err.status === 401) {
       showSigninErr('Invalid email or password');
@@ -277,18 +308,47 @@ async function signIn() {
   }
 }
 
-// Auto-redirect if already logged in as a partner
+// Auto-redirect if already logged in (any role)
 (function(){
   if (window.WCR && WCR.isLoggedIn()) {
     var u = WCR.getUser();
-    if (u && (u.role === 'owner' || u.role === 'captain')) {
-      window.parent.location.href = '/dashboard/' + u.role;
-    }
+    if (u && u.role) WCR.redirectToDashboard(u);
+  }
+})();
+</script>
+<script>
+// Forgot-password modal (MVP placeholder — support team handles resets)
+(function(){
+  function showForgotPasswordModal(){
+    if (document.getElementById('wcr-forgot-modal')) return;
+    var modal = document.createElement('div');
+    modal.id = 'wcr-forgot-modal';
+    modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:9998;';
+    modal.innerHTML = ''
+      + '<div style="background:#FAF7F2;padding:32px;border-radius:12px;max-width:440px;width:90%;font-family:Manrope,sans-serif;box-shadow:0 24px 64px rgba(0,0,0,0.25);">'
+      +   '<h3 style="font-family:\'Playfair Display\',\'Noto Serif\',serif;font-size:24px;color:#1A1A2E;margin:0 0 14px;">Forgot your password?</h3>'
+      +   '<p style="margin:0 0 16px;color:#1A1A2E;font-size:14px;line-height:1.5;">No problem! Password reset is currently handled by our support team.</p>'
+      +   '<p style="margin:0 0 16px;color:#1A1A2E;font-size:14px;line-height:1.5;">📧 Email: <a href="mailto:support@watercityrental.com" style="color:#C4623A;font-weight:600;">support@watercityrental.com</a></p>'
+      +   '<p style="margin:0 0 24px;color:#6B6560;font-size:13px;line-height:1.5;">Include your account email address. We\'ll send you a temporary password within 24 hours.</p>'
+      +   '<button id="wcr-modal-close" style="padding:10px 20px;background:#C4623A;color:#FAF7F2;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-family:Manrope,sans-serif;">Got it</button>'
+      + '</div>';
+    document.body.appendChild(modal);
+    document.getElementById('wcr-modal-close').addEventListener('click', function(){ modal.remove(); });
+    modal.addEventListener('click', function(e){ if (e.target === modal) modal.remove(); });
+    document.addEventListener('keydown', function escClose(ev){
+      if (ev.key === 'Escape') { var m = document.getElementById('wcr-forgot-modal'); if (m) m.remove(); document.removeEventListener('keydown', escClose); }
+    });
+  }
+  var fp = document.getElementById('forgot-password-link');
+  if (fp) {
+    fp.addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation(); showForgotPasswordModal(); });
   }
 })();
 </script>
 <script>
 document.addEventListener('click',function(e){
+  // Don't hijack the forgot-password link
+  if (e.target.closest('#forgot-password-link')) return;
   var a=e.target.closest('a[href]');
   if(!a)return;
   var h=a.getAttribute('href');

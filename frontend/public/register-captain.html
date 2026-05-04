@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Become a Captain - Water City Rental</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script src="/api.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&amp;family=Noto+Serif:ital,wght@0,400;0,700;1,400;1,700&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: { extend: {
+      colors: {
+        "primary": "#a43c12", "primary-container": "#ff7f50",
+        "on-primary": "#ffffff", "on-primary-container": "#6c2000",
+        "primary-fixed": "#ffdbcf", "on-surface": "#1a1c1a",
+        "on-surface-variant": "#57423b", "surface": "#faf9f6",
+        "surface-container": "#efeeeb", "surface-container-low": "#f4f3f1",
+        "surface-container-high": "#e9e8e5", "surface-container-lowest": "#ffffff",
+        "outline": "#8b7169", "outline-variant": "#dec0b6",
+        "background": "#faf9f6", "tertiary": "#735c00", "tertiary-container": "#c4a028",
+        "tertiary-fixed": "#ffe088", "on-tertiary-fixed-variant": "#574500",
+        "secondary": "#006972", "secondary-container": "#9ff0fb", "on-secondary-container": "#066f79",
+        "error": "#ba1a1a", "error-container": "#ffdad6", "on-error-container": "#93000a"
+      },
+      borderRadius: { DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px" },
+      fontFamily: { headline: ["Noto Serif", "serif"], display: ["Noto Serif", "serif"],
+                    body: ["Manrope", "sans-serif"], label: ["Manrope", "sans-serif"] }
+    } }
+  }
+</script>
+<style>
+  body { font-family: 'Manrope', sans-serif; }
+  h1, h2, h3, .font-serif { font-family: 'Noto Serif', serif; }
+  .glass-panel {
+    background: rgba(250, 249, 246, 0.65);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+  }
+  .field-input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #dec0b6;
+    border-radius: 10px;
+    background: #fff;
+    font-size: 15px;
+    font-family: 'Manrope', sans-serif;
+  }
+  .field-input:focus { outline: none; border-color: #a43c12; box-shadow: 0 0 0 2px rgba(164,60,18,0.15); }
+  textarea.field-input { resize: vertical; min-height: 80px; }
+  .field-label {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #57423b;
+    margin-bottom: 6px;
+  }
+  .field-optional { font-weight: 400; color: #8b7169; text-transform: none; letter-spacing: 0; margin-left: 6px; }
+  .info-box {
+    background: #FFF8E5;
+    border-left: 3px solid #c4a028;
+    padding: 12px 14px;
+    border-radius: 8px;
+    color: #574500;
+    font-size: 13px;
+    margin: 8px 0 16px;
+  }
+</style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col md:flex-row antialiased">
+
+<!-- LEFT — Form -->
+<div class="flex-1 flex flex-col justify-center px-8 py-12 md:px-16 lg:px-24 max-w-3xl mx-auto md:mx-0">
+
+  <a href="/" class="font-serif italic text-xl text-on-surface mb-12 hover:text-primary transition-colors">Water City Rental</a>
+
+  <header class="mb-10">
+    <span class="inline-block bg-tertiary-fixed text-on-tertiary-fixed-variant text-[11px] font-bold uppercase tracking-widest px-3 py-1 rounded-full mb-4">Captain Signup</span>
+    <h1 class="font-serif text-4xl md:text-5xl text-on-surface mb-3">Become a <span class="italic text-primary">Captain</span></h1>
+    <p class="text-on-surface-variant max-w-md">Set your rates, choose your trips, earn on your schedule.</p>
+  </header>
+
+  <form id="signup-form" class="space-y-6" onsubmit="event.preventDefault();" autocomplete="on">
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+      <div>
+        <label class="field-label">First Name</label>
+        <input data-field="firstName" type="text" class="field-input" required autocomplete="given-name">
+      </div>
+      <div>
+        <label class="field-label">Last Name</label>
+        <input data-field="lastName" type="text" class="field-input" required autocomplete="family-name">
+      </div>
+    </div>
+
+    <div>
+      <label class="field-label">Email</label>
+      <input data-field="email" type="email" class="field-input" required autocomplete="email">
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+      <div>
+        <label class="field-label">Password</label>
+        <input data-field="password" type="password" class="field-input" required autocomplete="new-password" minlength="8">
+      </div>
+      <div>
+        <label class="field-label">Confirm Password</label>
+        <input data-field="confirmPassword" type="password" class="field-input" required autocomplete="new-password">
+      </div>
+    </div>
+
+    <!-- Optional: contact -->
+    <div class="pt-4 border-t border-outline-variant/30">
+      <p class="text-xs uppercase tracking-widest text-on-surface-variant font-bold mb-4">Contact <span class="font-normal text-on-surface-variant/70 normal-case tracking-normal">(optional)</span></p>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div>
+          <label class="field-label">Phone <span class="field-optional">Optional</span></label>
+          <input data-field="phone" type="tel" class="field-input" placeholder="+1-312-555-1234" autocomplete="tel">
+        </div>
+        <div>
+          <label class="field-label">City <span class="field-optional">Optional</span></label>
+          <input data-field="city" type="text" class="field-input" value="Chicago" autocomplete="address-level2">
+        </div>
+      </div>
+    </div>
+
+    <!-- Captain-specific -->
+    <div class="pt-4 border-t border-outline-variant/30">
+      <p class="text-xs uppercase tracking-widest text-on-surface-variant font-bold mb-4">Captain Details <span class="font-normal text-on-surface-variant/70 normal-case tracking-normal">(strongly encouraged)</span></p>
+
+      <div class="info-box">💡 USCG license is required to operate boats in US waters. You can add it later in your profile, but customers prefer captains with it on file.</div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div>
+          <label class="field-label">USCG License # <span class="field-optional">Optional</span></label>
+          <input data-field="licenseNumber" type="text" class="field-input" placeholder="USCG-IL-2024-12345">
+        </div>
+        <div>
+          <label class="field-label">Years Experience <span class="field-optional">Optional</span></label>
+          <input data-field="yearsExperience" type="number" min="0" max="70" class="field-input" placeholder="e.g. 8">
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-5">
+        <div>
+          <label class="field-label">Day Rate ($) <span class="field-optional">Optional</span></label>
+          <input data-field="dayRate" type="number" min="0" max="5000" class="field-input" placeholder="240">
+        </div>
+        <div>
+          <label class="field-label">Hourly Rate ($) <span class="field-optional">Optional</span></label>
+          <input data-field="hourlyRate" type="number" min="0" max="1000" class="field-input" placeholder="40">
+        </div>
+      </div>
+
+      <div class="mt-5">
+        <label class="field-label">Languages <span class="field-optional">Optional · comma-separated</span></label>
+        <input data-field="languages" type="text" class="field-input" placeholder="English, Spanish">
+      </div>
+
+      <div class="mt-5">
+        <label class="field-label">Short Bio <span class="field-optional">Optional · max 200 chars</span></label>
+        <textarea data-field="bio" class="field-input" rows="3" maxlength="200" placeholder="USCG licensed Lake Michigan specialist"></textarea>
+      </div>
+    </div>
+
+    <!-- Error -->
+    <div id="signup-error" class="text-sm font-semibold" style="display:none;color:#C4623A;"></div>
+
+    <button id="signup-submit" type="submit" class="w-full bg-primary text-on-primary py-4 rounded-full font-bold tracking-wider uppercase text-sm hover:opacity-90 active:scale-[0.99] transition-all">
+      Create Captain Account
+    </button>
+
+    <p class="text-center text-sm text-on-surface-variant pt-2">
+      Already have a partner account?
+      <a href="/partner-login" class="text-primary font-semibold hover:underline">Sign in →</a>
+    </p>
+  </form>
+</div>
+
+<!-- RIGHT — Photo + glass card -->
+<aside class="hidden md:block flex-1 relative overflow-hidden min-h-screen">
+  <div class="absolute inset-0 bg-cover bg-center"
+       style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD2P4sfdHXahYJPVjOpdN7f54daZ7qf81bkpmGfi0eRreLifHsjDS9EKNIdCxSdvod9iFUKrxMRuBcgm804qM0T3WY_fyXLoUOGgJ7yX-aGIcdrHZCyNLi58WMAMifVg-tSXv-OFnKPc3-FqCAbbq_EZAM5K731wnMX3v1-KcFKFQgCF0yT-VKmW9i06zKil5HN1FPw5oPwDZMHvbg-O8jEyFagCD8J8l-JD-u9E3uFLxJoeanEfuu1nX6bzVkntOWBHrpr4POas4PB');"></div>
+  <div class="absolute inset-0 bg-gradient-to-br from-on-surface/60 via-on-surface/30 to-transparent"></div>
+
+  <div class="relative z-10 h-full flex items-center justify-center p-12">
+    <div class="glass-panel rounded-3xl px-10 py-12 max-w-sm shadow-2xl border border-white/40">
+      <p class="text-xs uppercase tracking-widest font-bold text-on-surface-variant mb-3">Top captain rating</p>
+      <h2 class="font-serif italic text-on-surface text-2xl mb-2">Water City Rental</h2>
+      <p class="font-serif text-5xl text-primary font-bold mb-1">★ 5.0</p>
+      <p class="text-sm text-on-surface-variant mb-6">Captain James Chen — 203 trips, perfect record.</p>
+      <div class="flex items-center gap-2 text-sm text-on-surface">
+        <span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">verified</span>
+        <span><strong>USCG verified</strong> captains earn faster.</span>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<script>
+(function(){
+  function showRoleSwitchToast(prevRole){
+    var roleLabel = prevRole === 'customer' ? 'customer account'
+                  : prevRole === 'owner'    ? 'owner account'
+                  : prevRole === 'captain'  ? 'captain account'
+                  : prevRole === 'admin'    ? 'admin account'
+                  : 'previous account';
+    var toast = document.createElement('div');
+    toast.style.cssText = 'position:fixed;top:24px;left:50%;transform:translateX(-50%);background:#1A1A2E;color:#FAF7F2;padding:14px 24px;border-radius:8px;font-family:Manrope,sans-serif;font-size:14px;font-weight:500;box-shadow:0 4px 16px rgba(0,0,0,0.2);z-index:9999;max-width:90%;text-align:center;';
+    toast.textContent = '👋 Logged out from ' + roleLabel + '. Create your captain account below.';
+    document.body.appendChild(toast);
+    setTimeout(function(){
+      toast.style.transition = 'opacity 0.4s';
+      toast.style.opacity = '0';
+      setTimeout(function(){ toast.remove(); }, 400);
+    }, 3500);
+  }
+
+  // If already logged in (likely a customer/owner switching roles),
+  // silently log out so they can sign up cleanly without bouncing to a dashboard.
+  if (WCR.isLoggedIn()) {
+    var existingUser = WCR.getUser();
+    var existingRole = existingUser && existingUser.role;
+
+    try {
+      fetch('http://localhost:5000/api/auth/logout', { method: 'POST', credentials: 'include' }).catch(function(){});
+    } catch(e) {}
+
+    try {
+      localStorage.removeItem('wcr_access_token');
+      localStorage.removeItem('wcr_user');
+      localStorage.removeItem('wcr_role');
+      localStorage.removeItem('wcr_pending_booking');
+      localStorage.removeItem('wcr_post_login_redirect');
+      localStorage.removeItem('wcr_pending_role');
+    } catch(e) {}
+
+    showRoleSwitchToast(existingRole);
+  }
+
+  var form      = document.getElementById('signup-form');
+  var submitBtn = document.getElementById('signup-submit');
+  var errorEl   = document.getElementById('signup-error');
+
+  function getVal(name){
+    var el = document.querySelector('[data-field="' + name + '"]');
+    return el ? (el.value || '').trim() : '';
+  }
+  function showError(msg){
+    if (!errorEl) { alert(msg); return; }
+    errorEl.textContent = msg;
+    errorEl.style.display = '';
+    errorEl.style.color = '#C4623A';
+  }
+  function clearError(){
+    if (errorEl) { errorEl.textContent = ''; errorEl.style.display = 'none'; }
+  }
+
+  async function submitForm(e){
+    if (e) e.preventDefault();
+    clearError();
+
+    var firstName       = getVal('firstName');
+    var lastName        = getVal('lastName');
+    var email           = getVal('email').toLowerCase();
+    var password        = getVal('password');
+    var confirmPassword = getVal('confirmPassword');
+
+    if (!firstName || !lastName) return showError('First and last name are required.');
+    if (!email)                  return showError('Email is required.');
+    if (password.length < 8)     return showError('Password must be at least 8 characters.');
+    if (password !== confirmPassword) return showError('Passwords do not match.');
+    if (!/[A-Za-z]/.test(password) || !/[0-9]/.test(password)) {
+      return showError('Password must include a letter and a number.');
+    }
+
+    var payload = {
+      email: email,
+      password: password,
+      name: (firstName + ' ' + lastName).trim(),
+      role: 'captain'
+    };
+
+    var phone = getVal('phone'); if (phone) payload.phone = phone;
+    var city  = getVal('city');  if (city)  payload.city  = city;
+
+    var captainProfile = {};
+    var license = getVal('licenseNumber'); if (license) captainProfile.licenseNumber = license;
+
+    var yrs = parseInt(getVal('yearsExperience'), 10);
+    if (Number.isFinite(yrs) && yrs >= 0) captainProfile.yearsExperience = yrs;
+
+    var dr = parseInt(getVal('dayRate'), 10);
+    if (Number.isFinite(dr) && dr >= 0) captainProfile.dayRate = dr;
+
+    var hr = parseInt(getVal('hourlyRate'), 10);
+    if (Number.isFinite(hr) && hr >= 0) captainProfile.hourlyRate = hr;
+
+    var bio = getVal('bio'); if (bio) captainProfile.bio = bio;
+
+    var langsRaw = getVal('languages');
+    if (langsRaw) {
+      var langs = langsRaw.split(',').map(function(s){ return s.trim(); }).filter(Boolean);
+      if (langs.length) captainProfile.languages = langs;
+    }
+
+    if (Object.keys(captainProfile).length) payload.captainProfile = captainProfile;
+
+    submitBtn.disabled = true;
+    var orig = submitBtn.textContent;
+    submitBtn.textContent = 'Creating account…';
+
+    try {
+      await WCR.register(payload);
+      try { localStorage.setItem('wcr_role', 'captain'); } catch(e){}
+      window.parent.location.href = '/dashboard/captain';
+    } catch (err) {
+      if (err && err.status === 409) {
+        showError('This email is already registered. Try signing in instead.');
+      } else {
+        showError((err && err.message) || 'Could not create account. Please try again.');
+      }
+      submitBtn.disabled = false;
+      submitBtn.textContent = orig;
+    }
+  }
+
+  form.addEventListener('submit', submitForm);
+})();
+</script>
+
+<script>
+document.addEventListener('click', function(e){
+  var a = e.target.closest('a[href]');
+  if (!a) return;
+  var h = a.getAttribute('href');
+  if (!h || h.startsWith('http') || h === '#') return;
+  e.preventDefault();
+  window.parent.location.href = h;
+});
+</script>
+
+</body>
+</html>

@@ -324,9 +324,43 @@
     </main>
 <script>
 (function(){
+  function showRoleSwitchToast(prevRole){
+    var roleLabel = prevRole === 'customer' ? 'customer account'
+                  : prevRole === 'owner'    ? 'owner account'
+                  : prevRole === 'captain'  ? 'captain account'
+                  : prevRole === 'admin'    ? 'admin account'
+                  : 'previous account';
+    var toast = document.createElement('div');
+    toast.style.cssText = 'position:fixed;top:24px;left:50%;transform:translateX(-50%);background:#1A1A2E;color:#FAF7F2;padding:14px 24px;border-radius:8px;font-family:Manrope,sans-serif;font-size:14px;font-weight:500;box-shadow:0 4px 16px rgba(0,0,0,0.2);z-index:9999;max-width:90%;text-align:center;';
+    toast.textContent = '👋 Logged out from ' + roleLabel + '. Create your customer account below.';
+    document.body.appendChild(toast);
+    setTimeout(function(){
+      toast.style.transition = 'opacity 0.4s';
+      toast.style.opacity = '0';
+      setTimeout(function(){ toast.remove(); }, 400);
+    }, 3500);
+  }
+
+  // Auto-logout an existing session so users can sign up fresh
+  // (e.g. an owner clicking "Rent a Boat → register" should NOT bounce to /dashboard/owner).
   if (window.WCR && WCR.isLoggedIn()) {
-    var u = WCR.getUser();
-    if (u && u.role) { window.parent.location.href = '/dashboard/' + u.role; return; }
+    var existingUser = WCR.getUser();
+    var existingRole = existingUser && existingUser.role;
+
+    try {
+      fetch('http://localhost:5000/api/auth/logout', { method: 'POST', credentials: 'include' }).catch(function(){});
+    } catch(e) {}
+
+    try {
+      localStorage.removeItem('wcr_access_token');
+      localStorage.removeItem('wcr_user');
+      localStorage.removeItem('wcr_role');
+      localStorage.removeItem('wcr_pending_booking');
+      localStorage.removeItem('wcr_post_login_redirect');
+      localStorage.removeItem('wcr_pending_role');
+    } catch(e) {}
+
+    showRoleSwitchToast(existingRole);
   }
 
   function showErr(msg){

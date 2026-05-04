@@ -18,11 +18,20 @@ export const createBoat = async (req, res, next) => {
   try {
     const photos = filesToPhotos(req.files);
 
+    // Strip server-managed fields the client must not control.
+    const { status: _ignoreStatus, owner: _ignoreOwner, ...safeBody } = req.body;
+
+    // amenities can arrive as JSON string when sent via multipart/form-data.
+    if (typeof safeBody.amenities === 'string') {
+      try { safeBody.amenities = JSON.parse(safeBody.amenities); }
+      catch (e) { /* leave as-is — Mongoose may reject if not array */ }
+    }
+
     const boat = await Boat.create({
-      ...req.body,
+      ...safeBody,
       photos,
-      owner: req.user._id,
-      status: 'pending'
+      owner: req.user._id
+      // status defaults to 'active' via schema (MVP self-publish)
     });
 
     res.status(201).json({ success: true, data: boat });

@@ -79,7 +79,7 @@ const boatSchema = new mongoose.Schema(
     status: {
       type: String,
       enum: ['pending', 'active', 'inactive'],
-      default: 'pending'
+      default: 'active' // MVP self-publish — owners go live immediately, no admin gate
     },
     rating: { type: Number, default: 0, min: 0, max: 5 },
     totalBookings: { type: Number, default: 0, min: 0 }

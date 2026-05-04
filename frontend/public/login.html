@@ -130,7 +130,7 @@
                         <div class="group">
                             <div class="flex justify-between items-center mb-2">
                                 <label class="block text-xs uppercase tracking-widest font-semibold text-on-surface-variant" for="password">Password</label>
-                                <a class="text-xs font-semibold text-primary hover:text-surface-tint transition-colors" href="#">Forgot?</a>
+                                <a id="forgot-password-link" class="text-xs font-semibold text-primary hover:text-surface-tint transition-colors cursor-pointer" href="#">Forgot password?</a>
                             </div>
                             <input class="w-full bg-surface-container border-none focus:ring-2 focus:ring-tertiary rounded-xl px-4 py-3.5 text-on-surface transition-all"
                                 id="password" name="password" type="password" />
@@ -300,13 +300,11 @@
     </main>
 <script>
 (function(){
-  function dashboardFor(role){ return '/dashboard/' + role; }
-
   // Auto-redirect if already logged in
   if (window.WCR && WCR.isLoggedIn()) {
     var u = WCR.getUser();
     if (u && u.role) {
-      window.parent.location.href = dashboardFor(u.role);
+      WCR.redirectToDashboard(u);
       return;
     }
   }
@@ -317,6 +315,22 @@
     el.textContent = msg;
     el.style.display = msg ? 'block' : 'none';
   }
+
+  function showToast(msg){
+    var existing = document.getElementById('wcr-toast');
+    if (existing) existing.remove();
+    var toast = document.createElement('div');
+    toast.id = 'wcr-toast';
+    toast.style.cssText = 'position:fixed;top:24px;left:50%;transform:translateX(-50%);background:#1A1A2E;color:#FAF7F2;padding:14px 24px;border-radius:8px;font-family:Manrope,sans-serif;font-size:14px;font-weight:500;box-shadow:0 4px 16px rgba(0,0,0,0.2);z-index:9999;max-width:90%;text-align:center;';
+    toast.textContent = msg;
+    document.body.appendChild(toast);
+    setTimeout(function(){
+      toast.style.transition = 'opacity 0.3s';
+      toast.style.opacity = '0';
+      setTimeout(function(){ toast.remove(); }, 300);
+    }, 2400);
+  }
+  window._wcrShowToast = showToast;
 
   // ───── SIGN IN ─────
   var signinForm = document.getElementById('signin-form');
@@ -335,22 +349,27 @@
       if (btn) { btn.disabled = true; btn.innerHTML = 'Signing in…'; btn.style.opacity = '0.7'; }
       try {
         var res = await WCR.login(email, password);
-        var role = res.user && res.user.role;
-        var pending = localStorage.getItem('wcr_pending_role');
-        if (pending && role !== pending) {
-          if (pending !== 'customer') {
-            showErr('signin-error', "This account isn't a " + pending + " account. Use Partner Login.");
-            WCR.clearToken();
-            return;
-          }
-          if (pending === 'customer' && role !== 'customer') {
-            showErr('signin-error', "This account isn't a customer account. Use Partner Login.");
-            WCR.clearToken();
-            return;
-          }
-        }
+        var user = res.user || res.data;
+        var role = user && user.role;
+
+        // Pending picker hint is now informational, not a gate.
         localStorage.removeItem('wcr_pending_role');
-        window.parent.location.href = dashboardFor(role || 'customer');
+
+        if (!role) {
+          showErr('signin-error', 'Login succeeded but role is missing. Please try again.');
+          WCR.clearToken();
+          return;
+        }
+
+        // Smart cross-role routing: redirect by ACTUAL role.
+        // Show a friendly toast if the user is on /login but is actually a partner.
+        if (role === 'owner' || role === 'captain') {
+          var firstName = (user.name || '').split(' ')[0] || '';
+          showToast('Welcome back' + (firstName ? ', ' + firstName : '') + '. Taking you to your ' + role + ' dashboard…');
+          setTimeout(function(){ WCR.redirectToDashboard(user); }, 800);
+        } else {
+          WCR.redirectToDashboard(user);
+        }
       } catch (err) {
         if (err && err.status === 401) {
           showErr('signin-error', 'Invalid email or password');
@@ -387,8 +406,8 @@
       var origLabel = regBtn.innerHTML;
       regBtn.disabled = true; regBtn.innerHTML = 'Creating account…'; regBtn.style.opacity = '0.7';
       try {
-        await WCR.register({ name: name, email: email, password: password, role: role });
-        window.parent.location.href = dashboardFor(role);
+        var r = await WCR.register({ name: name, email: email, password: password, role: role });
+        WCR.redirectToDashboard(r.user || { role: role });
       } catch (err) {
         if (err && err.status === 409) {
           showErr('register-error', 'This email is already registered. Try logging in.');
@@ -403,7 +422,38 @@
 })();
 </script>
 <script>
+// Forgot-password modal (MVP placeholder — support team handles resets)
+(function(){
+  function showForgotPasswordModal(){
+    if (document.getElementById('wcr-forgot-modal')) return;
+    var modal = document.createElement('div');
+    modal.id = 'wcr-forgot-modal';
+    modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:9998;';
+    modal.innerHTML = ''
+      + '<div style="background:#FAF7F2;padding:32px;border-radius:12px;max-width:440px;width:90%;font-family:Manrope,sans-serif;box-shadow:0 24px 64px rgba(0,0,0,0.25);">'
+      +   '<h3 style="font-family:\'Playfair Display\',\'Noto Serif\',serif;font-size:24px;color:#1A1A2E;margin:0 0 14px;">Forgot your password?</h3>'
+      +   '<p style="margin:0 0 16px;color:#1A1A2E;font-size:14px;line-height:1.5;">No problem! Password reset is currently handled by our support team.</p>'
+      +   '<p style="margin:0 0 16px;color:#1A1A2E;font-size:14px;line-height:1.5;">📧 Email: <a href="mailto:support@watercityrental.com" style="color:#C4623A;font-weight:600;">support@watercityrental.com</a></p>'
+      +   '<p style="margin:0 0 24px;color:#6B6560;font-size:13px;line-height:1.5;">Include your account email address. We\'ll send you a temporary password within 24 hours.</p>'
+      +   '<button id="wcr-modal-close" style="padding:10px 20px;background:#C4623A;color:#FAF7F2;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-family:Manrope,sans-serif;">Got it</button>'
+      + '</div>';
+    document.body.appendChild(modal);
+    document.getElementById('wcr-modal-close').addEventListener('click', function(){ modal.remove(); });
+    modal.addEventListener('click', function(e){ if (e.target === modal) modal.remove(); });
+    document.addEventListener('keydown', function escClose(ev){
+      if (ev.key === 'Escape') { var m = document.getElementById('wcr-forgot-modal'); if (m) m.remove(); document.removeEventListener('keydown', escClose); }
+    });
+  }
+  var fp = document.getElementById('forgot-password-link');
+  if (fp) {
+    fp.addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation(); showForgotPasswordModal(); });
+  }
+})();
+</script>
+<script>
 document.addEventListener('click',function(e){
+  // Don't hijack the forgot-password link
+  if (e.target.closest('#forgot-password-link')) return;
   var a=e.target.closest('a[href]');
   if(!a)return;
   var h=a.getAttribute('href');

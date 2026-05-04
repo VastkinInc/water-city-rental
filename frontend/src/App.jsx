@@ -4,6 +4,8 @@ import SearchPage from "./pages/SearchPage";
 import BoatDetailPage from "./pages/BoatDetailPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
+import RegisterOwner from "./pages/RegisterOwner";
+import RegisterCaptain from "./pages/RegisterCaptain";
 import CustomerDashboard from "./pages/CustomerDashboard";
 import OwnerDashboard from "./pages/OwnerDashboard";
 import CaptainDashboard from "./pages/CaptainDashboard";
@@ -34,6 +36,8 @@ export default function App() {
         <Route path="/boats/:id" element={<BoatDetailPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/register-owner" element={<RegisterOwner />} />
+        <Route path="/register-captain" element={<RegisterCaptain />} />
         <Route path="/dashboard/customer" element={<CustomerDashboard />} />
         <Route path="/dashboard/owner" element={<OwnerDashboard />} />
         <Route path="/dashboard/captain" element={<CaptainDashboard />} />

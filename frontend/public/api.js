@@ -96,7 +96,51 @@
           return r;
         });
     },
+    /**
+     * Determine which login portal corresponds to a given role.
+     * Used after logout to send the user back to the right portal.
+     */
+    getLoginPortalForRole: function(role) {
+      if (!role) return '/login';
+      if (role === 'admin') return '/admin-login';
+      if (role === 'owner' || role === 'captain') return '/partner-login';
+      return '/login';
+    },
+
+    /**
+     * Centralized post-login redirect — single source of truth for
+     * "where does this role go?". Pass the user object explicitly,
+     * or it falls back to WCR.getUser().
+     */
+    redirectToDashboard: function(user) {
+      var u = user || getUser();
+      if (!u || !u.role) {
+        if (window.parent && window.parent.location) window.parent.location.href = '/login';
+        else window.location.href = '/login';
+        return;
+      }
+      var dest;
+      switch (u.role) {
+        case 'customer': dest = '/dashboard/customer'; break;
+        case 'owner':    dest = '/dashboard/owner';    break;
+        case 'captain':  dest = '/dashboard/captain';  break;
+        case 'admin':    dest = '/dashboard/admin';    break;
+        default:         dest = '/login';
+      }
+      if (window.parent && window.parent.location) window.parent.location.href = dest;
+      else window.location.href = dest;
+    },
+
     logout: async function() {
+      // Capture role BEFORE clearing storage so we can return to the right portal.
+      var u = getUser();
+      var portalUrl = (function(role){
+        if (!role) return '/login';
+        if (role === 'admin') return '/admin-login';
+        if (role === 'owner' || role === 'captain') return '/partner-login';
+        return '/login';
+      })(u && u.role);
+
       try {
         await fetch(API_BASE + '/auth/logout', { method: 'POST', credentials: 'include' });
       } catch (e) { /* best effort — never block logout */ }
@@ -106,12 +150,12 @@
         localStorage.removeItem('wcr_role');
         localStorage.removeItem('wcr_pending_booking');
         localStorage.removeItem('wcr_post_login_redirect');
+        localStorage.removeItem('wcr_pending_role');
       } catch (e) { /* private mode etc. */ }
-      var target = '/login';
       if (window.parent && window.parent.location) {
-        window.parent.location.href = target;
+        window.parent.location.href = portalUrl;
       } else {
-        window.location.href = target;
+        window.location.href = portalUrl;
       }
     },
     me: function() {

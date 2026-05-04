@@ -4,7 +4,7 @@ export const registerValidator = [
   body('name')
     .trim()
     .notEmpty().withMessage('Name is required')
-    .isLength({ min: 2, max: 50 }).withMessage('Name must be 2-50 characters'),
+    .isLength({ min: 2, max: 80 }).withMessage('Name must be 2-80 characters'),
   body('email')
     .trim()
     .notEmpty().withMessage('Email is required')
@@ -18,7 +18,26 @@ export const registerValidator = [
   body('role')
     .optional()
     .isIn(['customer', 'owner', 'captain'])
-    .withMessage('Role must be customer, owner, or captain')
+    .withMessage('Role must be customer, owner, or captain'),
+
+  // Common optional fields
+  body('phone').optional().trim().isLength({ max: 30 }),
+  body('city').optional().trim().isLength({ max: 80 }),
+  body('bio').optional().trim().isLength({ max: 500 }),
+  body('avatar').optional().isString(),
+
+  // Owner-specific (optional)
+  body('ownerProfile.harbor').optional().trim().isLength({ max: 80 }),
+  body('ownerProfile.numBoats').optional().isInt({ min: 0, max: 100 }),
+  body('ownerProfile.yearsOwning').optional().isInt({ min: 0, max: 70 }),
+
+  // Captain-specific (optional)
+  body('captainProfile.licenseNumber').optional().trim().isLength({ max: 100 }),
+  body('captainProfile.yearsExperience').optional().isInt({ min: 0, max: 70 }),
+  body('captainProfile.dayRate').optional().isInt({ min: 0, max: 5000 }),
+  body('captainProfile.hourlyRate').optional().isInt({ min: 0, max: 1000 }),
+  body('captainProfile.bio').optional().trim().isLength({ max: 200 }),
+  body('captainProfile.languages').optional().isArray()
 ];
 
 export const loginValidator = [

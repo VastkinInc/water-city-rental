@@ -1,13 +1,12 @@
 <!DOCTYPE html>
-
 <html class="light" lang="en"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>List Your Boat - Recommended Captain | Water City Rental</title>
+<title>List Your Boat | Water City Rental</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script src="/api.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,300;0,400;0,700;1,300;1,400&amp;family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
@@ -83,10 +82,89 @@
         h1, h2, h3, .font-serif { font-family: 'Noto Serif', serif; }
         .ambient-shadow { box-shadow: 0 32px 64px rgba(26,28,26,0.06); }
         .glass-panel { background: rgba(250, 249, 246, 0.7); backdrop-filter: blur(24px); }
-        [data-recommended-captain].selected {
-            border: 2px solid #C4623A;
-            background-color: #FAF7F2;
+
+        /* Wizard step indicators */
+        [data-step-indicator] {
+            width: 32px; height: 32px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Manrope', sans-serif; font-weight: 600; font-size: 13px;
+            background: #efeeeb; color: #57423b;
+            border: 2px solid transparent;
+            transition: all 0.2s;
         }
+        [data-step-indicator].active {
+            background: #a43c12; color: #fff; border-color: #a43c12;
+        }
+        [data-step-indicator].completed {
+            background: #C4623A; color: #fff;
+        }
+        .step-label {
+            font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
+            color: #6B6560; margin-top: 6px; font-weight: 600;
+        }
+        [data-step-indicator].active + .step-label,
+        [data-step-indicator].completed + .step-label { color: #a43c12; }
+
+        /* Form inputs */
+        .field-input {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #dec0b6;
+            border-radius: 10px;
+            background: #fff;
+            font-size: 15px;
+            font-family: 'Manrope', sans-serif;
+        }
+        .field-input:focus { outline: none; border-color: #a43c12; box-shadow: 0 0 0 2px rgba(164,60,18,0.15); }
+        textarea.field-input { resize: vertical; min-height: 100px; }
+        .field-label {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #57423b;
+            margin-bottom: 6px;
+        }
+
+        /* Captain card selected state */
+        [data-captain-pick] { transition: all 0.2s; }
+
+        /* Drop zone */
+        #photo-drop-zone:hover { background: #F5F0EA; border-color: #a43c12; }
+
+        /* Buttons */
+        .btn-primary {
+            background: #a43c12; color: #fff;
+            padding: 14px 28px; border-radius: 9999px;
+            font-weight: 700; font-size: 13px;
+            letter-spacing: 0.08em; text-transform: uppercase;
+            border: none; cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-primary:hover { background: #ff7f50; color: #6c2000; }
+        .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
+        .btn-ghost {
+            background: transparent; color: #57423b;
+            padding: 12px 20px; border-radius: 9999px;
+            font-weight: 600; font-size: 13px;
+            border: none; cursor: pointer;
+        }
+        .btn-ghost:hover { color: #a43c12; }
+
+        /* Amenity checkbox card */
+        .amenity-card {
+            display: flex; align-items: center; gap: 12px;
+            padding: 14px 16px;
+            border: 1px solid #dec0b6;
+            border-radius: 10px;
+            background: #fff;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .amenity-card:hover { border-color: #a43c12; }
+        .amenity-card input[type="checkbox"] { accent-color: #a43c12; width: 18px; height: 18px; }
+        .amenity-card.checked { background: #FAF7F2; border-color: #a43c12; }
     </style>
 </head>
 <body class="bg-background text-on-background min-h-screen flex antialiased">
@@ -94,237 +172,672 @@
 <nav class="hidden md:flex flex-col bg-[#e9e8e5] dark:bg-stone-900 text-[#ff7f50] fixed left-0 top-0 h-full w-80 shadow-[32px_0_64px_rgba(26,28,26,0.04)] pt-24 pb-8 z-40 transition-colors duration-300">
 <div class="px-8 mb-12">
 <h2 class="font-serif italic text-[#a43c12] text-xl mb-1">Listing Manager</h2>
-<p class="text-on-surface-variant font-label text-sm opacity-80">Vessel: The Golden Hour</p>
+<p class="text-on-surface-variant font-label text-sm opacity-80">List your vessel for charter</p>
 </div>
 <ul class="flex-1 space-y-2 w-full font-sans uppercase tracking-[0.05em] text-[0.6875rem]">
-<li>
-<a class="flex items-center text-stone-500 dark:text-stone-400 pl-10 py-4 hover:bg-[#faf9f6] dark:hover:bg-stone-800/50 transition-all" href="#">
-<span class="material-symbols-outlined mr-4" style="font-variation-settings: 'FILL' 0;">sailing</span>
-                    Vessel Basics
-                </a>
-</li>
-<li>
-<a class="flex items-center text-stone-500 dark:text-stone-400 pl-10 py-4 hover:bg-[#faf9f6] dark:hover:bg-stone-800/50 transition-all" href="#">
-<span class="material-symbols-outlined mr-4" style="font-variation-settings: 'FILL' 0;">photo_library</span>
-                    Media Gallery
-                </a>
-</li>
-<li>
-<a class="flex items-center text-stone-500 dark:text-stone-400 pl-10 py-4 hover:bg-[#faf9f6] dark:hover:bg-stone-800/50 transition-all" href="#">
-<span class="material-symbols-outlined mr-4" style="font-variation-settings: 'FILL' 0;">description</span>
-                    Listing Details
-                </a>
-</li>
-<li>
-<a class="flex items-center text-stone-500 dark:text-stone-400 pl-10 py-4 hover:bg-[#faf9f6] dark:hover:bg-stone-800/50 transition-all" href="#">
-<span class="material-symbols-outlined mr-4" style="font-variation-settings: 'FILL' 0;">payments</span>
-                    Pricing &amp; Rates
-                </a>
-</li>
-<li>
-<a class="flex items-center bg-[#ffffff] dark:bg-stone-800 text-[#a43c12] dark:text-[#ff7f50] rounded-l-full ml-4 pl-6 py-4 shadow-sm translate-x-1 transition-transform" href="#">
-<span class="material-symbols-outlined mr-4" style="font-variation-settings: 'FILL' 1;">person_search</span>
-                    Captain Selection
-                </a>
-</li>
-<li>
-<a class="flex items-center text-stone-500 dark:text-stone-400 pl-10 py-4 hover:bg-[#faf9f6] dark:hover:bg-stone-800/50 transition-all" href="#">
-<span class="material-symbols-outlined mr-4" style="font-variation-settings: 'FILL' 0;">verified</span>
-                    Review &amp; Publish
-                </a>
-</li>
+<li><a class="flex items-center text-stone-500 dark:text-stone-400 pl-10 py-4" href="/my-boats">
+<span class="material-symbols-outlined mr-4">directions_boat</span>My Boats</a></li>
+<li><a class="flex items-center text-stone-500 dark:text-stone-400 pl-10 py-4" href="/dashboard/owner">
+<span class="material-symbols-outlined mr-4">dashboard</span>Dashboard</a></li>
+<li><a class="flex items-center text-stone-500 dark:text-stone-400 pl-10 py-4" href="/earnings">
+<span class="material-symbols-outlined mr-4">payments</span>Earnings</a></li>
+<li><a class="flex items-center text-stone-500 dark:text-stone-400 pl-10 py-4" href="/messages">
+<span class="material-symbols-outlined mr-4">mail</span>Messages</a></li>
+<li><a class="flex items-center text-stone-500 dark:text-stone-400 pl-10 py-4" href="/profile">
+<span class="material-symbols-outlined mr-4">account_circle</span>Profile</a></li>
+<li><a class="flex items-center text-stone-500 dark:text-stone-400 pl-10 py-4" href="/partner-login" onclick="event.preventDefault(); WCR.logout(); return false;">
+<span class="material-symbols-outlined mr-4">logout</span>Logout</a></li>
 </ul>
 <div class="px-8 mt-auto">
-<button class="w-full py-4 px-6 rounded-full bg-surface-container-lowest text-primary font-label text-sm uppercase tracking-widest border border-outline-variant/30 hover:bg-surface-container-high transition-colors ambient-shadow" onclick="window.parent.location.href='/my-boats'">
-                Preview Listing
-            </button>
+<button class="w-full py-4 px-6 rounded-full bg-surface-container-lowest text-primary font-label text-sm uppercase tracking-widest border border-outline-variant/30 hover:bg-surface-container-high transition-colors ambient-shadow" onclick="window.parent.location.href='/my-boats'">My Fleet</button>
 </div>
 </nav>
-<!-- Main Content Canvas -->
+
+<!-- Main Content -->
 <main class="flex-1 md:ml-80 min-h-screen pb-24 relative overflow-x-hidden">
-<!-- TopAppBar Placeholder for semantic separation if needed, though mostly visual breath here -->
 <header class="w-full h-24 flex items-center justify-end px-12 z-30 relative">
 <button class="flex items-center space-x-2 text-on-surface-variant hover:text-primary transition-colors">
-<span class="material-symbols-outlined">help_outline</span>
-<span class="font-label text-sm">Help</span>
+<span class="material-symbols-outlined">help_outline</span><span class="font-label text-sm">Help</span>
 </button>
 </header>
+
 <div class="max-w-4xl mx-auto px-6 md:px-12 xl:px-16 mt-8">
-<!-- Step Indicator -->
-<div class="mb-12">
-<p class="font-label text-label-sm uppercase tracking-[0.05em] text-primary mb-2">Step 5 of 6</p>
-<div class="flex items-center space-x-2 w-full max-w-md">
-<div class="h-1 flex-1 bg-primary/20 rounded-full overflow-hidden">
-<div class="h-full bg-primary-container w-[83%] rounded-full"></div>
-</div>
-</div>
-</div>
-<!-- Header Section -->
-<div class="mb-16">
-<h1 class="font-headline text-display-lg text-on-background tracking-tight mb-4 leading-none">
-                    Select a <i class="text-primary italic">Captain</i>
-</h1>
-<p class="font-body text-title-md text-on-surface-variant max-w-2xl leading-relaxed">
-                    A recommended captain provides peace of mind for your guests. Choose an experienced professional to represent your vessel.
-                </p>
-</div>
-<!-- Captain List Container -->
-<div class="space-y-6 mb-16 relative">
-<!-- Card 1 (Selected State) -->
-<div class="relative bg-surface-container-lowest rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center gap-6 cursor-pointer group ambient-shadow transition-all duration-300 transform md:hover:-translate-y-1 selected" data-recommended-captain="marco" onclick="selectRecommendedCaptain('marco')">
-<!-- Subtle Selection Highlight via Background shift and soft border -->
-<div class="absolute inset-0 bg-primary-container/5 rounded-2xl border border-primary/20 pointer-events-none"></div>
-<div class="w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden shrink-0 shadow-sm relative z-10 bg-surface-container">
-<img alt="Captain portrait" class="w-full h-full object-cover" data-alt="A portrait of a weathered but friendly middle-aged man with a neat beard, wearing a classic white captain's shirt with epaulets. He stands against a softly blurred background of a marina at golden hour. The warm sunset light highlights his features, projecting a sense of nautical experience and approachability." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC3Zp2WcNfbSnegfpweB7ChmQTOGU1GeH168_E8xJI7gZ3ALRHv4wE0a58QbLZcF8fiySNWo4GVKr6fVMrWilNbMlSidj0hrmwpYQkCrp6qdrm6GFIVqgGP-LwmkDEONW9rYCym1kXbW05d4KIdqZFmA6Tgk0u3_vROj7JDh5Gsn6fLEUbFhqUWCLDhlmqEbBudCBu6uXgN8VBrUPMaN4Q0dc4qUwHJ8hOGnt5o7a0CID1_GdyY2VFSywEXcnVMC2PR1Dwr84BW2_X1"/>
-</div>
-<div class="flex-1 relative z-10">
-<div class="flex flex-wrap items-center gap-3 mb-2">
-<h3 class="font-headline text-2xl text-on-background font-semibold">Capt. Marco Rossi</h3>
-<div class="flex items-center bg-surface-container px-2 py-1 rounded-full">
-<span class="material-symbols-outlined text-primary text-sm mr-1" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="font-label text-xs font-bold text-on-surface">4.9</span>
-</div>
-<span class="font-label text-xs uppercase tracking-wider text-on-surface-variant bg-surface px-2 py-1 rounded">12 yrs exp</span>
-</div>
-<p class="font-body text-on-surface-variant mb-4">"USCG licensed Lake Michigan specialist with a passion for architectural tours."</p>
-</div>
-<div class="flex flex-col items-end md:ml-auto relative z-10 border-t md:border-t-0 md:border-l border-outline-variant/20 pt-4 md:pt-0 md:pl-6 w-full md:w-auto">
-<p class="font-headline text-2xl text-primary font-bold mb-1">$240<span class="text-sm font-normal text-on-surface-variant">/day</span></p>
-<p class="font-label text-sm text-on-surface-variant mb-4">$40/hr</p>
-<button class="bg-primary text-on-primary rounded-full p-2 h-10 w-10 flex items-center justify-center shadow-md">
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">check</span>
-</button>
-</div>
-</div>
-<!-- Card 2 (Unselected) -->
-<div class="relative bg-surface-container-low rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center gap-6 cursor-pointer group hover:bg-surface-container-lowest transition-all duration-300" data-recommended-captain="sofia" onclick="selectRecommendedCaptain('sofia')">
-<div class="w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden shrink-0 shadow-sm relative z-10 bg-surface-container">
-<img alt="Captain portrait" class="w-full h-full object-cover grayscale-[20%] group-hover:grayscale-0 transition-all" data-alt="A portrait of a confident female professional in her late 30s wearing a navy blue polo shirt. She is standing on the deck of a yacht with the open sea behind her. The lighting is bright and clear, reflecting a modern, capable maritime professional ready for a charter." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDWNNgSzEpmfqYObZ7hIWa1qzt2vjjUi_WP-6AefP0mlvJjOEvqMjnH8pRFHlZaSfKnGg6FMnS-JlepAuiwJsfZoN4blL7f9Q2Ot-mYXiacVtdYh7EC-1HEzsgQHX_7j6E1Nri1AeV3ZsZNcXnKvhut4L-ROYFuEUJ9Ks29yHeJMTGTdFO5zOZ4hP5Oi4S2hjmMMYVVBVz7XI68hN9hCekHW19eyjWvxD5_GT_MSynxeaLs1t2a62fy5jEuIIZS7ALfoyrz4hy-iKcS"/>
-</div>
-<div class="flex-1 relative z-10">
-<div class="flex flex-wrap items-center gap-3 mb-2">
-<h3 class="font-headline text-2xl text-on-background font-semibold">Capt. Sofia Martinez</h3>
-<div class="flex items-center bg-surface-container px-2 py-1 rounded-full">
-<span class="material-symbols-outlined text-primary text-sm mr-1" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="font-label text-xs font-bold text-on-surface">4.8</span>
-</div>
-<span class="font-label text-xs uppercase tracking-wider text-on-surface-variant bg-surface px-2 py-1 rounded">8 yrs exp</span>
-</div>
-<p class="font-body text-on-surface-variant mb-4">"Fluent in 3 languages, sunset cruise expert and local marine wildlife guide."</p>
-</div>
-<div class="flex flex-col items-end md:ml-auto relative z-10 border-t md:border-t-0 md:border-l border-outline-variant/20 pt-4 md:pt-0 md:pl-6 w-full md:w-auto">
-<p class="font-headline text-2xl text-on-background font-bold mb-1">$200<span class="text-sm font-normal text-on-surface-variant">/day</span></p>
-<p class="font-label text-sm text-on-surface-variant mb-4">$35/hr</p>
-<button class="border border-outline text-on-surface rounded-full px-6 py-2 font-label text-sm hover:bg-surface-variant transition-colors">
-                             Select
-                        </button>
-</div>
-</div>
-<!-- Card 3 (Unselected) -->
-<div class="relative bg-surface-container-low rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center gap-6 cursor-pointer group hover:bg-surface-container-lowest transition-all duration-300" data-recommended-captain="james" onclick="selectRecommendedCaptain('james')">
-<div class="w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden shrink-0 shadow-sm relative z-10 bg-surface-container">
-<img alt="Captain portrait" class="w-full h-full object-cover grayscale-[20%] group-hover:grayscale-0 transition-all" data-alt="A portrait of a stern but professional older man with silver hair, wearing aviator sunglasses and a crisp white collared shirt. He is outdoors with a blurred coastal background. The lighting highlights his strong jawline, conveying deep experience and a flawless safety record on the water." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdIo-dkJqsW_BlfpvFc9aG__k5bWt9vZ7zLKQrgwHT8Bud0StphG43PDxNP9nUPSnIRzrF52gt7GzYFIUK4XoXcVJGTE9aU1Gh4ru-241ktulnUyL0wSdZrTYVNvOMJuBTBhR6lQqt2iBSzdmV0X7ASyCV5jwtneifJ0T_wlMCwiRl_hciAMKXVznCZ6NafG1R73sPhMqCjBw8IlqCgD8a316UbmsVF6flrYOC86kTFN2JC49UeuBaG-hE4RZ-udeqXpzYqjQfDBop"/>
-</div>
-<div class="flex-1 relative z-10">
-<div class="flex flex-wrap items-center gap-3 mb-2">
-<h3 class="font-headline text-2xl text-on-background font-semibold">Capt. James Chen</h3>
-<div class="flex items-center bg-surface-container px-2 py-1 rounded-full">
-<span class="material-symbols-outlined text-primary text-sm mr-1" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="font-label text-xs font-bold text-on-surface">5.0</span>
-</div>
-<span class="font-label text-xs uppercase tracking-wider text-on-surface-variant bg-surface px-2 py-1 rounded">15 yrs exp</span>
-</div>
-<p class="font-body text-on-surface-variant mb-4">"Former Coast Guard, perfect safety record. Ideal for larger vessels."</p>
-</div>
-<div class="flex flex-col items-end md:ml-auto relative z-10 border-t md:border-t-0 md:border-l border-outline-variant/20 pt-4 md:pt-0 md:pl-6 w-full md:w-auto">
-<p class="font-headline text-2xl text-on-background font-bold mb-1">$280<span class="text-sm font-normal text-on-surface-variant">/day</span></p>
-<p class="font-label text-sm text-on-surface-variant mb-4">$45/hr</p>
-<button class="border border-outline text-on-surface rounded-full px-6 py-2 font-label text-sm hover:bg-surface-variant transition-colors">
-                             Select
-                        </button>
-</div>
-</div>
-<!-- Card 4 (Unselected) -->
-<div class="relative bg-surface-container-low rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center gap-6 cursor-pointer group hover:bg-surface-container-lowest transition-all duration-300" data-recommended-captain="diana" onclick="selectRecommendedCaptain('diana')">
-<div class="w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden shrink-0 shadow-sm relative z-10 bg-surface-container flex items-center justify-center text-stone-500 font-bold text-lg">DW</div>
-<div class="flex-1 relative z-10">
-<div class="flex flex-wrap items-center gap-3 mb-2">
-<h3 class="font-headline text-2xl text-on-background font-semibold">Capt. Diana Webb</h3>
-<div class="flex items-center bg-surface-container px-2 py-1 rounded-full">
-<span class="material-symbols-outlined text-primary text-sm mr-1" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="font-label text-xs font-bold text-on-surface">4.7</span>
-</div>
-<span class="font-label text-xs uppercase tracking-wider text-on-surface-variant bg-surface px-2 py-1 rounded">6 yrs exp</span>
-</div>
-<p class="font-body text-on-surface-variant mb-4">"Specializes in family-friendly charters. Patient with first-time sailors."</p>
-</div>
-<div class="flex flex-col items-end md:ml-auto relative z-10 border-t md:border-t-0 md:border-l border-outline-variant/20 pt-4 md:pt-0 md:pl-6 w-full md:w-auto">
-<p class="font-headline text-2xl text-on-background font-bold mb-1">$180<span class="text-sm font-normal text-on-surface-variant">/day</span></p>
-<p class="font-label text-sm text-on-surface-variant mb-4">$30/hr</p>
-<button class="border border-outline text-on-surface rounded-full px-6 py-2 font-label text-sm hover:bg-surface-variant transition-colors">
-                             Select
-                        </button>
-</div>
-</div>
-</div>
-<!-- Bottom Actions & Info -->
-<div class="space-y-8">
-<div class="flex justify-end">
-<a class="font-label text-sm text-primary hover:text-primary-container transition-colors flex items-center gap-1 group" href="#">
-                        Don't see your preferred captain? Invite them to join
-                        <span class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">arrow_forward</span>
-</a>
-</div>
-<!-- Info Box (No line borders, tonal shift only) -->
-<div class="bg-tertiary-container/10 rounded-xl p-6 flex items-start gap-4 relative overflow-hidden">
-<div class="absolute left-0 top-0 bottom-0 w-2 bg-tertiary"></div>
-<span class="material-symbols-outlined text-tertiary mt-1" style="font-variation-settings: 'FILL' 1;">lightbulb</span>
-<p class="font-body text-on-surface-variant text-sm leading-relaxed max-w-3xl">
-                        Captains keep 100% of their fees. You only earn from the boat rental. Customers can override your recommendation at booking if they prefer another verified professional.
-                    </p>
-</div>
-<!-- Navigation Buttons -->
-<div class="flex items-center justify-between pt-8 border-t border-outline-variant/20 mt-12">
-<button class="flex items-center gap-2 font-label text-on-surface-variant hover:text-primary transition-colors py-3 px-4">
-<span class="material-symbols-outlined text-sm">arrow_back</span>
-                        Back
-                    </button>
-<button class="bg-primary-container text-on-primary-container hover:bg-primary hover:text-on-primary font-label text-sm font-bold uppercase tracking-wider rounded-full px-8 py-4 transition-all duration-300 ambient-shadow flex items-center gap-2 group">
-                        Save &amp; Continue
-                        <span class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">arrow_forward</span>
-</button>
-</div>
-<div class="flex justify-center pt-4">
-<button class="font-label text-sm text-on-surface-variant hover:text-primary transition-colors py-2 px-4" onclick="window.parent.location.href='/my-boats'">
-                        Cancel
-                    </button>
-</div>
-</div>
+
+  <!-- Page heading -->
+  <div class="mb-10">
+    <h1 class="font-headline text-4xl md:text-5xl text-on-background tracking-tight mb-3 leading-none">List Your <i class="text-primary italic">Boat</i></h1>
+    <p class="font-body text-lg text-on-surface-variant max-w-2xl">Fill in the details below to add your vessel to the marketplace.</p>
+  </div>
+
+  <!-- Step Progress Bar -->
+  <div class="mb-12">
+    <div class="flex items-start justify-between max-w-3xl">
+      <div class="flex flex-col items-center"><div data-step-indicator="1">1</div><div class="step-label">Basics</div></div>
+      <div class="flex-1 h-[2px] bg-outline-variant/40 mt-4 mx-2"></div>
+      <div class="flex flex-col items-center"><div data-step-indicator="2">2</div><div class="step-label">Amenities</div></div>
+      <div class="flex-1 h-[2px] bg-outline-variant/40 mt-4 mx-2"></div>
+      <div class="flex flex-col items-center"><div data-step-indicator="3">3</div><div class="step-label">Photos</div></div>
+      <div class="flex-1 h-[2px] bg-outline-variant/40 mt-4 mx-2"></div>
+      <div class="flex flex-col items-center"><div data-step-indicator="4">4</div><div class="step-label">Pricing</div></div>
+      <div class="flex-1 h-[2px] bg-outline-variant/40 mt-4 mx-2"></div>
+      <div class="flex flex-col items-center"><div data-step-indicator="5">5</div><div class="step-label">Captain</div></div>
+      <div class="flex-1 h-[2px] bg-outline-variant/40 mt-4 mx-2"></div>
+      <div class="flex flex-col items-center"><div data-step-indicator="6">6</div><div class="step-label">Review</div></div>
+    </div>
+  </div>
+
+  <!-- ================== STEP 1 — Basic Info ================== -->
+  <section data-step="1" class="bg-surface-container-lowest rounded-2xl p-8 md:p-10 ambient-shadow">
+    <h2 class="font-headline text-3xl mb-2">Basic Information</h2>
+    <p class="text-on-surface-variant mb-8">Tell us about your vessel.</p>
+
+    <form class="space-y-6" onsubmit="event.preventDefault();">
+      <div>
+        <label class="field-label">Boat Name</label>
+        <input data-field="name" type="text" class="field-input" placeholder="e.g. Azure Serenity" required>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <label class="field-label">Boat Type</label>
+          <select data-field="type" class="field-input" required>
+            <option value="">— Select type —</option>
+            <option>Luxury Yacht</option>
+            <option>Catamaran</option>
+            <option>Sailboat</option>
+            <option>Powerboat</option>
+            <option>Day Cruiser</option>
+            <option>Speedboat</option>
+            <option>Jet Ski</option>
+          </select>
+        </div>
+        <div>
+          <label class="field-label">Home Harbor</label>
+          <select data-field="harbor" class="field-input" required>
+            <option value="">— Select harbor —</option>
+            <option>Monroe Harbor</option>
+            <option>Navy Pier</option>
+            <option>Belmont Harbor</option>
+            <option>Burnham Harbor</option>
+            <option>Diversey Harbor</option>
+            <option>DuSable Harbor</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div>
+          <label class="field-label">Year Built</label>
+          <input data-field="yearBuilt" type="number" class="field-input" placeholder="e.g. 2019" min="1950" max="2027">
+        </div>
+        <div>
+          <label class="field-label">Length (ft)</label>
+          <input data-field="length" type="number" class="field-input" placeholder="e.g. 45" min="10" max="200">
+        </div>
+        <div>
+          <label class="field-label">Max Guests</label>
+          <input data-field="maxGuests" type="number" class="field-input" placeholder="e.g. 12" min="1" max="50" required>
+        </div>
+      </div>
+
+      <div>
+        <label class="field-label">Description</label>
+        <textarea data-field="description" class="field-input" rows="4" placeholder="Describe your vessel, its features, and what makes it special..."></textarea>
+      </div>
+    </form>
+
+    <div class="flex items-center justify-between pt-8 mt-8 border-t border-outline-variant/20">
+      <button data-action="cancel" type="button" class="btn-ghost">Cancel</button>
+      <button data-action="next" data-from="1" type="button" class="btn-primary">Save &amp; Continue →</button>
+    </div>
+  </section>
+
+  <!-- ================== STEP 2 — Amenities ================== -->
+  <section data-step="2" class="bg-surface-container-lowest rounded-2xl p-8 md:p-10 ambient-shadow" style="display:none;">
+    <h2 class="font-headline text-3xl mb-2">Amenities</h2>
+    <p class="text-on-surface-variant mb-8">Pick everything your boat offers. More features = more bookings.</p>
+
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <label class="amenity-card"><input type="checkbox" data-amenity="WiFi"><span>WiFi</span></label>
+      <label class="amenity-card"><input type="checkbox" data-amenity="AC"><span>AC</span></label>
+      <label class="amenity-card"><input type="checkbox" data-amenity="Kitchen"><span>Kitchen</span></label>
+      <label class="amenity-card"><input type="checkbox" data-amenity="Bluetooth Audio"><span>Bluetooth Audio</span></label>
+      <label class="amenity-card"><input type="checkbox" data-amenity="Restroom"><span>Restroom</span></label>
+      <label class="amenity-card"><input type="checkbox" data-amenity="Cooler"><span>Cooler</span></label>
+      <label class="amenity-card"><input type="checkbox" data-amenity="Sundeck"><span>Sundeck</span></label>
+      <label class="amenity-card"><input type="checkbox" data-amenity="Bar"><span>Bar</span></label>
+    </div>
+
+    <div class="flex items-center justify-between pt-8 mt-8 border-t border-outline-variant/20">
+      <button data-action="back" type="button" class="btn-ghost">← Back</button>
+      <button data-action="next" data-from="2" type="button" class="btn-primary">Save &amp; Continue →</button>
+    </div>
+  </section>
+
+  <!-- ================== STEP 3 — Photos ================== -->
+  <section data-step="3" class="bg-surface-container-lowest rounded-2xl p-8 md:p-10 ambient-shadow" style="display:none;">
+    <h2 class="font-headline text-3xl mb-2">Photos</h2>
+    <p class="text-on-surface-variant mb-8">Upload up to 10 photos (max 10MB each). Listings with photos book 5× more.</p>
+
+    <div id="photo-drop-zone" style="border:2px dashed #D4C9B8;border-radius:12px;padding:48px;text-align:center;cursor:pointer;background:#FAF7F2;color:#6B6560;font-size:14px;transition:all 0.2s;">
+      <span class="material-symbols-outlined" style="font-size:40px;color:#a43c12;">cloud_upload</span>
+      <p style="margin:8px 0 0;font-weight:600;color:#1a1c1a;">Click or drag photos here</p>
+      <p style="margin:4px 0 0;font-size:13px;color:#6B6560;">JPG, PNG · max 10 photos · max 10MB each</p>
+    </div>
+    <input type="file" id="photo-file-input" multiple accept="image/*" style="display:none;">
+    <div id="photo-previews" style="margin-top:20px;"></div>
+
+    <div class="flex items-center justify-between pt-8 mt-8 border-t border-outline-variant/20">
+      <button data-action="back" type="button" class="btn-ghost">← Back</button>
+      <button data-action="next" data-from="3" type="button" class="btn-primary">Save &amp; Continue →</button>
+    </div>
+  </section>
+
+  <!-- ================== STEP 4 — Pricing ================== -->
+  <section data-step="4" class="bg-surface-container-lowest rounded-2xl p-8 md:p-10 ambient-shadow" style="display:none;">
+    <h2 class="font-headline text-3xl mb-2">Pricing</h2>
+    <p class="text-on-surface-variant mb-8">Most rentals on Water City Rental are hourly. You can also offer a daily rate for longer charters.</p>
+
+    <div class="space-y-6">
+      <div>
+        <label class="field-label">Rate Type</label>
+        <div class="flex gap-4">
+          <label class="amenity-card flex-1"><input type="radio" name="rateType" data-field="rateType" value="hourly" checked><span><strong>By the Hour</strong> <span style="color:#6B6560;font-size:13px;">(default)</span></span></label>
+          <label class="amenity-card flex-1"><input type="radio" name="rateType" data-field="rateType" value="daily"><span><strong>Full Day</strong> <span style="color:#6B6560;font-size:13px;">(8 hours)</span></span></label>
+        </div>
+      </div>
+
+      <div data-pricing-block="hourly">
+        <label class="field-label">Hourly Rate ($)</label>
+        <input data-field="hourlyRate" type="number" class="field-input" placeholder="e.g. 200" min="1" max="2000">
+        <p style="margin:8px 0 0;font-size:13px;color:#6B6560;">Most yachts: $100-$400/hr · Speedboats: $150-$250/hr</p>
+      </div>
+
+      <div data-pricing-block="daily" style="display:none;">
+        <label class="field-label">Day Rate ($)</label>
+        <input data-field="dayRate" type="number" class="field-input" placeholder="e.g. 1200" min="1" max="20000">
+        <p style="margin:8px 0 0;font-size:13px;color:#6B6560;">Equivalent to ~8 hours. Owners earn 100% (zero platform fee during launch).</p>
+      </div>
+
+      <div class="bg-tertiary-container/10 rounded-xl p-5 flex items-start gap-4 relative overflow-hidden">
+        <div class="absolute left-0 top-0 bottom-0 w-1 bg-tertiary"></div>
+        <span class="material-symbols-outlined text-tertiary mt-1" style="font-variation-settings: 'FILL' 1;">lightbulb</span>
+        <p class="font-body text-on-surface-variant text-sm leading-relaxed">
+          <strong>You keep 100%</strong> of the boat rental. Captain fees go to the captain. There's a $220 service fee per booking that customers pay (not deducted from your earnings).
+        </p>
+      </div>
+    </div>
+
+    <div class="flex items-center justify-between pt-8 mt-8 border-t border-outline-variant/20">
+      <button data-action="back" type="button" class="btn-ghost">← Back</button>
+      <button data-action="next" data-from="4" type="button" class="btn-primary">Save &amp; Continue →</button>
+    </div>
+  </section>
+
+  <!-- ================== STEP 5 — Recommended Captain ================== -->
+  <section data-step="5" class="bg-surface-container-lowest rounded-2xl p-8 md:p-10 ambient-shadow" style="display:none;">
+    <h2 class="font-headline text-3xl mb-2">Recommended Captain</h2>
+    <p class="text-on-surface-variant mb-8">Pick a captain to recommend for your boat. Customers can choose another at booking. Every charter requires a captain.</p>
+
+    <div id="captain-pick-list" class="space-y-3"></div>
+
+    <div class="bg-tertiary-container/10 rounded-xl p-5 flex items-start gap-4 relative overflow-hidden mt-8">
+      <div class="absolute left-0 top-0 bottom-0 w-1 bg-tertiary"></div>
+      <span class="material-symbols-outlined text-tertiary mt-1" style="font-variation-settings: 'FILL' 1;">lightbulb</span>
+      <p class="font-body text-on-surface-variant text-sm leading-relaxed">Captains keep 100% of their fees. You only earn from the boat rental. Customers can override your recommendation at booking.</p>
+    </div>
+
+    <div class="flex items-center justify-between pt-8 mt-8 border-t border-outline-variant/20">
+      <button data-action="back" type="button" class="btn-ghost">← Back</button>
+      <button data-action="next" data-from="5" type="button" class="btn-primary">Save &amp; Continue →</button>
+    </div>
+  </section>
+
+  <!-- ================== STEP 6 — Review ================== -->
+  <section data-step="6" class="bg-surface-container-lowest rounded-2xl p-8 md:p-10 ambient-shadow" style="display:none;">
+    <h2 class="font-headline text-3xl mb-2">Review &amp; Publish</h2>
+    <p class="text-on-surface-variant mb-8">One last check. Click Submit to add your boat to the marketplace.</p>
+
+    <dl class="space-y-4">
+      <div class="flex justify-between items-start py-3 border-b border-outline-variant/20"><dt class="field-label" style="margin:0;">Name</dt><dd id="review-name" class="font-semibold text-on-surface text-right max-w-md">—</dd></div>
+      <div class="flex justify-between items-start py-3 border-b border-outline-variant/20"><dt class="field-label" style="margin:0;">Type</dt><dd id="review-type" class="text-on-surface text-right">—</dd></div>
+      <div class="flex justify-between items-start py-3 border-b border-outline-variant/20"><dt class="field-label" style="margin:0;">Year</dt><dd id="review-year" class="text-on-surface text-right">—</dd></div>
+      <div class="flex justify-between items-start py-3 border-b border-outline-variant/20"><dt class="field-label" style="margin:0;">Length</dt><dd id="review-length" class="text-on-surface text-right">—</dd></div>
+      <div class="flex justify-between items-start py-3 border-b border-outline-variant/20"><dt class="field-label" style="margin:0;">Max Guests</dt><dd id="review-guests" class="text-on-surface text-right">—</dd></div>
+      <div class="flex justify-between items-start py-3 border-b border-outline-variant/20"><dt class="field-label" style="margin:0;">Harbor</dt><dd id="review-harbor" class="text-on-surface text-right">—</dd></div>
+      <div class="flex justify-between items-start py-3 border-b border-outline-variant/20"><dt class="field-label" style="margin:0;">Description</dt><dd id="review-description" class="text-on-surface text-right max-w-md">—</dd></div>
+      <div class="flex justify-between items-start py-3 border-b border-outline-variant/20"><dt class="field-label" style="margin:0;">Amenities</dt><dd id="review-amenities" class="text-on-surface text-right max-w-md">—</dd></div>
+      <div class="flex justify-between items-start py-3 border-b border-outline-variant/20"><dt class="field-label" style="margin:0;">Photos</dt><dd id="review-photos" class="text-on-surface text-right">—</dd></div>
+      <div class="flex justify-between items-start py-3 border-b border-outline-variant/20"><dt class="field-label" style="margin:0;">Pricing</dt><dd id="review-pricing" class="text-on-surface text-right font-semibold text-primary">—</dd></div>
+      <div class="flex justify-between items-start py-3"><dt class="field-label" style="margin:0;">Recommended Captain</dt><dd id="review-captain" class="text-on-surface text-right">—</dd></div>
+    </dl>
+
+    <div class="flex items-center justify-between pt-8 mt-8 border-t border-outline-variant/20">
+      <button data-action="back" type="button" class="btn-ghost">← Back</button>
+      <button data-action="submit" type="button" class="btn-primary">Submit Listing</button>
+    </div>
+  </section>
+
 </div>
 </main>
+
 <script>
-var recommendedCaptainId = 'marco';
+(function(){
+  if (!WCR.isLoggedIn()) {
+    window.parent.location.href = '/login';
+    return;
+  }
+  var user = WCR.getUser() || {};
+  if (user.role !== 'owner' && user.role !== 'admin') {
+    alert('Only boat owners can list new boats.');
+    window.parent.location.href = '/dashboard/' + (user.role || 'customer');
+    return;
+  }
 
-function selectRecommendedCaptain(id){
-  recommendedCaptainId = id;
-  var cards = document.querySelectorAll('[data-recommended-captain]');
-  cards.forEach(function(card){
-    card.classList.toggle('selected', card.getAttribute('data-recommended-captain') === id);
-  });
-}
+  // ========================================
+  // WIZARD STATE
+  // ========================================
+  var STORAGE_KEY = 'wcr_list_boat_draft';
+  var currentStep = 1;
+  var totalSteps = 6;
+  var draft = loadDraft();
+  var photoFiles = [];
+  var availableCaptains = [];
 
-document.addEventListener('DOMContentLoaded', function(){
-  selectRecommendedCaptain('marco');
-});
+  function loadDraft(){
+    try {
+      var raw = localStorage.getItem(STORAGE_KEY);
+      return raw ? JSON.parse(raw) : { amenities: [] };
+    } catch(e) { return { amenities: [] }; }
+  }
+  function saveDraft(){
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(draft)); } catch(e){}
+  }
+  function clearDraft(){
+    try { localStorage.removeItem(STORAGE_KEY); } catch(e){}
+  }
+
+  function showStep(n){
+    currentStep = n;
+    document.querySelectorAll('[data-step]').forEach(function(el){
+      el.style.display = (parseInt(el.getAttribute('data-step')) === n) ? '' : 'none';
+    });
+    document.querySelectorAll('[data-step-indicator]').forEach(function(el){
+      var step = parseInt(el.getAttribute('data-step-indicator'));
+      el.classList.remove('active', 'completed');
+      if (step < n) el.classList.add('completed');
+      if (step === n) el.classList.add('active');
+    });
+    window.scrollTo(0, 0);
+  }
+
+  // ========================================
+  // STEP 1 — Basic Info
+  // ========================================
+  function loadStep1(){
+    ['name','type','yearBuilt','length','maxGuests','harbor','description'].forEach(function(f){
+      var el = document.querySelector('[data-field="' + f + '"]');
+      if (el && draft[f] != null) el.value = draft[f];
+    });
+  }
+  function saveStep1(){
+    ['name','type','yearBuilt','length','maxGuests','harbor','description'].forEach(function(f){
+      var el = document.querySelector('[data-field="' + f + '"]');
+      if (el) draft[f] = el.value;
+    });
+    var errs = [];
+    if (!draft.name || draft.name.length < 2) errs.push('Boat name (2+ chars)');
+    if (!draft.type) errs.push('Boat type');
+    if (!draft.harbor) errs.push('Home harbor');
+    if (!draft.maxGuests || parseInt(draft.maxGuests) < 1) errs.push('Max guests');
+    if (errs.length) { alert('Please fill in: ' + errs.join(', ')); return false; }
+    saveDraft();
+    return true;
+  }
+
+  // ========================================
+  // STEP 2 — Amenities
+  // ========================================
+  function loadStep2(){
+    var amenities = draft.amenities || [];
+    document.querySelectorAll('[data-amenity]').forEach(function(cb){
+      cb.checked = amenities.indexOf(cb.getAttribute('data-amenity')) !== -1;
+      var card = cb.closest('.amenity-card');
+      if (card) card.classList.toggle('checked', cb.checked);
+    });
+  }
+  function saveStep2(){
+    var amenities = [];
+    document.querySelectorAll('[data-amenity]').forEach(function(cb){
+      if (cb.checked) amenities.push(cb.getAttribute('data-amenity'));
+    });
+    draft.amenities = amenities;
+    saveDraft();
+    return true;
+  }
+
+  // ========================================
+  // STEP 3 — Photos
+  // ========================================
+  function setupPhotoUpload(){
+    var fileInput = document.getElementById('photo-file-input');
+    var dropZone = document.getElementById('photo-drop-zone');
+    var previewsEl = document.getElementById('photo-previews');
+
+    function renderPreviews(){
+      if (!previewsEl) return;
+      if (photoFiles.length === 0) {
+        previewsEl.innerHTML = '<p style="color:#6B6560;font-style:italic;margin:12px 0;">No photos selected yet.</p>';
+        return;
+      }
+      previewsEl.innerHTML = photoFiles.map(function(f, i){
+        var url = URL.createObjectURL(f);
+        return '<div style="display:inline-block;margin:6px;position:relative;">'
+          +   '<img src="' + url + '" style="width:120px;height:120px;object-fit:cover;border-radius:8px;border:1px solid #D4C9B8;">'
+          +   '<button data-remove-photo="' + i + '" style="position:absolute;top:-8px;right:-8px;background:#C4623A;color:#fff;border:none;border-radius:50%;width:24px;height:24px;cursor:pointer;font-weight:600;line-height:1;font-size:16px;">×</button>'
+          + '</div>';
+      }).join('');
+      previewsEl.querySelectorAll('[data-remove-photo]').forEach(function(btn){
+        btn.addEventListener('click', function(){
+          var idx = parseInt(btn.getAttribute('data-remove-photo'));
+          photoFiles.splice(idx, 1);
+          renderPreviews();
+        });
+      });
+    }
+
+    function handleFiles(files){
+      for (var i = 0; i < files.length; i++) {
+        var f = files[i];
+        if (!f.type.startsWith('image/')) continue;
+        if (f.size > 10 * 1024 * 1024) { alert(f.name + ' is over 10 MB — skipped'); continue; }
+        if (photoFiles.length >= 10) { alert('Max 10 photos allowed'); break; }
+        photoFiles.push(f);
+      }
+      renderPreviews();
+    }
+
+    if (fileInput) {
+      fileInput.addEventListener('change', function(e){ handleFiles(e.target.files); });
+    }
+    if (dropZone) {
+      dropZone.addEventListener('click', function(){ if (fileInput) fileInput.click(); });
+      dropZone.addEventListener('dragover', function(e){ e.preventDefault(); dropZone.style.background = '#F5F0EA'; });
+      dropZone.addEventListener('dragleave', function(){ dropZone.style.background = ''; });
+      dropZone.addEventListener('drop', function(e){
+        e.preventDefault();
+        dropZone.style.background = '';
+        handleFiles(e.dataTransfer.files);
+      });
+    }
+    renderPreviews();
+  }
+  function saveStep3(){
+    if (photoFiles.length === 0) {
+      if (!confirm('No photos selected. Listings without photos perform poorly. Continue anyway?')) return false;
+    }
+    return true;
+  }
+
+  // ========================================
+  // STEP 4 — Pricing
+  // ========================================
+  function loadStep4(){
+    var rateType = draft.rateType || 'hourly';
+    document.querySelectorAll('[data-field="rateType"]').forEach(function(r){
+      r.checked = (r.value === rateType);
+    });
+    var hr = document.querySelector('[data-field="hourlyRate"]');
+    var dr = document.querySelector('[data-field="dayRate"]');
+    if (hr && draft.hourlyRate != null) hr.value = draft.hourlyRate;
+    if (dr && draft.dayRate != null) dr.value = draft.dayRate;
+    togglePricingFields(rateType);
+  }
+  function togglePricingFields(rateType){
+    var hourlyContainer = document.querySelector('[data-pricing-block="hourly"]');
+    var dailyContainer = document.querySelector('[data-pricing-block="daily"]');
+    if (hourlyContainer) hourlyContainer.style.display = (rateType === 'hourly') ? '' : 'none';
+    if (dailyContainer)  dailyContainer.style.display  = (rateType === 'daily')  ? '' : 'none';
+  }
+  function saveStep4(){
+    var rateTypeRadio = document.querySelector('[data-field="rateType"]:checked');
+    draft.rateType = rateTypeRadio ? rateTypeRadio.value : 'hourly';
+    var hr = document.querySelector('[data-field="hourlyRate"]');
+    var dr = document.querySelector('[data-field="dayRate"]');
+    draft.hourlyRate = hr ? parseInt(hr.value) || 0 : 0;
+    draft.dayRate    = dr ? parseInt(dr.value) || 0 : 0;
+    if (draft.rateType === 'hourly' && draft.hourlyRate <= 0) { alert('Hourly rate must be greater than $0'); return false; }
+    if (draft.rateType === 'daily'  && draft.dayRate    <= 0) { alert('Day rate must be greater than $0');    return false; }
+    saveDraft();
+    return true;
+  }
+
+  // ========================================
+  // STEP 5 — Recommended Captain
+  // ========================================
+  function escapeHtml(s){
+    if (s == null) return '';
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+  async function loadStep5(){
+    var listEl = document.getElementById('captain-pick-list');
+    if (!listEl) return;
+
+    if (availableCaptains.length === 0) {
+      listEl.innerHTML = '<p style="color:#6B6560;">Loading captains…</p>';
+      try {
+        var resp = await WCR.listCaptains();
+        availableCaptains = resp.data || resp || [];
+      } catch(e) {
+        listEl.innerHTML = '<p style="color:#C4623A;">Could not load captains</p>';
+        return;
+      }
+    }
+
+    listEl.innerHTML = availableCaptains.map(function(c){
+      var prof = c.captainProfile || {};
+      var rate = prof.hourlyRate ? '$' + prof.hourlyRate + '/hr' : '';
+      var dayRate = prof.dayRate ? ' · $' + prof.dayRate + '/day' : '';
+      var isSelected = (draft.recommendedCaptain === c._id);
+      var border = isSelected ? '2px solid #C4623A' : '1px solid #D4C9B8';
+      var bg = isSelected ? '#FAF7F2' : '#fff';
+      var dot = isSelected
+        ? '<div style="width:24px;height:24px;border-radius:50%;background:#C4623A;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;flex-shrink:0;">✓</div>'
+        : '<div style="width:24px;height:24px;border-radius:50%;border:2px solid #D4C9B8;flex-shrink:0;"></div>';
+      var initials = (c.name || '??').split(' ').map(function(p){return p[0]||'';}).join('').slice(0,2).toUpperCase();
+      var avatar = c.avatar
+        ? '<img src="' + escapeHtml(c.avatar) + '" style="width:56px;height:56px;border-radius:50%;object-fit:cover;flex-shrink:0;">'
+        : '<div style="width:56px;height:56px;border-radius:50%;background:#F5F0EA;display:flex;align-items:center;justify-content:center;color:#6B6560;font-weight:700;flex-shrink:0;">' + initials + '</div>';
+
+      return '<div data-captain-pick="' + c._id + '" style="display:flex;gap:14px;padding:16px;background:' + bg + ';border:' + border + ';border-radius:12px;cursor:pointer;align-items:center;transition:all 0.2s;">'
+        + avatar
+        + '<div style="flex:1;min-width:0;">'
+        +   '<h4 style="margin:0;font-family:\'Noto Serif\',serif;font-size:17px;color:#1a1c1a;">Capt. ' + escapeHtml(c.name) + '</h4>'
+        +   '<p style="margin:2px 0;font-size:12px;color:#6B6560;">★ ' + (prof.rating || '—') + ' · ' + (prof.yearsExperience || 0) + ' yrs · ' + escapeHtml(prof.bio || '') + '</p>'
+        +   '<p style="margin:0;font-size:13px;font-weight:600;color:#a43c12;">' + rate + dayRate + '</p>'
+        + '</div>'
+        + dot
+        + '</div>';
+    }).join('');
+
+    listEl.querySelectorAll('[data-captain-pick]').forEach(function(card){
+      card.addEventListener('click', function(){
+        draft.recommendedCaptain = card.getAttribute('data-captain-pick');
+        saveDraft();
+        loadStep5();
+      });
+    });
+  }
+  function saveStep5(){
+    if (!draft.recommendedCaptain) {
+      if (!confirm('No recommended captain selected. Customers can still pick from all captains. Continue without recommendation?')) return false;
+    }
+    saveDraft();
+    return true;
+  }
+
+  // ========================================
+  // STEP 6 — Review + Submit
+  // ========================================
+  function loadStep6(){
+    function setText(id, val){
+      var el = document.getElementById(id);
+      if (el) el.textContent = (val == null || val === '') ? '—' : val;
+    }
+    setText('review-name',        draft.name);
+    setText('review-type',        draft.type);
+    setText('review-year',        draft.yearBuilt);
+    setText('review-length',      draft.length ? draft.length + ' ft' : '');
+    setText('review-guests',      draft.maxGuests);
+    setText('review-harbor',      draft.harbor);
+    setText('review-description', draft.description);
+    setText('review-amenities',   (draft.amenities || []).join(', ') || 'None');
+    setText('review-photos',      photoFiles.length + ' photo' + (photoFiles.length === 1 ? '' : 's'));
+    var rateType = draft.rateType || 'hourly';
+    var rateLabel = rateType === 'hourly'
+      ? '$' + (draft.hourlyRate || 0) + '/hour'
+      : '$' + (draft.dayRate || 0) + '/day';
+    setText('review-pricing', rateLabel);
+    var captainName = '—';
+    if (draft.recommendedCaptain) {
+      var c = availableCaptains.find(function(x){ return x._id === draft.recommendedCaptain; });
+      if (c) captainName = 'Capt. ' + c.name;
+    }
+    setText('review-captain', captainName);
+  }
+
+  async function submitListing(){
+    var submitBtn = document.querySelector('[data-action="submit"]');
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Uploading photos…';
+    }
+
+    var formData = new FormData();
+    formData.append('name', draft.name);
+    formData.append('type', draft.type);
+    if (draft.yearBuilt) formData.append('yearBuilt', draft.yearBuilt);
+    if (draft.length)    formData.append('length', draft.length);
+    formData.append('maxGuests', draft.maxGuests);
+    formData.append('harbor', draft.harbor);
+    if (draft.description) formData.append('description', draft.description);
+    formData.append('rateType', draft.rateType || 'hourly');
+    if ((draft.rateType || 'hourly') === 'hourly') formData.append('hourlyRate', draft.hourlyRate || 0);
+    else                                            formData.append('dayRate',    draft.dayRate    || 0);
+    if (draft.recommendedCaptain) formData.append('recommendedCaptain', draft.recommendedCaptain);
+    formData.append('amenities', JSON.stringify(draft.amenities || []));
+    photoFiles.forEach(function(f){ formData.append('photos', f); });
+
+    try {
+      var token = localStorage.getItem('wcr_access_token');
+      var res = await fetch('http://localhost:5000/api/boats', {
+        method: 'POST',
+        headers: token ? { 'Authorization': 'Bearer ' + token } : {},
+        credentials: 'include',
+        body: formData
+      });
+      var data = await res.json();
+      if (!res.ok) throw new Error(data.message || 'Could not list boat');
+
+      clearDraft();
+      photoFiles = [];
+      alert('Boat listed successfully! Redirecting to your fleet…');
+      window.parent.location.href = '/my-boats';
+    } catch (err) {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit Listing';
+      }
+      alert('Could not list boat: ' + (err.message || 'Unknown error'));
+    }
+  }
+
+  // ========================================
+  // NAVIGATION HANDLERS
+  // ========================================
+  function bindActions(){
+    document.querySelectorAll('[data-action="next"]').forEach(function(btn){
+      btn.addEventListener('click', function(e){
+        e.preventDefault();
+        var from = parseInt(btn.getAttribute('data-from'));
+        var ok = false;
+        if      (from === 1) ok = saveStep1();
+        else if (from === 2) ok = saveStep2();
+        else if (from === 3) ok = saveStep3();
+        else if (from === 4) ok = saveStep4();
+        else if (from === 5) ok = saveStep5();
+        if (ok) {
+          var next = from + 1;
+          showStep(next);
+          if (next === 5) loadStep5();
+          if (next === 6) loadStep6();
+        }
+      });
+    });
+
+    document.querySelectorAll('[data-action="back"]').forEach(function(btn){
+      btn.addEventListener('click', function(e){
+        e.preventDefault();
+        if (currentStep > 1) showStep(currentStep - 1);
+      });
+    });
+
+    document.querySelectorAll('[data-action="cancel"]').forEach(function(btn){
+      btn.addEventListener('click', function(e){
+        e.preventDefault();
+        if (confirm('Cancel listing? Your draft will be lost.')) {
+          clearDraft();
+          window.parent.location.href = '/my-boats';
+        }
+      });
+    });
+
+    document.querySelectorAll('[data-action="submit"]').forEach(function(btn){
+      btn.addEventListener('click', function(e){
+        e.preventDefault();
+        submitListing();
+      });
+    });
+
+    document.querySelectorAll('[data-field="rateType"]').forEach(function(r){
+      r.addEventListener('change', function(){ togglePricingFields(r.value); });
+    });
+
+    // Toggle .checked class on amenity card whenever its checkbox changes
+    document.querySelectorAll('[data-amenity]').forEach(function(cb){
+      cb.addEventListener('change', function(){
+        var card = cb.closest('.amenity-card');
+        if (card) card.classList.toggle('checked', cb.checked);
+      });
+    });
+  }
+
+  // ========================================
+  // INIT
+  // ========================================
+  function init(){
+    bindActions();
+    setupPhotoUpload();
+    loadStep1();
+    loadStep2();
+    loadStep4();
+    showStep(1);
+  }
+
+  if (document.readyState !== 'loading') init();
+  else document.addEventListener('DOMContentLoaded', init);
+})();
 </script>
+
 <script>
-document.addEventListener('click',function(e){
-  var a=e.target.closest('a[href]');
-  if(!a)return;
-  var h=a.getAttribute('href');
-  if(!h||h.startsWith('http')||h==='#')return;
+document.addEventListener('click', function(e){
+  var a = e.target.closest('a[href]');
+  if (!a) return;
+  var h = a.getAttribute('href');
+  if (!h || h.startsWith('http') || h === '#') return;
   e.preventDefault();
-  window.parent.location.href=h;
+  window.parent.location.href = h;
 });
 </script>
+
 </body></html>

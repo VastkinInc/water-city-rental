@@ -11,7 +11,17 @@ const captainProfileSchema = new mongoose.Schema(
     licenseNumber: { type: String, trim: true },
     rating: { type: Number, default: 0, min: 0, max: 5 },
     totalTrips: { type: Number, default: 0, min: 0 },
-    bio: { type: String, trim: true }
+    bio: { type: String, trim: true },
+    languages: { type: [String], default: undefined }
+  },
+  { _id: false }
+);
+
+const ownerProfileSchema = new mongoose.Schema(
+  {
+    harbor: { type: String, trim: true, default: '' },
+    numBoats: { type: Number, default: 0, min: 0, max: 100 },
+    yearsOwning: { type: Number, default: 0, min: 0, max: 70 }
   },
   { _id: false }
 );
@@ -23,7 +33,7 @@ const userSchema = new mongoose.Schema(
       required: [true, 'Name is required'],
       trim: true,
       minlength: 2,
-      maxlength: 50
+      maxlength: 80
     },
     email: {
       type: String,
@@ -50,7 +60,8 @@ const userSchema = new mongoose.Schema(
     bio: { type: String, trim: true },
     isVerified: { type: Boolean, default: false },
     isActive: { type: Boolean, default: true },
-    captainProfile: { type: captainProfileSchema, default: undefined }
+    captainProfile: { type: captainProfileSchema, default: undefined },
+    ownerProfile: { type: ownerProfileSchema, default: undefined }
   },
   { timestamps: true }
 );

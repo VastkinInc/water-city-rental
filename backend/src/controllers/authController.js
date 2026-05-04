@@ -32,12 +32,49 @@ export const register = async (req, res, next) => {
   try {
     const { name, email, password, role } = req.body;
 
+    if (role === 'admin') {
+      throw new ApiError(403, 'Admin accounts cannot be created via register');
+    }
+
     const existing = await User.findOne({ email });
     if (existing) {
       throw new ApiError(409, 'Email already registered');
     }
 
-    const user = await User.create({ name, email, password, role });
+    const userPayload = {
+      name,
+      email,
+      password,
+      role: role || 'customer'
+    };
+
+    // Whitelisted optional common fields
+    ['phone', 'city', 'bio', 'avatar'].forEach((f) => {
+      if (req.body[f] !== undefined) userPayload[f] = req.body[f];
+    });
+
+    // Owner-specific sub-document (only if role === 'owner')
+    if (role === 'owner' && req.body.ownerProfile) {
+      const op = req.body.ownerProfile;
+      const allowed = {};
+      ['harbor', 'numBoats', 'yearsOwning'].forEach((f) => {
+        if (op[f] !== undefined) allowed[f] = op[f];
+      });
+      if (Object.keys(allowed).length) userPayload.ownerProfile = allowed;
+    }
+
+    // Captain-specific sub-document (only if role === 'captain')
+    if (role === 'captain' && req.body.captainProfile) {
+      const cp = req.body.captainProfile;
+      const allowed = {};
+      ['licenseNumber', 'yearsExperience', 'dayRate', 'hourlyRate', 'bio', 'languages']
+        .forEach((f) => {
+          if (cp[f] !== undefined) allowed[f] = cp[f];
+        });
+      if (Object.keys(allowed).length) userPayload.captainProfile = allowed;
+    }
+
+    const user = await User.create(userPayload);
 
     const accessToken = generateAccessToken(user._id, user.role);
     const refreshToken = generateRefreshToken(user._id);
@@ -222,6 +259,9 @@ export const getMe = async (req, res, next) => {
     };
     if (u.role === 'captain' && u.captainProfile) {
       payload.captainProfile = u.captainProfile;
+    }
+    if (u.role === 'owner' && u.ownerProfile) {
+      payload.ownerProfile = u.ownerProfile;
     }
     res.status(200).json({ success: true, user: payload });
   } catch (err) {
