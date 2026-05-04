@@ -1,3 +1,4 @@
+import bcrypt from 'bcryptjs';
 import User from '../models/User.js';
 import { ApiError } from '../utils/ApiError.js';
 import {
@@ -129,6 +130,78 @@ export const refresh = async (req, res, next) => {
     res.cookie('accessToken', accessToken, accessCookieOptions);
 
     res.status(200).json({ success: true, accessToken });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const updateMyProfile = async (req, res, next) => {
+  try {
+    const userId = req.user._id;
+
+    // Whitelist top-level user fields
+    const allowed = {};
+    const allowedFields = ['name', 'phone', 'city', 'bio', 'avatar'];
+    for (const f of allowedFields) {
+      if (req.body[f] !== undefined) allowed[f] = req.body[f];
+    }
+
+    // Captain-only sub-fields, addressed via dot-paths so we don't clobber
+    // server-managed fields (rating, totalTrips).
+    if (req.user.role === 'captain' && req.body.captainProfile) {
+      const cp = req.body.captainProfile;
+      const allowedCpFields = [
+        'dayRate', 'hourlyRate', 'yearsExperience', 'licenseNumber', 'bio'
+      ];
+      for (const f of allowedCpFields) {
+        if (cp[f] !== undefined) allowed[`captainProfile.${f}`] = cp[f];
+      }
+    }
+
+    // role / email / password / isVerified / isActive intentionally NOT in the
+    // whitelist — silently dropped, even if present in the body.
+
+    const user = await User.findByIdAndUpdate(
+      userId,
+      allowed,
+      { new: true, runValidators: true }
+    ).select('-password');
+
+    if (!user) throw new ApiError(404, 'User not found');
+
+    res.status(200).json({ success: true, data: user });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const changePassword = async (req, res, next) => {
+  try {
+    const { currentPassword, newPassword } = req.body;
+
+    if (!currentPassword || !newPassword) {
+      throw new ApiError(400, 'Current password and new password are required');
+    }
+    if (newPassword.length < 8) {
+      throw new ApiError(400, 'New password must be at least 8 characters');
+    }
+    if (currentPassword === newPassword) {
+      throw new ApiError(400, 'New password must be different from current password');
+    }
+
+    const user = await User.findById(req.user._id).select('+password');
+    if (!user) throw new ApiError(404, 'User not found');
+
+    const isMatch = await bcrypt.compare(currentPassword, user.password);
+    if (!isMatch) throw new ApiError(401, 'Current password is incorrect');
+
+    user.password = newPassword; // pre-save hook hashes
+    await user.save();
+
+    res.status(200).json({
+      success: true,
+      message: 'Password changed successfully'
+    });
   } catch (err) {
     next(err);
   }

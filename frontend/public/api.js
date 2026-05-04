@@ -140,6 +140,21 @@
       return apiCall('GET', '/bookings');
     },
 
+    updateProfile: function(updates) {
+      return apiCall('PATCH', '/auth/me', updates);
+    },
+    changePassword: function(currentPassword, newPassword) {
+      return apiCall('POST', '/auth/change-password', {
+        currentPassword: currentPassword, newPassword: newPassword
+      });
+    },
+    refreshUser: async function() {
+      var resp = await apiCall('GET', '/auth/me');
+      var user = resp && (resp.user || resp.data || resp);
+      if (user) setUser(user);
+      return user;
+    },
+
     /**
      * Unified status display for bookings (Day 4c parallel approval).
      * Takes the FULL booking object so it can read ownerApproved/captainApproved.
