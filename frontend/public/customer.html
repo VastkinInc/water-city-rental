@@ -134,7 +134,7 @@
                     <span class="font-sans text-sm tracking-tight">My Bookings</span>
                 </a>
                 <a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all"
-                    href="/boats">
+                    href="/saved">
                     <span class="material-symbols-outlined">favorite</span>
                     <span class="font-sans text-sm tracking-tight">Saved</span>
                 </a>
@@ -189,9 +189,9 @@
                     </p>
                     <p class="text-3xl font-serif text-on-surface" data-stat="completed">0</p>
                 </div>
-                <div class="bg-surface-container-lowest p-6 rounded-2xl shadow-[0_32px_64px_rgba(26,28,26,0.04)]">
+                <div class="bg-surface-container-lowest p-6 rounded-2xl shadow-[0_32px_64px_rgba(26,28,26,0.04)] cursor-pointer hover:bg-surface-container-low transition-colors" onclick="window.parent.location.href='/saved'">
                     <p class="text-[10px] uppercase tracking-[0.1em] text-on-surface-variant font-bold mb-1">Saved</p>
-                    <p class="text-3xl font-serif text-tertiary" data-stat="saved">12</p>
+                    <p class="text-3xl font-serif text-tertiary" data-stat="saved">0</p>
                 </div>
             </section>
             <!-- Upcoming Trips -->
@@ -441,6 +441,28 @@
       + '</div>';
   }
 
+  async function loadSavedStat() {
+    try {
+      var resp = await WCR.listFavorites();
+      var n = (resp.data || []).length;
+      var statEl = document.querySelector('[data-stat="saved"]');
+      if (statEl) statEl.textContent = n;
+
+      // Sidebar badge on Saved link
+      document.querySelectorAll('a[href="/saved"]').forEach(function(link){
+        var existing = link.querySelector('[data-saved-count]');
+        if (existing) existing.remove();
+        if (n > 0) {
+          var badge = document.createElement('span');
+          badge.setAttribute('data-saved-count', '1');
+          badge.textContent = n;
+          badge.style.cssText = 'display:inline-block;margin-left:8px;background:#a43c12;color:#fff;font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;';
+          link.appendChild(badge);
+        }
+      });
+    } catch(e){}
+  }
+
   async function loadDashboard(){
     try {
       var user = WCR.getUser() || {};
@@ -458,6 +480,8 @@
       setText('[data-stat="total-bookings"]', total);
       setText('[data-stat="upcoming"]',       upcoming.length);
       setText('[data-stat="completed"]',      completed);
+
+      loadSavedStat();
 
       var listEl = document.getElementById('customer-upcoming-list');
       if (listEl) {

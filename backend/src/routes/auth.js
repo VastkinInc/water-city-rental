@@ -1,7 +1,8 @@
 import express from 'express';
 import {
   register, login, logout, refresh, getMe,
-  updateMyProfile, changePassword
+  updateMyProfile, changePassword,
+  toggleFavorite, listFavorites, checkFavorite
 } from '../controllers/authController.js';
 import { protect } from '../middleware/auth.js';
 import { validate } from '../middleware/validate.js';
@@ -27,5 +28,10 @@ router.post('/change-password',
   protect,
   changePasswordValidator, validate,
   changePassword);
+
+// Favorites (customer-only data, lives under auth)
+router.post('/favorites/:boatId',      protect, toggleFavorite);
+router.get('/favorites',               protect, listFavorites);
+router.get('/favorites/check/:boatId', protect, checkFavorite);
 
 export default router;

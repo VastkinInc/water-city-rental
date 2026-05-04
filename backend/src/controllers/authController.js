@@ -1,5 +1,7 @@
 import bcrypt from 'bcryptjs';
+import mongoose from 'mongoose';
 import User from '../models/User.js';
+import Boat from '../models/Boat.js';
 import { ApiError } from '../utils/ApiError.js';
 import {
   generateAccessToken,
@@ -238,6 +240,95 @@ export const changePassword = async (req, res, next) => {
     res.status(200).json({
       success: true,
       message: 'Password changed successfully'
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const toggleFavorite = async (req, res, next) => {
+  try {
+    const { boatId } = req.params;
+    const userId = req.user._id;
+
+    if (!mongoose.isValidObjectId(boatId)) {
+      throw new ApiError(400, 'Invalid boat ID');
+    }
+    if (req.user.role !== 'customer') {
+      throw new ApiError(403, 'Only customers can favorite boats');
+    }
+
+    const boat = await Boat.findById(boatId).select('_id');
+    if (!boat) throw new ApiError(404, 'Boat not found');
+
+    const user = await User.findById(userId);
+    if (!user) throw new ApiError(404, 'User not found');
+
+    const idx = user.favorites.findIndex((f) => f.toString() === boatId);
+    let action;
+    if (idx === -1) {
+      user.favorites.push(boatId);
+      action = 'saved';
+    } else {
+      user.favorites.splice(idx, 1);
+      action = 'unsaved';
+    }
+    await user.save();
+
+    res.status(200).json({
+      success: true,
+      action,
+      favorited: action === 'saved',
+      favoritesCount: user.favorites.length
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const listFavorites = async (req, res, next) => {
+  try {
+    if (req.user.role !== 'customer') {
+      return res.status(200).json({ success: true, data: [], count: 0 });
+    }
+
+    const user = await User.findById(req.user._id).populate({
+      path: 'favorites',
+      match: { status: 'active' },
+      populate: [
+        { path: 'owner', select: 'name avatar' },
+        { path: 'recommendedCaptain', select: 'name avatar captainProfile' }
+      ]
+    });
+
+    const favorites = (user?.favorites || []).filter(Boolean);
+
+    res.status(200).json({
+      success: true,
+      data: favorites,
+      count: favorites.length
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const checkFavorite = async (req, res, next) => {
+  try {
+    const { boatId } = req.params;
+    if (!mongoose.isValidObjectId(boatId)) {
+      return res.status(200).json({ success: true, data: { favorited: false } });
+    }
+    if (req.user.role !== 'customer') {
+      return res.status(200).json({ success: true, data: { favorited: false } });
+    }
+
+    const user = await User.findById(req.user._id).select('favorites');
+    const favorited = user && user.favorites.some((f) => f.toString() === boatId);
+
+    res.status(200).json({
+      success: true,
+      data: { favorited: !!favorited }
     });
   } catch (err) {
     next(err);

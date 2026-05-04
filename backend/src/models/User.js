@@ -61,7 +61,11 @@ const userSchema = new mongoose.Schema(
     isVerified: { type: Boolean, default: false },
     isActive: { type: Boolean, default: true },
     captainProfile: { type: captainProfileSchema, default: undefined },
-    ownerProfile: { type: ownerProfileSchema, default: undefined }
+    ownerProfile: { type: ownerProfileSchema, default: undefined },
+    favorites: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Boat'
+    }]
   },
   { timestamps: true }
 );

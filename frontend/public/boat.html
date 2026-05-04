@@ -151,7 +151,7 @@
 </div>
 <div class="flex gap-4">
 <button class="p-2 rounded-full hover:bg-surface-container transition-colors" style=""><span class="material-symbols-outlined" style="">share</span></button>
-<button class="p-2 rounded-full hover:bg-surface-container transition-colors" style=""><span class="material-symbols-outlined" style="">favorite</span></button>
+<button id="boat-detail-heart" data-heart="" data-favorited="0" class="p-2 rounded-full hover:bg-surface-container transition-colors" style="font-size:22px;">🤍</button>
 </div>
 </div>
 </header>
@@ -932,6 +932,87 @@ function setupDateInputs(){
   updatePrice();
 }
 
+function showHeartLoginPromptModal() {
+  var modal = document.createElement('div');
+  modal.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:9998;';
+  modal.innerHTML = ''
+    + '<div style="background:#FAF7F2;padding:32px;border-radius:12px;max-width:400px;width:90%;font-family:Manrope,sans-serif;text-align:center;">'
+    +   '<div style="font-size:48px;margin-bottom:12px;">❤️</div>'
+    +   '<h3 style="font-family:\'Playfair Display\',serif;font-size:22px;color:#1A1A2E;margin:0 0 12px;">Save your favorite boats</h3>'
+    +   '<p style="margin:0 0 20px;color:#6B6560;font-size:14px;line-height:1.5;">Login or create an account to save boats and view them later.</p>'
+    +   '<div style="display:flex;gap:10px;justify-content:center;">'
+    +     '<button id="goto-login-btn" style="padding:10px 20px;background:#C4623A;color:#FAF7F2;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-family:Manrope,sans-serif;">Login</button>'
+    +     '<button id="goto-register-btn" style="padding:10px 20px;background:transparent;color:#1A1A2E;border:1px solid #1A1A2E;border-radius:8px;font-weight:600;cursor:pointer;font-family:Manrope,sans-serif;">Sign up</button>'
+    +   '</div>'
+    +   '<button id="close-fav-modal" style="margin-top:14px;background:transparent;border:none;color:#6B6560;font-size:13px;cursor:pointer;">Cancel</button>'
+    + '</div>';
+  document.body.appendChild(modal);
+  document.getElementById('goto-login-btn').addEventListener('click', function(){
+    window.parent.location.href = '/login';
+  });
+  document.getElementById('goto-register-btn').addEventListener('click', function(){
+    window.parent.location.href = '/register';
+  });
+  document.getElementById('close-fav-modal').addEventListener('click', function(){ modal.remove(); });
+  modal.addEventListener('click', function(e){ if (e.target === modal) modal.remove(); });
+}
+
+async function setupHeart(boat) {
+  var heart = document.getElementById('boat-detail-heart');
+  if (!heart) return;
+  var u = WCR.getUser();
+  // Hide for owner/captain when logged in
+  if (WCR.isLoggedIn() && u && u.role !== 'customer') {
+    heart.style.display = 'none';
+    return;
+  }
+  heart.setAttribute('data-heart', boat._id);
+
+  // Set initial state
+  if (WCR.isLoggedIn() && u && u.role === 'customer') {
+    try {
+      var resp = await WCR.checkFavorite(boat._id);
+      var isFav = !!(resp.data && resp.data.favorited);
+      heart.innerHTML = isFav ? '❤️' : '🤍';
+      heart.setAttribute('data-favorited', isFav ? '1' : '0');
+    } catch(e){}
+  } else {
+    heart.innerHTML = '🤍';
+    heart.setAttribute('data-favorited', '0');
+  }
+
+  if (heart.getAttribute('data-heart-wired') === '1') return;
+  heart.setAttribute('data-heart-wired', '1');
+  heart.addEventListener('click', async function(e){
+    e.preventDefault();
+    e.stopPropagation();
+    if (!WCR.isLoggedIn()) {
+      showHeartLoginPromptModal();
+      return;
+    }
+    var user = WCR.getUser();
+    if (user && user.role !== 'customer') {
+      alert('Only customers can save boats. Switch to a customer account to use favorites.');
+      return;
+    }
+    heart.style.pointerEvents = 'none';
+    try {
+      var r = await WCR.toggleFavorite(boat._id);
+      if (r.favorited) {
+        heart.innerHTML = '❤️';
+        heart.setAttribute('data-favorited', '1');
+      } else {
+        heart.innerHTML = '🤍';
+        heart.setAttribute('data-favorited', '0');
+      }
+    } catch(err) {
+      alert('Could not save: ' + (err.message || 'Error'));
+    } finally {
+      heart.style.pointerEvents = '';
+    }
+  });
+}
+
 async function bootBoatPage(){
   // Read boatId from parent URL
   var pathMatch = (function(){
@@ -955,6 +1036,7 @@ async function bootBoatPage(){
     renderCaptainPicker();
     setupDateInputs();
     updatePrice();
+    setupHeart(boat);
   } catch (err) {
     console.error('[WCR] Failed to load boat detail:', err);
     setupDateInputs();

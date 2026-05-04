@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Saved Boats — Water City Rental</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script src="/api.js"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary": "#ffffff",
+                        "surface-tint": "#a43c12",
+                        "on-surface": "#1a1c1a",
+                        "on-primary-fixed": "#380c00",
+                        "tertiary-fixed": "#ffe088",
+                        "surface-container-low": "#f4f3f1",
+                        "secondary": "#006972",
+                        "on-primary-container": "#6c2000",
+                        "on-background": "#1a1c1a",
+                        "secondary-container": "#9ff0fb",
+                        "on-surface-variant": "#57423b",
+                        "error-container": "#ffdad6",
+                        "primary-fixed": "#ffdbcf",
+                        "tertiary-fixed-dim": "#e9c349",
+                        "on-error-container": "#93000a",
+                        "on-error": "#ffffff",
+                        "surface-container": "#efeeeb",
+                        "on-tertiary-fixed-variant": "#574500",
+                        "primary-fixed-dim": "#ffb59c",
+                        "tertiary-container": "#c4a028",
+                        "surface": "#faf9f6",
+                        "surface-variant": "#e3e2e0",
+                        "primary-container": "#ff7f50",
+                        "on-secondary-fixed": "#001f23",
+                        "inverse-surface": "#2f312f",
+                        "surface-container-highest": "#e3e2e0",
+                        "background": "#faf9f6",
+                        "surface-bright": "#faf9f6",
+                        "on-primary-fixed-variant": "#822800",
+                        "inverse-primary": "#ffb59c",
+                        "on-primary": "#ffffff",
+                        "inverse-on-surface": "#f2f1ee",
+                        "on-secondary-container": "#066f79",
+                        "error": "#ba1a1a",
+                        "secondary-fixed": "#9ff0fb",
+                        "on-secondary-fixed-variant": "#004f56",
+                        "primary": "#a43c12",
+                        "secondary-fixed-dim": "#82d3de",
+                        "on-secondary": "#ffffff",
+                        "surface-container-high": "#e9e8e5",
+                        "tertiary": "#735c00",
+                        "on-tertiary-container": "#483800",
+                        "surface-container-lowest": "#ffffff",
+                        "outline-variant": "#dec0b6",
+                        "outline": "#8b7169",
+                        "on-tertiary-fixed": "#241a00",
+                        "surface-dim": "#dbdad7"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Noto Serif"],
+                        "body": ["Manrope"],
+                        "label": ["Manrope"]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Manrope', sans-serif;
+        }
+        .font-serif {
+            font-family: 'Noto Serif', serif;
+        }
+    </style>
+</head>
+
+<body class="bg-background text-on-surface">
+    <script>localStorage.setItem('wcr_role','customer')</script>
+    <div class="flex min-h-screen">
+        <!-- SideNavBar Component (Customer) -->
+        <aside class="hidden md:flex flex-col h-screen w-64 bg-stone-50 dark:bg-stone-950 py-8 pl-6 sticky top-0 z-40">
+            <div class="mb-6 pr-6">
+                <a href="/" class="font-serif italic text-xl text-stone-900 dark:text-stone-50">Water City Rental</a>
+                <p class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold mt-1">Customer Portal</p>
+            </div>
+            <div class="flex items-center gap-3 mb-8 pr-6">
+                <img alt="Customer" class="w-10 h-10 rounded-full object-cover"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSeB-zYy66SB8W1rDS4pQd909FetLqSvRbVmoZF4ecl97g1A85ji5X-SNQvHOYggY7yZ0944htJX5Mn95ifEhMkxYQP4eo5qDzGle2Kh_-ozdA6gcIp7TQh9xKLA5ZXqes7C3nP9sLyorz0zv58Cb-eMlUkKmeJzncS-sTX11wgy3VJIXkhSOaIZ6gaCu57x88-mqA2eW6IshFvSux4bA83AjeB1Kw1XgF51h5hOPuTNkmDfVjlFFkICk8DiTikEsoQDhIEgdBRROz" />
+                <div>
+                    <p class="font-serif italic text-sm text-stone-900 dark:text-stone-50" data-user="name">Customer</p>
+                    <p class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Customer</p>
+                </div>
+            </div>
+            <nav class="flex-1 space-y-1">
+                <a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all"
+                    href="/dashboard/customer">
+                    <span class="material-symbols-outlined">dashboard</span>
+                    <span class="font-sans text-sm tracking-tight">Dashboard</span>
+                </a>
+                <a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all"
+                    href="/boats">
+                    <span class="material-symbols-outlined">directions_boat</span>
+                    <span class="font-sans text-sm tracking-tight">Browse Boats</span>
+                </a>
+                <a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all"
+                    href="/my-bookings">
+                    <span class="material-symbols-outlined">anchor</span>
+                    <span class="font-sans text-sm tracking-tight">My Bookings</span>
+                </a>
+                <a class="flex items-center gap-3 px-4 py-3 text-stone-900 dark:text-white font-bold bg-white dark:bg-stone-900 rounded-l-full shadow-sm translate-x-1 duration-200"
+                    href="/saved">
+                    <span class="material-symbols-outlined">favorite</span>
+                    <span class="font-sans text-sm tracking-tight">Saved</span>
+                </a>
+                <a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all"
+                    href="/messages">
+                    <span class="material-symbols-outlined">mail</span>
+                    <span class="font-sans text-sm tracking-tight">Messages</span>
+                </a>
+                <a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all"
+                    href="/profile">
+                    <span class="material-symbols-outlined">account_circle</span>
+                    <span class="font-sans text-sm tracking-tight">Profile</span>
+                </a>
+                <a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all"
+                    href="/login" onclick="event.preventDefault(); WCR.logout(); return false;">
+                    <span class="material-symbols-outlined">logout</span>
+                    <span class="font-sans text-sm tracking-tight">Logout</span>
+                </a>
+            </nav>
+            <div class="mt-auto pr-6">
+                <button onclick="window.parent.location.href='/boats'"
+                    class="w-full bg-primary-container text-on-primary-container py-3 rounded-full text-xs font-bold uppercase tracking-widest hover:brightness-105 transition-all">
+                    Rent a Boat
+                </button>
+            </div>
+        </aside>
+        <!-- Main Content Area -->
+        <main class="flex-1 overflow-y-auto px-6 md:px-12 py-10">
+            <header class="mb-10">
+                <h1 class="text-4xl md:text-5xl font-serif text-on-surface">
+                    Saved <span class="italic">Boats</span>
+                </h1>
+                <p class="text-on-surface-variant mt-2 font-medium">
+                    You have <span id="saved-count" style="font-weight:700;color:#1A1A2E;">0</span> saved boats. Click any boat to book it.
+                </p>
+            </header>
+
+            <div id="saved-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px;"></div>
+
+            <div id="saved-empty" style="display:none;text-align:center;padding:64px 24px;">
+                <div style="font-size:64px;">🤍</div>
+                <h3 style="font-family:'Noto Serif',serif;font-size:24px;color:#1A1A2E;margin:16px 0 8px;">No saved boats yet</h3>
+                <p style="color:#6B6560;margin:0 0 20px;">Click ❤️ on any boat to save it here for later.</p>
+                <button onclick="window.parent.location.href='/boats'" style="padding:12px 28px;background:#a43c12;color:#FAF7F2;border:none;border-radius:999px;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;font-size:12px;cursor:pointer;font-family:Manrope,sans-serif;">Browse Boats</button>
+            </div>
+        </main>
+    </div>
+
+<script>
+(function(){
+  if (!WCR.isLoggedIn()) {
+    window.parent.location.href = '/login?next=/saved';
+    return;
+  }
+  var user = WCR.getUser() || {};
+  if (user.role !== 'customer') {
+    alert('Saved boats are a customer feature. Switch to a customer account.');
+    window.parent.location.href = '/dashboard/' + user.role;
+    return;
+  }
+
+  var nameEl = document.querySelector('[data-user="name"]');
+  if (nameEl && user.name) nameEl.textContent = user.name;
+
+  function escapeHtml(s){
+    if (s==null) return '';
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  async function loadSaved() {
+    var grid = document.getElementById('saved-grid');
+    var emptyEl = document.getElementById('saved-empty');
+    var countEl = document.getElementById('saved-count');
+    if (!grid) return;
+
+    grid.innerHTML = '<p style="grid-column:1/-1;color:#6B6560;text-align:center;padding:24px;">Loading…</p>';
+
+    try {
+      var resp = await WCR.listFavorites();
+      var boats = resp.data || [];
+
+      if (countEl) countEl.textContent = boats.length;
+
+      if (boats.length === 0) {
+        grid.innerHTML = '';
+        if (emptyEl) emptyEl.style.display = '';
+        return;
+      }
+      if (emptyEl) emptyEl.style.display = 'none';
+
+      grid.innerHTML = boats.map(function(boat){
+        var photo = boat.photos && boat.photos[0] ? boat.photos[0].url : '';
+        var rate = boat.rateType === 'hourly'
+          ? '$' + (boat.hourlyRate || 0).toLocaleString() + '/hr'
+          : '$' + (boat.dayRate || 0).toLocaleString() + '/day';
+
+        return '<div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.06);transition:transform 0.2s;cursor:pointer;" data-boat-card="' + escapeHtml(boat._id) + '">'
+          + '<div style="position:relative;height:200px;background-image:url(' + escapeHtml(photo) + ');background-size:cover;background-position:center;background-color:#F5F0EA;">'
+          +   '<button data-unfav="' + escapeHtml(boat._id) + '" style="position:absolute;top:12px;right:12px;background:rgba(255,255,255,0.95);border:none;border-radius:50%;width:36px;height:36px;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,0.15);">❤️</button>'
+          + '</div>'
+          + '<div style="padding:16px;">'
+          +   '<h3 style="margin:0 0 4px;font-family:\'Noto Serif\',serif;font-size:18px;color:#1A1A2E;">' + escapeHtml(boat.name) + '</h3>'
+          +   '<p style="margin:0 0 4px;font-size:13px;color:#6B6560;">' + escapeHtml(boat.harbor) + ', Chicago</p>'
+          +   '<p style="margin:0 0 8px;font-size:12px;color:#6B6560;">👥 ' + (boat.maxGuests||0) + ' guests · ' + (boat.length||0) + 'ft</p>'
+          +   '<div style="display:flex;justify-content:space-between;align-items:center;">'
+          +     '<span style="font-size:16px;font-weight:700;color:#1A1A2E;">' + rate + '</span>'
+          +     '<span style="font-size:13px;color:#a43c12;font-weight:600;">View Details →</span>'
+          +   '</div>'
+          + '</div>'
+          + '</div>';
+      }).join('');
+
+      // Card click → boat detail
+      grid.querySelectorAll('[data-boat-card]').forEach(function(card){
+        card.addEventListener('click', function(){
+          var bid = card.getAttribute('data-boat-card');
+          window.parent.location.href = '/boats/' + bid;
+        });
+      });
+
+      // Heart click → unfav (don't navigate to boat)
+      grid.querySelectorAll('[data-unfav]').forEach(function(btn){
+        btn.addEventListener('click', async function(e){
+          e.stopPropagation();
+          var bid = btn.getAttribute('data-unfav');
+          btn.disabled = true;
+          try {
+            await WCR.toggleFavorite(bid);
+            await loadSaved();
+            updateSavedSidebarCount();
+          } catch(err){
+            alert('Could not unsave: ' + (err.message || 'Error'));
+            btn.disabled = false;
+          }
+        });
+      });
+    } catch (err) {
+      grid.innerHTML = '<p style="grid-column:1/-1;color:#a43c12;text-align:center;padding:24px;">Could not load saved boats: ' + escapeHtml(err.message || 'Error') + '</p>';
+    }
+  }
+
+  async function updateSavedSidebarCount() {
+    try {
+      var resp = await WCR.listFavorites();
+      var n = (resp.data || []).length;
+      document.querySelectorAll('a[href="/saved"]').forEach(function(link){
+        var existing = link.querySelector('[data-saved-count]');
+        if (existing) existing.remove();
+        if (n > 0) {
+          var badge = document.createElement('span');
+          badge.setAttribute('data-saved-count', '1');
+          badge.textContent = n;
+          badge.style.cssText = 'display:inline-block;margin-left:8px;background:#a43c12;color:#fff;font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;';
+          link.appendChild(badge);
+        }
+      });
+    } catch(e){}
+  }
+
+  if (document.readyState !== 'loading') { loadSaved(); updateSavedSidebarCount(); }
+  else document.addEventListener('DOMContentLoaded', function(){ loadSaved(); updateSavedSidebarCount(); });
+})();
+</script>
+<script>
+document.addEventListener('click',function(e){
+  var a=e.target.closest('a[href]');
+  if(!a)return;
+  var h=a.getAttribute('href');
+  if(!h||h.startsWith('http')||h==='#')return;
+  e.preventDefault();
+  window.parent.location.href=h;
+});
+</script>
+<script>
+// Day 5d — sidebar Messages unread badge
+(function(){
+  if (!window.WCR || !WCR.isLoggedIn()) return;
+  async function refreshUnreadBadge(){
+    try {
+      var resp = await WCR.getUnreadCount();
+      var count = (resp.data && resp.data.count) || 0;
+      document.querySelectorAll("a[href=\"/messages\"]").forEach(function(link){
+        var existing = link.querySelector("[data-unread-badge]");
+        if (existing) existing.remove();
+        if (count > 0) {
+          var badge = document.createElement("span");
+          badge.setAttribute("data-unread-badge", "1");
+          badge.textContent = count;
+          badge.style.cssText = "display:inline-block;margin-left:8px;background:#a43c12;color:#fff;font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;";
+          link.appendChild(badge);
+        }
+      });
+    } catch(e){}
+  }
+  refreshUnreadBadge();
+  setInterval(refreshUnreadBadge, 30000);
+})();
+</script>
+</body>
+
+</html>

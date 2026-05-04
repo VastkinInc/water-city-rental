@@ -249,6 +249,17 @@
       return user;
     },
 
+    // Day 5e — favorites / saved boats
+    toggleFavorite: function(boatId) {
+      return apiCall('POST', '/auth/favorites/' + boatId);
+    },
+    listFavorites: function() {
+      return apiCall('GET', '/auth/favorites');
+    },
+    checkFavorite: function(boatId) {
+      return apiCall('GET', '/auth/favorites/check/' + boatId);
+    },
+
     /**
      * Unified status display for bookings (Day 4c parallel approval).
      * Takes the FULL booking object so it can read ownerApproved/captainApproved.
