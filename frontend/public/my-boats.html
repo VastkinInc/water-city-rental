@@ -204,12 +204,13 @@
     var colors = {
       'active':   { bg:'#D1FAE5', fg:'#065F46', label:'ACTIVE' },
       'pending':  { bg:'#FEF3C7', fg:'#92400E', label:'PENDING APPROVAL' },
-      'inactive': { bg:'#E5E7EB', fg:'#1F2937', label:'INACTIVE' }
+      'inactive': { bg:'#FED7AA', fg:'#9A3412', label:'PAUSED' }
     };
     var c = colors[status] || colors.pending;
     return '<span style="background:'+c.bg+';color:'+c.fg+';padding:4px 10px;border-radius:999px;font-size:11px;font-weight:600;letter-spacing:0.05em;">'+c.label+'</span>';
   }
   function renderBoatCard(boat){
+    var boatId = boat._id || boat.id;
     var photo = boat.photos && boat.photos[0] ? boat.photos[0].url : '';
     var rateLabel = boat.rateType === 'daily'
       ? '$' + (boat.dayRate || 0).toLocaleString() + '/day'
@@ -226,13 +227,26 @@
       +     '</div>'
       +     '<p style="margin:0 0 4px;color:#6B6560;font-size:14px;">📍 ' + escapeHtml(boat.harbor) + ' · ' + escapeHtml(boat.type) + ' · ' + (boat.length || '?') + 'ft</p>'
       +     '<p style="margin:0 0 12px;color:#1A1A2E;font-size:13px;">★ ' + rating + ' · ' + bookings + ' bookings · ' + rateLabel + '</p>'
-      +     '<div style="display:flex;gap:10px;">'
-      +       '<button onclick="alert(\'Edit boat coming in Day 5\')" style="padding:8px 16px;background:transparent;border:1px solid #1A1A2E;border-radius:8px;color:#1A1A2E;font-weight:600;cursor:pointer;">Edit</button>'
+      +     '<div style="display:flex;gap:10px;flex-wrap:wrap;">'
+      +       '<button onclick="window.parent.location.href=\'/edit-boat?id=' + boatId + '\'" style="padding:8px 16px;background:#C4623A;border:none;border-radius:8px;color:#fff;font-weight:600;cursor:pointer;">Edit</button>'
       +       '<button onclick="window.parent.location.href=\'/my-bookings\'" style="padding:8px 16px;background:transparent;border:1px solid #1A1A2E;border-radius:8px;color:#1A1A2E;font-weight:600;cursor:pointer;">View Bookings</button>'
+      +       '<button onclick="deleteBoatFromList(\'' + boatId + '\', \'' + escapeHtml(boat.name).replace(/\047/g,"\\'") + '\')" style="padding:8px 16px;background:transparent;border:1px solid #BA1A1A;border-radius:8px;color:#BA1A1A;font-weight:600;cursor:pointer;margin-left:auto;">Delete</button>'
       +     '</div>'
       +   '</div>'
       + '</div>';
   }
+
+  window.deleteBoatFromList = async function(boatId, name){
+    if (!confirm('Delete "' + name + '" permanently? All photos will be removed from Cloudinary. This cannot be undone.')) return;
+    var typed = prompt('Type DELETE to confirm:');
+    if (typed !== 'DELETE') { alert('Deletion cancelled.'); return; }
+    try {
+      await WCR.deleteBoat(boatId);
+      await loadBoats();
+    } catch (err) {
+      alert('Could not delete: ' + (err.message || 'Error'));
+    }
+  };
 
   function applyFilter(){
     var listEl = document.getElementById('my-boats-list');

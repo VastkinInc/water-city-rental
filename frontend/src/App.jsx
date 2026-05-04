@@ -17,6 +17,7 @@ import PartnerPage from "./pages/PartnerPage";
 import PartnerLogin from "./pages/PartnerLogin";
 import TermsPage from "./pages/TermsPage";
 import ListBoat from "./pages/ListBoat";
+import EditBoat from "./pages/EditBoat";
 import MyBoats from "./pages/MyBoats";
 import MyBookings from "./pages/MyBookings";
 import MyTrips from "./pages/MyTrips";
@@ -49,6 +50,7 @@ export default function App() {
         <Route path="/partner-login" element={<PartnerLogin />} />
         <Route path="/terms" element={<TermsPage />} />
         <Route path="/list-boat" element={<ListBoat />} />
+        <Route path="/edit-boat" element={<EditBoat />} />
         <Route path="/my-boats" element={<MyBoats />} />
         <Route path="/my-bookings" element={<MyBookings />} />
         <Route path="/my-trips" element={<MyTrips />} />

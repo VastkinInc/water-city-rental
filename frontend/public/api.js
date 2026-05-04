@@ -169,6 +169,39 @@
     getBoat: function(id) {
       return apiCall('GET', '/boats/' + id);
     },
+    updateBoat: function(id, updates) {
+      return apiCall('PATCH', '/boats/' + id, updates);
+    },
+    deleteBoat: function(id) {
+      return apiCall('DELETE', '/boats/' + id);
+    },
+    deleteBoatPhoto: function(boatId, publicId) {
+      // publicId contains slashes (e.g. water-city-rental/boats/abc123) so it must be URL-encoded.
+      return apiCall('DELETE', '/boats/' + boatId + '/photos/' + encodeURIComponent(publicId));
+    },
+    addBoatPhotos: async function(boatId, files) {
+      // Multipart upload — bypass apiCall (which sets Content-Type: application/json).
+      var fd = new FormData();
+      (files || []).forEach(function(f){ fd.append('photos', f); });
+      var headers = {};
+      var token = getToken();
+      if (token) headers['Authorization'] = 'Bearer ' + token;
+      var res = await fetch(API_BASE + '/boats/' + boatId + '/photos', {
+        method: 'POST',
+        headers: headers,
+        credentials: 'include',
+        body: fd
+      });
+      var data;
+      try { data = await res.json(); } catch (e) { data = {}; }
+      if (!res.ok) {
+        var err = new Error(data.message || 'Upload failed');
+        err.status = res.status;
+        err.data = data;
+        throw err;
+      }
+      return data;
+    },
 
     listCaptains: function() {
       return apiCall('GET', '/captains');

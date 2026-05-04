@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Edit Boat | Water City Rental</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script src="/api.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,300;0,400;0,700;1,300;1,400&amp;family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: { extend: {
+      colors: {
+        "primary": "#a43c12", "primary-container": "#ff7f50",
+        "on-primary": "#ffffff", "on-primary-container": "#6c2000",
+        "primary-fixed": "#ffdbcf", "on-surface": "#1a1c1a",
+        "on-surface-variant": "#57423b", "surface": "#faf9f6",
+        "surface-container": "#efeeeb", "surface-container-low": "#f4f3f1",
+        "surface-container-high": "#e9e8e5", "surface-container-lowest": "#ffffff",
+        "outline": "#8b7169", "outline-variant": "#dec0b6",
+        "background": "#faf9f6", "tertiary": "#735c00", "tertiary-container": "#c4a028",
+        "secondary": "#006972", "secondary-container": "#9ff0fb", "on-secondary-container": "#066f79",
+        "error": "#ba1a1a", "error-container": "#ffdad6", "on-error-container": "#93000a"
+      },
+      borderRadius: { DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px" },
+      fontFamily: { headline: ["Noto Serif", "serif"], display: ["Noto Serif", "serif"],
+                    body: ["Manrope", "sans-serif"], label: ["Manrope", "sans-serif"] }
+    } }
+  }
+</script>
+<style>
+  body { font-family: 'Manrope', sans-serif; background-color: #faf9f6; color: #1a1c1a; }
+  h1, h2, h3, .font-serif { font-family: 'Noto Serif', serif; }
+  .ambient-shadow { box-shadow: 0 32px 64px rgba(26,28,26,0.06); }
+
+  .field-input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #dec0b6;
+    border-radius: 10px;
+    background: #fff;
+    font-size: 15px;
+    font-family: 'Manrope', sans-serif;
+  }
+  .field-input:focus { outline: none; border-color: #a43c12; box-shadow: 0 0 0 2px rgba(164,60,18,0.15); }
+  textarea.field-input { resize: vertical; min-height: 100px; }
+  .field-label {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #57423b;
+    margin-bottom: 6px;
+  }
+
+  .btn-primary {
+    background: #a43c12; color: #fff;
+    padding: 14px 28px; border-radius: 9999px;
+    font-weight: 700; font-size: 13px;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    border: none; cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-primary:hover { background: #ff7f50; color: #6c2000; }
+  .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
+  .btn-ghost {
+    background: transparent; color: #57423b;
+    padding: 12px 20px; border-radius: 9999px;
+    font-weight: 600; font-size: 13px;
+    border: none; cursor: pointer;
+  }
+  .btn-ghost:hover { color: #a43c12; }
+  .btn-danger {
+    background: #ba1a1a; color: #fff;
+    padding: 12px 24px; border-radius: 9999px;
+    font-weight: 700; font-size: 13px;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    border: none; cursor: pointer;
+  }
+  .btn-danger:hover { opacity: 0.9; }
+
+  .amenity-card {
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 16px;
+    border: 1px solid #dec0b6;
+    border-radius: 10px;
+    background: #fff;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .amenity-card:hover { border-color: #a43c12; }
+  .amenity-card input[type="checkbox"] { accent-color: #a43c12; width: 18px; height: 18px; }
+  .amenity-card.checked { background: #FAF7F2; border-color: #a43c12; }
+
+  /* Switch toggle */
+  .switch {
+    position: relative; display: inline-block; width: 56px; height: 30px;
+  }
+  .switch input { opacity: 0; width: 0; height: 0; }
+  .slider {
+    position: absolute; cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #efeeeb;
+    transition: .25s;
+    border-radius: 9999px;
+  }
+  .slider:before {
+    position: absolute; content: "";
+    height: 22px; width: 22px;
+    left: 4px; bottom: 4px;
+    background-color: #fff;
+    transition: .25s;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+  }
+  input:checked + .slider { background-color: #065F46; }
+  input:checked + .slider:before { transform: translateX(26px); }
+
+  #new-photo-drop-zone:hover { background: #F5F0EA; border-color: #a43c12; }
+
+  .danger-zone {
+    border: 1px solid #ba1a1a;
+    border-radius: 16px;
+    padding: 24px;
+    background: #FEF2F2;
+  }
+</style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex antialiased">
+
+<!-- SideNavBar (matches list-boat.html / my-boats.html owner sidebar) -->
+<nav class="hidden md:flex flex-col bg-[#e9e8e5] dark:bg-stone-900 text-[#ff7f50] fixed left-0 top-0 h-full w-80 shadow-[32px_0_64px_rgba(26,28,26,0.04)] pt-24 pb-8 z-40 transition-colors duration-300">
+<div class="px-8 mb-12">
+<h2 class="font-serif italic text-[#a43c12] text-xl mb-1">Listing Manager</h2>
+<p class="text-on-surface-variant font-label text-sm opacity-80">Edit your vessel</p>
+</div>
+<ul class="flex-1 space-y-2 w-full font-sans uppercase tracking-[0.05em] text-[0.6875rem]">
+<li><a class="flex items-center text-stone-500 dark:text-stone-400 pl-10 py-4" href="/my-boats">
+<span class="material-symbols-outlined mr-4">directions_boat</span>My Boats</a></li>
+<li><a class="flex items-center text-stone-500 dark:text-stone-400 pl-10 py-4" href="/dashboard/owner">
+<span class="material-symbols-outlined mr-4">dashboard</span>Dashboard</a></li>
+<li><a class="flex items-center text-stone-500 dark:text-stone-400 pl-10 py-4" href="/earnings">
+<span class="material-symbols-outlined mr-4">payments</span>Earnings</a></li>
+<li><a class="flex items-center text-stone-500 dark:text-stone-400 pl-10 py-4" href="/messages">
+<span class="material-symbols-outlined mr-4">mail</span>Messages</a></li>
+<li><a class="flex items-center text-stone-500 dark:text-stone-400 pl-10 py-4" href="/profile">
+<span class="material-symbols-outlined mr-4">account_circle</span>Profile</a></li>
+<li><a class="flex items-center text-stone-500 dark:text-stone-400 pl-10 py-4" href="/partner-login" onclick="event.preventDefault(); WCR.logout(); return false;">
+<span class="material-symbols-outlined mr-4">logout</span>Logout</a></li>
+</ul>
+<div class="px-8 mt-auto">
+<button class="w-full py-4 px-6 rounded-full bg-surface-container-lowest text-primary font-label text-sm uppercase tracking-widest border border-outline-variant/30 hover:bg-surface-container-high transition-colors ambient-shadow" onclick="window.parent.location.href='/my-boats'">My Fleet</button>
+</div>
+</nav>
+
+<main class="flex-1 md:ml-80 min-h-screen pb-24 relative overflow-x-hidden">
+<header class="w-full h-24 flex items-center justify-end px-12 z-30 relative">
+<button class="flex items-center space-x-2 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">help_outline</span><span class="font-label text-sm">Help</span>
+</button>
+</header>
+
+<div class="max-w-4xl mx-auto px-6 md:px-12 xl:px-16 mt-8">
+
+  <!-- Page heading -->
+  <div class="mb-10">
+    <p class="font-label text-xs uppercase tracking-[0.08em] text-primary mb-2">Edit Listing</p>
+    <h1 data-edit="title" class="font-headline text-4xl md:text-5xl text-on-background tracking-tight mb-3 leading-none">Edit <i class="text-primary italic">Boat</i></h1>
+    <p class="font-body text-lg text-on-surface-variant max-w-2xl">Update details, photos, pricing, or availability. Save when you're done.</p>
+  </div>
+
+  <!-- ================== BASIC INFO ================== -->
+  <section class="bg-surface-container-lowest rounded-2xl p-8 md:p-10 ambient-shadow mb-8">
+    <h2 class="font-headline text-2xl mb-6">Basic Information</h2>
+
+    <form class="space-y-6" onsubmit="event.preventDefault();">
+      <div>
+        <label class="field-label">Boat Name</label>
+        <input data-field="name" type="text" class="field-input">
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <label class="field-label">Boat Type</label>
+          <select data-field="type" class="field-input">
+            <option value="">— Select type —</option>
+            <option>Luxury Yacht</option>
+            <option>Catamaran</option>
+            <option>Sailboat</option>
+            <option>Powerboat</option>
+            <option>Day Cruiser</option>
+            <option>Speedboat</option>
+            <option>Jet Ski</option>
+          </select>
+        </div>
+        <div>
+          <label class="field-label">Home Harbor</label>
+          <select data-field="harbor" class="field-input">
+            <option value="">— Select harbor —</option>
+            <option>Monroe Harbor</option>
+            <option>Navy Pier</option>
+            <option>Belmont Harbor</option>
+            <option>Burnham Harbor</option>
+            <option>Diversey Harbor</option>
+            <option>DuSable Harbor</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div>
+          <label class="field-label">Year Built</label>
+          <input data-field="yearBuilt" type="number" class="field-input" min="1950" max="2027">
+        </div>
+        <div>
+          <label class="field-label">Length (ft)</label>
+          <input data-field="length" type="number" class="field-input" min="10" max="200">
+        </div>
+        <div>
+          <label class="field-label">Max Guests</label>
+          <input data-field="maxGuests" type="number" class="field-input" min="1" max="50">
+        </div>
+      </div>
+
+      <div>
+        <label class="field-label">Description</label>
+        <textarea data-field="description" class="field-input" rows="4"></textarea>
+      </div>
+    </form>
+  </section>
+
+  <!-- ================== AMENITIES ================== -->
+  <section class="bg-surface-container-lowest rounded-2xl p-8 md:p-10 ambient-shadow mb-8">
+    <h2 class="font-headline text-2xl mb-6">Amenities</h2>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <label class="amenity-card"><input type="checkbox" data-amenity="WiFi"><span>WiFi</span></label>
+      <label class="amenity-card"><input type="checkbox" data-amenity="AC"><span>AC</span></label>
+      <label class="amenity-card"><input type="checkbox" data-amenity="Kitchen"><span>Kitchen</span></label>
+      <label class="amenity-card"><input type="checkbox" data-amenity="Bluetooth Audio"><span>Bluetooth Audio</span></label>
+      <label class="amenity-card"><input type="checkbox" data-amenity="Restroom"><span>Restroom</span></label>
+      <label class="amenity-card"><input type="checkbox" data-amenity="Cooler"><span>Cooler</span></label>
+      <label class="amenity-card"><input type="checkbox" data-amenity="Sundeck"><span>Sundeck</span></label>
+      <label class="amenity-card"><input type="checkbox" data-amenity="Bar"><span>Bar</span></label>
+    </div>
+  </section>
+
+  <!-- ================== PHOTOS ================== -->
+  <section class="bg-surface-container-lowest rounded-2xl p-8 md:p-10 ambient-shadow mb-8">
+    <h2 class="font-headline text-2xl mb-2">Photos</h2>
+    <p class="text-on-surface-variant mb-6">Photo deletions happen instantly. New photos upload when you click Save.</p>
+
+    <div id="existing-photos-grid" style="margin-bottom:24px;"></div>
+
+    <div id="new-photo-drop-zone" style="border:2px dashed #D4C9B8;border-radius:12px;padding:32px;text-align:center;cursor:pointer;background:#FAF7F2;color:#6B6560;font-size:14px;transition:all 0.2s;">
+      <span class="material-symbols-outlined" style="font-size:36px;color:#a43c12;">add_photo_alternate</span>
+      <p style="margin:8px 0 0;font-weight:600;color:#1a1c1a;">Click or drag to add more photos</p>
+      <p style="margin:4px 0 0;font-size:13px;color:#6B6560;">Up to 10 total · 10MB each</p>
+    </div>
+    <input type="file" id="new-photo-file-input" multiple accept="image/*" style="display:none;">
+    <div id="new-photo-previews" style="margin-top:12px;"></div>
+  </section>
+
+  <!-- ================== PRICING ================== -->
+  <section class="bg-surface-container-lowest rounded-2xl p-8 md:p-10 ambient-shadow mb-8">
+    <h2 class="font-headline text-2xl mb-6">Pricing</h2>
+
+    <div class="space-y-6">
+      <div>
+        <label class="field-label">Rate Type</label>
+        <div class="flex gap-4">
+          <label class="amenity-card flex-1"><input type="radio" name="rateType" data-field="rateType" value="hourly"><span><strong>By the Hour</strong></span></label>
+          <label class="amenity-card flex-1"><input type="radio" name="rateType" data-field="rateType" value="daily"><span><strong>Full Day</strong></span></label>
+        </div>
+      </div>
+
+      <div data-pricing-block="hourly">
+        <label class="field-label">Hourly Rate ($)</label>
+        <input data-field="hourlyRate" type="number" class="field-input" min="1" max="2000">
+      </div>
+
+      <div data-pricing-block="daily" style="display:none;">
+        <label class="field-label">Day Rate ($)</label>
+        <input data-field="dayRate" type="number" class="field-input" min="1" max="20000">
+      </div>
+    </div>
+  </section>
+
+  <!-- ================== RECOMMENDED CAPTAIN ================== -->
+  <section class="bg-surface-container-lowest rounded-2xl p-8 md:p-10 ambient-shadow mb-8">
+    <h2 class="font-headline text-2xl mb-2">Recommended Captain</h2>
+    <p class="text-on-surface-variant mb-6">Customers can override your recommendation at booking. Click any card to change.</p>
+    <div id="captain-pick-list" class="space-y-3"></div>
+  </section>
+
+  <!-- ================== STATUS ================== -->
+  <section class="bg-surface-container-lowest rounded-2xl p-8 md:p-10 ambient-shadow mb-8">
+    <h2 class="font-headline text-2xl mb-6">Listing Status</h2>
+    <div class="flex items-center gap-6">
+      <label class="switch">
+        <input type="checkbox" data-field="status">
+        <span class="slider"></span>
+      </label>
+      <span id="status-label" style="font-weight:600;font-size:15px;">—</span>
+    </div>
+    <p class="text-on-surface-variant text-sm mt-4">Pause to temporarily hide from public listings without deleting. Pending bookings stay active.</p>
+  </section>
+
+  <!-- ================== ACTION BAR ================== -->
+  <div class="flex items-center justify-between pt-4 mb-12">
+    <button data-action="cancel" type="button" class="btn-ghost">← Back to fleet</button>
+    <button data-action="save" type="button" class="btn-primary">Save Changes</button>
+  </div>
+
+  <!-- ================== DANGER ZONE ================== -->
+  <section class="danger-zone">
+    <h3 class="font-headline text-xl text-error mb-2">Danger zone</h3>
+    <p class="text-on-surface-variant text-sm mb-4">Deleting permanently removes the boat and all its photos from Cloudinary. Existing bookings remain in history. <strong>This cannot be undone.</strong></p>
+    <button data-action="delete" type="button" class="btn-danger">Delete this listing</button>
+  </section>
+
+</div>
+</main>
+
+<script>
+(function(){
+  if (!WCR.isLoggedIn()) {
+    window.parent.location.href = '/login';
+    return;
+  }
+  var user = WCR.getUser() || {};
+  if (user.role !== 'owner' && user.role !== 'admin') {
+    alert('Only boat owners can edit boats.');
+    window.parent.location.href = '/dashboard/' + (user.role || 'customer');
+    return;
+  }
+
+  // Pull boat ID from parent URL (?id=…)
+  var boatId = null;
+  try {
+    var params = new URLSearchParams(window.parent.location.search);
+    boatId = params.get('id');
+  } catch (e) {
+    var sp = new URLSearchParams(window.location.search);
+    boatId = sp.get('id');
+  }
+  if (!boatId) {
+    alert('No boat ID specified');
+    window.parent.location.href = '/my-boats';
+    return;
+  }
+
+  var BOAT = null;
+  var newPhotoFiles = [];
+  var availableCaptains = [];
+
+  function $(sel){ return document.querySelector(sel); }
+  function setVal(sel, val){
+    var el = $(sel);
+    if (el) el.value = (val == null ? '' : val);
+  }
+  function getVal(sel){
+    var el = $(sel);
+    return el ? el.value : '';
+  }
+  function escapeHtml(s){
+    if (s == null) return '';
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  // ========================================
+  // LOAD existing boat
+  // ========================================
+  async function loadBoat(){
+    try {
+      var resp = await WCR.getBoat(boatId);
+      BOAT = resp.data || resp;
+
+      var ownerId = BOAT.owner && (BOAT.owner._id || BOAT.owner);
+      var myId    = user.id || user._id;
+      if (String(ownerId) !== String(myId) && user.role !== 'admin') {
+        alert('You can only edit your own boats.');
+        window.parent.location.href = '/my-boats';
+        return;
+      }
+
+      renderBoat();
+    } catch (err) {
+      alert('Could not load boat: ' + (err.message || 'Error'));
+      window.parent.location.href = '/my-boats';
+    }
+  }
+
+  function renderBoat(){
+    var titleEl = document.querySelector('[data-edit="title"]');
+    if (titleEl) titleEl.innerHTML = 'Edit <i class="text-primary italic">' + escapeHtml(BOAT.name || 'Boat') + '</i>';
+    document.title = 'Edit ' + (BOAT.name || 'Boat') + ' | Water City Rental';
+
+    setVal('[data-field="name"]',        BOAT.name);
+    setVal('[data-field="type"]',        BOAT.type);
+    setVal('[data-field="yearBuilt"]',   BOAT.yearBuilt);
+    setVal('[data-field="length"]',      BOAT.length);
+    setVal('[data-field="maxGuests"]',   BOAT.maxGuests);
+    setVal('[data-field="harbor"]',      BOAT.harbor);
+    setVal('[data-field="description"]', BOAT.description);
+
+    var amenities = BOAT.amenities || [];
+    document.querySelectorAll('[data-amenity]').forEach(function(cb){
+      cb.checked = amenities.indexOf(cb.getAttribute('data-amenity')) !== -1;
+      var card = cb.closest('.amenity-card');
+      if (card) card.classList.toggle('checked', cb.checked);
+    });
+
+    renderExistingPhotos();
+
+    var rateType = BOAT.rateType || 'hourly';
+    document.querySelectorAll('[data-field="rateType"]').forEach(function(r){
+      r.checked = (r.value === rateType);
+    });
+    setVal('[data-field="hourlyRate"]', BOAT.hourlyRate);
+    setVal('[data-field="dayRate"]',    BOAT.dayRate);
+    togglePricingFields(rateType);
+
+    loadCaptains();
+
+    var statusEl = $('[data-field="status"]');
+    if (statusEl) statusEl.checked = (BOAT.status === 'active');
+    updateStatusDisplay();
+  }
+
+  function togglePricingFields(rateType){
+    var hourly = document.querySelector('[data-pricing-block="hourly"]');
+    var daily  = document.querySelector('[data-pricing-block="daily"]');
+    if (hourly) hourly.style.display = (rateType === 'hourly') ? '' : 'none';
+    if (daily)  daily.style.display  = (rateType === 'daily')  ? '' : 'none';
+  }
+
+  // ========================================
+  // PHOTO MANAGEMENT
+  // ========================================
+  function renderExistingPhotos(){
+    var grid = document.getElementById('existing-photos-grid');
+    if (!grid) return;
+    var existing = BOAT.photos || [];
+
+    if (existing.length === 0) {
+      grid.innerHTML = '<p style="color:#6B6560;font-style:italic;margin:0;">No photos yet — add some below.</p>';
+      return;
+    }
+
+    grid.innerHTML = '<p style="font-weight:600;font-size:13px;color:#1a1c1a;margin:0 0 12px;">Current photos (' + existing.length + ')</p>'
+      + existing.map(function(p, i){
+          var canDelete = !!p.publicId; // seeded photos have empty publicId; can't delete those via Cloudinary
+          var btnHtml = canDelete
+            ? '<button data-delete-photo="' + escapeHtml(p.publicId) + '" style="position:absolute;top:-8px;right:-8px;background:#C4623A;color:#fff;border:none;border-radius:50%;width:28px;height:28px;cursor:pointer;font-weight:600;line-height:1;font-size:18px;" title="Delete photo">×</button>'
+            : '';
+          return '<div style="display:inline-block;margin:6px;position:relative;vertical-align:top;">'
+            + '<img src="' + escapeHtml(p.url) + '" style="width:140px;height:140px;object-fit:cover;border-radius:8px;border:1px solid #D4C9B8;display:block;">'
+            + btnHtml
+            + '</div>';
+        }).join('');
+
+    grid.querySelectorAll('[data-delete-photo]').forEach(function(btn){
+      btn.addEventListener('click', async function(){
+        var publicId = btn.getAttribute('data-delete-photo');
+        if (!confirm('Delete this photo? This cannot be undone.')) return;
+        btn.disabled = true;
+        try {
+          await WCR.deleteBoatPhoto(boatId, publicId);
+          var resp = await WCR.getBoat(boatId);
+          BOAT = resp.data || resp;
+          renderExistingPhotos();
+        } catch (err) {
+          alert('Could not delete: ' + (err.message || 'Error'));
+          btn.disabled = false;
+        }
+      });
+    });
+  }
+
+  function setupNewPhotoUpload(){
+    var fileInput = document.getElementById('new-photo-file-input');
+    var dropZone  = document.getElementById('new-photo-drop-zone');
+    var previewsEl = document.getElementById('new-photo-previews');
+
+    function renderNewPreviews(){
+      if (!previewsEl) return;
+      if (newPhotoFiles.length === 0) { previewsEl.innerHTML = ''; return; }
+      previewsEl.innerHTML = '<p style="color:#1A1A2E;font-weight:600;margin:12px 0 8px;font-size:13px;">' + newPhotoFiles.length + ' photo' + (newPhotoFiles.length === 1 ? '' : 's') + ' to add (will upload on Save):</p>'
+        + newPhotoFiles.map(function(f, i){
+            var url = URL.createObjectURL(f);
+            return '<div style="display:inline-block;margin:6px;position:relative;vertical-align:top;">'
+              + '<img src="' + url + '" style="width:120px;height:120px;object-fit:cover;border-radius:8px;border:2px dashed #D4A843;display:block;">'
+              + '<button data-remove-new="' + i + '" style="position:absolute;top:-8px;right:-8px;background:#C4623A;color:#fff;border:none;border-radius:50%;width:24px;height:24px;cursor:pointer;font-weight:600;line-height:1;font-size:16px;">×</button>'
+              + '</div>';
+          }).join('');
+      previewsEl.querySelectorAll('[data-remove-new]').forEach(function(btn){
+        btn.addEventListener('click', function(){
+          var idx = parseInt(btn.getAttribute('data-remove-new'), 10);
+          newPhotoFiles.splice(idx, 1);
+          renderNewPreviews();
+        });
+      });
+    }
+
+    function handleFiles(files){
+      var existingCount = (BOAT && BOAT.photos ? BOAT.photos.length : 0);
+      for (var i = 0; i < files.length; i++) {
+        var f = files[i];
+        if (!f.type.startsWith('image/')) continue;
+        if (f.size > 10 * 1024 * 1024) { alert(f.name + ' is over 10 MB — skipped'); continue; }
+        if (existingCount + newPhotoFiles.length >= 10) { alert('Max 10 photos total per boat'); break; }
+        newPhotoFiles.push(f);
+      }
+      renderNewPreviews();
+    }
+
+    if (fileInput) fileInput.addEventListener('change', function(e){ handleFiles(e.target.files); });
+    if (dropZone) {
+      dropZone.addEventListener('click', function(){ if (fileInput) fileInput.click(); });
+      dropZone.addEventListener('dragover', function(e){ e.preventDefault(); dropZone.style.background = '#F5F0EA'; });
+      dropZone.addEventListener('dragleave', function(){ dropZone.style.background = ''; });
+      dropZone.addEventListener('drop', function(e){
+        e.preventDefault();
+        dropZone.style.background = '';
+        handleFiles(e.dataTransfer.files);
+      });
+    }
+  }
+
+  // ========================================
+  // CAPTAIN PICKER
+  // ========================================
+  async function loadCaptains(){
+    var listEl = document.getElementById('captain-pick-list');
+    if (!listEl) return;
+
+    if (availableCaptains.length === 0) {
+      listEl.innerHTML = '<p style="color:#6B6560;">Loading captains…</p>';
+      try {
+        var resp = await WCR.listCaptains();
+        availableCaptains = resp.data || resp || [];
+      } catch (e) {
+        listEl.innerHTML = '<p style="color:#C4623A;">Could not load captains</p>';
+        return;
+      }
+    }
+
+    var currentRecCaptain = BOAT.recommendedCaptain && (BOAT.recommendedCaptain._id || BOAT.recommendedCaptain);
+
+    listEl.innerHTML = availableCaptains.map(function(c){
+      var prof = c.captainProfile || {};
+      var rate = prof.hourlyRate ? '$' + prof.hourlyRate + '/hr' : '';
+      var dayRate = prof.dayRate ? ' · $' + prof.dayRate + '/day' : '';
+      var isSelected = (String(currentRecCaptain) === String(c._id));
+      var border = isSelected ? '2px solid #C4623A' : '1px solid #D4C9B8';
+      var bg = isSelected ? '#FAF7F2' : '#fff';
+      var dot = isSelected
+        ? '<div style="width:24px;height:24px;border-radius:50%;background:#C4623A;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;flex-shrink:0;">✓</div>'
+        : '<div style="width:24px;height:24px;border-radius:50%;border:2px solid #D4C9B8;flex-shrink:0;"></div>';
+      var initials = (c.name || '??').split(' ').map(function(p){return p[0]||'';}).join('').slice(0,2).toUpperCase();
+      var avatar = c.avatar
+        ? '<img src="' + escapeHtml(c.avatar) + '" style="width:56px;height:56px;border-radius:50%;object-fit:cover;flex-shrink:0;">'
+        : '<div style="width:56px;height:56px;border-radius:50%;background:#F5F0EA;display:flex;align-items:center;justify-content:center;color:#6B6560;font-weight:700;flex-shrink:0;">' + initials + '</div>';
+
+      return '<div data-captain-pick="' + c._id + '" style="display:flex;gap:14px;padding:16px;background:' + bg + ';border:' + border + ';border-radius:12px;cursor:pointer;align-items:center;transition:all 0.2s;">'
+        + avatar
+        + '<div style="flex:1;min-width:0;">'
+        +   '<h4 style="margin:0;font-family:\'Noto Serif\',serif;font-size:17px;color:#1a1c1a;">Capt. ' + escapeHtml(c.name) + '</h4>'
+        +   '<p style="margin:2px 0;font-size:12px;color:#6B6560;">★ ' + (prof.rating || '—') + ' · ' + (prof.yearsExperience || 0) + ' yrs · ' + escapeHtml(prof.bio || '') + '</p>'
+        +   '<p style="margin:0;font-size:13px;font-weight:600;color:#a43c12;">' + rate + dayRate + '</p>'
+        + '</div>'
+        + dot
+        + '</div>';
+    }).join('');
+
+    listEl.querySelectorAll('[data-captain-pick]').forEach(function(card){
+      card.addEventListener('click', function(){
+        var pickedId = card.getAttribute('data-captain-pick');
+        BOAT.recommendedCaptain = pickedId; // store as plain string id for save
+        loadCaptains();
+      });
+    });
+  }
+
+  // ========================================
+  // STATUS TOGGLE
+  // ========================================
+  function updateStatusDisplay(){
+    var statusEl = $('[data-field="status"]');
+    var label = document.getElementById('status-label');
+    if (!label) return;
+    var isActive = statusEl ? statusEl.checked : true;
+    label.textContent = isActive ? 'Active — visible to customers' : 'Paused — hidden from customers';
+    label.style.color = isActive ? '#065F46' : '#9A3412';
+  }
+
+  // ========================================
+  // SAVE
+  // ========================================
+  async function saveChanges(){
+    var saveBtn = document.querySelector('[data-action="save"]');
+    if (saveBtn) {
+      saveBtn.disabled = true;
+      saveBtn.textContent = 'Saving…';
+    }
+
+    var amenities = [];
+    document.querySelectorAll('[data-amenity]').forEach(function(cb){
+      if (cb.checked) amenities.push(cb.getAttribute('data-amenity'));
+    });
+
+    var rateTypeRadio = document.querySelector('[data-field="rateType"]:checked');
+    var rateType = rateTypeRadio ? rateTypeRadio.value : 'hourly';
+
+    var statusEl = $('[data-field="status"]');
+    var status = (statusEl && statusEl.checked) ? 'active' : 'inactive';
+
+    var recCaptainId = BOAT.recommendedCaptain && (BOAT.recommendedCaptain._id || BOAT.recommendedCaptain);
+
+    var updates = {
+      name:        getVal('[data-field="name"]'),
+      type:        getVal('[data-field="type"]'),
+      yearBuilt:   parseInt(getVal('[data-field="yearBuilt"]'), 10) || undefined,
+      length:      parseInt(getVal('[data-field="length"]'),    10) || undefined,
+      maxGuests:   parseInt(getVal('[data-field="maxGuests"]'), 10) || 1,
+      harbor:      getVal('[data-field="harbor"]'),
+      description: getVal('[data-field="description"]'),
+      amenities:   amenities,
+      rateType:    rateType,
+      status:      status
+    };
+    if (rateType === 'hourly') updates.hourlyRate = parseInt(getVal('[data-field="hourlyRate"]'), 10) || 0;
+    else                       updates.dayRate    = parseInt(getVal('[data-field="dayRate"]'),    10) || 0;
+    if (recCaptainId) updates.recommendedCaptain = recCaptainId;
+
+    try {
+      await WCR.updateBoat(boatId, updates);
+
+      if (newPhotoFiles.length > 0) {
+        if (saveBtn) saveBtn.textContent = 'Uploading photos…';
+        await WCR.addBoatPhotos(boatId, newPhotoFiles);
+        newPhotoFiles = [];
+      }
+
+      alert('Boat updated successfully!');
+      window.parent.location.href = '/my-boats';
+    } catch (err) {
+      if (saveBtn) {
+        saveBtn.disabled = false;
+        saveBtn.textContent = 'Save Changes';
+      }
+      alert('Could not save: ' + (err.message || 'Error'));
+    }
+  }
+
+  // ========================================
+  // DELETE
+  // ========================================
+  async function deleteBoatNow(){
+    if (!confirm('Delete this boat permanently? All photos will be removed from Cloudinary. This cannot be undone.')) return;
+    var typed = prompt('Type DELETE to confirm:');
+    if (typed !== 'DELETE') {
+      alert('Deletion cancelled.');
+      return;
+    }
+    try {
+      await WCR.deleteBoat(boatId);
+      alert('Boat deleted.');
+      window.parent.location.href = '/my-boats';
+    } catch (err) {
+      alert('Could not delete: ' + (err.message || 'Error'));
+    }
+  }
+
+  // ========================================
+  // BIND
+  // ========================================
+  function bindActions(){
+    document.querySelectorAll('[data-field="rateType"]').forEach(function(r){
+      r.addEventListener('change', function(){ togglePricingFields(r.value); });
+    });
+
+    var statusEl = $('[data-field="status"]');
+    if (statusEl) statusEl.addEventListener('change', updateStatusDisplay);
+
+    document.querySelectorAll('[data-amenity]').forEach(function(cb){
+      cb.addEventListener('change', function(){
+        var card = cb.closest('.amenity-card');
+        if (card) card.classList.toggle('checked', cb.checked);
+      });
+    });
+
+    var saveBtn = document.querySelector('[data-action="save"]');
+    if (saveBtn) saveBtn.addEventListener('click', function(e){ e.preventDefault(); saveChanges(); });
+
+    var cancelBtn = document.querySelector('[data-action="cancel"]');
+    if (cancelBtn) cancelBtn.addEventListener('click', function(e){
+      e.preventDefault();
+      if (newPhotoFiles.length > 0) {
+        if (!confirm('Discard ' + newPhotoFiles.length + ' unsaved photo(s)?')) return;
+      }
+      window.parent.location.href = '/my-boats';
+    });
+
+    var deleteBtn = document.querySelector('[data-action="delete"]');
+    if (deleteBtn) deleteBtn.addEventListener('click', function(e){ e.preventDefault(); deleteBoatNow(); });
+  }
+
+  function init(){
+    bindActions();
+    setupNewPhotoUpload();
+    loadBoat();
+  }
+
+  if (document.readyState !== 'loading') init();
+  else document.addEventListener('DOMContentLoaded', init);
+})();
+</script>
+
+<script>
+document.addEventListener('click', function(e){
+  var a = e.target.closest('a[href]');
+  if (!a) return;
+  var h = a.getAttribute('href');
+  if (!h || h.startsWith('http') || h === '#') return;
+  e.preventDefault();
+  window.parent.location.href = h;
+});
+</script>
+
+</body></html>

@@ -6,8 +6,12 @@ import { deleteFromCloudinary } from '../utils/cloudinary.js';
 const ALLOWED_UPDATE_FIELDS = [
   'name', 'type', 'yearBuilt', 'length', 'maxGuests', 'harbor',
   'description', 'amenities', 'rateType', 'dayRate', 'hourlyRate',
-  'recommendedCaptain'
+  'recommendedCaptain', 'status'
 ];
+
+// Owners can only flip between 'active' and 'inactive' (pause/unpause their own listing).
+// Promotion to/from 'pending' is admin-only via PATCH /:id/status.
+const OWNER_ALLOWED_STATUSES = ['active', 'inactive'];
 
 const filesToPhotos = (files = []) =>
   files.map((f) => ({ url: f.path, publicId: f.filename }));
@@ -144,9 +148,13 @@ export const updateBoat = async (req, res, next) => {
     }
 
     for (const field of ALLOWED_UPDATE_FIELDS) {
-      if (req.body[field] !== undefined) {
-        boat[field] = req.body[field];
+      if (req.body[field] === undefined) continue;
+      if (field === 'status' && req.user.role !== 'admin') {
+        if (!OWNER_ALLOWED_STATUSES.includes(req.body.status)) {
+          throw new ApiError(403, 'Owners can only set status to active or inactive');
+        }
       }
+      boat[field] = req.body[field];
     }
 
     if (req.files && req.files.length > 0) {
@@ -220,6 +228,37 @@ export const deleteBoatPhoto = async (req, res, next) => {
     await boat.save();
 
     res.status(200).json({ success: true, message: 'Photo deleted', data: boat });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const addBoatPhotos = async (req, res, next) => {
+  try {
+    if (!isValidObjectId(req.params.id)) {
+      throw new ApiError(404, 'Boat not found');
+    }
+
+    const boat = await Boat.findById(req.params.id);
+    if (!boat) throw new ApiError(404, 'Boat not found');
+
+    if (req.user.role !== 'admin' && !boat.owner.equals(req.user._id)) {
+      throw new ApiError(403, 'Not authorized to modify this boat');
+    }
+
+    if (!req.files || req.files.length === 0) {
+      throw new ApiError(400, 'No photos uploaded');
+    }
+
+    const newPhotos = filesToPhotos(req.files);
+    boat.photos.push(...newPhotos);
+    await boat.save();
+
+    const populated = await Boat.findById(boat._id)
+      .populate('owner', 'name avatar')
+      .populate('recommendedCaptain', 'name avatar captainProfile');
+
+    res.status(200).json({ success: true, data: populated });
   } catch (err) {
     next(err);
   }

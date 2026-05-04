@@ -1,7 +1,7 @@
 import express from 'express';
 import {
   createBoat, listBoats, getBoatById, updateBoat, deleteBoat,
-  getMyBoats, deleteBoatPhoto, updateBoatStatus
+  getMyBoats, deleteBoatPhoto, addBoatPhotos, updateBoatStatus
 } from '../controllers/boatController.js';
 import { protect } from '../middleware/auth.js';
 import { restrictTo } from '../middleware/role.js';
@@ -36,6 +36,14 @@ router.patch(
 
 router.delete('/:id', protect, deleteBoat);
 router.delete('/:id/photos/:publicId', protect, deleteBoatPhoto);
+
+router.post(
+  '/:id/photos',
+  protect,
+  restrictTo('owner', 'admin'),
+  upload.array('photos', 10),
+  addBoatPhotos
+);
 
 router.patch('/:id/status', protect, restrictTo('admin'), updateBoatStatus);
 
