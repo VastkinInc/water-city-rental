@@ -306,8 +306,8 @@
 <span>·</span>
 <span>Host since 2018</span>
 </div>
-<button class="px-6 py-2 rounded-full border border-outline text-on-surface hover:bg-surface-container-high transition-colors text-sm font-semibold inline-flex items-center gap-2" onclick="window.parent.location.href='/messages'">
-<span class="material-symbols-outlined text-sm">chat_bubble_outline</span> Message Captain
+<button data-action="open-chat" class="px-6 py-2 rounded-full border border-outline text-on-surface hover:bg-surface-container-high transition-colors text-sm font-semibold inline-flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">chat_bubble_outline</span> Open Chat
                         </button>
 </div>
 </section>
@@ -476,6 +476,15 @@
       setText('[data-detail="boat-name"]',      boat.name);
       setText('[data-detail="harbor"]',         (boat.harbor || '') + (boat.harbor ? ', Chicago' : ''));
       setText('[data-detail="booking-number"]', 'Booking #' + (b.bookingNumber || ''));
+
+      // Day 5d — wire "Open Chat" button to deep-link into messages
+      var chatBtn = document.querySelector('[data-action="open-chat"]');
+      if (chatBtn && b._id) {
+        chatBtn.onclick = function(e){
+          e.preventDefault();
+          window.parent.location.href = '/messages?bookingId=' + b._id;
+        };
+      }
 
       var copy = bannerCopy(b);
       var sty  = WCR.computeStatus(b);
@@ -658,5 +667,30 @@ document.addEventListener('click',function(e){
   e.preventDefault();
   window.parent.location.href=h;
 });
+</script>
+<script>
+// Day 5d — sidebar Messages unread badge
+(function(){
+  if (!window.WCR || !WCR.isLoggedIn()) return;
+  async function refreshUnreadBadge(){
+    try {
+      var resp = await WCR.getUnreadCount();
+      var count = (resp.data && resp.data.count) || 0;
+      document.querySelectorAll("a[href=\"/messages\"]").forEach(function(link){
+        var existing = link.querySelector("[data-unread-badge]");
+        if (existing) existing.remove();
+        if (count > 0) {
+          var badge = document.createElement("span");
+          badge.setAttribute("data-unread-badge", "1");
+          badge.textContent = count;
+          badge.style.cssText = "display:inline-block;margin-left:8px;background:#a43c12;color:#fff;font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;";
+          link.appendChild(badge);
+        }
+      });
+    } catch(e){}
+  }
+  refreshUnreadBadge();
+  setInterval(refreshUnreadBadge, 30000);
+})();
 </script>
 </body></html>

@@ -217,6 +217,23 @@
       return apiCall('GET', '/bookings');
     },
 
+    // Day 5d — messaging
+    listConversations: function() {
+      return apiCall('GET', '/messages/conversations');
+    },
+    getConversation: function(bookingId) {
+      return apiCall('GET', '/messages/conversations/' + bookingId);
+    },
+    sendMessage: function(bookingId, content) {
+      return apiCall('POST', '/messages', { bookingId: bookingId, content: content });
+    },
+    markConversationRead: function(bookingId) {
+      return apiCall('PATCH', '/messages/conversations/' + bookingId + '/read');
+    },
+    getUnreadCount: function() {
+      return apiCall('GET', '/messages/unread-count');
+    },
+
     updateProfile: function(updates) {
       return apiCall('PATCH', '/auth/me', updates);
     },

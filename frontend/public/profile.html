@@ -738,4 +738,29 @@ document.addEventListener('click',function(e){
   })();
 })();
 </script>
+<script>
+// Day 5d — sidebar Messages unread badge
+(function(){
+  if (!window.WCR || !WCR.isLoggedIn()) return;
+  async function refreshUnreadBadge(){
+    try {
+      var resp = await WCR.getUnreadCount();
+      var count = (resp.data && resp.data.count) || 0;
+      document.querySelectorAll("a[href=\"/messages\"]").forEach(function(link){
+        var existing = link.querySelector("[data-unread-badge]");
+        if (existing) existing.remove();
+        if (count > 0) {
+          var badge = document.createElement("span");
+          badge.setAttribute("data-unread-badge", "1");
+          badge.textContent = count;
+          badge.style.cssText = "display:inline-block;margin-left:8px;background:#a43c12;color:#fff;font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;";
+          link.appendChild(badge);
+        }
+      });
+    } catch(e){}
+  }
+  refreshUnreadBadge();
+  setInterval(refreshUnreadBadge, 30000);
+})();
+</script>
 </body></html>
