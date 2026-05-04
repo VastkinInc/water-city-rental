@@ -38,24 +38,32 @@ export const createBooking = async (req, res, next) => {
     const start = new Date(startDate);
     const end = new Date(endDate);
 
-    // Calendar-day convention shared with the client (boat.html getDurationFromDates):
-    // May 22 → May 25 = 3 days = 72 hours. Min 1 day.
-    const startDay = new Date(start); startDay.setHours(0, 0, 0, 0);
-    const endDay   = new Date(end);   endDay.setHours(0, 0, 0, 0);
-    const calendarDays = Math.max(1, Math.round((endDay - startDay) / (1000 * 60 * 60 * 24)));
+    if (isNaN(start) || isNaN(end)) {
+      throw new ApiError(400, 'Invalid date format');
+    }
+    if (end <= start) {
+      throw new ApiError(400, 'End time must be after start time');
+    }
+    if (start < new Date()) {
+      throw new ApiError(400, 'Start time must be in the future');
+    }
 
     let days, hours;
     if (boat.rateType === 'daily') {
-      days = calendarDays;
+      // Daily rentals: count calendar days between start and end (min 1).
+      const startDay = new Date(start); startDay.setHours(0, 0, 0, 0);
+      const endDay   = new Date(end);   endDay.setHours(0, 0, 0, 0);
+      days = Math.max(1, Math.round((endDay - startDay) / (1000 * 60 * 60 * 24)));
     } else {
-      hours = calendarDays * 24;
+      // Hourly rentals: count actual elapsed hours (min 1).
+      hours = Math.max(1, Math.round((end - start) / (1000 * 60 * 60)));
     }
 
     const conflict = await Booking.findOne({
       boat: boat._id,
       status: { $in: ['pending', 'confirmed'] },
-      startDate: { $lte: end },
-      endDate: { $gte: start }
+      startDate: { $lt: end },
+      endDate:   { $gt: start }
     });
     if (conflict) {
       throw new ApiError(409, 'Boat is already booked for these dates');

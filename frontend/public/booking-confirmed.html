@@ -175,9 +175,22 @@ tailwind.config = {
       setText('[data-confirm="boat-name"]',  boat.name);
       setText('[data-confirm="harbor"]',     (boat.harbor || '') + (boat.harbor ? ', Chicago' : ''));
 
-      var startStr = (booking.startDate || '').slice(0,10);
-      var endStr   = (booking.endDate   || '').slice(0,10);
-      setText('[data-confirm="dates"]',  startStr + ' → ' + endStr);
+      var startD = new Date(booking.startDate);
+      var endD   = new Date(booking.endDate);
+      var dates;
+      if (!isNaN(startD) && !isNaN(endD)) {
+        var startFmt = startD.toLocaleString('en-US', {
+          month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit'
+        });
+        var sameDay = startD.toDateString() === endD.toDateString();
+        var endFmt = endD.toLocaleString('en-US', sameDay
+          ? { hour: 'numeric', minute: '2-digit' }
+          : { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
+        dates = startFmt + ' → ' + endFmt;
+      } else {
+        dates = (booking.startDate || '').slice(0,10) + ' → ' + (booking.endDate || '').slice(0,10);
+      }
+      setText('[data-confirm="dates"]',  dates);
       var captainName = captain.name || '';
       if (captainName && captainName.indexOf('Capt.') !== 0) captainName = 'Capt. ' + captainName;
       setText('[data-confirm="captain"]', captainName);

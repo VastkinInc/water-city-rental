@@ -288,7 +288,22 @@ tailwind.config = {
   setText('[data-summary="harbor"]',       (preview.boatHarbor || '') + (preview.boatHarbor ? ', Chicago' : ''));
   setText('[data-summary="captain-name"]', preview.captainName || '—');
 
-  var dateLabel = (payload.startDate || '') + ' → ' + (payload.endDate || '');
+  var startTime = preview.startDateTime ? new Date(preview.startDateTime) : new Date(payload.startDate);
+  var endTime   = preview.endDateTime   ? new Date(preview.endDateTime)   : new Date(payload.endDate);
+  var dateLabel;
+  if (!isNaN(startTime) && !isNaN(endTime)) {
+    var startFmt = startTime.toLocaleString('en-US', {
+      weekday: 'short', month: 'short', day: 'numeric',
+      hour: 'numeric', minute: '2-digit'
+    });
+    var sameDay = startTime.toDateString() === endTime.toDateString();
+    var endFmt = endTime.toLocaleString('en-US', sameDay
+      ? { hour: 'numeric', minute: '2-digit' }
+      : { weekday: 'short', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
+    dateLabel = startFmt + ' → ' + endFmt;
+  } else {
+    dateLabel = (payload.startDate || '') + ' → ' + (payload.endDate || '');
+  }
   setText('[data-summary="dates-guests"]', dateLabel + '  ·  ' + (payload.numGuests || 0) + ' guests');
 
   var photoEl = document.querySelector('[data-summary="boat-photo"]');

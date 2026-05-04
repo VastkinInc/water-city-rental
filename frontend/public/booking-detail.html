@@ -435,7 +435,10 @@
   function fmtDateTime(str){
     if (!str) return '';
     var d = new Date(str);
-    return isNaN(d) ? '' : d.toLocaleDateString('en-US', { month:'long', day:'numeric', year:'numeric' });
+    return isNaN(d) ? '' : d.toLocaleString('en-US', {
+      weekday: 'short', month: 'long', day: 'numeric', year: 'numeric',
+      hour: 'numeric', minute: '2-digit'
+    });
   }
   function bannerCopy(b){
     var s = b.status;
@@ -495,7 +498,13 @@
 
       setText('[data-detail="checkin-date"]',  fmtDateTime(b.startDate));
       setText('[data-detail="checkout-date"]', fmtDateTime(b.endDate));
-      setText('[data-detail="duration"]',      (b.days || diffDays(b.startDate, b.endDate)) + ' days');
+
+      // Duration from server-side breakdown (authoritative for the booking).
+      var bbForDuration = (pricing.breakdown && pricing.breakdown.boat) || {};
+      var durQty  = bbForDuration.quantity != null ? bbForDuration.quantity : (b.hours != null ? b.hours : b.days);
+      var durUnit = bbForDuration.unit || (b.hours != null ? 'hour' : 'day');
+      if (durQty == null) durQty = diffDays(b.startDate, b.endDate);
+      setText('[data-detail="duration"]', durQty + ' ' + (durQty === 1 ? durUnit : durUnit + 's'));
       setText('[data-detail="guests"]',        (b.numGuests || 0) + ' guests');
 
       var captainName = captain.name || '';

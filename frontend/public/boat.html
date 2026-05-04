@@ -213,29 +213,61 @@
 </div>
 </div>
 </section>
-<!-- Trip Dates Section -->
+<!-- Trip Section -->
 <section class="trip-dates-card" style="background:#FAF7F2;border:1px solid #E8DFD3;border-radius:12px;padding:24px;margin-bottom:24px;">
-  <h2 style="font-family:'Playfair Display',serif;font-size:24px;color:#1A1A2E;margin:0 0 8px;">Choose Your Dates</h2>
-  <p style="color:#6B6560;margin:0 0 20px;font-size:14px;">Pick your start and end dates to see live pricing.</p>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
-    <div>
-      <label style="display:block;font-size:12px;letter-spacing:0.05em;text-transform:uppercase;color:#1A1A2E;margin-bottom:6px;font-weight:600;">Start Date</label>
-      <input type="date" id="trip-start-date" style="width:100%;padding:12px;border:1px solid #D4C9B8;border-radius:8px;font-family:'Manrope',sans-serif;font-size:15px;background:#fff;">
+  <h2 style="font-family:'Playfair Display',serif;font-size:24px;color:#1A1A2E;margin:0 0 8px;">Choose Your Trip</h2>
+  <p style="color:#6B6560;margin:0 0 20px;font-size:14px;">Pick a start time and how long you want the boat. Live pricing below.</p>
+
+  <!-- Mode toggle (only visible if boat supports both daily and hourly) -->
+  <div id="rate-mode-toggle" style="display:none;margin-bottom:16px;">
+    <button data-mode="hourly"  class="mode-btn active" type="button" style="padding:8px 16px;border:1px solid #C4623A;background:#C4623A;color:#fff;border-radius:8px;cursor:pointer;font-weight:600;">By the Hour</button>
+    <button data-mode="daily"   class="mode-btn"        type="button" style="padding:8px 16px;border:1px solid #D4C9B8;background:#fff;color:#1A1A2E;border-radius:8px;cursor:pointer;font-weight:600;margin-left:8px;">Full Day</button>
+  </div>
+
+  <!-- HOURLY mode (default) -->
+  <div id="hourly-controls">
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;">
+      <div>
+        <label style="display:block;font-size:12px;letter-spacing:0.05em;text-transform:uppercase;color:#1A1A2E;margin-bottom:6px;font-weight:600;">Start Date</label>
+        <input type="date" id="trip-start-date" style="width:100%;padding:12px;border:1px solid #D4C9B8;border-radius:8px;font-family:'Manrope',sans-serif;font-size:15px;background:#fff;">
+      </div>
+      <div>
+        <label style="display:block;font-size:12px;letter-spacing:0.05em;text-transform:uppercase;color:#1A1A2E;margin-bottom:6px;font-weight:600;">Start Time</label>
+        <input type="time" id="trip-start-time" value="09:00" style="width:100%;padding:12px;border:1px solid #D4C9B8;border-radius:8px;font-family:'Manrope',sans-serif;font-size:15px;background:#fff;">
+      </div>
+      <div>
+        <label style="display:block;font-size:12px;letter-spacing:0.05em;text-transform:uppercase;color:#1A1A2E;margin-bottom:6px;font-weight:600;">Duration (hours)</label>
+        <input type="number" id="trip-duration-hours" min="1" max="48" value="4" style="width:100%;padding:12px;border:1px solid #D4C9B8;border-radius:8px;font-family:'Manrope',sans-serif;font-size:15px;background:#fff;">
+      </div>
     </div>
-    <div>
-      <label style="display:block;font-size:12px;letter-spacing:0.05em;text-transform:uppercase;color:#1A1A2E;margin-bottom:6px;font-weight:600;">End Date</label>
-      <input type="date" id="trip-end-date" style="width:100%;padding:12px;border:1px solid #D4C9B8;border-radius:8px;font-family:'Manrope',sans-serif;font-size:15px;background:#fff;">
+    <p id="end-time-display" style="margin:12px 0 0;color:#6B6560;font-size:13px;">Trip ends: —</p>
+  </div>
+
+  <!-- DAILY mode (only available if boat has dayRate) -->
+  <div id="daily-controls" style="display:none;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+      <div>
+        <label style="display:block;font-size:12px;letter-spacing:0.05em;text-transform:uppercase;color:#1A1A2E;margin-bottom:6px;font-weight:600;">Start Date</label>
+        <input type="date" id="trip-daily-start" style="width:100%;padding:12px;border:1px solid #D4C9B8;border-radius:8px;font-family:'Manrope',sans-serif;font-size:15px;background:#fff;">
+      </div>
+      <div>
+        <label style="display:block;font-size:12px;letter-spacing:0.05em;text-transform:uppercase;color:#1A1A2E;margin-bottom:6px;font-weight:600;">End Date</label>
+        <input type="date" id="trip-daily-end" style="width:100%;padding:12px;border:1px solid #D4C9B8;border-radius:8px;font-family:'Manrope',sans-serif;font-size:15px;background:#fff;">
+      </div>
     </div>
   </div>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px;">
+
+  <!-- Guests + duration label (shared) -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px;">
     <div>
       <label style="display:block;font-size:12px;letter-spacing:0.05em;text-transform:uppercase;color:#1A1A2E;margin-bottom:6px;font-weight:600;">Guests</label>
       <input type="number" id="trip-guests" min="1" max="50" value="4" style="width:100%;padding:12px;border:1px solid #D4C9B8;border-radius:8px;font-family:'Manrope',sans-serif;font-size:15px;background:#fff;">
     </div>
     <div style="display:flex;align-items:flex-end;">
-      <span id="trip-duration-label" style="color:#C4623A;font-weight:600;font-size:14px;">Select dates above</span>
+      <span id="trip-duration-label" style="color:#C4623A;font-weight:600;font-size:14px;">Set duration above</span>
     </div>
   </div>
+
   <div id="trip-dates-error" style="color:#C4623A;font-size:13px;margin-top:10px;display:none;"></div>
 </section>
 <!-- Captain Recommended View -->
@@ -479,31 +511,8 @@ function captainDisplayRate(c){
   return '$' + (c.rate || 0) + '/day';
 }
 
-function getTripDates(){
-  var startEl = document.getElementById('trip-start-date');
-  var endEl   = document.getElementById('trip-end-date');
-  var startStr = startEl ? startEl.value : '';
-  var endStr   = endEl   ? endEl.value   : '';
-  if (!startStr || !endStr) return null;
-  var start = new Date(startStr + 'T00:00:00');
-  var end   = new Date(endStr   + 'T23:59:59');
-  if (isNaN(start) || isNaN(end)) return null;
-  return { start: start, end: end, startStr: startStr, endStr: endStr };
-}
-
-function getDurationFromDates(boat, dates){
-  if (!boat || !dates) return 0;
-  // Count CALENDAR DAYS between start and end so hourly + daily share one convention.
-  // May 22 → May 25 = 3 days = 72 hours (NOT 96).
-  var startDay = new Date(dates.start);
-  startDay.setHours(0, 0, 0, 0);
-  var endDay = new Date(dates.end);
-  endDay.setHours(0, 0, 0, 0);
-  var ms = endDay - startDay;
-  var days = Math.max(1, Math.round(ms / (1000*60*60*24)));
-  if (boat.rateType === 'daily') return days;
-  return days * 24;
-}
+// Mode state — 'hourly' is the default; 'daily' only available if boat has dayRate
+var currentMode = 'hourly';
 
 function showDateError(msg){
   var box = document.getElementById('trip-dates-error');
@@ -513,39 +522,88 @@ function showDateError(msg){
   box.style.display = 'block';
 }
 
-function updateDurationLabel(){
-  var label = document.getElementById('trip-duration-label');
-  if (!label) return;
-  var dates = getTripDates();
-  if (!BOAT || !dates) { label.textContent = 'Select dates above'; return; }
-  var duration = getDurationFromDates(BOAT, dates);
-  var unit = BOAT.rateType === 'daily' ? 'days' : 'hours';
-  var noun = duration === 1 ? unit.slice(0,-1) : unit;
-  label.textContent = duration + ' ' + noun;
+function setMode(mode){
+  currentMode = mode;
+  var btns = document.querySelectorAll('#rate-mode-toggle .mode-btn');
+  btns.forEach(function(b){
+    var active = b.getAttribute('data-mode') === mode;
+    b.classList.toggle('active', active);
+    b.style.background   = active ? '#C4623A' : '#fff';
+    b.style.color        = active ? '#fff'    : '#1A1A2E';
+    b.style.borderColor  = active ? '#C4623A' : '#D4C9B8';
+  });
+  var hourly = document.getElementById('hourly-controls');
+  var daily  = document.getElementById('daily-controls');
+  if (hourly) hourly.style.display = (mode === 'hourly') ? '' : 'none';
+  if (daily)  daily.style.display  = (mode === 'daily')  ? '' : 'none';
+  updatePrice();
 }
 
-function fmtNiceDate(str){
-  if (!str) return '—';
-  var d = new Date(str + 'T00:00:00');
-  if (isNaN(d)) return str;
-  return d.toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
+// Compute trip params based on mode. Returns {start, end, hours|days, mode} or null.
+function getTripParams(){
+  if (currentMode === 'hourly') {
+    var dateEl = document.getElementById('trip-start-date');
+    var timeEl = document.getElementById('trip-start-time');
+    var durEl  = document.getElementById('trip-duration-hours');
+    if (!dateEl || !dateEl.value) return null;
+    var time = (timeEl && timeEl.value) || '09:00';
+    var hours = parseInt(durEl ? durEl.value : '4', 10);
+    if (!hours || hours < 1) hours = 1;
+    if (hours > 48) hours = 48;
+    var start = new Date(dateEl.value + 'T' + time + ':00');
+    if (isNaN(start)) return null;
+    var end = new Date(start.getTime() + hours * 60 * 60 * 1000);
+    return { start: start, end: end, hours: hours, mode: 'hourly' };
+  } else {
+    var startEl = document.getElementById('trip-daily-start');
+    var endEl   = document.getElementById('trip-daily-end');
+    if (!startEl || !startEl.value || !endEl || !endEl.value) return null;
+    var s = new Date(startEl.value + 'T09:00:00');
+    var e = new Date(endEl.value   + 'T18:00:00');
+    if (isNaN(s) || isNaN(e)) return null;
+    var startDay = new Date(s); startDay.setHours(0,0,0,0);
+    var endDay   = new Date(e); endDay.setHours(0,0,0,0);
+    var days = Math.max(1, Math.round((endDay - startDay) / (1000*60*60*24)));
+    return { start: s, end: e, days: days, mode: 'daily' };
+  }
 }
 
-function syncStickySidebar(){
-  var startEl  = document.getElementById('trip-start-date');
-  var endEl    = document.getElementById('trip-end-date');
-  var guestsEl = document.getElementById('trip-guests');
+function fmtNiceDateTime(d){
+  if (!d) return '—';
+  return d.toLocaleString('en-US', {
+    weekday: 'short', month: 'short', day: 'numeric',
+    hour: 'numeric', minute: '2-digit'
+  });
+}
+
+function syncStickySidebar(params){
   var setText = function(sel, val){
     var el = document.querySelector(sel);
     if (el && val != null) el.textContent = val;
   };
-  if (startEl) setText('[data-summary="checkin-date"]',  fmtNiceDate(startEl.value));
-  if (endEl)   setText('[data-summary="checkout-date"]', fmtNiceDate(endEl.value));
+  if (params) {
+    setText('[data-summary="checkin-date"]',  fmtNiceDateTime(params.start));
+    setText('[data-summary="checkout-date"]', fmtNiceDateTime(params.end));
+  } else {
+    setText('[data-summary="checkin-date"]',  '—');
+    setText('[data-summary="checkout-date"]', '—');
+  }
+  var guestsEl = document.getElementById('trip-guests');
   if (guestsEl) {
-    var n = parseInt(guestsEl.value || '4');
+    var n = parseInt(guestsEl.value || '4', 10);
     if (!n || n < 1) n = 1;
     setText('[data-summary="guests-pill"]', n + (n === 1 ? ' Guest' : ' Guests'));
   }
+
+  if (!BOAT) return;
+  if (currentMode === 'hourly' && BOAT.hourlyRate) {
+    setText('[data-headline="rate"]',      '$' + BOAT.hourlyRate.toLocaleString());
+    setText('[data-headline="rate-unit"]', '/ hr');
+  } else if (currentMode === 'daily' && BOAT.dayRate) {
+    setText('[data-headline="rate"]',      '$' + BOAT.dayRate.toLocaleString());
+    setText('[data-headline="rate-unit"]', '/ day');
+  }
+  if (BOAT.rating != null) setText('[data-headline="rating"]', BOAT.rating.toFixed(2));
 }
 
 function updatePrice(){
@@ -555,9 +613,8 @@ function updatePrice(){
     if(el) el.textContent = val;
   };
 
-  // Update captain-summary fields regardless of dates
+  // Captain summary always reflects the current mode's rate.
   setText('[data-captain="name"]',       c.name);
-  setText('[data-captain="rate"]',       captainDisplayRate(c));
   setText('[data-captain="rating"]',     '★ ' + (c.rating || '—'));
   var trips = document.querySelector('[data-captain="trips"]');
   if (trips) trips.textContent = '(' + (c.totalTrips || 0) + ' trips)';
@@ -566,57 +623,72 @@ function updatePrice(){
   var avEl = document.querySelector('[data-captain="avatar"]');
   if (avEl && c.avatar) avEl.setAttribute('src', c.avatar);
 
-  updateDurationLabel();
-  syncStickySidebar();
+  var params = getTripParams();
+
+  // End-time + duration labels
+  var endEl = document.getElementById('end-time-display');
+  if (endEl) endEl.textContent = params ? 'Trip ends: ' + fmtNiceDateTime(params.end) : 'Trip ends: —';
+
+  var durLabel = document.getElementById('trip-duration-label');
+  if (durLabel) {
+    if (!params) durLabel.textContent = 'Set duration above';
+    else if (params.mode === 'hourly') durLabel.textContent = params.hours + ' hour' + (params.hours === 1 ? '' : 's');
+    else durLabel.textContent = params.days + ' day' + (params.days === 1 ? '' : 's');
+  }
+
+  syncStickySidebar(params);
 
   if (!BOAT) return;
-
-  var dates = getTripDates();
-  if (!dates) {
-    setText('[data-price="grand-total"]', 'Pick dates');
+  if (!params) {
+    setText('[data-price="grand-total"]', 'Pick details');
     return;
   }
 
-  var today = new Date(); today.setHours(0,0,0,0);
-  if (dates.start < today) {
-    showDateError('Start date must be today or in the future.');
-    setText('[data-price="grand-total"]', '—');
-    return;
-  }
-  if (dates.end <= dates.start) {
-    showDateError('End date must be after start date.');
+  var now = new Date();
+  if (params.start < now) {
+    showDateError('Start time must be in the future.');
     setText('[data-price="grand-total"]', '—');
     return;
   }
   showDateError('');
 
-  var duration = getDurationFromDates(BOAT, dates);
-  var unit = BOAT.rateType === 'daily' ? 'days' : 'hours';
-  var boatRate = BOAT.rateType === 'daily' ? BOAT.dayRate : BOAT.hourlyRate;
-  var captainRate = BOAT.rateType === 'daily' ? (c.rate || 0) : (c.hourly || 0);
+  var qty, unit, boatRate, captainRate;
+  if (params.mode === 'hourly') {
+    qty = params.hours; unit = 'hours';
+    boatRate    = BOAT.hourlyRate || 0;
+    captainRate = (c.hourly || 0);
+  } else {
+    qty = params.days; unit = 'days';
+    boatRate    = BOAT.dayRate || 0;
+    captainRate = (c.rate || 0);
+  }
+  var unitSingular = unit.slice(0, -1);
+  var qtyLabel = qty + ' ' + (qty === 1 ? unitSingular : unit);
 
-  var boatTotal    = boatRate * duration;
-  var captainTotal = captainRate * duration;
+  var boatTotal    = boatRate * qty;
+  var captainTotal = captainRate * qty;
   var grandTotal   = boatTotal + captainTotal + SERVICE_FEE;
 
-  setText('[data-price="boat-line"]',    '$' + boatRate.toLocaleString() + ' × ' + duration + ' ' + unit);
+  setText('[data-price="boat-line"]',    '$' + boatRate.toLocaleString() + ' × ' + qtyLabel);
   setText('[data-price="boat-total"]',   '$' + boatTotal.toLocaleString());
-  setText('[data-price="captain-line"]', '$' + captainRate + ' × ' + duration + ' ' + unit);
+  setText('[data-price="captain-line"]', '$' + captainRate.toLocaleString() + ' × ' + qtyLabel);
   setText('[data-price="captain-total"]','$' + captainTotal.toLocaleString());
   setText('[data-price="service"]',      '$' + SERVICE_FEE);
   setText('[data-price="grand-total"]',  '$' + grandTotal.toLocaleString());
+
+  setText('[data-captain="rate"]',       '$' + captainRate.toLocaleString() + '/' + unitSingular);
 }
 
 function reserveNow(){
   if (!BOAT) { showDateError('Boat data not loaded yet. Please wait.'); return; }
-  var dates = getTripDates();
-  if (!dates) { showDateError('Please select start and end dates.'); return; }
-  var today = new Date(); today.setHours(0,0,0,0);
-  if (dates.start < today) { showDateError('Start date must be today or in the future.'); return; }
-  if (dates.end <= dates.start) { showDateError('End date must be after start date.'); return; }
+  var params = getTripParams();
+  if (!params) { showDateError('Please complete trip details.'); return; }
+  var now = new Date();
+  if (params.start < now) { showDateError('Start time must be in the future.'); return; }
+  if (params.end <= params.start) { showDateError('End time must be after start time.'); return; }
 
   var guestsInput = document.getElementById('trip-guests');
-  var numGuests = parseInt(guestsInput ? guestsInput.value : '4');
+  var numGuests = parseInt(guestsInput ? guestsInput.value : '4', 10);
   if (!numGuests || numGuests < 1) numGuests = 1;
   if (BOAT.maxGuests && numGuests > BOAT.maxGuests) {
     showDateError('Max ' + BOAT.maxGuests + ' guests allowed on this boat.');
@@ -631,26 +703,36 @@ function reserveNow(){
   }
 
   var c = getCaptain(selectedCaptainId);
-  var duration = getDurationFromDates(BOAT, dates);
-  var boatRate = BOAT.rateType === 'daily' ? BOAT.dayRate : BOAT.hourlyRate;
-  var captainRate = BOAT.rateType === 'daily' ? (c.rate || 0) : (c.hourly || 0);
+  var qty, unit, boatRate, captainRate;
+  if (params.mode === 'hourly') {
+    qty = params.hours; unit = 'hour';
+    boatRate    = BOAT.hourlyRate || 0;
+    captainRate = (c.hourly || 0);
+  } else {
+    qty = params.days; unit = 'day';
+    boatRate    = BOAT.dayRate || 0;
+    captainRate = (c.rate || 0);
+  }
+
   var payload = {
     boatId:    BOAT._id || BOAT.id,
-    captainId: c._id || c.id || c.id,
-    startDate: dates.startStr,
-    endDate:   dates.endStr,
+    captainId: c.id || c._id,
+    startDate: params.start.toISOString(),
+    endDate:   params.end.toISOString(),
     numGuests: numGuests,
     _preview: {
-      boatName:   BOAT.name,
-      boatPhoto:  (BOAT.photos && BOAT.photos[0]) ? BOAT.photos[0].url : '',
-      boatHarbor: BOAT.harbor,
+      boatName:      BOAT.name,
+      boatPhoto:     (BOAT.photos && BOAT.photos[0]) ? BOAT.photos[0].url : '',
+      boatHarbor:    BOAT.harbor,
       captainName:   c.name,
       captainRating: c.rating || 0,
-      rateType:      BOAT.rateType,
+      rateType:      params.mode,
       boatRate:      boatRate,
       captainRate:   captainRate,
-      duration:      duration,
-      durationUnit:  BOAT.rateType === 'daily' ? 'day' : 'hour'
+      duration:      qty,
+      durationUnit:  unit,
+      startDateTime: params.start.toISOString(),
+      endDateTime:   params.end.toISOString()
     }
   };
 
@@ -773,45 +855,81 @@ function applyCaptainsToState(captains, recommendedRaw){
 }
 
 function setupDateInputs(){
-  var startInput  = document.getElementById('trip-start-date');
-  var endInput    = document.getElementById('trip-end-date');
-  var guestsInput = document.getElementById('trip-guests');
-
   var fmt = function(d){ return d.toISOString().slice(0,10); };
   var todayStr = fmt(new Date());
-
-  // Sensible defaults: tomorrow → tomorrow + 2 days (or +4 hours for hourly)
   var tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate() + 1);
-  var defaultEnd = new Date(tomorrow);
-  if (BOAT && BOAT.rateType === 'hourly') {
-    defaultEnd.setHours(defaultEnd.getHours() + 4);
-  } else {
-    defaultEnd.setDate(defaultEnd.getDate() + 2);
-  }
 
-  if (startInput && !startInput.value) startInput.value = fmt(tomorrow);
-  if (endInput && !endInput.value)     endInput.value   = fmt(defaultEnd);
+  var supportsDaily  = !!(BOAT && BOAT.dayRate    && BOAT.dayRate    > 0);
+  var supportsHourly = !!(BOAT && BOAT.hourlyRate && BOAT.hourlyRate > 0);
 
-  if (startInput) {
-    startInput.setAttribute('min', todayStr);
-    if (!startInput._wired) {
-      startInput.addEventListener('change', function(){
-        if (endInput) endInput.setAttribute('min', startInput.value);
-        updatePrice();
-      });
-      startInput._wired = true;
+  // Mode toggle visible only if both modes are offered
+  var toggleEl = document.getElementById('rate-mode-toggle');
+  if (toggleEl) toggleEl.style.display = (supportsDaily && supportsHourly) ? '' : 'none';
+
+  if (supportsHourly) setMode('hourly');
+  else if (supportsDaily) setMode('daily');
+
+  // Wire mode-toggle buttons
+  document.querySelectorAll('#rate-mode-toggle .mode-btn').forEach(function(b){
+    if (b._wired) return;
+    b.addEventListener('click', function(){ setMode(b.getAttribute('data-mode')); });
+    b._wired = true;
+  });
+
+  // HOURLY inputs
+  var startDate = document.getElementById('trip-start-date');
+  var startTime = document.getElementById('trip-start-time');
+  var durHours  = document.getElementById('trip-duration-hours');
+  if (startDate) {
+    if (!startDate.value) startDate.value = fmt(tomorrow);
+    startDate.setAttribute('min', todayStr);
+    if (!startDate._wired) {
+      startDate.addEventListener('change', updatePrice);
+      startDate._wired = true;
     }
   }
-  if (endInput) {
-    if (!endInput._wired) {
-      endInput.addEventListener('change', updatePrice);
-      endInput._wired = true;
+  if (startTime && !startTime._wired) {
+    startTime.addEventListener('change', updatePrice);
+    startTime._wired = true;
+  }
+  if (durHours && !durHours._wired) {
+    durHours.addEventListener('input', updatePrice);
+    durHours._wired = true;
+  }
+
+  // DAILY inputs (only if boat supports daily)
+  if (supportsDaily) {
+    var dailyStart = document.getElementById('trip-daily-start');
+    var dailyEnd   = document.getElementById('trip-daily-end');
+    var dayAfter = new Date(tomorrow); dayAfter.setDate(dayAfter.getDate() + 2);
+    if (dailyStart) {
+      if (!dailyStart.value) dailyStart.value = fmt(tomorrow);
+      dailyStart.setAttribute('min', todayStr);
+      if (!dailyStart._wired) {
+        dailyStart.addEventListener('change', function(){
+          if (dailyEnd) dailyEnd.setAttribute('min', dailyStart.value);
+          updatePrice();
+        });
+        dailyStart._wired = true;
+      }
+    }
+    if (dailyEnd) {
+      if (!dailyEnd.value) dailyEnd.value = fmt(dayAfter);
+      if (!dailyEnd._wired) {
+        dailyEnd.addEventListener('change', updatePrice);
+        dailyEnd._wired = true;
+      }
     }
   }
+
+  // Guests
+  var guestsInput = document.getElementById('trip-guests');
   if (guestsInput && !guestsInput._wired) {
-    guestsInput.addEventListener('input', function(){ syncStickySidebar(); });
+    guestsInput.addEventListener('input', updatePrice);
     guestsInput._wired = true;
   }
+
+  updatePrice();
 }
 
 async function bootBoatPage(){
