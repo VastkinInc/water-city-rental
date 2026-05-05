@@ -192,6 +192,7 @@
 </div>
 <!-- Main Content Canvas -->
 <main class="flex-1 min-h-screen pt-24 md:pt-16 pb-24 px-6 md:px-16 lg:px-24 xl:px-32 max-w-[1600px] mx-auto w-full">
+<div id="pending-reviews-banner" style="display:none;"></div>
 <!-- Header Section -->
 <header class="mb-12">
 <h1 class="font-display text-display-lg tracking-tight text-on-surface mb-6" id="page-heading">
@@ -234,6 +235,7 @@
 
   var allBookings = [];
   var currentFilter = 'all';
+  var pendingReviewIds = new Set();
 
   function escapeHtml(s){
     if (s == null) return '';
@@ -281,6 +283,9 @@
       var canCancel = b.status === 'pending' || b.status === 'needs_new_captain' || b.status === 'confirmed';
       if (canCancel) {
         actionsHtml = '<button onclick="cancelBookingFromList(\'' + bookingId + '\')" style="padding:8px 16px;background:#FEE2E2;border:1px solid #FCA5A5;border-radius:8px;color:#991B1B;font-weight:600;cursor:pointer;">Cancel</button>';
+      }
+      if (b.status === 'completed' && pendingReviewIds.has(bookingId)) {
+        actionsHtml += '<button onclick="window.parent.location.href=\'/review-trip?bookingId=' + bookingId + '\'" style="padding:8px 16px;background:#D4A843;color:#1A1A2E;border:none;border-radius:8px;font-weight:600;cursor:pointer;margin-left:8px;">⭐ Leave Review</button>';
       }
     }
 
@@ -389,12 +394,47 @@
   }
   window.ownerReassignFromList = ownerReassignPrompt;
 
+  async function loadPendingReviews(){
+    if (isOwner) return;
+    var u = WCR.getUser();
+    if (!u || u.role !== 'customer') return;
+    try {
+      var resp = await WCR.getMyPendingReviews();
+      var pending = resp.data || [];
+      pendingReviewIds = new Set(pending.map(function(b){ return (b._id || '').toString(); }));
+      renderPendingBanner(pending);
+    } catch(e){}
+  }
+
+  function renderPendingBanner(pending){
+    var bannerEl = document.getElementById('pending-reviews-banner');
+    if (!bannerEl) return;
+    if (!pending || pending.length === 0) {
+      bannerEl.style.display = 'none';
+      bannerEl.innerHTML = '';
+      return;
+    }
+    bannerEl.style.display = 'flex';
+    bannerEl.style.cssText = 'display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,#FAF7F2,#F5E5D7);border:1px solid #D4A843;border-radius:12px;padding:20px;margin-bottom:24px;';
+    var trip = pending[0];
+    var boatName = (trip.boat && trip.boat.name) || 'Your trip';
+    var extra = pending.length > 1 ? ' (' + pending.length + ' trips need review)' : '';
+    bannerEl.innerHTML = ''
+      + '<div style="font-size:32px;line-height:1;">⭐</div>'
+      + '<div style="flex:1;">'
+      +   '<h4 style="margin:0;font-family:\'Playfair Display\',serif;color:#1A1A2E;font-size:18px;">Loved your trip on ' + escapeHtml(boatName) + '?</h4>'
+      +   '<p style="margin:4px 0 0;color:#6B6560;font-size:13px;">Help future renters by leaving a quick review.' + extra + '</p>'
+      + '</div>'
+      + '<button onclick="window.parent.location.href=\'/review-trip?bookingId=' + trip._id + '\'" style="padding:10px 20px;background:#a43c12;color:#fff;border:none;border-radius:999px;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;font-size:12px;cursor:pointer;font-family:Manrope,sans-serif;">Leave Review</button>';
+  }
+
   async function loadBookings(){
     var listEl = document.getElementById('bookings-list');
     if (listEl) listEl.innerHTML = '<div style="padding:32px;text-align:center;color:#6B6560;">Loading bookings…</div>';
     try {
       var resp = await WCR.myBookings();
       allBookings = resp.data || resp.bookings || resp || [];
+      await loadPendingReviews();
       applyFilter();
     } catch (err) {
       if (err.status === 401) { window.parent.location.href = '/login'; return; }

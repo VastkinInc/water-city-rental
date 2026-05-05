@@ -15,6 +15,7 @@ import boatsRouter from './routes/boats.js';
 import captainsRouter from './routes/captains.js';
 import bookingsRouter from './routes/bookings.js';
 import messagesRouter from './routes/messages.js';
+import reviewsRouter from './routes/reviews.js';
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -45,6 +46,7 @@ app.use('/api/boats', boatsRouter);
 app.use('/api/captains', captainsRouter);
 app.use('/api/bookings', bookingsRouter);
 app.use('/api/messages', messagesRouter);
+app.use('/api/reviews', reviewsRouter);
 
 // Error handlers (must be last)
 app.use(notFound);

@@ -28,6 +28,7 @@ import Messages from "./pages/Messages";
 import Checkout from "./pages/Checkout";
 import BookingConfirmed from "./pages/BookingConfirmed";
 import Saved from "./pages/Saved";
+import ReviewTrip from "./pages/ReviewTrip";
 
 export default function App() {
   return (
@@ -60,6 +61,7 @@ export default function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/messages" element={<Messages />} />
         <Route path="/saved" element={<Saved />} />
+        <Route path="/review-trip" element={<ReviewTrip />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/booking-confirmed" element={<BookingConfirmed />} />
         <Route path="/booking/new" element={<Checkout />} />

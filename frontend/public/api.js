@@ -260,6 +260,23 @@
       return apiCall('GET', '/auth/favorites/check/' + boatId);
     },
 
+    // Day 5f — reviews & ratings
+    createReview: function(payload) {
+      return apiCall('POST', '/reviews', payload);
+    },
+    listBoatReviews: function(boatId) {
+      return apiCall('GET', '/reviews/boat/' + boatId);
+    },
+    listCaptainReviews: function(captainId) {
+      return apiCall('GET', '/reviews/captain/' + captainId);
+    },
+    getBookingReview: function(bookingId) {
+      return apiCall('GET', '/reviews/booking/' + bookingId);
+    },
+    getMyPendingReviews: function() {
+      return apiCall('GET', '/reviews/my-pending');
+    },
+
     /**
      * Unified status display for bookings (Day 4c parallel approval).
      * Takes the FULL booking object so it can read ownerApproved/captainApproved.

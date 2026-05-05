@@ -394,6 +394,8 @@
                         Cancel Booking
                     </button>
 </section>
+<!-- Review (post-trip) -->
+<section id="review-section" style="display:none;background:#FAF7F2;border:1px solid #D4A843;border-radius:24px;padding:28px;"></section>
 </div>
 </div>
 </main>
@@ -641,6 +643,38 @@
             alert('Could not cancel: ' + (err.message || 'Unknown error'));
           }
         };
+      }
+
+      // Day 5f — Review section (customer + completed only)
+      var reviewSection = document.getElementById('review-section');
+      var customerId = (b.customer && (b.customer._id || b.customer.id)) || b.customer;
+      var amCustomer = me.role === 'customer' && String(myId) === String(customerId);
+      if (reviewSection && amCustomer && b.status === 'completed') {
+        try {
+          var rev = await WCR.getBookingReview(bookingId);
+          if (rev && rev.data) {
+            var br = rev.data.boatRating;
+            var cr = rev.data.captainRating;
+            reviewSection.innerHTML = ''
+              + '<h3 class="font-headline text-lg mb-2 text-on-surface">Your Review</h3>'
+              + '<p style="margin:0;color:#1A1A2E;font-size:14px;line-height:1.6;">'
+              +   '<span style="color:#D4A843;letter-spacing:2px;">' + '★'.repeat(br) + '☆'.repeat(5-br) + '</span> Boat'
+              +   '<br>'
+              +   '<span style="color:#D4A843;letter-spacing:2px;">' + '★'.repeat(cr) + '☆'.repeat(5-cr) + '</span> Captain'
+              + '</p>';
+            reviewSection.style.display = '';
+          } else {
+            reviewSection.innerHTML = ''
+              + '<h3 class="font-headline text-lg mb-2 text-on-surface">Loved your trip?</h3>'
+              + '<p class="text-sm text-on-surface-variant mb-4">Share your experience to help future renters.</p>'
+              + '<button id="leave-review-btn" style="width:100%;padding:12px;background:#D4A843;color:#1A1A2E;border:none;border-radius:999px;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;font-size:12px;cursor:pointer;font-family:Manrope,sans-serif;">⭐ Leave Review</button>';
+            reviewSection.style.display = '';
+            var leaveBtn = document.getElementById('leave-review-btn');
+            if (leaveBtn) leaveBtn.addEventListener('click', function(){
+              window.parent.location.href = '/review-trip?bookingId=' + bookingId;
+            });
+          }
+        } catch(e){}
       }
     } catch (err) {
       console.error('[WCR] booking detail load failed:', err);

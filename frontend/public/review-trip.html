@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Leave Your Review — Water City Rental</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script src="/api.js"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary": "#ffffff",
+                        "surface-tint": "#a43c12",
+                        "on-surface": "#1a1c1a",
+                        "on-primary-fixed": "#380c00",
+                        "tertiary-fixed": "#ffe088",
+                        "surface-container-low": "#f4f3f1",
+                        "secondary": "#006972",
+                        "on-primary-container": "#6c2000",
+                        "on-background": "#1a1c1a",
+                        "secondary-container": "#9ff0fb",
+                        "on-surface-variant": "#57423b",
+                        "error-container": "#ffdad6",
+                        "primary-fixed": "#ffdbcf",
+                        "tertiary-fixed-dim": "#e9c349",
+                        "on-error-container": "#93000a",
+                        "on-error": "#ffffff",
+                        "surface-container": "#efeeeb",
+                        "on-tertiary-fixed-variant": "#574500",
+                        "primary-fixed-dim": "#ffb59c",
+                        "tertiary-container": "#c4a028",
+                        "surface": "#faf9f6",
+                        "surface-variant": "#e3e2e0",
+                        "primary-container": "#ff7f50",
+                        "on-secondary-fixed": "#001f23",
+                        "inverse-surface": "#2f312f",
+                        "surface-container-highest": "#e3e2e0",
+                        "background": "#faf9f6",
+                        "surface-bright": "#faf9f6",
+                        "on-primary-fixed-variant": "#822800",
+                        "inverse-primary": "#ffb59c",
+                        "on-primary": "#ffffff",
+                        "inverse-on-surface": "#f2f1ee",
+                        "on-secondary-container": "#066f79",
+                        "error": "#ba1a1a",
+                        "secondary-fixed": "#9ff0fb",
+                        "on-secondary-fixed-variant": "#004f56",
+                        "primary": "#a43c12",
+                        "secondary-fixed-dim": "#82d3de",
+                        "on-secondary": "#ffffff",
+                        "surface-container-high": "#e9e8e5",
+                        "tertiary": "#735c00",
+                        "on-tertiary-container": "#483800",
+                        "surface-container-lowest": "#ffffff",
+                        "outline-variant": "#dec0b6",
+                        "outline": "#8b7169",
+                        "on-tertiary-fixed": "#241a00",
+                        "surface-dim": "#dbdad7"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Noto Serif"],
+                        "body": ["Manrope"],
+                        "label": ["Manrope"]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Manrope', sans-serif;
+        }
+        .font-serif {
+            font-family: 'Noto Serif', serif;
+        }
+    </style>
+</head>
+
+<body class="bg-background text-on-surface">
+    <script>localStorage.setItem('wcr_role','customer')</script>
+    <div class="flex min-h-screen">
+        <!-- Customer Sidebar -->
+        <aside class="hidden md:flex flex-col h-screen w-64 bg-stone-50 dark:bg-stone-950 py-8 pl-6 sticky top-0 z-40">
+            <div class="mb-6 pr-6">
+                <a href="/" class="font-serif italic text-xl text-stone-900 dark:text-stone-50">Water City Rental</a>
+                <p class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold mt-1">Customer Portal</p>
+            </div>
+            <div class="flex items-center gap-3 mb-8 pr-6">
+                <img alt="Customer" class="w-10 h-10 rounded-full object-cover"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSeB-zYy66SB8W1rDS4pQd909FetLqSvRbVmoZF4ecl97g1A85ji5X-SNQvHOYggY7yZ0944htJX5Mn95ifEhMkxYQP4eo5qDzGle2Kh_-ozdA6gcIp7TQh9xKLA5ZXqes7C3nP9sLyorz0zv58Cb-eMlUkKmeJzncS-sTX11wgy3VJIXkhSOaIZ6gaCu57x88-mqA2eW6IshFvSux4bA83AjeB1Kw1XgF51h5hOPuTNkmDfVjlFFkICk8DiTikEsoQDhIEgdBRROz" />
+                <div>
+                    <p class="font-serif italic text-sm text-stone-900 dark:text-stone-50" data-user="name">Customer</p>
+                    <p class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Customer</p>
+                </div>
+            </div>
+            <nav class="flex-1 space-y-1">
+                <a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all" href="/dashboard/customer">
+                    <span class="material-symbols-outlined">dashboard</span>
+                    <span class="font-sans text-sm tracking-tight">Dashboard</span>
+                </a>
+                <a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all" href="/boats">
+                    <span class="material-symbols-outlined">directions_boat</span>
+                    <span class="font-sans text-sm tracking-tight">Browse Boats</span>
+                </a>
+                <a class="flex items-center gap-3 px-4 py-3 text-stone-900 dark:text-white font-bold bg-white dark:bg-stone-900 rounded-l-full shadow-sm translate-x-1 duration-200" href="/my-bookings">
+                    <span class="material-symbols-outlined">anchor</span>
+                    <span class="font-sans text-sm tracking-tight">My Bookings</span>
+                </a>
+                <a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all" href="/saved">
+                    <span class="material-symbols-outlined">favorite</span>
+                    <span class="font-sans text-sm tracking-tight">Saved</span>
+                </a>
+                <a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all" href="/messages">
+                    <span class="material-symbols-outlined">mail</span>
+                    <span class="font-sans text-sm tracking-tight">Messages</span>
+                </a>
+                <a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all" href="/profile">
+                    <span class="material-symbols-outlined">account_circle</span>
+                    <span class="font-sans text-sm tracking-tight">Profile</span>
+                </a>
+                <a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all" href="/login" onclick="event.preventDefault(); WCR.logout(); return false;">
+                    <span class="material-symbols-outlined">logout</span>
+                    <span class="font-sans text-sm tracking-tight">Logout</span>
+                </a>
+            </nav>
+        </aside>
+
+        <main class="flex-1 overflow-y-auto px-6 md:px-12 py-10">
+            <header class="mb-8">
+                <h1 class="text-4xl md:text-5xl font-serif text-on-surface">
+                    Leave Your <span class="italic">Review</span>
+                </h1>
+                <p class="text-on-surface-variant mt-2 font-medium">Help future renters by sharing your experience.</p>
+            </header>
+
+            <div style="max-width:720px;">
+              <div id="trip-summary" style="background:#fff;border-radius:14px;padding:20px;margin:0 0 24px;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+                <p style="color:#6B6560;text-align:center;margin:0;">Loading…</p>
+              </div>
+
+              <div style="background:#fff;padding:24px;border-radius:14px;margin-bottom:20px;box-shadow:0 2px 8px rgba(0,0,0,0.04);">
+                <h3 style="font-family:'Noto Serif',serif;color:#1A1A2E;margin:0 0 6px;font-size:22px;">Rate the Boat</h3>
+                <p style="color:#6B6560;margin:0 0 12px;font-size:14px;">How was the boat itself?</p>
+                <div id="boat-stars" style="margin:8px 0;line-height:1;"></div>
+                <textarea id="boat-comment" maxlength="1000" placeholder="What did you love? Any issues? (optional)" style="width:100%;min-height:96px;padding:12px;border:1px solid #dec0b6;border-radius:10px;font-family:inherit;font-size:14px;resize:vertical;background:#FAF7F2;color:#1A1A2E;margin-top:8px;"></textarea>
+              </div>
+
+              <div style="background:#fff;padding:24px;border-radius:14px;margin-bottom:20px;box-shadow:0 2px 8px rgba(0,0,0,0.04);">
+                <h3 style="font-family:'Noto Serif',serif;color:#1A1A2E;margin:0 0 6px;font-size:22px;">Rate the Captain</h3>
+                <p style="color:#6B6560;margin:0 0 12px;font-size:14px;">How was your captain's service?</p>
+                <div id="captain-stars" style="margin:8px 0;line-height:1;"></div>
+                <textarea id="captain-comment" maxlength="1000" placeholder="How was the captain's expertise, friendliness, communication? (optional)" style="width:100%;min-height:96px;padding:12px;border:1px solid #dec0b6;border-radius:10px;font-family:inherit;font-size:14px;resize:vertical;background:#FAF7F2;color:#1A1A2E;margin-top:8px;"></textarea>
+              </div>
+
+              <div style="display:flex;gap:12px;justify-content:flex-end;margin-top:24px;">
+                <button id="cancel-review-btn" style="padding:12px 24px;background:transparent;color:#1A1A2E;border:1px solid #1A1A2E;border-radius:999px;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;font-size:12px;cursor:pointer;font-family:Manrope,sans-serif;">Cancel</button>
+                <button id="submit-review-btn" style="padding:12px 28px;background:#a43c12;color:#FAF7F2;border:none;border-radius:999px;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;font-size:12px;cursor:pointer;font-family:Manrope,sans-serif;">Submit Review</button>
+              </div>
+            </div>
+        </main>
+    </div>
+
+<script>
+(function(){
+  if (!WCR.isLoggedIn()) {
+    window.parent.location.href = '/login';
+    return;
+  }
+  var user = WCR.getUser() || {};
+  if (user.role !== 'customer') {
+    alert('Only customers can leave reviews.');
+    window.parent.location.href = '/dashboard/' + user.role;
+    return;
+  }
+
+  var nameEl = document.querySelector('[data-user="name"]');
+  if (nameEl && user.name) nameEl.textContent = user.name;
+
+  var params = new URLSearchParams(window.parent.location.search);
+  var bookingId = params.get('bookingId');
+  if (!bookingId) {
+    alert('No booking ID');
+    window.parent.location.href = '/my-bookings';
+    return;
+  }
+
+  var BOOKING = null;
+  var boatPicker = null;
+  var captainPicker = null;
+
+  function escapeHtml(s){
+    if (s==null) return '';
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function createStarPicker(containerId, onChange) {
+    var container = document.getElementById(containerId);
+    if (!container) {
+      console.warn('[StarPicker] Container not found:', containerId);
+      return { getValue: function(){ return 0; }, setValue: function(){} };
+    }
+
+    var currentRating = 0;
+    var hoverRating = 0;
+    var spans = [];
+
+    container.innerHTML = '';
+    for (var i = 1; i <= 5; i++) {
+      (function(starValue){
+        var span = document.createElement('span');
+        span.textContent = '★';
+        span.style.cssText = 'font-size:42px;cursor:pointer;color:#D4C9B8;transition:color 0.15s;user-select:none;padding:0 2px;display:inline-block;';
+
+        span.addEventListener('click', function(e){
+          e.preventDefault();
+          e.stopPropagation();
+          currentRating = starValue;
+          console.log('[StarPicker]', containerId, 'CLICKED:', starValue);
+          updateColors();
+          if (onChange) onChange(currentRating);
+        });
+
+        span.addEventListener('mouseenter', function(){
+          hoverRating = starValue;
+          updateColors();
+        });
+
+        span.addEventListener('mouseleave', function(){
+          hoverRating = 0;
+          updateColors();
+        });
+
+        container.appendChild(span);
+        spans.push(span);
+      })(i);
+    }
+
+    function updateColors() {
+      var displayRating = hoverRating > 0 ? hoverRating : currentRating;
+      for (var idx = 0; idx < spans.length; idx++) {
+        var starValue = idx + 1;
+        spans[idx].style.color = (starValue <= displayRating) ? '#D4A843' : '#D4C9B8';
+      }
+    }
+
+    updateColors();
+
+    return {
+      getValue: function(){
+        console.log('[StarPicker]', containerId, 'getValue called, returning:', currentRating);
+        return currentRating;
+      },
+      setValue: function(v){
+        currentRating = parseInt(v) || 0;
+        updateColors();
+      }
+    };
+  }
+
+  async function loadBooking() {
+    try {
+      var existing = await WCR.getBookingReview(bookingId);
+      if (existing.data) {
+        alert('You already reviewed this trip.');
+        window.parent.location.href = '/my-bookings';
+        return;
+      }
+
+      var resp = await WCR._call('GET', '/bookings/' + bookingId);
+      BOOKING = resp.data || resp;
+
+      var customerId = BOOKING.customer && (BOOKING.customer._id || BOOKING.customer);
+      var myId = user.id || user._id;
+      if (customerId && customerId.toString() !== myId.toString()) {
+        alert('You can only review your own bookings.');
+        window.parent.location.href = '/my-bookings';
+        return;
+      }
+      if (BOOKING.status !== 'completed') {
+        alert('Only completed trips can be reviewed. This booking is: ' + BOOKING.status);
+        window.parent.location.href = '/my-bookings';
+        return;
+      }
+
+      renderBookingSummary();
+    } catch (err) {
+      alert('Could not load booking: ' + (err.message || 'Error'));
+      window.parent.location.href = '/my-bookings';
+    }
+  }
+
+  function renderBookingSummary() {
+    var el = document.getElementById('trip-summary');
+    if (!el || !BOOKING) return;
+
+    var boatPhoto = (BOOKING.boat && BOOKING.boat.photos && BOOKING.boat.photos[0])
+      ? BOOKING.boat.photos[0].url : '';
+    var captainAvatar = (BOOKING.captain && BOOKING.captain.avatar) || '';
+    var startDate = new Date(BOOKING.startDate);
+    var endDate = new Date(BOOKING.endDate);
+    var dateLabel = startDate.toLocaleDateString('en-US', {
+      month: 'short', day: 'numeric', year: 'numeric'
+    });
+    var endLabel = endDate.toLocaleDateString('en-US', {
+      month: 'short', day: 'numeric', year: 'numeric'
+    });
+    var tripLabel = (dateLabel === endLabel) ? dateLabel : (dateLabel + ' → ' + endLabel);
+
+    el.innerHTML = ''
+      + '<div style="display:flex;gap:16px;align-items:center;">'
+      +   '<div style="width:96px;height:96px;border-radius:10px;background-image:url(' + escapeHtml(boatPhoto) + ');background-size:cover;background-position:center;background-color:#F5F0EA;flex-shrink:0;"></div>'
+      +   '<div style="flex:1;">'
+      +     '<h3 style="margin:0;font-family:\'Noto Serif\',serif;font-size:20px;color:#1A1A2E;">' + escapeHtml(BOOKING.boat ? BOOKING.boat.name : 'Boat') + '</h3>'
+      +     '<p style="margin:4px 0;font-size:13px;color:#6B6560;">📅 ' + escapeHtml(tripLabel) + '</p>'
+      +     '<div style="display:flex;align-items:center;gap:8px;margin-top:8px;">'
+      +       '<div style="width:32px;height:32px;background-image:url(' + escapeHtml(captainAvatar) + ');background-size:cover;background-position:center;background-color:#F5F0EA;border-radius:50%;"></div>'
+      +       '<span style="font-size:13px;color:#1A1A2E;">Capt. ' + escapeHtml(BOOKING.captain ? BOOKING.captain.name : 'Unknown') + '</span>'
+      +     '</div>'
+      +   '</div>'
+      + '</div>';
+  }
+
+  async function submitReview() {
+    if (!boatPicker || !captainPicker) {
+      alert('Page not ready, please reload');
+      return;
+    }
+    var boatRating = boatPicker.getValue();
+    var captainRating = captainPicker.getValue();
+
+    console.log('[Review] Submitting with boat:', boatRating, 'captain:', captainRating);
+
+    if (boatRating < 1) {
+      alert('Please rate the boat (1-5 stars)');
+      return;
+    }
+    if (captainRating < 1) {
+      alert('Please rate the captain (1-5 stars)');
+      return;
+    }
+
+    var boatComment = document.getElementById('boat-comment').value.trim();
+    var captainComment = document.getElementById('captain-comment').value.trim();
+
+    var btn = document.getElementById('submit-review-btn');
+    if (btn) {
+      btn.disabled = true;
+      btn.textContent = 'Submitting…';
+    }
+
+    try {
+      await WCR.createReview({
+        bookingId: bookingId,
+        boatRating: boatRating,
+        boatComment: boatComment,
+        captainRating: captainRating,
+        captainComment: captainComment
+      });
+      alert('Thanks for your review! Your feedback helps future renters.');
+      window.parent.location.href = '/my-bookings';
+    } catch (err) {
+      if (btn) {
+        btn.disabled = false;
+        btn.textContent = 'Submit Review';
+      }
+      alert('Could not submit: ' + (err.message || 'Error'));
+    }
+  }
+
+  function init(){
+    loadBooking();
+    boatPicker = createStarPicker('boat-stars');
+    captainPicker = createStarPicker('captain-stars');
+
+    var submitBtn = document.getElementById('submit-review-btn');
+    if (submitBtn) submitBtn.addEventListener('click', function(e){
+      e.preventDefault();
+      submitReview();
+    });
+
+    var cancelBtn = document.getElementById('cancel-review-btn');
+    if (cancelBtn) cancelBtn.addEventListener('click', function(e){
+      e.preventDefault();
+      window.parent.location.href = '/my-bookings';
+    });
+  }
+
+  if (document.readyState !== 'loading') init();
+  else document.addEventListener('DOMContentLoaded', init);
+})();
+</script>
+<script>
+document.addEventListener('click',function(e){
+  var a=e.target.closest('a[href]');
+  if(!a)return;
+  var h=a.getAttribute('href');
+  if(!h||h.startsWith('http')||h==='#')return;
+  e.preventDefault();
+  window.parent.location.href=h;
+});
+</script>
+</body>
+
+</html>

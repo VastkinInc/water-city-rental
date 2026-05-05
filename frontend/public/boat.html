@@ -364,28 +364,12 @@
 </section>
 <!-- Reviews -->
 <section class="mb-16">
-<h2 class="text-on-surface text-lg font-bold uppercase tracking-widest mb-8 font-headline" style="font-family: 'Playfair Display', serif;">Voices from the Sea</h2>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-<div class="space-y-4">
-<div class="flex items-center gap-4">
-<img alt="Reviewer" class="w-12 h-12 rounded-full object-cover" data-alt="Portrait of a smiling woman with soft sunset lighting on her face" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAyhUVZT6Bd9YlsXID8qaAqmdi35tlkENjUOM4LOzuqqCjesIF4QxfbQmfGGA_vw3JRqdzx0Z0c-uQBV9GFIJT0yhHfFvabMemeplykEfDT0GyDDwSpaTSkCZYeMEb1xXyB1Ogz5oM1aRkvYkk3QDmN4kWPoGcrjDvIbE_aiKRPWQxMeVsGrfsFtZAJDd_eGdFS3decEXB5k_uoAj4zliZzybsGZTRvbHtyW1wtoIC5v4XxcVWB_w1d1w_3I7F2Ca72t96rhJl4x_Di" style=""/>
-<div>
-<h4 class="font-bold text-on-surface" style="">Elena S.</h4>
-<p class="text-on-surface-variant text-xs" style="">August 2023</p>
+<div class="flex items-baseline justify-between mb-8">
+  <h2 class="text-on-surface text-lg font-bold uppercase tracking-widest font-headline" style="font-family: 'Playfair Display', serif;">Voices from the Sea</h2>
+  <span id="reviews-summary" class="text-sm text-on-surface-variant"></span>
 </div>
-</div>
-<p class="text-on-surface-variant leading-relaxed" style="">"The most magical day of our trip. Captain Marco is incredibly knowledgeable and the Azure Serenity is even more beautiful in person."</p>
-</div>
-<div class="space-y-4">
-<div class="flex items-center gap-4">
-<img alt="Reviewer" class="w-12 h-12 rounded-full object-cover" data-alt="Candid headshot of a middle-aged man wearing sunglasses and a casual linen shirt" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBKkNw-9E_K-ih9BFTnxKxQ4QlLJJJaBnAKSaM4ppwoQHv1NF9HT6t2W6vpdL3dFXnPjgX0CBJSmbRBceFBbOfkdL447XSOA5pxTcgDlRuqJEDhJZgRd2axsCpOyZCMBh4hIm0Y9L3O7_Olb8TohpSwuC372jUUyq40Iu4zDLnVO1v-tmi0RBRa1G5jt--BbWDz0mFGn1sh3bdGD19KvgI9vdFpXbvNIM2B9SFr2L3nDFMznog7fZM5H9vp2T0qVraRLpzueP26UmNv" style=""/>
-<div>
-<h4 class="font-bold text-on-surface" style="">David W.</h4>
-<p class="text-on-surface-variant text-xs" style="">July 2023</p>
-</div>
-</div>
-<p class="text-on-surface-variant leading-relaxed" style="">"Absolutely flawless. The booking process was seamless and the vessel's amenities are top-notch. Highly recommended for families."</p>
-</div>
+<div id="reviews-list" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+  <p class="text-on-surface-variant" style="grid-column:1/-1;">Loading reviews…</p>
 </div>
 </section>
 </div>
@@ -1013,6 +997,45 @@ async function setupHeart(boat) {
   });
 }
 
+async function loadBoatReviews(boatId){
+  var listEl = document.getElementById('reviews-list');
+  var summaryEl = document.getElementById('reviews-summary');
+  if (!listEl) return;
+  try {
+    var resp = await WCR.listBoatReviews(boatId);
+    var reviews = resp.data || [];
+    if (reviews.length === 0) {
+      listEl.innerHTML = '<p class="text-on-surface-variant" style="grid-column:1/-1;font-style:italic;">No reviews yet. Be the first to review after your trip!</p>';
+      if (summaryEl) summaryEl.textContent = '';
+      return;
+    }
+    var avg = (reviews.reduce(function(s,r){ return s + r.rating; }, 0) / reviews.length).toFixed(1);
+    if (summaryEl) summaryEl.textContent = '★ ' + avg + ' · ' + reviews.length + ' review' + (reviews.length === 1 ? '' : 's');
+
+    listEl.innerHTML = reviews.map(function(r){
+      var stars = '★'.repeat(r.rating) + '☆'.repeat(5 - r.rating);
+      var date = new Date(r.createdAt).toLocaleDateString('en-US', { month:'long', year:'numeric' });
+      var avatarHtml = r.reviewer && r.reviewer.avatar
+        ? '<img alt="Reviewer" class="w-12 h-12 rounded-full object-cover" src="' + escapeHtml(r.reviewer.avatar) + '"/>'
+        : '<div class="w-12 h-12 rounded-full bg-stone-200 flex items-center justify-center text-stone-500 font-bold">' + escapeHtml((r.reviewer && r.reviewer.displayName ? r.reviewer.displayName.charAt(0) : '?').toUpperCase()) + '</div>';
+      return ''
+        + '<div class="space-y-4">'
+        +   '<div class="flex items-center gap-4">'
+        +     avatarHtml
+        +     '<div style="flex:1;">'
+        +       '<h4 class="font-bold text-on-surface">' + escapeHtml(r.reviewer ? r.reviewer.displayName : 'Customer') + '</h4>'
+        +       '<p class="text-on-surface-variant text-xs">' + escapeHtml(date) + '</p>'
+        +     '</div>'
+        +     '<span style="color:#D4A843;font-size:14px;letter-spacing:2px;">' + stars + '</span>'
+        +   '</div>'
+        +   (r.comment ? '<p class="text-on-surface-variant leading-relaxed">' + escapeHtml(r.comment) + '</p>' : '')
+        + '</div>';
+    }).join('');
+  } catch(err) {
+    listEl.innerHTML = '<p style="grid-column:1/-1;color:#a43c12;">Could not load reviews.</p>';
+  }
+}
+
 async function bootBoatPage(){
   // Read boatId from parent URL
   var pathMatch = (function(){
@@ -1037,6 +1060,7 @@ async function bootBoatPage(){
     setupDateInputs();
     updatePrice();
     setupHeart(boat);
+    loadBoatReviews(boat._id);
   } catch (err) {
     console.error('[WCR] Failed to load boat detail:', err);
     setupDateInputs();
