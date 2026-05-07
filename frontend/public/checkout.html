@@ -9,6 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<script src="https://js.stripe.com/v3/"></script>
 <script src="/api.js"></script>
 <script>
 tailwind.config = {
@@ -223,13 +224,23 @@ tailwind.config = {
           </label>
         </div>
 
-        <!-- Pay button -->
+        <!-- Pay button (creates booking, then reveals Stripe payment section) -->
         <button id="pay-button" class="w-full bg-primary text-white py-4 rounded-full font-sans tracking-widest uppercase text-sm font-extrabold hover:bg-primary-dark transition-all active:scale-95 mb-4">
-          Confirm Booking
+          Continue to Payment
         </button>
-        <p style="color:#6B6560;font-size:13px;text-align:center;margin-top:12px;">
-          Demo mode — no payment will be charged. Real Stripe integration coming soon.
-        </p>
+
+        <!-- Stripe Payment section (hidden until booking is created) -->
+        <section id="payment-section" style="display:none;background:#fff;padding:20px;border-radius:12px;margin-top:8px;border:1px solid #E8DFD3;">
+          <h3 style="font-family:'Playfair Display',serif;font-size:18px;color:#1A1A2E;margin:0 0 8px;">Payment</h3>
+          <p style="color:#6B6560;font-size:12px;margin:0 0 14px;">Test card: <strong>4242 4242 4242 4242</strong>, any future expiry, any 3-digit CVC.</p>
+          <div id="payment-element" style="margin-bottom:14px;"></div>
+          <div id="payment-error" style="color:#C4623A;font-size:13px;margin-bottom:12px;display:none;"></div>
+          <button id="pay-btn" type="button" style="width:100%;padding:14px;background:#C4623A;color:#FAF7F2;border:none;border-radius:8px;font-weight:700;font-size:14px;cursor:pointer;font-family:Manrope,sans-serif;letter-spacing:0.05em;text-transform:uppercase;">
+            <span id="pay-btn-text">Pay $0.00 USD</span>
+            <span id="pay-btn-spinner" style="display:none;">Processing…</span>
+          </button>
+          <p style="color:#6B6560;font-size:11px;margin-top:10px;text-align:center;">🔒 Payments processed by Stripe. Card data never touches our servers.</p>
+        </section>
 
         <!-- Security text -->
         <div class="space-y-2 text-center">
@@ -381,7 +392,17 @@ tailwind.config = {
       if (!bookingId) throw new Error('No booking ID returned');
 
       localStorage.removeItem('wcr_pending_booking');
-      window.parent.location.href = '/booking-confirmed?id=' + bookingId;
+
+      // Day 5g — instead of redirecting, show Stripe payment section
+      window._currentBookingId = bookingId;
+      var grandTotal = (booking.pricing && booking.pricing.grandTotal) || 0;
+
+      // Hide the "Continue to Payment" button, reveal payment section
+      payBtn.style.display = 'none';
+      var paymentSection = document.getElementById('payment-section');
+      if (paymentSection) paymentSection.style.display = 'block';
+
+      await initStripePayment(bookingId, grandTotal);
     } catch (err) {
       payBtn.disabled = false;
       payBtn.innerHTML = originalLabel;
@@ -401,6 +422,93 @@ tailwind.config = {
       box.style.display = 'block';
     }
   });
+
+  // ====== STRIPE PAYMENT (Test Mode) ======
+  var STRIPE_PUBLISHABLE_KEY = 'pk_test_51TQsa0Gyf1DBpL1IrKneAd4Pi6a5iEBdUMdvqskXACCcEptyawvRbjFL7AUxtl9njZS5WDQLG6He4Sin8RvsyKDw003hFgcE9b';
+  var stripe = null;
+  var elements = null;
+  var paymentElement = null;
+
+  async function initStripePayment(bookingId, totalDollars) {
+    var btnText = document.getElementById('pay-btn-text');
+    if (btnText) btnText.textContent = 'Pay $' + (totalDollars || 0).toFixed(2) + ' USD';
+
+    try {
+      if (!stripe) stripe = Stripe(STRIPE_PUBLISHABLE_KEY);
+
+      var resp = await WCR._call('POST', '/payments/create-intent', { bookingId: bookingId });
+      var data = resp.data || {};
+      var clientSecret = data.clientSecret;
+      if (!clientSecret) throw new Error('No clientSecret returned');
+
+      elements = stripe.elements({
+        clientSecret: clientSecret,
+        appearance: {
+          theme: 'stripe',
+          variables: {
+            colorPrimary: '#C4623A',
+            colorBackground: '#ffffff',
+            colorText: '#1A1A2E',
+            fontFamily: 'Manrope, sans-serif',
+            borderRadius: '8px'
+          }
+        }
+      });
+      paymentElement = elements.create('payment');
+      paymentElement.mount('#payment-element');
+
+      var payBtnEl = document.getElementById('pay-btn');
+      if (payBtnEl) payBtnEl.addEventListener('click', handlePayClick);
+    } catch (err) {
+      console.error('[Stripe] Init error:', err);
+      var errEl = document.getElementById('payment-error');
+      if (errEl) {
+        errEl.textContent = 'Could not initialize payment: ' + (err.message || 'Error');
+        errEl.style.display = 'block';
+      }
+    }
+  }
+
+  async function handlePayClick(e) {
+    e.preventDefault();
+    if (!stripe || !elements) return;
+
+    var btn = document.getElementById('pay-btn');
+    var btnText = document.getElementById('pay-btn-text');
+    var btnSpinner = document.getElementById('pay-btn-spinner');
+    var errEl = document.getElementById('payment-error');
+
+    if (btn) btn.disabled = true;
+    if (btnText) btnText.style.display = 'none';
+    if (btnSpinner) btnSpinner.style.display = 'inline';
+    if (errEl) errEl.style.display = 'none';
+
+    try {
+      var origin = (window.parent && window.parent.location && window.parent.location.origin) || window.location.origin;
+      var result = await stripe.confirmPayment({
+        elements: elements,
+        confirmParams: {
+          return_url: origin + '/booking-confirmed?id=' + (window._currentBookingId || '')
+        },
+        redirect: 'if_required'
+      });
+
+      if (result.error) throw new Error(result.error.message);
+
+      if (result.paymentIntent && result.paymentIntent.status === 'succeeded') {
+        window.parent.location.href = '/booking-confirmed?id=' + (window._currentBookingId || '');
+      }
+    } catch (err) {
+      console.error('[Stripe] Payment error:', err);
+      if (errEl) {
+        errEl.textContent = err.message || 'Payment failed';
+        errEl.style.display = 'block';
+      }
+      if (btn) btn.disabled = false;
+      if (btnText) btnText.style.display = 'inline';
+      if (btnSpinner) btnSpinner.style.display = 'none';
+    }
+  }
 })();
 </script>
 

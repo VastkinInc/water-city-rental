@@ -59,10 +59,12 @@ const bookingSchema = new mongoose.Schema(
     captainApproved: { type: Boolean, default: false },
     paymentStatus: {
       type: String,
-      enum: ['unpaid', 'paid', 'refunded'],
+      enum: ['unpaid', 'paid', 'failed', 'refunded'],
       default: 'unpaid'
     },
     paymentIntentId: { type: String, default: null },
+    stripeChargeId:  { type: String, default: null },
+    paidAt:          { type: Date,   default: null },
     cancellationReason: { type: String, maxlength: 500 },
     specialRequests: { type: String, maxlength: 500 },
     timeline: { type: [timelineEntrySchema], default: [] }
