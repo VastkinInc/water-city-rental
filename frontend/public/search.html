@@ -102,7 +102,7 @@
                 <a class="text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 transition-colors"
                     href="/events">Events</a>
                 <a class="text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 transition-colors"
-                    href="/concierge">Concierge</a>
+                    href="/concierge">Boat Services</a>
             </div>
             <div class="ml-auto flex items-center gap-4"><button
                     class="bg-primary text-white px-6 py-2 rounded-full text-sm font-semibold hover:opacity-90 transition-opacity hidden sm:block" onclick="window.parent.location.href='/boats'">Book
@@ -224,6 +224,22 @@
                             </label>
                         </div>
                     </div>
+                    <!-- Harbor -->
+                    <div>
+                        <h3 class="text-on-surface mb-4 flex items-center gap-2"><span
+                                class="material-symbols-outlined text-lg" data-icon="anchor">anchor</span> Harbor</h3>
+                        <select id="filter-harbor" class="w-full font-normal capitalize tracking-normal text-sm text-on-surface bg-surface-container-lowest border border-outline-variant/40 rounded-lg p-3 focus:ring-2 focus:ring-tertiary">
+                            <option value="">All Harbors</option>
+                            <option value="Montrose Harbor">Montrose Harbor</option>
+                            <option value="Belmont Harbor">Belmont Harbor</option>
+                            <option value="Diversey Harbor">Diversey Harbor</option>
+                            <option value="DuSable Harbor">DuSable Harbor</option>
+                            <option value="Monroe Harbor">Monroe Harbor</option>
+                            <option value="Burnham Harbor">Burnham Harbor</option>
+                            <option value="31st Street Harbor">31st Street Harbor</option>
+                            <option value="59th Street Harbor">59th Street Harbor</option>
+                        </select>
+                    </div>
                     <!-- Capacity -->
                     <div>
                         <h3 class="text-on-surface mb-4 flex items-center gap-2"><span
@@ -319,6 +335,47 @@
     </main>
 <script>
 (function(){
+  // Day 5h — non-Chicago city empty state
+  (function(){
+    try {
+      var urlParams = new URLSearchParams(window.parent.location.search);
+      var cityFilter = urlParams.get('city');
+      var emptyFlag = urlParams.get('empty');
+      if (emptyFlag === '1' && cityFilter && cityFilter !== 'chicago') {
+        var cityLabels = {
+          'miami': 'Miami, FL',
+          'tampa': 'Tampa, FL',
+          'washington-dc': 'Washington DC',
+          'austin': 'Austin, TX',
+          'new-york': 'New York, NY',
+          'los-angeles': 'Los Angeles, CA'
+        };
+        var cityName = cityLabels[cityFilter] || cityFilter;
+        document.addEventListener('DOMContentLoaded', function(){
+          var gridEl = document.getElementById('boat-grid');
+          if (gridEl) {
+            gridEl.innerHTML = ''
+              + '<div style="grid-column:1/-1;text-align:center;padding:64px 24px;">'
+              + '<div style="font-size:64px;">⛵</div>'
+              + '<h3 style="font-family:\'Noto Serif\',serif;font-size:28px;color:#1A1A2E;margin:16px 0 8px;">' + cityName + ' — Coming Soon!</h3>'
+              + '<p style="color:#6B6560;margin:0 0 20px;font-size:15px;max-width:480px;margin-left:auto;margin-right:auto;">We\'re actively adding boats in ' + cityName + '. Sign up to be notified when listings go live in your city.</p>'
+              + '<button onclick="window.parent.location.href=\'/boats?city=chicago\'" style="padding:12px 28px;background:#a43c12;color:#FAF7F2;border:none;border-radius:999px;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;font-size:13px;cursor:pointer;font-family:Manrope,sans-serif;">Browse Chicago Boats</button>'
+              + '</div>';
+          }
+          var pag = document.getElementById('pagination');
+          if (pag) pag.innerHTML = '';
+        });
+        return; // Skip normal boat-loading IIFE below
+      }
+    } catch(e){}
+  })();
+
+  // Re-check guard: bail this IIFE entirely if non-Chicago empty was triggered above
+  try {
+    var _u = new URLSearchParams(window.parent.location.search);
+    if (_u.get('empty') === '1' && _u.get('city') && _u.get('city') !== 'chicago') return;
+  } catch(e){}
+
   var state = { page: 1, limit: 12, total: 0, totalPages: 1, filters: {} };
   var favoritesSet = new Set();
 
@@ -522,6 +579,8 @@
     if (typeBoxes.length === 1) {
       f.type = typeBoxes[0].getAttribute('data-filter-type');
     }
+    var harbor = document.getElementById('filter-harbor');
+    if (harbor && harbor.value) f.harbor = harbor.value;
     var g = document.getElementById('filter-guests');
     if (g) {
       var n = parseInt(g.textContent || g.value || '0');

@@ -6,8 +6,9 @@ export const BOAT_TYPES = [
 ];
 
 export const HARBORS = [
-  'Monroe Harbor', 'Navy Pier', 'Belmont Harbor',
-  'Burnham Harbor', 'Diversey Harbor', 'DuSable Harbor'
+  'Montrose Harbor', 'Belmont Harbor', 'Diversey Harbor',
+  'DuSable Harbor', 'Monroe Harbor', 'Burnham Harbor',
+  '31st Street Harbor', '59th Street Harbor'
 ];
 
 const photoSchema = new mongoose.Schema(

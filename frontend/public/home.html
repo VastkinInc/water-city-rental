@@ -92,7 +92,7 @@
 <a class="text-orange-700 font-bold border-b-2 border-orange-600 font-sans tracking-wide uppercase text-xs" href="/">Charters</a>
 <a class="text-stone-600 font-medium hover:text-orange-500 transition-colors duration-300 font-sans tracking-wide uppercase text-xs" href="/harbors">Harbors</a>
 <a class="text-stone-600 font-medium hover:text-orange-500 transition-colors duration-300 font-sans tracking-wide uppercase text-xs" href="/events">Events</a>
-<a class="text-stone-600 font-medium hover:text-orange-500 transition-colors duration-300 font-sans tracking-wide uppercase text-xs" href="/concierge">Concierge</a>
+<a class="text-stone-600 font-medium hover:text-orange-500 transition-colors duration-300 font-sans tracking-wide uppercase text-xs" href="/concierge">Boat Services</a>
 </div>
 <div class="flex items-center space-x-3">
 <span class="material-symbols-outlined text-stone-900 cursor-pointer" style="">account_circle</span>
@@ -109,25 +109,31 @@
 </div>
 <div class="relative z-10 max-w-screen-2xl mx-auto w-full px-8 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
 <div class="text-white">
-<h1 class="font-serif italic text-6xl md:text-8xl leading-tight">
-                    The Lake is <span class="block"><i>Yours.</i></span>
+<h1 class="font-serif italic text-5xl md:text-7xl leading-tight">
+                    Rent Boats. Explore the Water. <span class="block"><i>Earn More.</i></span>
 </h1>
-<p class="mt-6 text-xl max-w-md font-light opacity-90 leading-relaxed" style="">
-                    Experience the architectural majesty of Chicago from the quiet luxury of our premier fleet.
+<p class="mt-6 text-xl max-w-xl font-light opacity-90 leading-relaxed" style="">
+                    Connect with boat owners or turn your own boat into income—fast, easy, and with zero service fees.
                 </p>
+<div class="mt-8 flex flex-wrap gap-4">
+<button class="bg-primary-container text-on-primary-container px-8 py-4 rounded-full font-extrabold text-sm uppercase tracking-widest hover:scale-105 active:scale-95 transition-all shadow-xl" onclick="window.parent.location.href='/boats'">Find a Boat</button>
+<button class="bg-white/95 text-stone-900 px-8 py-4 rounded-full font-extrabold text-sm uppercase tracking-widest hover:bg-white active:scale-95 transition-all shadow-xl" onclick="window.parent.location.href='/partner'">Join Now</button>
+</div>
 </div>
 <div class="glass-panel p-10 rounded-3xl shadow-2xl border border-white/20 max-w-lg ml-auto">
 <h3 class="font-serif text-2xl text-stone-900 mb-8" style="">Plan Your Voyage</h3>
 <div class="space-y-6">
 <div>
 <label class="block text-[10px] uppercase tracking-widest font-bold text-stone-500 mb-2" style="">Destination</label>
-<select class="w-full bg-white/50 border-none rounded-xl p-4 text-stone-900 focus:ring-2 focus:ring-tertiary">
-<option selected="">Monroe Harbor</option>
-<option>Navy Pier</option>
-<option>Belmont Harbor</option>
-<option>Diversey Harbor</option>
-<option>Chicago River</option>
-<option>Burnham Harbor</option>
+<select id="hero-destination" data-filter="destination" class="w-full bg-white/50 border-none rounded-xl p-4 text-stone-900 focus:ring-2 focus:ring-tertiary">
+<option value="">Choose Destination</option>
+<option value="chicago" selected>Chicago, IL</option>
+<option value="miami">Miami, FL</option>
+<option value="tampa">Tampa, FL</option>
+<option value="washington-dc">Washington DC</option>
+<option value="austin">Austin, TX</option>
+<option value="new-york">New York, NY</option>
+<option value="los-angeles">Los Angeles, CA</option>
 </select>
 </div>
 <div class="grid grid-cols-2 gap-4">
@@ -140,12 +146,33 @@
 <input class="w-full bg-white/50 border-none rounded-xl p-4 text-stone-900 focus:ring-2 focus:ring-tertiary" type="number" value="4">
 </div>
 </div>
-<button class="w-full bg-primary text-white py-5 rounded-full font-bold uppercase tracking-[0.2em] text-sm shadow-lg hover:shadow-primary/30 transition-all active:scale-[0.98]" style="" onclick="window.parent.location.href='/boats'">
+<button class="w-full bg-primary text-white py-5 rounded-full font-bold uppercase tracking-[0.2em] text-sm shadow-lg hover:shadow-primary/30 transition-all active:scale-[0.98]" style="" onclick="(function(){var d=document.getElementById('hero-destination');var v=d?d.value:'';var url='/boats';if(v && v!=='chicago'){url+='?city='+encodeURIComponent(v)+'&amp;empty=1';}else if(v==='chicago'){url+='?city=chicago';}window.parent.location.href=url;})()">
                         Search Availability
                     </button>
 </div>
 </div>
 </div>
+</section>
+<!-- Trust Hook Strip -->
+<section style="background:#FAF7F2;padding:20px 24px;border-bottom:1px solid #E8DFD3;">
+  <div style="max-width:1200px;margin:0 auto;display:flex;flex-wrap:wrap;justify-content:center;gap:32px;align-items:center;">
+    <div style="display:flex;align-items:center;gap:8px;color:#1A1A2E;font-size:14px;font-weight:500;">
+      <span style="color:#065F46;font-size:18px;font-weight:700;">✓</span>
+      <span>Free signup</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;color:#1A1A2E;font-size:14px;font-weight:500;">
+      <span style="color:#065F46;font-size:18px;font-weight:700;">✓</span>
+      <span>Zero service fees</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;color:#1A1A2E;font-size:14px;font-weight:500;">
+      <span style="color:#065F46;font-size:18px;font-weight:700;">✓</span>
+      <span>Verified users</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;color:#1A1A2E;font-size:14px;font-weight:500;">
+      <span style="color:#065F46;font-size:18px;font-weight:700;">✓</span>
+      <span>Secure bookings</span>
+    </div>
+  </div>
 </section>
 <!-- Stats Section -->
 <section class="bg-surface-container-low py-16 border-b border-stone-200/50">
@@ -169,12 +196,13 @@
 </div>
 </section>
 <!-- Events Section -->
-<section class="py-24 overflow-hidden bg-surface">
+<section class="pt-24 pb-12 overflow-hidden bg-surface">
 <div class="max-w-screen-2xl mx-auto px-8 mb-12">
 <h2 class="font-serif text-4xl italic text-stone-900" style="">Chicago Events on the Water</h2>
 <p class="font-sans text-on-surface-variant mt-2 text-lg" style="">Happening this season near you</p>
 </div>
-<div class="flex space-x-6 px-8 overflow-x-auto pb-8 scrollbar-hide">
+<div id="events-carousel" style="overflow:hidden;position:relative;padding-bottom:8px;">
+<div id="events-track" style="display:flex;gap:24px;padding-left:32px;padding-right:32px;will-change:transform;">
 <!-- Event Card 1 -->
 <div class="min-w-[320px] max-w-[320px] group cursor-pointer">
 <div class="relative h-48 rounded-2xl overflow-hidden mb-4">
@@ -242,12 +270,13 @@
 </div>
 </div>
 </div>
+</div>
 <div class="max-w-screen-2xl mx-auto px-8 mt-6">
 <a class="text-primary font-bold text-sm uppercase tracking-widest hover:text-orange-600 transition-colors" href="/events" style="">View All Events →</a>
 </div>
 </section>
 <!-- Fleet Section -->
-<section class="bg-surface py-24 border-t border-surface-container">
+<section class="bg-surface pt-12 pb-24 border-t border-surface-container">
 <div class="max-w-screen-2xl mx-auto px-8">
 <div class="flex justify-between items-end mb-12">
 <div>
@@ -562,11 +591,11 @@ Join Water City Rental and start earning. Zero fees to get started during our la
 <ul class="space-y-4 max-w-xl">
 <li class="flex items-start gap-4">
 <span class="flex-shrink-0 text-3xl" aria-hidden="true">⛵</span>
-<span class="text-stone-200 text-lg leading-relaxed pt-1"><span class="font-bold text-stone-50">List your boat</span> — earn up to $8,400/month</span>
+<span class="text-stone-200 text-lg leading-relaxed pt-1"><span class="font-bold text-stone-50">List your boat</span> — earn on your schedule</span>
 </li>
 <li class="flex items-start gap-4">
 <span class="flex-shrink-0 text-3xl" aria-hidden="true">⚓</span>
-<span class="text-stone-200 text-lg leading-relaxed pt-1"><span class="font-bold text-stone-50">Join as captain</span> — work on your schedule</span>
+<span class="text-stone-200 text-lg leading-relaxed pt-1"><span class="font-bold text-stone-50">Join as captain</span> — work on your terms</span>
 </li>
 </ul>
 <div class="pt-2 space-y-3">
@@ -576,20 +605,25 @@ Partner With Us — It's Free &rarr;
 <p class="text-xs text-stone-400 tracking-wide">No joining fees · Cancel anytime</p>
 </div>
 </div>
-<!-- Right: 3 stacked stat cards -->
-<div class="space-y-4">
-<div class="bg-stone-800/60 border border-stone-700 rounded-3xl p-8 backdrop-blur-sm flex items-center justify-between gap-6 hover:border-primary-container/40 transition-colors">
-<div class="font-serif text-5xl md:text-6xl text-primary-container font-bold leading-none">$42,000</div>
-<div class="text-right text-stone-300 text-sm uppercase tracking-[0.18em] font-bold max-w-[180px]">Top owner earnings this year</div>
-</div>
-<div class="bg-stone-800/60 border border-stone-700 rounded-3xl p-8 backdrop-blur-sm flex items-center justify-between gap-6 hover:border-primary-container/40 transition-colors">
-<div class="font-serif text-5xl md:text-6xl text-primary-container font-bold leading-none">4.9★</div>
-<div class="text-right text-stone-300 text-sm uppercase tracking-[0.18em] font-bold max-w-[180px]">Average captain rating</div>
-</div>
-<div class="bg-stone-800/60 border border-stone-700 rounded-3xl p-8 backdrop-blur-sm flex items-center justify-between gap-6 hover:border-primary-container/40 transition-colors">
-<div class="font-serif text-5xl md:text-6xl text-primary-container font-bold leading-none italic">Zero</div>
-<div class="text-right text-stone-300 text-sm uppercase tracking-[0.18em] font-bold max-w-[180px]">Joining fees during launch</div>
-</div>
+<!-- Right: Bullet checklist + tagline -->
+<div style="background:rgba(255,255,255,0.05);border-radius:14px;padding:32px;color:#FAF7F2;border:1px solid rgba(255,255,255,0.1);">
+  <h3 style="font-family:'Noto Serif',serif;font-size:24px;margin:0 0 16px;color:#FAF7F2;">Turn your boat into a source of income with Water City Rental 🚤</h3>
+  <p style="margin:0 0 20px;font-size:15px;line-height:1.6;color:#FAF7F2;opacity:0.9;">Join today and start earning by renting out your watercraft to verified users.</p>
+  <ul style="list-style:none;padding:0;margin:0 0 20px;">
+    <li style="display:flex;align-items:center;gap:10px;font-size:15px;margin-bottom:10px;color:#FAF7F2;">
+      <span style="color:#D4A843;font-size:18px;font-weight:700;">✓</span> Free signup
+    </li>
+    <li style="display:flex;align-items:center;gap:10px;font-size:15px;margin-bottom:10px;color:#FAF7F2;">
+      <span style="color:#D4A843;font-size:18px;font-weight:700;">✓</span> Zero service fees
+    </li>
+    <li style="display:flex;align-items:center;gap:10px;font-size:15px;margin-bottom:10px;color:#FAF7F2;">
+      <span style="color:#D4A843;font-size:18px;font-weight:700;">✓</span> Easy listing process
+    </li>
+    <li style="display:flex;align-items:center;gap:10px;font-size:15px;margin-bottom:10px;color:#FAF7F2;">
+      <span style="color:#D4A843;font-size:18px;font-weight:700;">✓</span> Secure bookings
+    </li>
+  </ul>
+  <p style="margin:16px 0 0;font-size:15px;line-height:1.6;color:#FAF7F2;font-style:italic;opacity:0.95;">Don't let your boat sit idle — make it work for you. Sign up now and start earning!</p>
 </div>
 </div>
 </section>
@@ -655,5 +689,95 @@ document.addEventListener('click',function(e){
   e.preventDefault();
   window.parent.location.href=h;
 });
+</script>
+<script>
+// Day 5h — Continuous marquee for events
+(function(){
+  var carousel = document.getElementById('events-carousel');
+  var track = document.getElementById('events-track');
+  if (!carousel || !track) return;
+
+  var cards = Array.prototype.slice.call(track.children);
+  if (cards.length === 0) return;
+
+  // Duplicate originals once for seamless infinite loop
+  cards.forEach(function(card){
+    var clone = card.cloneNode(true);
+    clone.setAttribute('aria-hidden', 'true');
+    track.appendChild(clone);
+  });
+
+  var SPEED_PX_PER_SECOND = 60;
+  var position = 0;
+  var lastTime = null;
+  var rafId = null;
+  var isPaused = false;
+  var trackWidth = 0;
+
+  function recalcTrackWidth() {
+    var totalWidth = 0;
+    for (var i = 0; i < cards.length; i++) {
+      var rect = cards[i].getBoundingClientRect();
+      totalWidth += rect.width + 24;
+    }
+    trackWidth = totalWidth;
+  }
+
+  function animate(timestamp) {
+    if (!lastTime) lastTime = timestamp;
+    var deltaMs = timestamp - lastTime;
+    lastTime = timestamp;
+
+    if (!isPaused) {
+      position += (SPEED_PX_PER_SECOND * deltaMs) / 1000;
+      if (position >= trackWidth) {
+        position -= trackWidth;
+      }
+      track.style.transform = 'translateX(-' + position + 'px)';
+    }
+
+    rafId = requestAnimationFrame(animate);
+  }
+
+  function start() {
+    if (rafId) return;
+    lastTime = null;
+    rafId = requestAnimationFrame(animate);
+  }
+
+  function stop() {
+    if (rafId) {
+      cancelAnimationFrame(rafId);
+      rafId = null;
+    }
+  }
+
+  carousel.addEventListener('mouseenter', function(){ isPaused = true; });
+  carousel.addEventListener('mouseleave', function(){ isPaused = false; });
+
+  document.addEventListener('visibilitychange', function(){
+    if (document.hidden) stop();
+    else start();
+  });
+
+  var resizeTimer;
+  window.addEventListener('resize', function(){
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(recalcTrackWidth, 200);
+  });
+
+  function init() {
+    recalcTrackWidth();
+    if (trackWidth > 0) {
+      start();
+      console.log('[Marquee] Started — trackWidth:', Math.round(trackWidth), 'speed:', SPEED_PX_PER_SECOND, 'px/s');
+    } else {
+      setTimeout(init, 200);
+    }
+  }
+
+  if (document.readyState === 'complete') init();
+  else window.addEventListener('load', init);
+})();
 </script>
 </body></html>

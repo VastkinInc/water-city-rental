@@ -6,6 +6,7 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>Harbors - Water City Rental</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script src="/api.js"></script>
     <link href="https://fonts.googleapis.com" rel="preconnect">
     <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
     <link
@@ -135,7 +136,7 @@
                 <a class="text-stone-600 dark:text-stone-400 hover:text-orange-500 font-medium hover:opacity-80 transition-all duration-300"
                     href="/events" style="">Events</a>
                 <a class="text-stone-600 dark:text-stone-400 hover:text-orange-500 font-medium hover:opacity-80 transition-all duration-300"
-                    href="/concierge" style="">Concierge</a>
+                    href="/concierge" style="">Boat Services</a>
             </div>
             <div class="flex items-center gap-4">
                 <button
@@ -172,199 +173,85 @@
         <!-- Harbors Grid Section -->
         <section class="max-w-screen-xl mx-auto px-6 py-24">
             <div class="flex flex-col items-center text-center mb-16 gap-4">
-                <h2 class="text-4xl md:text-5xl font-headline text-on-surface font-bold tracking-tight" style="">Explore
-                    Our Harbors</h2>
+                <h2 class="text-4xl md:text-5xl font-headline text-on-surface font-bold tracking-tight" style="">Chicago
+                    Harbors</h2>
                 <p class="text-lg font-body text-on-surface-variant max-w-2xl" style="">Find your perfect departure
                     point along the iconic Chicago shoreline.</p>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
-                <!-- Harbor 1 -->
-                <article
-                    class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0_32px_64px_rgba(26,28,26,0.04)] group hover:shadow-[0_40px_80px_rgba(26,28,26,0.06)] transition-all duration-500">
-                    <div class="h-64 overflow-hidden relative">
-                        <img alt="Monroe Harbor"
-                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                            data-alt="Aerial view of Monroe Harbor in Chicago filled with white sailboats against the downtown city skyline on a sunny day"
-                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFH4YoBQBrCdsRFFSUgvX3BydU795NKTAPsNsPF-PX1UGO_rcCM_oKg_AnOTFqX83NTLDq5N-11bpJJGA0_ozMkbPHjCHulaWVT6yXGvt-ixVUO9msHb6SwZuOABZzmSQPzzrTvEGbOPOgzPQ9kYy4lQHhOqUzEnII1vRdsE5QEUn78aY0GyLm9j7RyKNyVEf81KAkaZioDXF1_nLEsWP7xhHdAR6ZJFoGfZ6CT7VRrZBWplnaQalBz0wWUa7WKIW9qdmQfaP7wt7B"
-                            style="">
-                        <div
-                            class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                        </div>
-                    </div>
-                    <div class="p-8 flex flex-col gap-6">
-                        <div>
-                            <h3 class="text-2xl font-headline font-bold text-on-surface mb-2" style="">Monroe Harbor
-                            </h3>
-                            <p class="text-on-surface-variant font-body mb-4" style="">Downtown Chicago</p>
-                            <div class="flex items-center gap-2 text-primary font-body text-sm uppercase tracking-widest font-semibold bg-primary/5 w-fit px-3 py-1 rounded-full"
-                                style="">
-                                <span class="material-symbols-outlined text-[18px]" style="">directions_boat</span>
-                                48 boats available
-                            </div>
-                        </div>
-                        <button
-                            class="w-full bg-primary-container text-on-primary-container hover:opacity-80 transition-all duration-300 font-body font-medium px-6 py-3 rounded-full flex justify-center items-center gap-2 mt-auto"
-                            style="" onclick="window.parent.location.href=\'/boats\'">
-                            View Boats
-                        </button>
-                    </div>
-                </article>
-                <!-- Harbor 2 -->
-                <article
-                    class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0_32px_64px_rgba(26,28,26,0.04)] group hover:shadow-[0_40px_80px_rgba(26,28,26,0.06)] transition-all duration-500">
-                    <div class="h-64 overflow-hidden relative">
-                        <img alt="Belmont Harbor"
-                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                            data-alt="Serene Belmont Harbor in Chicago surrounded by lush green parks and residential buildings in the background under a blue sky"
-                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJfP_L-p9D12an_5qDCxh_eiczv4hFWMCVMghISSHN9C1hnNCvfLhlrPET56zHHUK9W1ywY42jmgoz6Vq1u_RStJ8wy8D3EJCq5sdzkXnf13SLHYCrwSb14YaVAilZI-Uu8pao_FuPR0lD_wrrKXEy6t2Z4BMYcbLGahFWNyB9EoCfcX2sgEshN5UJZFi6oiSxa7oKKsC3_SKPb4KEmfW7ztotz3ah6QwWmEf1r9eeiJeClNL5e0go5f4r11ivpOYTNQhYPoO-n4lt"
-                            style="">
-                        <div
-                            class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                        </div>
-                    </div>
-                    <div class="p-8 flex flex-col gap-6">
-                        <div>
-                            <h3 class="text-2xl font-headline font-bold text-on-surface mb-2" style="">Belmont Harbor
-                            </h3>
-                            <p class="text-on-surface-variant font-body mb-4" style="">Lincoln Park</p>
-                            <div class="flex items-center gap-2 text-primary font-body text-sm uppercase tracking-widest font-semibold bg-primary/5 w-fit px-3 py-1 rounded-full"
-                                style="">
-                                <span class="material-symbols-outlined text-[18px]" style="">directions_boat</span>
-                                32 boats available
-                            </div>
-                        </div>
-                        <button
-                            class="w-full bg-primary-container text-on-primary-container hover:opacity-80 transition-all duration-300 font-body font-medium px-6 py-3 rounded-full flex justify-center items-center gap-2 mt-auto"
-                            style="" onclick="window.parent.location.href=\'/boats\'">
-                            View Boats
-                        </button>
-                    </div>
-                </article>
-                <!-- Harbor 3 -->
-                <article
-                    class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0_32px_64px_rgba(26,28,26,0.04)] group hover:shadow-[0_40px_80px_rgba(26,28,26,0.06)] transition-all duration-500">
-                    <div class="h-64 overflow-hidden relative">
-                        <img alt="Diversey Harbor"
-                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                            data-alt="Peaceful view of Diversey Harbor in Chicago with small motorboats docked along the concrete piers surrounded by trees"
-                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuB71GMnfhnBJdj_9a3IxMethUgk6K1siiU09bKGEZ7yfGwID9v_6PJqTEt6nkSOaxcR1uNvoGH_Hp9KyemabA1ndI-N4-_c-1jGDOXZMmnElXTZuuD2ClJmLwlQBZi09eeATKJI-VYObTxEjdwKLNbcRFc0Yy8wsDtDWOiB0jP1VMI5IZ6UEp6qW3xqCenuvkIOKXHqzBJdZOpOMaZitn7TySbxPKJjydnE0hN7TG2bJXVcuT1pbo7hLd6SQPkJDe0fG3nD_WHYX7fp"
-                            style="">
-                        <div
-                            class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                        </div>
-                    </div>
-                    <div class="p-8 flex flex-col gap-6">
-                        <div>
-                            <h3 class="text-2xl font-headline font-bold text-on-surface mb-2" style="">Diversey Harbor
-                            </h3>
-                            <p class="text-on-surface-variant font-body mb-4" style="">Lakeview</p>
-                            <div class="flex items-center gap-2 text-primary font-body text-sm uppercase tracking-widest font-semibold bg-primary/5 w-fit px-3 py-1 rounded-full"
-                                style="">
-                                <span class="material-symbols-outlined text-[18px]" style="">directions_boat</span>
-                                18 boats available
-                            </div>
-                        </div>
-                        <button
-                            class="w-full bg-primary-container text-on-primary-container hover:opacity-80 transition-all duration-300 font-body font-medium px-6 py-3 rounded-full flex justify-center items-center gap-2 mt-auto"
-                            style="" onclick="window.parent.location.href=\'/boats\'">
-                            View Boats
-                        </button>
-                    </div>
-                </article>
-                <!-- Harbor 4 -->
-                <article
-                    class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0_32px_64px_rgba(26,28,26,0.04)] group hover:shadow-[0_40px_80px_rgba(26,28,26,0.06)] transition-all duration-500">
-                    <div class="h-64 overflow-hidden relative">
-                        <img alt="Burnham Harbor"
-                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                            data-alt="Vibrant wide shot of Burnham Harbor in Chicago with large yachts docked near the city museum campus under clear skies"
-                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuApOyAOjp0fZLeHoFQ4-YwWuMNoPIA62kj393wlE4oBjzPTGpGCvImpW7AkdZaKEAJIrrHwzfo1qxJQF08ntFe7bHj8Pit0nf_J6-hqOMKfgi2Z8Pda7MrlSj0SnKHAoQCa2TupmBEeBq6L8HFAReLXQru4IZVCRcZpSy4buDhVH5EkSCv1Tzv8tD1CtO1p_QlJywekq9TyybGG-7ofva1zBou9-2rJb4StH5eSJhMm4jELQRcoDyu_WWUq45HISzdfy1TVxH9nPqol"
-                            style="">
-                        <div
-                            class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                        </div>
-                    </div>
-                    <div class="p-8 flex flex-col gap-6">
-                        <div>
-                            <h3 class="text-2xl font-headline font-bold text-on-surface mb-2" style="">Burnham Harbor
-                            </h3>
-                            <p class="text-on-surface-variant font-body mb-4" style="">Museum Campus</p>
-                            <div class="flex items-center gap-2 text-primary font-body text-sm uppercase tracking-widest font-semibold bg-primary/5 w-fit px-3 py-1 rounded-full"
-                                style="">
-                                <span class="material-symbols-outlined text-[18px]" style="">directions_boat</span>
-                                24 boats available
-                            </div>
-                        </div>
-                        <button
-                            class="w-full bg-primary-container text-on-primary-container hover:opacity-80 transition-all duration-300 font-body font-medium px-6 py-3 rounded-full flex justify-center items-center gap-2 mt-auto"
-                            style="" onclick="window.parent.location.href=\'/boats\'">
-                            View Boats
-                        </button>
-                    </div>
-                </article>
-                <!-- Harbor 5 -->
-                <article
-                    class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0_32px_64px_rgba(26,28,26,0.04)] group hover:shadow-[0_40px_80px_rgba(26,28,26,0.06)] transition-all duration-500">
-                    <div class="h-64 overflow-hidden relative">
-                        <img alt="DuSable Harbor"
-                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                            data-alt="Close up view of elegant boats docked tightly at DuSable Harbor in Chicago with modern glass skyscrapers towering immediately behind"
-                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBnGNFR5JEhiO4RAD2QZtzKw-Qqi8XyhtP_sbDJ5cXGQSD5w8yHH1gfKIxOfeIN5G1TIZmliOuue4stf3xXCEKeA-bfmIEGr4olRVhMQTd246cRuHzf5gnyLDrJEfe-9o-w7BVvYqu9e0xivnkNnnjndQuheKXyGnyaAZjLAxpU1YbOKtbeNN_IAfj92CLUaofUrMIlrW0MXiWg0lw4Y1-QuHDeMUPpVS45-HivMSo0wQk_aD4ArPwCMiPDKcmAhdG21i-tVTfF24Yp"
-                            style="">
-                        <div
-                            class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                        </div>
-                    </div>
-                    <div class="p-8 flex flex-col gap-6">
-                        <div>
-                            <h3 class="text-2xl font-headline font-bold text-on-surface mb-2" style="">DuSable Harbor
-                            </h3>
-                            <p class="text-on-surface-variant font-body mb-4" style="">Near North</p>
-                            <div class="flex items-center gap-2 text-primary font-body text-sm uppercase tracking-widest font-semibold bg-primary/5 w-fit px-3 py-1 rounded-full"
-                                style="">
-                                <span class="material-symbols-outlined text-[18px]" style="">directions_boat</span>
-                                15 boats available
-                            </div>
-                        </div>
-                        <button
-                            class="w-full bg-primary-container text-on-primary-container hover:opacity-80 transition-all duration-300 font-body font-medium px-6 py-3 rounded-full flex justify-center items-center gap-2 mt-auto"
-                            style="" onclick="window.parent.location.href=\'/boats\'">
-                            View Boats
-                        </button>
-                    </div>
-                </article>
-                <!-- Harbor 6 -->
-                <article
-                    class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0_32px_64px_rgba(26,28,26,0.04)] group hover:shadow-[0_40px_80px_rgba(26,28,26,0.06)] transition-all duration-500">
-                    <div class="h-64 overflow-hidden relative">
-                        <img alt="59th Street Harbor"
-                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                            data-alt="Quiet and scenic 59th Street Harbor in Chicago south side with small sailing boats resting on calm water at early morning"
-                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAiR68-y9yPNPF66WwoQsZ7HPooEdlbG6yQnJWUgBPyv7oXeLTQ3h8wakkIbkaO1Z9oW_Y5pOnTzTnadQQs1zUQD_A8uvO7zMMCUONJiWilrfY7dG-aoZYKDeXbMIvzmDLFXMKmlk8PGWlhON4fw4gAbsgWnj5dFYHU0cY_zTyWGxqx_VwhGUVt7OoIAaY7DK_z6bQqK_G1teQaptxpMKguYJ-Rt6dM_rrgkHKOPP9VH3JPTRrv5RQV7lKfEIJT_HazMOJWU-KQXnxa"
-                            style="">
-                        <div
-                            class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                        </div>
-                    </div>
-                    <div class="p-8 flex flex-col gap-6">
-                        <div>
-                            <h3 class="text-2xl font-headline font-bold text-on-surface mb-2" style="">59th Street
-                                Harbor</h3>
-                            <p class="text-on-surface-variant font-body mb-4" style="">Hyde Park</p>
-                            <div class="flex items-center gap-2 text-primary font-body text-sm uppercase tracking-widest font-semibold bg-primary/5 w-fit px-3 py-1 rounded-full"
-                                style="">
-                                <span class="material-symbols-outlined text-[18px]" style="">directions_boat</span>
-                                12 boats available
-                            </div>
-                        </div>
-                        <button
-                            class="w-full bg-primary-container text-on-primary-container hover:opacity-80 transition-all duration-300 font-body font-medium px-6 py-3 rounded-full flex justify-center items-center gap-2 mt-auto"
-                            style="" onclick="window.parent.location.href=\'/boats\'">
-                            View Boats
-                        </button>
-                    </div>
-                </article>
+            <div id="harbors-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
+                <p class="text-on-surface-variant" style="grid-column:1/-1;text-align:center;">Loading harbors…</p>
             </div>
+            <script>
+            (function(){
+              var HARBOR_PHOTOS = {
+                'Montrose Harbor':    'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800',
+                'Belmont Harbor':     'https://lh3.googleusercontent.com/aida-public/AB6AXuCJfP_L-p9D12an_5qDCxh_eiczv4hFWMCVMghISSHN9C1hnNCvfLhlrPET56zHHUK9W1ywY42jmgoz6Vq1u_RStJ8wy8D3EJCq5sdzkXnf13SLHYCrwSb14YaVAilZI-Uu8pao_FuPR0lD_wrrKXEy6t2Z4BMYcbLGahFWNyB9EoCfcX2sgEshN5UJZFi6oiSxa7oKKsC3_SKPb4KEmfW7ztotz3ah6QwWmEf1r9eeiJeClNL5e0go5f4r11ivpOYTNQhYPoO-n4lt',
+                'Diversey Harbor':    'https://lh3.googleusercontent.com/aida-public/AB6AXuB71GMnfhnBJdj_9a3IxMethUgk6K1siiU09bKGEZ7yfGwID9v_6PJqTEt6nkSOaxcR1uNvoGH_Hp9KyemabA1ndI-N4-_c-1jGDOXZMmnElXTZuuD2ClJmLwlQBZi09eeATKJI-VYObTxEjdwKLNbcRFc0Yy8wsDtDWOiB0jP1VMI5IZ6UEp6qW3xqCenuvkIOKXHqzBJdZOpOMaZitn7TySbxPKJjydnE0hN7TG2bJXVcuT1pbo7hLd6SQPkJDe0fG3nD_WHYX7fp',
+                'DuSable Harbor':     'https://lh3.googleusercontent.com/aida-public/AB6AXuBnGNFR5JEhiO4RAD2QZtzKw-Qqi8XyhtP_sbDJ5cXGQSD5w8yHH1gfKIxOfeIN5G1TIZmliOuue4stf3xXCEKeA-bfmIEGr4olRVhMQTd246cRuHzf5gnyLDrJEfe-9o-w7BVvYqu9e0xivnkNnnjndQuheKXyGnyaAZjLAxpU1YbOKtbeNN_IAfj92CLUaofUrMIlrW0MXiWg0lw4Y1-QuHDeMUPpVS45-HivMSo0wQk_aD4ArPwCMiPDKcmAhdG21i-tVTfF24Yp',
+                'Monroe Harbor':      'https://lh3.googleusercontent.com/aida-public/AB6AXuDFH4YoBQBrCdsRFFSUgvX3BydU795NKTAPsNsPF-PX1UGO_rcCM_oKg_AnOTFqX83NTLDq5N-11bpJJGA0_ozMkbPHjCHulaWVT6yXGvt-ixVUO9msHb6SwZuOABZzmSQPzzrTvEGbOPOgzPQ9kYy4lQHhOqUzEnII1vRdsE5QEUn78aY0GyLm9j7RyKNyVEf81KAkaZioDXF1_nLEsWP7xhHdAR6ZJFoGfZ6CT7VRrZBWplnaQalBz0wWUa7WKIW9qdmQfaP7wt7B',
+                'Burnham Harbor':     'https://lh3.googleusercontent.com/aida-public/AB6AXuApOyAOjp0fZLeHoFQ4-YwWuMNoPIA62kj393wlE4oBjzPTGpGCvImpW7AkdZaKEAJIrrHwzfo1qxJQF08ntFe7bHj8Pit0nf_J6-hqOMKfgi2Z8Pda7MrlSj0SnKHAoQCa2TupmBEeBq6L8HFAReLXQru4IZVCRcZpSy4buDhVH5EkSCv1Tzv8tD1CtO1p_QlJywekq9TyybGG-7ofva1zBou9-2rJb4StH5eSJhMm4jELQRcoDyu_WWUq45HISzdfy1TVxH9nPqol',
+                '31st Street Harbor': 'https://images.unsplash.com/photo-1565552645632-d725f8bfc19a?w=800',
+                '59th Street Harbor': 'https://lh3.googleusercontent.com/aida-public/AB6AXuAiR68-y9yPNPF66WwoQsZ7HPooEdlbG6yQnJWUgBPyv7oXeLTQ3h8wakkIbkaO1Z9oW_Y5pOnTzTnadQQs1zUQD_A8uvO7zMMCUONJiWilrfY7dG-aoZYKDeXbMIvzmDLFXMKmlk8PGWlhON4fw4gAbsgWnj5dFYHU0cY_zTyWGxqx_VwhGUVt7OoIAaY7DK_z6bQqK_G1teQaptxpMKguYJ-Rt6dM_rrgkHKOPP9VH3JPTRrv5RQV7lKfEIJT_HazMOJWU-KQXnxa'
+              };
+              var HARBOR_AREAS = {
+                'Montrose Harbor':    'Uptown',
+                'Belmont Harbor':     'Lincoln Park',
+                'Diversey Harbor':    'Lakeview',
+                'DuSable Harbor':     'Near North',
+                'Monroe Harbor':      'Downtown Chicago',
+                'Burnham Harbor':     'Museum Campus',
+                '31st Street Harbor': 'Bronzeville',
+                '59th Street Harbor': 'Hyde Park'
+              };
+              var HARBOR_ORDER = ['Montrose Harbor','Belmont Harbor','Diversey Harbor','DuSable Harbor','Monroe Harbor','Burnham Harbor','31st Street Harbor','59th Street Harbor'];
+
+              function escapeHtml(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+              async function loadHarborCounts(){
+                var counts = {};
+                HARBOR_ORDER.forEach(function(h){ counts[h] = 0; });
+                try {
+                  var resp = await WCR.listBoats({ limit: 100 });
+                  var boats = (resp && resp.data && resp.data.boats) || [];
+                  boats.forEach(function(b){
+                    if (counts.hasOwnProperty(b.harbor)) counts[b.harbor]++;
+                  });
+                } catch(e){}
+                renderHarbors(counts);
+              }
+
+              function renderHarbors(counts){
+                var grid = document.getElementById('harbors-grid');
+                if (!grid) return;
+                grid.innerHTML = HARBOR_ORDER.map(function(name){
+                  var photo = HARBOR_PHOTOS[name] || '';
+                  var area = HARBOR_AREAS[name] || '';
+                  var n = counts[name] || 0;
+                  var label = n + ' boat' + (n === 1 ? '' : 's') + (n === 0 ? ' listed' : ' available');
+                  return ''
+                    + '<article class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0_32px_64px_rgba(26,28,26,0.04)] group hover:shadow-[0_40px_80px_rgba(26,28,26,0.06)] transition-all duration-500">'
+                    +   '<div class="h-64 overflow-hidden relative">'
+                    +     '<img alt="' + escapeHtml(name) + '" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="' + escapeHtml(photo) + '">'
+                    +     '<div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>'
+                    +   '</div>'
+                    +   '<div class="p-8 flex flex-col gap-6">'
+                    +     '<div>'
+                    +       '<h3 class="text-2xl font-headline font-bold text-on-surface mb-2">' + escapeHtml(name) + '</h3>'
+                    +       '<p class="text-on-surface-variant font-body mb-4">' + escapeHtml(area) + '</p>'
+                    +       '<div class="flex items-center gap-2 text-primary font-body text-sm uppercase tracking-widest font-semibold bg-primary/5 w-fit px-3 py-1 rounded-full">'
+                    +         '<span class="material-symbols-outlined text-[18px]">directions_boat</span>' + escapeHtml(label)
+                    +       '</div>'
+                    +     '</div>'
+                    +     '<button onclick="window.parent.location.href=\'/boats\'" class="w-full bg-primary-container text-on-primary-container hover:opacity-80 transition-all duration-300 font-body font-medium px-6 py-3 rounded-full flex justify-center items-center gap-2 mt-auto">View Boats</button>'
+                    +   '</div>'
+                    + '</article>';
+                }).join('');
+              }
+
+              if (document.readyState !== 'loading') loadHarborCounts();
+              else document.addEventListener('DOMContentLoaded', loadHarborCounts);
+            })();
+            </script>
         </section>
         <!-- Map Section -->
         <section class="w-full bg-surface-container-low py-24 px-6">
