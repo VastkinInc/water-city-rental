@@ -24,8 +24,27 @@ const PORT = process.env.PORT || 5000;
 
 // Security & parsing
 app.use(helmet());
+// CORS allow list — localhost always allowed; CORS_ORIGIN env var supports
+// comma-separated values for multiple production origins.
+const allowedOrigins = [
+  'http://localhost:5173',
+  'http://localhost:3000'
+];
+if (process.env.CORS_ORIGIN) {
+  const corsOrigins = process.env.CORS_ORIGIN.split(',').map((s) => s.trim()).filter(Boolean);
+  allowedOrigins.push(...corsOrigins);
+}
+
 app.use(cors({
-  origin: process.env.CORS_ORIGIN || 'http://localhost:5173',
+  origin: function (origin, callback) {
+    // Allow requests with no origin (mobile apps, curl, server-to-server)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) === -1) {
+      console.error('CORS blocked:', origin);
+      return callback(new Error('CORS blocked for origin: ' + origin), false);
+    }
+    return callback(null, true);
+  },
   credentials: true
 }));
 
