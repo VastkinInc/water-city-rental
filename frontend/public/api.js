@@ -4,7 +4,17 @@
  * Exposes window.WCR with all API methods.
  */
 (function() {
-  var API_BASE = 'http://localhost:5000/api';
+  var API_BASE = (function(){
+    if (window.WCR_API_BASE) return window.WCR_API_BASE;
+    var host = window.location.hostname;
+    if (host === 'localhost' || host === '127.0.0.1') {
+      return 'http://localhost:5000/api';
+    }
+    // Production: Hostinger backend
+    return 'https://whitesmoke-cat-246560.hostingersite.com/api';
+  })();
+  // Expose globally so inline scripts (e.g., checkout.html Stripe code) can read it
+  window.WCR_API_BASE = API_BASE;
 
   // Token storage helpers
   function getToken() {
