@@ -20,8 +20,13 @@ export const registerValidator = [
     .isIn(['customer', 'owner', 'captain'])
     .withMessage('Role must be customer, owner, or captain'),
 
+  // Phone now required at signup (Batch 4B-1) — client requirement.
+  body('phone')
+    .trim()
+    .notEmpty().withMessage('Phone is required')
+    .isLength({ min: 7, max: 30 }).withMessage('Phone must be 7-30 characters'),
+
   // Common optional fields
-  body('phone').optional().trim().isLength({ max: 30 }),
   body('city').optional().trim().isLength({ max: 80 }),
   body('bio').optional().trim().isLength({ max: 500 }),
   body('avatar').optional().isString(),
@@ -56,6 +61,13 @@ export const updateProfileValidator = [
   body('city').optional().trim().isLength({ max: 80 }).withMessage('City is too long'),
   body('bio').optional().trim().isLength({ max: 500 }).withMessage('Bio is too long'),
   body('avatar').optional().isString(),
+  body('isProfileComplete').optional().isBoolean().withMessage('isProfileComplete must be boolean'),
+
+  // Owner profile fields (Batch 4B-1) — patchable post-signup via listing wizard
+  body('ownerProfile.harbor').optional().trim().isLength({ max: 80 }).withMessage('Harbor is too long'),
+  body('ownerProfile.numBoats').optional().isInt({ min: 0, max: 100 }).withMessage('numBoats out of range'),
+  body('ownerProfile.yearsOwning').optional().isInt({ min: 0, max: 70 }).withMessage('yearsOwning out of range'),
+
   body('captainProfile.dayRate').optional().isInt({ min: 0, max: 5000 }).withMessage('Day rate out of range'),
   body('captainProfile.hourlyRate').optional().isInt({ min: 0, max: 1000 }).withMessage('Hourly rate out of range'),
   body('captainProfile.yearsExperience').optional().isInt({ min: 0, max: 70 }).withMessage('Years experience out of range'),

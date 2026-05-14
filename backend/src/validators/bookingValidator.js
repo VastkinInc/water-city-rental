@@ -30,9 +30,9 @@ export const createBookingValidator = [
     .notEmpty().withMessage('boatId is required')
     .bail()
     .isMongoId().withMessage('boatId must be a valid Mongo ObjectId'),
+  // Batch 4B-1: captainId is OPTIONAL. Null/undefined/empty string = no captain.
   body('captainId')
-    .notEmpty().withMessage('captainId is required')
-    .bail()
+    .optional({ nullable: true, checkFalsy: true })
     .isMongoId().withMessage('captainId must be a valid Mongo ObjectId'),
   body('startDate')
     .notEmpty().withMessage('startDate is required')

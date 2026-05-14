@@ -23,58 +23,60 @@ export const createBooking = async (req, res, next) => {
     } = req.body;
 
     if (!isValidObjectId(boatId)) throw new ApiError(400, 'Invalid boatId');
-    if (!isValidObjectId(captainId)) throw new ApiError(400, 'Invalid captainId');
+
+    // Batch 4B-1: captainId is optional. Null/undefined/empty string = no captain.
+    const hasCaptain = !!captainId;
+    if (hasCaptain && !isValidObjectId(captainId)) {
+      throw new ApiError(400, 'Invalid captainId');
+    }
 
     const boat = await Boat.findById(boatId);
     if (!boat || boat.status !== 'active') {
       throw new ApiError(404, 'Boat not found');
     }
 
-    const captain = await User.findById(captainId);
-    if (!captain || captain.role !== 'captain' || !captain.isActive) {
-      throw new ApiError(400, 'Invalid captain');
+    let captain = null;
+    if (hasCaptain) {
+      captain = await User.findById(captainId);
+      if (!captain || captain.role !== 'captain' || !captain.isActive) {
+        throw new ApiError(400, 'Invalid captain');
+      }
     }
 
     const start = new Date(startDate);
     const end = new Date(endDate);
 
-    if (isNaN(start) || isNaN(end)) {
-      throw new ApiError(400, 'Invalid date format');
-    }
-    if (end <= start) {
-      throw new ApiError(400, 'End time must be after start time');
-    }
-    if (start < new Date()) {
-      throw new ApiError(400, 'Start time must be in the future');
-    }
+    // Calendar-day convention shared with the client (boat.html getDurationFromDates):
+    // May 22 → May 25 = 3 days = 72 hours. Min 1 day.
+    const startDay = new Date(start); startDay.setHours(0, 0, 0, 0);
+    const endDay   = new Date(end);   endDay.setHours(0, 0, 0, 0);
+    const calendarDays = Math.max(1, Math.round((endDay - startDay) / (1000 * 60 * 60 * 24)));
 
     let days, hours;
     if (boat.rateType === 'daily') {
-      // Daily rentals: count calendar days between start and end (min 1).
-      const startDay = new Date(start); startDay.setHours(0, 0, 0, 0);
-      const endDay   = new Date(end);   endDay.setHours(0, 0, 0, 0);
-      days = Math.max(1, Math.round((endDay - startDay) / (1000 * 60 * 60 * 24)));
+      days = calendarDays;
     } else {
-      // Hourly rentals: count actual elapsed hours (min 1).
-      hours = Math.max(1, Math.round((end - start) / (1000 * 60 * 60)));
+      hours = calendarDays * 24;
     }
 
     const conflict = await Booking.findOne({
       boat: boat._id,
       status: { $in: ['pending', 'confirmed'] },
-      startDate: { $lt: end },
-      endDate:   { $gt: start }
+      startDate: { $lte: end },
+      endDate: { $gte: start }
     });
     if (conflict) {
       throw new ApiError(409, 'Boat is already booked for these dates');
     }
 
+    // calculatePrice is null-safe for captain (returns captainTotal=0 when null)
     const pricing = calculatePrice({ boat, captain, days, hours });
 
     const booking = await Booking.create({
       customer: req.user._id,
       owner: boat.owner,
-      captain: captain._id,
+      captain: hasCaptain ? captain._id : null,
+      hasCaptain,
       boat: boat._id,
       startDate: start,
       endDate: end,
@@ -89,7 +91,7 @@ export const createBooking = async (req, res, next) => {
         {
           event: 'requested',
           actor: req.user._id,
-          note: 'Booking created'
+          note: hasCaptain ? 'Booking created' : 'Booking created (no captain)'
         }
       ]
     });
@@ -152,7 +154,7 @@ export const getBookingById = async (req, res, next) => {
     const isParticipant =
       booking.customer?._id?.toString() === userId ||
       booking.owner?._id?.toString() === userId ||
-      booking.captain?._id?.toString() === userId;
+      (booking.captain && booking.captain._id?.toString() === userId);
 
     if (!isParticipant && req.user.role !== 'admin') {
       throw new ApiError(403, 'Not authorized to view this booking');
@@ -288,9 +290,13 @@ export const completeBooking = async (req, res, next) => {
     const booking = await Booking.findById(req.params.id);
     if (!booking) throw new ApiError(404, 'Booking not found');
 
-    const isCaptain = booking.captain.equals(req.user._id);
+    // Batch 4B-1: For no-captain bookings, the OWNER marks the trip complete
+    // (since there's no captain). With-captain bookings stay captain-only.
+    const isCaptain = booking.captain && booking.captain.equals(req.user._id);
+    const isOwnerOfNoCaptainBooking =
+      booking.hasCaptain === false && booking.owner.equals(req.user._id);
     const isAdmin = req.user.role === 'admin';
-    if (!isCaptain && !isAdmin) {
+    if (!isCaptain && !isOwnerOfNoCaptainBooking && !isAdmin) {
       throw new ApiError(403, 'Not authorized to complete this booking');
     }
 
@@ -307,9 +313,12 @@ export const completeBooking = async (req, res, next) => {
     await booking.save();
 
     await Boat.findByIdAndUpdate(booking.boat, { $inc: { totalBookings: 1 } });
-    await User.findByIdAndUpdate(booking.captain, {
-      $inc: { 'captainProfile.totalTrips': 1 }
-    });
+    // Only increment captain trip count when there IS a captain.
+    if (booking.captain) {
+      await User.findByIdAndUpdate(booking.captain, {
+        $inc: { 'captainProfile.totalTrips': 1 }
+      });
+    }
 
     res.status(200).json({ success: true, data: booking });
   } catch (err) {

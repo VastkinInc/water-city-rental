@@ -180,7 +180,7 @@ export const updateMyProfile = async (req, res, next) => {
 
     // Whitelist top-level user fields
     const allowed = {};
-    const allowedFields = ['name', 'phone', 'city', 'bio', 'avatar'];
+    const allowedFields = ['name', 'phone', 'city', 'bio', 'avatar', 'isProfileComplete'];
     for (const f of allowedFields) {
       if (req.body[f] !== undefined) allowed[f] = req.body[f];
     }
@@ -194,6 +194,15 @@ export const updateMyProfile = async (req, res, next) => {
       ];
       for (const f of allowedCpFields) {
         if (cp[f] !== undefined) allowed[`captainProfile.${f}`] = cp[f];
+      }
+    }
+
+    // Owner-only sub-fields (Batch 4B-1). Patchable by listing wizard after signup.
+    if (req.user.role === 'owner' && req.body.ownerProfile) {
+      const op = req.body.ownerProfile;
+      const allowedOpFields = ['harbor', 'numBoats', 'yearsOwning'];
+      for (const f of allowedOpFields) {
+        if (op[f] !== undefined) allowed[`ownerProfile.${f}`] = op[f];
       }
     }
 

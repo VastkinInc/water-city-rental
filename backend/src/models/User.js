@@ -62,6 +62,10 @@ const userSchema = new mongoose.Schema(
     isActive: { type: Boolean, default: true },
     captainProfile: { type: captainProfileSchema, default: undefined },
     ownerProfile: { type: ownerProfileSchema, default: undefined },
+    // Batch 4B-1: owners can now sign up with just name/email/phone/password.
+    // The first-boat listing wizard fills in city + ownerProfile.harbor/numBoats/
+    // yearsOwning then PATCHes isProfileComplete=true onto this user.
+    isProfileComplete: { type: Boolean, default: false },
     favorites: [{
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Boat'
