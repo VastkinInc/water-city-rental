@@ -10,13 +10,14 @@ const timelineEntrySchema = new mongoose.Schema(
   { _id: false }
 );
 
+// Note: legacy bookings (pre-Batch 4B) may still have a serviceFee
+// field in MongoDB. Safe to ignore — it's no longer read by any
+// code. Mongoose doesn't auto-delete keys from existing docs on
+// schema removal; new bookings simply won't have it.
 const pricingSchema = new mongoose.Schema(
   {
     boatTotal: { type: Number, required: true },
     captainTotal: { type: Number, required: true },
-    serviceFee: { type: Number, required: true },
-    // Batch 4B-1: new tax fields. localTax replaces serviceFee economically;
-    // serviceFee kept at 0 for backwards-compat (frontend Batch 4B-2 will switch).
     localTax: { type: Number, default: 0 },
     taxRate: { type: Number, default: 0 },
     grandTotal: { type: Number, required: true },

@@ -1,9 +1,5 @@
 // Batch 4B-1 (Day Z): Platform fee removed per client decision.
 // Customer pays 6.25% local tax on (boatRental + captainFee). Platform takes 0%.
-// SERVICE_FEE kept at 0 for backwards compat while frontend (Batch 4B-2) is still
-// reading pricing.serviceFee. TODO Batch 4C: remove SERVICE_FEE + serviceFee
-// response fields once frontend switches to pricing.localTax.
-export const SERVICE_FEE = 0;
 export const TAX_RATE = 0.0625;
 
 export const calculatePrice = ({ boat, captain, days, hours }) => {
@@ -34,9 +30,8 @@ export const calculatePrice = ({ boat, captain, days, hours }) => {
   return {
     boatTotal,
     captainTotal,
-    serviceFee: SERVICE_FEE,   // 0 (backwards-compat shim for Batch 4B-2)
-    localTax,                  // NEW: 6.25% of (boatTotal + captainTotal)
-    taxRate: TAX_RATE,         // NEW: 0.0625
+    localTax,
+    taxRate: TAX_RATE,
     grandTotal,
     breakdown: {
       boat: {
@@ -53,9 +48,8 @@ export const calculatePrice = ({ boat, captain, days, hours }) => {
         quantity: boat.rateType === 'daily' ? days : hours,
         subtotal: captainTotal
       },
-      serviceFee: SERVICE_FEE, // 0 (backwards-compat shim for Batch 4B-2)
-      localTax,                // NEW
-      taxRate: TAX_RATE        // NEW
+      localTax,
+      taxRate: TAX_RATE
     }
   };
 };
