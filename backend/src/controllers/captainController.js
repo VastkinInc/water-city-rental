@@ -24,6 +24,40 @@ export const listCaptains = async (req, res, next) => {
   }
 };
 
+// PUBLIC (no auth). Flat list of verified, active captains sorted by
+// rating. Whitelists public-safe output only — never email/phone/
+// password/licenseNumber. Optional fields (avatar, languages) are
+// omitted when the captain hasn't filled them in.
+export const listPublicCaptains = async (req, res, next) => {
+  try {
+    const captains = await User.find({ role: 'captain', isActive: true, isVerified: true })
+      .select('name avatar bio captainProfile')
+      .sort({ 'captainProfile.rating': -1 })
+      .lean();
+
+    const data = captains.map((c) => {
+      const p = c.captainProfile || {};
+      const out = {
+        id: c._id,
+        name: c.name,
+        rating: p.rating || 0,
+        trips: p.totalTrips || 0,
+        bio: p.bio || c.bio || ''
+      };
+      if (p.dayRate != null) out.dayRate = p.dayRate;
+      if (p.hourlyRate != null) out.hourlyRate = p.hourlyRate;
+      if (p.yearsExperience != null) out.yearsExperience = p.yearsExperience;
+      if (c.avatar) out.avatar = c.avatar;
+      if (Array.isArray(p.languages) && p.languages.length) out.languages = p.languages;
+      return out;
+    });
+
+    res.status(200).json({ success: true, data });
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const getCaptainById = async (req, res, next) => {
   try {
     if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
