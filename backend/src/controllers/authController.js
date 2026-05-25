@@ -460,7 +460,8 @@ export const getMe = async (req, res, next) => {
       phone: u.phone,
       avatar: u.avatar,
       city: u.city,
-      bio: u.bio
+      bio: u.bio,
+      isProfileComplete: u.isProfileComplete
     };
     if (u.role === 'captain' && u.captainProfile) {
       payload.captainProfile = u.captainProfile;
