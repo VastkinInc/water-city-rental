@@ -2,7 +2,8 @@ import express from 'express';
 import {
   register, login, logout, refresh, getMe,
   updateMyProfile, changePassword,
-  toggleFavorite, listFavorites, checkFavorite
+  toggleFavorite, listFavorites, checkFavorite,
+  googleAuth, googleCallback
 } from '../controllers/authController.js';
 import { protect } from '../middleware/auth.js';
 import { validate } from '../middleware/validate.js';
@@ -17,6 +18,10 @@ router.post('/register', registerValidator, validate, register);
 router.post('/login',    loginValidator,    validate, login);
 router.post('/logout',   logout);
 router.post('/refresh',  refresh);
+
+// Google OAuth (public, no auth middleware). consent redirect + callback.
+router.get('/google',          googleAuth);
+router.get('/google/callback', googleCallback);
 router.get('/me',        protect, getMe);
 
 router.patch('/me',

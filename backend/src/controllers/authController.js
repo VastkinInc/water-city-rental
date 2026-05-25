@@ -1,5 +1,6 @@
 import bcrypt from 'bcryptjs';
 import mongoose from 'mongoose';
+import { OAuth2Client } from 'google-auth-library';
 import User from '../models/User.js';
 import Boat from '../models/Boat.js';
 import { ApiError } from '../utils/ApiError.js';
@@ -8,6 +9,23 @@ import {
   generateRefreshToken,
   verifyRefreshToken
 } from '../utils/tokens.js';
+
+const GOOGLE_ROLES = ['customer', 'owner', 'captain'];
+
+const getGoogleClient = () =>
+  new OAuth2Client(
+    process.env.GOOGLE_CLIENT_ID,
+    process.env.GOOGLE_CLIENT_SECRET,
+    process.env.GOOGLE_REDIRECT_URI
+  );
+
+// Where to send the browser after the OAuth round trip. The callback is a
+// full-page redirect (not XHR), so the SPA can't read a JSON body — it picks
+// the token out of the redirect URL hash instead.
+const frontendBase = () =>
+  process.env.FRONTEND_URL ||
+  (process.env.CORS_ORIGIN || '').split(',')[0].trim() ||
+  'http://localhost:5173';
 
 const accessCookieOptions = {
   httpOnly: true,
@@ -127,6 +145,93 @@ export const login = async (req, res, next) => {
     });
   } catch (err) {
     next(err);
+  }
+};
+
+// GET /api/auth/google — build the Google consent URL and redirect to it.
+// The intended role rides along in OAuth `state` so it survives the round trip.
+export const googleAuth = (req, res, next) => {
+  try {
+    const role = GOOGLE_ROLES.includes(req.query.role) ? req.query.role : 'customer';
+    const client = getGoogleClient();
+    const url = client.generateAuthUrl({
+      access_type: 'offline',
+      prompt: 'select_account',
+      scope: ['openid', 'email', 'profile'],
+      state: JSON.stringify({ role })
+    });
+    res.redirect(url);
+  } catch (err) {
+    next(err);
+  }
+};
+
+// GET /api/auth/google/callback — Google redirects here with ?code&state.
+// Exchange code -> verify ID token server-side -> find or create the user ->
+// issue our normal JWT -> redirect back to the SPA with the token in the hash.
+export const googleCallback = async (req, res, next) => {
+  const FRONTEND = frontendBase();
+  try {
+    const { code, state } = req.query;
+    if (!code) throw new ApiError(400, 'Missing authorization code');
+
+    let intendedRole = 'customer';
+    try {
+      const parsed = JSON.parse(state || '{}');
+      if (GOOGLE_ROLES.includes(parsed.role)) intendedRole = parsed.role;
+    } catch (e) { /* keep default */ }
+
+    const client = getGoogleClient();
+    const { tokens } = await client.getToken(code);
+    if (!tokens.id_token) throw new ApiError(401, 'Google did not return an ID token');
+
+    // SECURITY: verify the ID token signature + audience server-side.
+    const ticket = await client.verifyIdToken({
+      idToken: tokens.id_token,
+      audience: process.env.GOOGLE_CLIENT_ID
+    });
+    const payload = ticket.getPayload();
+    if (!payload || !payload.email) throw new ApiError(401, 'Google account has no email');
+
+    const email = String(payload.email).toLowerCase();
+    const name = payload.name || email.split('@')[0];
+
+    let user = await User.findOne({ email });
+    const isNewUser = !user;
+
+    if (isNewUser) {
+      // New account. Customers are ready immediately; owners/captains must
+      // finish their profile later, so flag them incomplete.
+      user = await User.create({
+        name,
+        email,
+        role: intendedRole,
+        authProvider: 'google',
+        isVerified: !!payload.email_verified,
+        isProfileComplete: intendedRole === 'customer',
+        ...(payload.picture ? { avatar: payload.picture } : {})
+      });
+    }
+    // Existing user: keep their role and everything else as-is.
+
+    if (!user.isActive) throw new ApiError(401, 'Account deactivated');
+
+    const accessToken = generateAccessToken(user._id, user.role);
+    const refreshToken = generateRefreshToken(user._id);
+    res.cookie('accessToken', accessToken, accessCookieOptions);
+    res.cookie('refreshToken', refreshToken, refreshCookieOptions);
+
+    // Hand the token to the SPA via the URL hash (not query) so it never lands
+    // in the frontend server's access logs. A later frontend batch reads this.
+    const hash = new URLSearchParams({
+      token: accessToken,
+      role: user.role,
+      new: isNewUser ? '1' : '0'
+    }).toString();
+    res.redirect(`${FRONTEND}/auth/google/success#${hash}`);
+  } catch (err) {
+    // Browser navigation — send to login with an error flag rather than JSON.
+    res.redirect(`${FRONTEND}/login?error=google`);
   }
 };
 
