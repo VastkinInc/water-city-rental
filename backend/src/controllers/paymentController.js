@@ -3,7 +3,9 @@ import mongoose from 'mongoose';
 import Booking from '../models/Booking.js';
 import { ApiError } from '../utils/ApiError.js';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+// Single shared Stripe client. Connect onboarding (connectController) imports
+// this same instance — there is intentionally only one `new Stripe(...)` call.
+export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 /**
  * POST /api/payments/create-intent

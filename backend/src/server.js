@@ -17,6 +17,7 @@ import bookingsRouter from './routes/bookings.js';
 import messagesRouter from './routes/messages.js';
 import reviewsRouter from './routes/reviews.js';
 import paymentsRouter from './routes/payments.js';
+import connectRouter from './routes/connect.js';
 import adminRouter from './routes/admin.js';
 import { handleStripeWebhook } from './controllers/paymentController.js';
 
@@ -79,6 +80,7 @@ app.use('/api/bookings', bookingsRouter);
 app.use('/api/messages', messagesRouter);
 app.use('/api/reviews', reviewsRouter);
 app.use('/api/payments', paymentsRouter);
+app.use('/api/connect', connectRouter);
 app.use('/api/admin', adminRouter);
 
 // Error handlers (must be last)

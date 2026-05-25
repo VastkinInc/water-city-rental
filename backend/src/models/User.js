@@ -75,6 +75,10 @@ const userSchema = new mongoose.Schema(
     // The first-boat listing wizard fills in city + ownerProfile.harbor/numBoats/
     // yearsOwning then PATCHes isProfileComplete=true onto this user.
     isProfileComplete: { type: Boolean, default: false },
+    // Stripe Connect (Step B): owners/captains link their own Express account
+    // here so they can later receive payouts. Onboarding only — no payment split yet.
+    stripeAccountId: { type: String, default: null },
+    stripeOnboardingComplete: { type: Boolean, default: false },
     favorites: [{
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Boat'
