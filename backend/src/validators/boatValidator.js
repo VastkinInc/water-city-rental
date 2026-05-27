@@ -39,7 +39,10 @@ export const createBoatValidator = [
     .isFloat({ gt: 0 }).withMessage('Hourly rate must be greater than 0'),
   body('description')
     .optional()
-    .isLength({ max: 2000 }).withMessage('Description must be at most 2000 characters')
+    .isLength({ max: 2000 }).withMessage('Description must be at most 2000 characters'),
+  body('freeCancellationHours')
+    .optional()
+    .isInt({ min: 0, max: 720 }).withMessage('Free cancellation hours must be an integer 0-720')
 ];
 
 export const updateBoatValidator = [
@@ -74,5 +77,8 @@ export const updateBoatValidator = [
     .isFloat({ gt: 0 }).withMessage('Hourly rate must be greater than 0'),
   body('description')
     .optional()
-    .isLength({ max: 2000 }).withMessage('Description must be at most 2000 characters')
+    .isLength({ max: 2000 }).withMessage('Description must be at most 2000 characters'),
+  body('freeCancellationHours')
+    .optional()
+    .isInt({ min: 0, max: 720 }).withMessage('Free cancellation hours must be an integer 0-720')
 ];

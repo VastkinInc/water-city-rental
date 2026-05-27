@@ -6,7 +6,7 @@ import { deleteFromCloudinary } from '../utils/cloudinary.js';
 const ALLOWED_UPDATE_FIELDS = [
   'name', 'type', 'yearBuilt', 'length', 'maxGuests', 'harbor',
   'description', 'amenities', 'rateType', 'dayRate', 'hourlyRate',
-  'recommendedCaptain', 'status'
+  'recommendedCaptain', 'status', 'freeCancellationHours'
 ];
 
 // Owners can only flip between 'active' and 'inactive' (pause/unpause their own listing).

@@ -83,7 +83,8 @@ const boatSchema = new mongoose.Schema(
       default: 'active' // MVP self-publish — owners go live immediately, no admin gate
     },
     rating: { type: Number, default: 0, min: 0, max: 5 },
-    totalBookings: { type: Number, default: 0, min: 0 }
+    totalBookings: { type: Number, default: 0, min: 0 },
+    freeCancellationHours: { type: Number, default: 48, min: 0, max: 720 }
   },
   {
     timestamps: true,
