@@ -23,7 +23,8 @@ export const createPaymentIntent = async (req, res, next) => {
 
     const booking = await Booking.findById(bookingId)
       .populate('boat', 'name')
-      .populate('captain', 'name');
+      .populate('owner',   'name stripeAccountId stripeOnboardingComplete')
+      .populate('captain', 'name stripeAccountId stripeOnboardingComplete');
     if (!booking) throw new ApiError(404, 'Booking not found');
 
     if (booking.customer.toString() !== userId.toString()) {
@@ -32,6 +33,16 @@ export const createPaymentIntent = async (req, res, next) => {
 
     if (booking.paymentStatus === 'paid') {
       throw new ApiError(400, 'This booking is already paid');
+    }
+
+    // P2 GUARD: refuse to take payment if the payees can't be paid. Owner
+    // must be Connect-onboarded; captain too if hasCaptain. Generic error
+    // message — no need to expose which party is the bottleneck.
+    const ownerConnected = !!(booking.owner && booking.owner.stripeOnboardingComplete);
+    const captainConnected =
+      !booking.hasCaptain || !!(booking.captain && booking.captain.stripeOnboardingComplete);
+    if (!ownerConnected || !captainConnected) {
+      throw new ApiError(409, "This boat isn't available for booking yet.");
     }
 
     const grandTotal = (booking.pricing && booking.pricing.grandTotal) || 0;
@@ -56,6 +67,9 @@ export const createPaymentIntent = async (req, res, next) => {
     }
 
     if (!paymentIntent) {
+      // No transfer_data / on_behalf_of / transfer_group — funds land on the
+      // platform balance and are HELD there until P3 (post-trip + buffer)
+      // releases them to the owner/captain Connect accounts.
       paymentIntent = await stripe.paymentIntents.create({
         amount,
         currency: 'usd',
@@ -68,8 +82,22 @@ export const createPaymentIntent = async (req, res, next) => {
         }
       });
       booking.paymentIntentId = paymentIntent.id;
-      await booking.save();
     }
+
+    // P2: snapshot the amounts + Connect destinations that P3 will later pay
+    // out. Idempotent — rerunning checkout writes the same values. payoutStatus
+    // defaults to 'held' on the schema; we set it explicitly so legacy bookings
+    // that lack the field also get it.
+    const pr = booking.pricing || {};
+    booking.payoutOwnerAmount   = pr.boatTotal    || 0;
+    booking.payoutCaptainAmount = booking.hasCaptain ? (pr.captainTotal || 0) : 0;
+    booking.platformTaxAmount   = pr.localTax     || 0;
+    booking.payoutOwnerStripeAccountId   = booking.owner.stripeAccountId || null;
+    booking.payoutCaptainStripeAccountId =
+      booking.hasCaptain && booking.captain ? (booking.captain.stripeAccountId || null) : null;
+    booking.tripEndAt    = booking.tripEndAt || booking.endDate;
+    booking.payoutStatus = 'held';
+    await booking.save();
 
     res.status(200).json({
       success: true,
@@ -121,8 +149,11 @@ export const handleStripeWebhook = async (req, res) => {
             booking.paymentStatus = 'paid';
             booking.paidAt = new Date();
             booking.stripeChargeId = intent.latest_charge || null;
+            // P2: funds now sit on the platform balance — explicitly mark as
+            // held so P3 can find these bookings via payoutStatus='held'.
+            booking.payoutStatus = 'held';
             await booking.save();
-            console.log('[Stripe Webhook] Booking marked PAID:', booking.bookingNumber);
+            console.log('[Stripe Webhook] Booking marked PAID (payout held):', booking.bookingNumber);
           }
         }
         break;

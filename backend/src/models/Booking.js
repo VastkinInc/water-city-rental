@@ -80,6 +80,23 @@ const bookingSchema = new mongoose.Schema(
     paymentIntentId: { type: String, default: null },
     stripeChargeId:  { type: String, default: null },
     paidAt:          { type: Date,   default: null },
+    // Payment split P2: amounts that WILL be released to owner/captain in P3.
+    // Captured at PaymentIntent creation so P3 can pay out the exact amounts
+    // even if pricing or Connect accounts change later. Funds sit on the
+    // platform balance (no transfer at checkout) until P3 actually moves them.
+    payoutOwnerAmount:            { type: Number, default: 0 },
+    payoutCaptainAmount:          { type: Number, default: 0 },
+    platformTaxAmount:            { type: Number, default: 0 },
+    payoutOwnerStripeAccountId:   { type: String, default: null },
+    payoutCaptainStripeAccountId: { type: String, default: null },
+    payoutStatus: {
+      type: String,
+      enum: ['held', 'released', 'skipped'],
+      default: 'held'
+    },
+    // Trip end datetime (== endDate). Dedicated field so P3 can read a clear
+    // "when did the trip end" timestamp and add its release buffer.
+    tripEndAt: { type: Date, default: null },
     cancellationReason: { type: String, maxlength: 500 },
     specialRequests: { type: String, maxlength: 500 },
     timeline: { type: [timelineEntrySchema], default: [] }
