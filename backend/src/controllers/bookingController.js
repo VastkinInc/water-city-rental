@@ -46,17 +46,16 @@ export const createBooking = async (req, res, next) => {
     const start = new Date(startDate);
     const end = new Date(endDate);
 
-    // Calendar-day convention shared with the client (boat.html getDurationFromDates):
-    // May 22 → May 25 = 3 days = 72 hours. Min 1 day.
-    const startDay = new Date(start); startDay.setHours(0, 0, 0, 0);
-    const endDay   = new Date(end);   endDay.setHours(0, 0, 0, 0);
-    const calendarDays = Math.max(1, Math.round((endDay - startDay) / (1000 * 60 * 60 * 24)));
-
     let days, hours;
     if (boat.rateType === 'daily') {
-      days = calendarDays;
+      // Calendar-day convention shared with the client: May 22 → May 25 = 3 days. Min 1 day.
+      const startDay = new Date(start); startDay.setHours(0, 0, 0, 0);
+      const endDay   = new Date(end);   endDay.setHours(0, 0, 0, 0);
+      days = Math.max(1, Math.round((endDay - startDay) / (1000 * 60 * 60 * 24)));
     } else {
-      hours = calendarDays * 24;
+      // Hourly: use ACTUAL elapsed hours between start and end (frontend builds
+      // end = start + hours*1h, so this divides cleanly). Min 1 hour.
+      hours = Math.max(1, Math.round((end - start) / (1000 * 60 * 60)));
     }
 
     const conflict = await Booking.findOne({
