@@ -91,12 +91,18 @@ const bookingSchema = new mongoose.Schema(
     payoutCaptainStripeAccountId: { type: String, default: null },
     payoutStatus: {
       type: String,
-      enum: ['held', 'released', 'skipped'],
+      enum: ['held', 'releasing', 'released', 'skipped', 'release_failed'],
       default: 'held'
     },
     // Trip end datetime (== endDate). Dedicated field so P3 can read a clear
     // "when did the trip end" timestamp and add its release buffer.
     tripEndAt: { type: Date, default: null },
+    // P3 auto-release bookkeeping.
+    releaseAttemptedAt: { type: Date,   default: null },
+    releasedAt:         { type: Date,   default: null },
+    releaseError:       { type: String, default: null },
+    ownerTransferId:    { type: String, default: null },
+    captainTransferId:  { type: String, default: null },
     cancellationReason: { type: String, maxlength: 500 },
     specialRequests: { type: String, maxlength: 500 },
     timeline: { type: [timelineEntrySchema], default: [] }

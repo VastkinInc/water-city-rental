@@ -20,6 +20,7 @@ import reviewsRouter from './routes/reviews.js';
 import paymentsRouter from './routes/payments.js';
 import connectRouter from './routes/connect.js';
 import adminRouter from './routes/admin.js';
+import internalRouter from './routes/internal.js';
 import { handleStripeWebhook } from './controllers/paymentController.js';
 
 const app = express();
@@ -84,6 +85,7 @@ app.use('/api/reviews', reviewsRouter);
 app.use('/api/payments', paymentsRouter);
 app.use('/api/connect', connectRouter);
 app.use('/api/admin', adminRouter);
+app.use('/api/internal', internalRouter);
 
 // Error handlers (must be last)
 app.use(notFound);
