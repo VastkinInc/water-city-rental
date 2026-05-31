@@ -1,5 +1,5 @@
 import { body } from 'express-validator';
-import { BOAT_TYPES, HARBORS } from '../models/Boat.js';
+import { BOAT_TYPES } from '../models/Boat.js';
 
 const currentYear = new Date().getFullYear();
 
@@ -22,8 +22,11 @@ export const createBoatValidator = [
     .notEmpty().withMessage('Max guests is required')
     .isInt({ min: 1, max: 50 }).withMessage('Max guests must be 1-50'),
   body('harbor')
-    .notEmpty().withMessage('Harbor is required')
-    .isIn(HARBORS).withMessage(`Harbor must be one of: ${HARBORS.join(', ')}`),
+    .trim()
+    .notEmpty().withMessage('Harbor is required'),
+  body('city')
+    .trim()
+    .notEmpty().withMessage('City is required'),
   body('rateType')
     .optional()
     .isIn(['daily', 'hourly']).withMessage('Rate type must be daily or hourly'),
@@ -65,7 +68,12 @@ export const updateBoatValidator = [
     .isInt({ min: 1, max: 50 }).withMessage('Max guests must be 1-50'),
   body('harbor')
     .optional()
-    .isIn(HARBORS).withMessage(`Harbor must be one of: ${HARBORS.join(', ')}`),
+    .trim()
+    .notEmpty().withMessage('Harbor cannot be empty'),
+  body('city')
+    .optional()
+    .trim()
+    .notEmpty().withMessage('City cannot be empty'),
   body('rateType')
     .optional()
     .isIn(['daily', 'hourly']).withMessage('Rate type must be daily or hourly'),

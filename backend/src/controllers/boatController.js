@@ -1,13 +1,34 @@
 import mongoose from 'mongoose';
 import Boat from '../models/Boat.js';
+import Harbor from '../models/Harbor.js';
 import { ApiError } from '../utils/ApiError.js';
 import { deleteFromCloudinary } from '../utils/cloudinary.js';
 
 const ALLOWED_UPDATE_FIELDS = [
-  'name', 'type', 'yearBuilt', 'length', 'maxGuests', 'harbor',
+  'name', 'type', 'yearBuilt', 'length', 'maxGuests', 'harbor', 'city',
   'description', 'amenities', 'rateType', 'dayRate', 'hourlyRate',
   'recommendedCaptain', 'status', 'freeCancellationHours'
 ];
+
+// Verifies that (harbor name, city/cityKey) points to a real, active harbor.
+// Accepts either a cityKey ("chicago_il") or a display label ("Chicago, IL")
+// in the `city` argument — UI sends the key, but be lenient.
+const resolveHarbor = async (harborName, city) => {
+  if (!harborName || !city) {
+    throw new ApiError(400, 'Both harbor and city are required');
+  }
+  const cityNorm = String(city).toLowerCase().trim();
+  const harborNorm = String(harborName).trim();
+  const harbor = await Harbor.findOne({
+    name: harborNorm,
+    active: true,
+    $or: [{ cityKey: cityNorm }, { city: city }]
+  });
+  if (!harbor) {
+    throw new ApiError(400, `Harbor "${harborNorm}" does not belong to city "${city}"`);
+  }
+  return harbor;
+};
 
 // Owners can only flip between 'active' and 'inactive' (pause/unpause their own listing).
 // Promotion to/from 'pending' is admin-only via PATCH /:id/status.
@@ -30,6 +51,11 @@ export const createBoat = async (req, res, next) => {
       try { safeBody.amenities = JSON.parse(safeBody.amenities); }
       catch (e) { /* leave as-is — Mongoose may reject if not array */ }
     }
+
+    // Server-side enforcement: harbor must belong to the submitted city.
+    // UI prevents this but defensive in case of direct API hits.
+    const harborDoc = await resolveHarbor(safeBody.harbor, safeBody.city);
+    safeBody.city = harborDoc.city;
 
     const boat = await Boat.create({
       ...safeBody,
@@ -155,6 +181,14 @@ export const updateBoat = async (req, res, next) => {
         }
       }
       boat[field] = req.body[field];
+    }
+
+    // If either harbor or city was touched, both must resolve to a real harbor.
+    // Use the current document state (post-merge above) so unchanged fields
+    // still validate against the persisted value.
+    if (req.body.harbor !== undefined || req.body.city !== undefined) {
+      const harborDoc = await resolveHarbor(boat.harbor, boat.city);
+      boat.city = harborDoc.city;
     }
 
     if (req.files && req.files.length > 0) {

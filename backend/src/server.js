@@ -12,6 +12,7 @@ import { notFound } from './middleware/notFound.js';
 import healthRouter from './routes/health.js';
 import authRouter from './routes/auth.js';
 import boatsRouter from './routes/boats.js';
+import harborsRouter from './routes/harbors.js';
 import captainsRouter from './routes/captains.js';
 import bookingsRouter from './routes/bookings.js';
 import messagesRouter from './routes/messages.js';
@@ -77,6 +78,7 @@ app.get('/', (req, res) => {
 app.use('/api/health', healthRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/boats', boatsRouter);
+app.use('/api/harbors', harborsRouter);
 app.use('/api/captains', captainsRouter);
 app.use('/api/bookings', bookingsRouter);
 app.use('/api/messages', messagesRouter);

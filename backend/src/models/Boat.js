@@ -48,7 +48,14 @@ const boatSchema = new mongoose.Schema(
     harbor: {
       type: String,
       required: [true, 'Harbor is required'],
-      enum: HARBORS
+      trim: true
+    },
+    city: {
+      // Not required at the schema level so pre-existing Chicago boats can be
+      // backfilled by backend/scripts/backfill-city-on-boats.mjs without
+      // breaking saves. The validator requires it on POST /api/boats.
+      type: String,
+      trim: true
     },
     description: { type: String, trim: true, maxlength: 2000 },
     amenities: { type: [String], default: [] },
