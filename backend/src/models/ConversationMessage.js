@@ -19,7 +19,16 @@ const conversationMessageSchema = new mongoose.Schema(
       required: true,
       trim: true,
       maxlength: 2000
-    }
+    },
+    // Mirrors readBy on the booking-scoped Message model. Optional field —
+    // older docs created before this change simply have no readBy and are
+    // treated as unread for everyone but the sender (counts still work).
+    readBy: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+      }
+    ]
   },
   { timestamps: true }
 );

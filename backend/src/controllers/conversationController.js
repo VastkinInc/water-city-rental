@@ -108,7 +108,8 @@ export const sendConversationMessage = async (req, res, next) => {
     const message = await ConversationMessage.create({
       conversationId: conversation._id,
       senderId: req.user._id,
-      body
+      body,
+      readBy: [req.user._id]
     });
 
     conversation.lastMessageAt = message.createdAt;
@@ -142,6 +143,15 @@ export const listMyConversations = async (req, res, next) => {
           .sort('-createdAt')
           .lean();
 
+        // Messages authored by the *other* party that the viewer hasn't
+        // marked read. Pre-readBy docs have no field at all, so they
+        // correctly match `{ $ne: userId }`.
+        const unreadCount = await ConversationMessage.countDocuments({
+          conversationId: c._id,
+          senderId: { $ne: userId },
+          readBy: { $ne: userId }
+        });
+
         const uid = userId.toString();
         const otherParty =
           c.customerId && c.customerId._id.toString() === uid
@@ -163,6 +173,7 @@ export const listMyConversations = async (req, res, next) => {
                 senderId: last.senderId
               }
             : null,
+          unreadCount,
           createdAt: c.createdAt,
           updatedAt: c.updatedAt
         };
@@ -193,6 +204,41 @@ export const listConversationMessages = async (req, res, next) => {
       .lean();
 
     res.status(200).json({ success: true, data: messages });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const markConversationRead = async (req, res, next) => {
+  try {
+    await getConversationIfParticipant(req.params.id, req.user._id);
+
+    await ConversationMessage.updateMany(
+      { conversationId: req.params.id, readBy: { $ne: req.user._id } },
+      { $addToSet: { readBy: req.user._id } }
+    );
+
+    res.status(200).json({ success: true });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const getInquiryUnreadCount = async (req, res, next) => {
+  try {
+    const userId = req.user._id;
+
+    const conversationIds = await Conversation.find({
+      $or: [{ customerId: userId }, { partnerId: userId }]
+    }).distinct('_id');
+
+    const count = await ConversationMessage.countDocuments({
+      conversationId: { $in: conversationIds },
+      senderId: { $ne: userId },
+      readBy: { $ne: userId }
+    });
+
+    res.status(200).json({ success: true, data: { count } });
   } catch (err) {
     next(err);
   }
