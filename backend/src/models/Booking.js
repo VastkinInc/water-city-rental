@@ -74,7 +74,7 @@ const bookingSchema = new mongoose.Schema(
     captainApproved: { type: Boolean, default: false },
     paymentStatus: {
       type: String,
-      enum: ['unpaid', 'paid', 'failed', 'refunded'],
+      enum: ['unpaid', 'paid', 'failed', 'refunded', 'partially_refunded'],
       default: 'unpaid'
     },
     paymentIntentId: { type: String, default: null },
@@ -91,7 +91,10 @@ const bookingSchema = new mongoose.Schema(
     payoutCaptainStripeAccountId: { type: String, default: null },
     payoutStatus: {
       type: String,
-      enum: ['held', 'releasing', 'released', 'skipped', 'release_failed'],
+      // 'cancelling' is a transient lock taken when cancelBooking is in flight
+      // (after the atomic claim, before Stripe confirms). 'cancelled' is the
+      // terminal payout state for any cancelled booking — cron skips both.
+      enum: ['held', 'releasing', 'released', 'skipped', 'release_failed', 'cancelling', 'cancelled'],
       default: 'held'
     },
     // Trip end datetime (== endDate). Dedicated field so P3 can read a clear
@@ -104,6 +107,12 @@ const bookingSchema = new mongoose.Schema(
     ownerTransferId:    { type: String, default: null },
     captainTransferId:  { type: String, default: null },
     cancellationReason: { type: String, maxlength: 500 },
+    // Cancellation bookkeeping (added when /cancel endpoint runs to completion).
+    cancelledBy:        { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null },
+    cancelledAt:        { type: Date, default: null },
+    refundAmount:       { type: Number, default: 0 },   // dollars; 0 means no refund issued
+    refundedAt:         { type: Date, default: null },
+    stripeRefundId:     { type: String, default: null },
     specialRequests: { type: String, maxlength: 500 },
     timeline: { type: [timelineEntrySchema], default: [] }
   },

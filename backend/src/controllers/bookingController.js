@@ -4,6 +4,8 @@ import Boat from '../models/Boat.js';
 import User from '../models/User.js';
 import { ApiError } from '../utils/ApiError.js';
 import { calculatePrice } from '../utils/pricing.js';
+import { computeCustomerRefund } from '../utils/refund.js';
+import { stripe } from './paymentController.js';
 
 const isValidObjectId = (id) => mongoose.Types.ObjectId.isValid(id);
 
@@ -165,6 +167,77 @@ export const getBookingById = async (req, res, next) => {
   }
 };
 
+// Returns the canceller role + the refund decision for a booking + caller.
+// Pure derivation — no DB writes. Used by both cancelBooking and getCancelPreview.
+function deriveCancellation(booking, user, now = new Date()) {
+  const uid = user._id.toString();
+  const role = user.role;
+  const isCustomer = booking.customer.toString() === uid;
+  const isOwner    = booking.owner.toString() === uid;
+  const isCaptain  = booking.captain && booking.captain.toString() === uid;
+  const isAdmin    = role === 'admin';
+
+  let cancellerRole = null;
+  if (isCustomer) cancellerRole = 'customer';
+  else if (isOwner) cancellerRole = 'owner';
+  else if (isCaptain) cancellerRole = 'captain';
+  else if (isAdmin) cancellerRole = 'admin';
+
+  const grandTotal = (booking.pricing && booking.pricing.grandTotal) || 0;
+  const tripStarted =
+    booking.startDate &&
+    new Date(booking.startDate).getTime() <= new Date(now).getTime();
+  const statusActive = ['pending', 'needs_new_captain', 'confirmed'].includes(booking.status);
+  const isPaid = booking.paymentStatus === 'paid';
+  const fundsMoved = isPaid && booking.payoutStatus !== 'held';
+
+  let blockReason = null;
+  if (!cancellerRole) blockReason = 'Not authorized to cancel this booking';
+  else if (booking.status === 'cancelled') blockReason = 'Booking is already cancelled';
+  else if (!statusActive) blockReason = `Cannot cancel a ${booking.status} booking`;
+  else if (tripStarted) blockReason = 'Cancellation not available after trip starts. Contact support.';
+  else if (fundsMoved) blockReason = 'Funds already released or in process. Contact support.';
+
+  // Refund per role: customer = 3-tier, owner/captain/admin = 100%.
+  let refundPct, refundAmount, refundReason;
+  if (cancellerRole === 'customer') {
+    const t = computeCustomerRefund(grandTotal, booking.startDate, now);
+    refundPct = t.pct;
+    refundAmount = t.amount;
+    refundReason = t.reason;
+  } else {
+    refundPct = 100;
+    refundAmount = Math.round(grandTotal * 100) / 100;
+    refundReason = `Full refund (${cancellerRole || 'owner'} cancellation)`;
+  }
+
+  return {
+    cancellerRole,
+    canCancel: !blockReason,
+    blockReason,
+    grandTotal,
+    refundPct,
+    refundAmount,
+    refundReason,
+    willCallStripe: isPaid && refundAmount > 0
+  };
+}
+
+export const getCancelPreview = async (req, res, next) => {
+  try {
+    if (!isValidObjectId(req.params.id)) throw new ApiError(404, 'Booking not found');
+    const booking = await Booking.findById(req.params.id);
+    if (!booking) throw new ApiError(404, 'Booking not found');
+
+    const d = deriveCancellation(booking, req.user);
+    if (!d.cancellerRole) throw new ApiError(403, 'Not authorized');
+
+    res.status(200).json({ success: true, data: d });
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const cancelBooking = async (req, res, next) => {
   try {
     if (!isValidObjectId(req.params.id)) {
@@ -174,27 +247,117 @@ export const cancelBooking = async (req, res, next) => {
     const booking = await Booking.findById(req.params.id);
     if (!booking) throw new ApiError(404, 'Booking not found');
 
-    const isCustomer = booking.customer.equals(req.user._id);
-    const isAdmin = req.user.role === 'admin';
-    if (!isCustomer && !isAdmin) {
-      throw new ApiError(403, 'Not authorized to cancel this booking');
+    const now = new Date();
+    const d = deriveCancellation(booking, req.user, now);
+    if (!d.cancellerRole) throw new ApiError(403, 'Not authorized to cancel this booking');
+    if (!d.canCancel) throw new ApiError(400, d.blockReason);
+
+    const { cancellationReason } = req.body || {};
+    const reasonText = cancellationReason || `Cancelled by ${d.cancellerRole}`;
+
+    // ── UNPAID path: nothing to refund, just cancel.
+    if (booking.paymentStatus !== 'paid') {
+      booking.status = 'cancelled';
+      booking.cancelledBy = req.user._id;
+      booking.cancelledAt = now;
+      booking.cancellationReason = reasonText;
+      booking.refundAmount = 0;
+      booking.timeline.push({
+        event: 'cancelled',
+        actor: req.user._id,
+        timestamp: now,
+        note: `Cancelled by ${d.cancellerRole} (unpaid — no refund needed)`
+      });
+      await booking.save();
+      return res.status(200).json({ success: true, data: booking });
     }
 
-    if (!['pending', 'needs_new_captain', 'confirmed'].includes(booking.status)) {
-      throw new ApiError(400, `Cannot cancel a ${booking.status} booking`);
+    // ── PAID path: atomically claim the payout lock so the auto-release cron
+    // can't race us. Cron's query is { payoutStatus: 'held' }, so flipping to
+    // 'cancelling' permanently locks the cron out for this booking.
+    const claim = await Booking.updateOne(
+      { _id: booking._id, payoutStatus: 'held' },
+      { $set: { payoutStatus: 'cancelling' } }
+    );
+    if (claim.matchedCount === 0) {
+      throw new ApiError(400, 'Funds already released or in process. Contact support.');
     }
 
-    const { cancellationReason } = req.body;
-    booking.status = 'cancelled';
-    booking.cancellationReason = cancellationReason;
-    booking.timeline.push({
-      event: 'cancelled',
-      actor: req.user._id,
-      note: cancellationReason
-    });
+    // ── Stripe refund (if any amount). For 0% tier we just lock + finalize.
+    let stripeRefundId = null;
+    if (d.refundAmount > 0) {
+      if (!booking.paymentIntentId) {
+        // Revert the lock so admin can intervene.
+        await Booking.updateOne(
+          { _id: booking._id, payoutStatus: 'cancelling' },
+          { $set: { payoutStatus: 'held' } }
+        );
+        throw new ApiError(500, 'Booking is paid but has no Stripe payment intent on record — cannot refund automatically');
+      }
+      const refundCents = Math.round(d.refundAmount * 100);
+      try {
+        const refund = await stripe.refunds.create(
+          {
+            payment_intent: booking.paymentIntentId,
+            amount: refundCents,
+            metadata: {
+              bookingId: booking._id.toString(),
+              cancelledBy: d.cancellerRole,
+              cancellerId: req.user._id.toString(),
+              refundPct: String(d.refundPct)
+            }
+          },
+          { idempotencyKey: `cancel:${booking._id.toString()}` }
+        );
+        stripeRefundId = refund.id;
+      } catch (stripeErr) {
+        // Revert the claim so the booking can be retried (or auto-released
+        // if the user actually doesn't want to cancel after all).
+        await Booking.updateOne(
+          { _id: booking._id, payoutStatus: 'cancelling' },
+          { $set: { payoutStatus: 'held' } }
+        );
+        const msg = (stripeErr && stripeErr.message) || 'Stripe error';
+        console.error(`[Cancel] Stripe refund failed for booking ${booking._id}: ${msg}`);
+        throw new ApiError(502, `Refund failed: ${msg}`);
+      }
+    }
 
-    await booking.save();
-    res.status(200).json({ success: true, data: booking });
+    // ── Finalize. Use $set for atomic state flip; the booking is now terminal.
+    const newPaymentStatus =
+      d.refundAmount >= d.grandTotal ? 'refunded' :
+      d.refundAmount > 0 ? 'partially_refunded' : 'paid';
+
+    await Booking.updateOne(
+      { _id: booking._id },
+      {
+        $set: {
+          status: 'cancelled',
+          payoutStatus: 'cancelled',
+          paymentStatus: newPaymentStatus,
+          cancelledBy: req.user._id,
+          cancelledAt: now,
+          cancellationReason: reasonText,
+          refundAmount: d.refundAmount,
+          refundedAt: stripeRefundId ? now : null,
+          stripeRefundId
+        },
+        $push: {
+          timeline: {
+            event: 'cancelled',
+            actor: req.user._id,
+            timestamp: now,
+            note:
+              `Cancelled by ${d.cancellerRole}. ` +
+              `Refund: $${d.refundAmount.toFixed(2)} (${d.refundPct}%) — ${d.refundReason}` +
+              (stripeRefundId ? ` [stripe ${stripeRefundId}]` : '')
+          }
+        }
+      }
+    );
+
+    const populated = await populateBooking(Booking.findById(booking._id));
+    res.status(200).json({ success: true, data: populated });
   } catch (err) {
     next(err);
   }

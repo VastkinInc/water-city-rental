@@ -1,7 +1,7 @@
 import express from 'express';
 import {
   createBooking, listMyBookings, getBookingById,
-  cancelBooking, approveBooking, declineBooking, completeBooking,
+  cancelBooking, getCancelPreview, approveBooking, declineBooking, completeBooking,
   captainAccept, captainDecline, reassignCaptain
 } from '../controllers/bookingController.js';
 import { protect } from '../middleware/auth.js';
@@ -24,6 +24,7 @@ router.post(
 );
 router.get('/', listMyBookings);
 router.get('/:id', getBookingById);
+router.get('/:id/cancel-preview', getCancelPreview);
 router.patch('/:id/cancel', cancelBookingValidator, validate, cancelBooking);
 router.patch('/:id/approve', approveBooking);
 router.patch('/:id/decline', declineBooking);
