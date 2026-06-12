@@ -7,7 +7,7 @@ import { deleteFromCloudinary } from '../utils/cloudinary.js';
 const ALLOWED_UPDATE_FIELDS = [
   'name', 'type', 'yearBuilt', 'length', 'maxGuests', 'harbor', 'city',
   'description', 'amenities', 'rateType', 'dayRate', 'hourlyRate',
-  'recommendedCaptain', 'status', 'freeCancellationHours'
+  'recommendedCaptain', 'status', 'freeCancellationHours', 'cancellationPolicy'
 ];
 
 // Verifies that (harbor name, city/cityKey) points to a real, active harbor.

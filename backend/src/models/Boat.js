@@ -91,6 +91,17 @@ const boatSchema = new mongoose.Schema(
     },
     rating: { type: Number, default: 0, min: 0, max: 5 },
     totalBookings: { type: Number, default: 0, min: 0 },
+    // Owner-selected cancellation policy. Snapshots onto the booking at
+    // create-time (see Booking.cancellationPolicy) so renters are bound by
+    // the policy in effect when they checked out.
+    cancellationPolicy: {
+      type: String,
+      enum: ['flexible', 'standard', 'strict'],
+      default: 'standard'
+    },
+    // LEGACY — superseded by cancellationPolicy. Kept on the schema so existing
+    // documents and the list-boat form don't break; no code reads it for
+    // refund decisions anymore.
     freeCancellationHours: { type: Number, default: 48, min: 0, max: 720 }
   },
   {

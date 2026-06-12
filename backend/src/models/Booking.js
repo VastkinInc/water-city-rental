@@ -107,6 +107,14 @@ const bookingSchema = new mongoose.Schema(
     ownerTransferId:    { type: String, default: null },
     captainTransferId:  { type: String, default: null },
     cancellationReason: { type: String, maxlength: 500 },
+    // Snapshotted at create-time from boat.cancellationPolicy. Renters are
+    // bound by THIS value, not whatever the owner edits on the listing later.
+    // Legacy bookings have no value here — refund calc falls back to default.
+    cancellationPolicy: {
+      type: String,
+      enum: ['flexible', 'standard', 'strict'],
+      default: null
+    },
     // Cancellation bookkeeping (added when /cancel endpoint runs to completion).
     cancelledBy:        { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null },
     cancelledAt:        { type: Date, default: null },

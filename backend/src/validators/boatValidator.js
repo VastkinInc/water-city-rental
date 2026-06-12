@@ -45,7 +45,10 @@ export const createBoatValidator = [
     .isLength({ max: 2000 }).withMessage('Description must be at most 2000 characters'),
   body('freeCancellationHours')
     .optional()
-    .isInt({ min: 0, max: 720 }).withMessage('Free cancellation hours must be an integer 0-720')
+    .isInt({ min: 0, max: 720 }).withMessage('Free cancellation hours must be an integer 0-720'),
+  body('cancellationPolicy')
+    .optional()
+    .isIn(['flexible', 'standard', 'strict']).withMessage('Cancellation policy must be flexible, standard, or strict')
 ];
 
 export const updateBoatValidator = [
@@ -88,5 +91,8 @@ export const updateBoatValidator = [
     .isLength({ max: 2000 }).withMessage('Description must be at most 2000 characters'),
   body('freeCancellationHours')
     .optional()
-    .isInt({ min: 0, max: 720 }).withMessage('Free cancellation hours must be an integer 0-720')
+    .isInt({ min: 0, max: 720 }).withMessage('Free cancellation hours must be an integer 0-720'),
+  body('cancellationPolicy')
+    .optional()
+    .isIn(['flexible', 'standard', 'strict']).withMessage('Cancellation policy must be flexible, standard, or strict')
 ];

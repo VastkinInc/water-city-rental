@@ -4,7 +4,7 @@ import Boat from '../models/Boat.js';
 import User from '../models/User.js';
 import { ApiError } from '../utils/ApiError.js';
 import { calculatePrice } from '../utils/pricing.js';
-import { computeCustomerRefund } from '../utils/refund.js';
+import { computeCustomerRefund, getPolicy, DEFAULT_POLICY } from '../utils/refund.js';
 import { stripe } from './paymentController.js';
 
 const isValidObjectId = (id) => mongoose.Types.ObjectId.isValid(id);
@@ -85,6 +85,11 @@ export const createBooking = async (req, res, next) => {
       days,
       hours,
       pricing,
+      // Snapshot the boat's cancellation policy onto the booking. Renters are
+      // bound by whatever was in effect at checkout — owners can later edit
+      // the listing without retroactively changing the refund terms on
+      // existing bookings.
+      cancellationPolicy: boat.cancellationPolicy || 'standard',
       status: 'pending',
       paymentStatus: 'unpaid',
       specialRequests,
@@ -198,10 +203,15 @@ function deriveCancellation(booking, user, now = new Date()) {
   else if (tripStarted) blockReason = 'Cancellation not available after trip starts. Contact support.';
   else if (fundsMoved) blockReason = 'Funds already released or in process. Contact support.';
 
-  // Refund per role: customer = 3-tier, owner/captain/admin = 100%.
+  // Refund per role:
+  //   customer → use the booking's snapshotted cancellation policy
+  //   owner / captain / admin → 100% regardless of policy
+  const policyKey = booking.cancellationPolicy || DEFAULT_POLICY;
+  const policyLabel = getPolicy(policyKey).label;
+
   let refundPct, refundAmount, refundReason;
   if (cancellerRole === 'customer') {
-    const t = computeCustomerRefund(grandTotal, booking.startDate, now);
+    const t = computeCustomerRefund(grandTotal, booking.startDate, now, policyKey);
     refundPct = t.pct;
     refundAmount = t.amount;
     refundReason = t.reason;
@@ -219,6 +229,8 @@ function deriveCancellation(booking, user, now = new Date()) {
     refundPct,
     refundAmount,
     refundReason,
+    policyKey,
+    policyLabel,
     willCallStripe: isPaid && refundAmount > 0
   };
 }
