@@ -201,7 +201,9 @@ export const googleCallback = async (req, res, next) => {
 
     if (isNewUser) {
       // New account. Customers are ready immediately; owners/captains must
-      // finish their profile later, so flag them incomplete.
+      // finish their profile later, so flag them incomplete. intendedRole
+      // (from the OAuth `state`) is honored ONLY here, on creation — it must
+      // never alter the role of an account that already exists.
       user = await User.create({
         name,
         email,
@@ -211,8 +213,26 @@ export const googleCallback = async (req, res, next) => {
         isProfileComplete: intendedRole === 'customer',
         ...(payload.picture ? { avatar: payload.picture } : {})
       });
+    } else if (user.authProvider !== 'google') {
+      // AUTO-LINK: this verified Google address already belongs to a local
+      // (password) account — the same person. Record the linkage so the
+      // account is Google-enabled going forward.
+      //
+      // SECURITY: only link when Google asserts the email is verified, so a
+      // Google login can never silently adopt a pre-existing local account on
+      // an unverified address.
+      if (!payload.email_verified) {
+        throw new ApiError(401, 'Google email is not verified — cannot link to the existing account');
+      }
+      // We DO NOT touch `role` — the existing account's role is authoritative
+      // (intendedRole is ignored for existing users). The password hash is a
+      // select:false field and is not modified here, so password sign-in keeps
+      // working too; the account simply supports both methods now.
+      user.authProvider = 'google';
+      if (!user.avatar && payload.picture) user.avatar = payload.picture;
+      await user.save();
     }
-    // Existing user: keep their role and everything else as-is.
+    // Existing Google user: nothing to change — keep role and everything as-is.
 
     if (!user.isActive) throw new ApiError(401, 'Account deactivated');
 
