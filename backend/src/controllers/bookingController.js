@@ -6,6 +6,7 @@ import { ApiError } from '../utils/ApiError.js';
 import { calculatePrice } from '../utils/pricing.js';
 import { computeCustomerRefund, getPolicy, DEFAULT_POLICY } from '../utils/refund.js';
 import { stripe } from './paymentController.js';
+import { sendCancellationEmails, sendDeclineEmails } from '../utils/mailer.js';
 
 const isValidObjectId = (id) => mongoose.Types.ObjectId.isValid(id);
 
@@ -281,7 +282,15 @@ export const cancelBooking = async (req, res, next) => {
         note: `Cancelled by ${d.cancellerRole} (unpaid — no refund needed)`
       });
       await booking.save();
-      return res.status(200).json({ success: true, data: booking });
+      res.status(200).json({ success: true, data: booking });
+
+      // Fire-and-forget notifications — AFTER the response is sent. `booking`
+      // here is not populated, so re-fetch with relations off the request path.
+      // Never awaited; a slow/failing mail send cannot affect the cancel.
+      populateBooking(Booking.findById(booking._id))
+        .then((p) => sendCancellationEmails(p, { cancellerRole: d.cancellerRole, refundAmount: 0 }))
+        .catch((err) => console.error('[Cancel] notify failed:', err && err.message));
+      return;
     }
 
     // ── PAID path: atomically claim the payout lock so the auto-release cron
@@ -370,6 +379,13 @@ export const cancelBooking = async (req, res, next) => {
 
     const populated = await populateBooking(Booking.findById(booking._id));
     res.status(200).json({ success: true, data: populated });
+
+    // Fire-and-forget notifications — AFTER the refund is settled and the
+    // response is sent. Never awaited; a slow/failing mail send cannot delay
+    // or break the refund/cancel. `populated` is already loaded above.
+    sendCancellationEmails(populated, { cancellerRole: d.cancellerRole, refundAmount: d.refundAmount })
+      .catch((err) => console.error('[Cancel] notify failed:', err && err.message));
+    return;
   } catch (err) {
     next(err);
   }
@@ -439,17 +455,130 @@ export const declineBooking = async (req, res, next) => {
       throw new ApiError(400, `Cannot decline a ${booking.status} booking`);
     }
 
+    const now = new Date();
     const { cancellationReason } = req.body;
-    booking.status = 'cancelled';
-    booking.cancellationReason = cancellationReason || 'Declined by owner';
-    booking.timeline.push({
-      event: 'owner_declined',
-      actor: req.user._id,
-      note: booking.cancellationReason
-    });
+    const reasonText = cancellationReason || 'Declined by owner';
 
-    await booking.save();
-    res.status(200).json({ success: true, data: booking });
+    // ── UNPAID path: nothing to refund, just decline.
+    if (booking.paymentStatus !== 'paid') {
+      booking.status = 'cancelled';
+      booking.cancelledBy = req.user._id;
+      booking.cancelledAt = now;
+      booking.cancellationReason = reasonText;
+      booking.refundAmount = 0;
+      booking.timeline.push({
+        event: 'owner_declined',
+        actor: req.user._id,
+        timestamp: now,
+        note: `${reasonText} (unpaid — no refund needed)`
+      });
+      await booking.save();
+      res.status(200).json({ success: true, data: booking });
+
+      // Fire-and-forget notifications — AFTER the response is sent. `booking`
+      // here is not populated, so re-fetch with relations off the request path.
+      populateBooking(Booking.findById(booking._id))
+        .then((p) => sendDeclineEmails(p, { refundAmount: 0 }))
+        .catch((err) => console.error('[Decline] notify failed:', err && err.message));
+      return;
+    }
+
+    // ── PAID path: owner decline ⇒ 100% refund. This REUSES the exact verified
+    // refund mechanism from cancelBooking (atomic held→cancelling claim, Stripe
+    // refund with a distinct idempotency key, rollback-on-failure, Phase-C $set
+    // finalize). Only the decline-specific constants differ.
+    const grandTotal = (booking.pricing && booking.pricing.grandTotal) || 0;
+    const refundAmount = Math.round(grandTotal * 100) / 100;
+
+    // Atomically claim the payout lock so the auto-release cron can't race us.
+    const claim = await Booking.updateOne(
+      { _id: booking._id, payoutStatus: 'held' },
+      { $set: { payoutStatus: 'cancelling' } }
+    );
+    if (claim.matchedCount === 0) {
+      throw new ApiError(400, 'Funds already released or in process. Contact support.');
+    }
+
+    let stripeRefundId = null;
+    if (refundAmount > 0) {
+      if (!booking.paymentIntentId) {
+        // Revert the lock so admin can intervene.
+        await Booking.updateOne(
+          { _id: booking._id, payoutStatus: 'cancelling' },
+          { $set: { payoutStatus: 'held' } }
+        );
+        throw new ApiError(500, 'Booking is paid but has no Stripe payment intent on record — cannot refund automatically');
+      }
+      const refundCents = Math.round(refundAmount * 100);
+      try {
+        const refund = await stripe.refunds.create(
+          {
+            payment_intent: booking.paymentIntentId,
+            amount: refundCents,
+            metadata: {
+              bookingId: booking._id.toString(),
+              cancelledBy: 'owner',
+              cancellerId: req.user._id.toString(),
+              refundPct: '100',
+              reason: 'owner_declined'
+            }
+          },
+          { idempotencyKey: `decline:${booking._id.toString()}` }
+        );
+        stripeRefundId = refund.id;
+      } catch (stripeErr) {
+        // Revert the claim so the booking can be retried.
+        await Booking.updateOne(
+          { _id: booking._id, payoutStatus: 'cancelling' },
+          { $set: { payoutStatus: 'held' } }
+        );
+        const msg = (stripeErr && stripeErr.message) || 'Stripe error';
+        console.error(`[Decline] Stripe refund failed for booking ${booking._id}: ${msg}`);
+        throw new ApiError(502, `Refund failed: ${msg}`);
+      }
+    }
+
+    // ── Finalize. Atomic $set; booking is now terminal.
+    const newPaymentStatus =
+      refundAmount >= grandTotal ? 'refunded' :
+      refundAmount > 0 ? 'partially_refunded' : 'paid';
+
+    await Booking.updateOne(
+      { _id: booking._id },
+      {
+        $set: {
+          status: 'cancelled',
+          payoutStatus: 'cancelled',
+          paymentStatus: newPaymentStatus,
+          cancelledBy: req.user._id,
+          cancelledAt: now,
+          cancellationReason: reasonText,
+          refundAmount,
+          refundedAt: stripeRefundId ? now : null,
+          stripeRefundId
+        },
+        $push: {
+          timeline: {
+            event: 'owner_declined',
+            actor: req.user._id,
+            timestamp: now,
+            note:
+              `Declined by owner. ` +
+              `Refund: $${refundAmount.toFixed(2)} (100%)` +
+              (stripeRefundId ? ` [stripe ${stripeRefundId}]` : '')
+          }
+        }
+      }
+    );
+
+    const populated = await populateBooking(Booking.findById(booking._id));
+    res.status(200).json({ success: true, data: populated });
+
+    // Fire-and-forget notifications — AFTER the refund is settled and the
+    // response is sent. Never awaited; a slow/down Resend cannot block the decline.
+    sendDeclineEmails(populated, { refundAmount })
+      .catch((err) => console.error('[Decline] notify failed:', err && err.message));
+    return;
   } catch (err) {
     next(err);
   }
