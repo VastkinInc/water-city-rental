@@ -33,7 +33,11 @@ app.use(helmet());
 // comma-separated values for multiple production origins.
 const allowedOrigins = [
   'http://localhost:5173',
-  'http://localhost:3000'
+  'http://localhost:3000',
+  // Production SPA — kept in code so CORS works even if the CORS_ORIGIN env
+  // var is unset/misconfigured on the host. www + apex (apex redirects to www).
+  'https://www.watercityrental.com',
+  'https://watercityrental.com'
 ];
 if (process.env.CORS_ORIGIN) {
   const corsOrigins = process.env.CORS_ORIGIN.split(',').map((s) => s.trim()).filter(Boolean);
