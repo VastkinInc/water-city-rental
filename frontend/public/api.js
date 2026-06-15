@@ -83,10 +83,57 @@
     }
   }
 
+  // ── Sidebar profile card hydration ─────────────────────────────────────
+  // Every dashboard/portal has a sidebar profile card (avatar + name + role).
+  // Those were hardcoded ("Sarah Chen" + a stock photo). This fills them from
+  // the real logged-in user, the SAME source the greeting uses (getUser()).
+  var ROLE_LABELS = { owner: 'Boat Owner', captain: 'Captain', customer: 'Customer', admin: 'Admin' };
+
+  function userInitials(name) {
+    var parts = String(name || '').trim().split(/\s+/).filter(Boolean);
+    if (!parts.length) return '?';
+    var first = parts[0][0] || '';
+    var last = parts.length > 1 ? (parts[parts.length - 1][0] || '') : '';
+    return (first + last).toUpperCase();
+  }
+
+  // Self-contained initials avatar — no person's stock photo, no external service.
+  function initialsAvatar(name) {
+    var t = userInitials(name);
+    var svg = "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'>" +
+      "<rect width='80' height='80' fill='%231A1A2E'/>" +
+      "<text x='50%' y='50%' dy='.35em' text-anchor='middle' " +
+      "font-family='Arial,Helvetica,sans-serif' font-size='32' fill='%23FAF7F2'>" + t + "</text></svg>";
+    return "data:image/svg+xml," + svg;
+  }
+
+  function hydrateSidebar() {
+    var u = getUser();
+    if (!u) return;
+    var name = u.name || 'there';
+    var roleLabel = ROLE_LABELS[u.role] || (u.role ? u.role.charAt(0).toUpperCase() + u.role.slice(1) : '');
+
+    var nameEls = document.querySelectorAll('[data-user="name"]');
+    for (var i = 0; i < nameEls.length; i++) nameEls[i].textContent = name;
+
+    var firstEls = document.querySelectorAll('[data-user="firstName"]');
+    for (var j = 0; j < firstEls.length; j++) firstEls[j].textContent = (name.split(' ')[0] || 'there');
+
+    var roleEls = document.querySelectorAll('[data-user="roleLabel"]');
+    for (var k = 0; k < roleEls.length; k++) if (roleLabel) roleEls[k].textContent = roleLabel;
+
+    var imgs = document.querySelectorAll('img[data-user-avatar]');
+    for (var m = 0; m < imgs.length; m++) {
+      imgs[m].src = u.avatar ? u.avatar : initialsAvatar(name);
+      imgs[m].alt = name;
+    }
+  }
+
   window.WCR = {
     getToken: getToken,
     setToken: setToken,
     clearToken: clearToken,
+    hydrateSidebar: hydrateSidebar,
     getUser: getUser,
     setUser: setUser,
     isLoggedIn: function() { return !!getToken(); },
@@ -311,6 +358,13 @@
 
     _call: apiCall
   };
+
+  // Auto-hydrate the sidebar profile card once the DOM is ready (no-op on
+  // pages without a card). Pages may also call WCR.hydrateSidebar() again
+  // after the user object changes (e.g. profile edit / avatar upload).
+  function runHydrate() { try { hydrateSidebar(); } catch (e) { /* never block the page */ } }
+  if (document.readyState !== 'loading') runHydrate();
+  else document.addEventListener('DOMContentLoaded', runHydrate);
 
   console.log('[WCR] api.js loaded. API base:', API_BASE);
 })();
