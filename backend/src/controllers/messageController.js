@@ -44,7 +44,14 @@ export const listConversations = async (req, res, next) => {
     if (role === 'customer') filter.customer = userId;
     else if (role === 'owner')   filter.owner   = userId;
     else if (role === 'captain') filter.captain = userId;
-    // admin sees all (no filter)
+    // admin sees all (no role filter)
+
+    // Only surface bookings that represent a REAL conversation thread. Unpaid/
+    // abandoned-cart bookings (a customer can pile up many on the same boat)
+    // would otherwise each show as an empty "No messages yet" card. Mirrors the
+    // paid-gating already used in bookingController.listMyBookings. The broader
+    // set keeps cancelled-but-paid / refunded trips' chat history reachable.
+    filter.paymentStatus = { $in: ['paid', 'refunded', 'partially_refunded'] };
 
     const bookings = await Booking.find(filter)
       .populate('boat', 'name photos')
@@ -202,6 +209,10 @@ export const getUnreadCount = async (req, res, next) => {
     if (role === 'customer') filter.customer = userId;
     else if (role === 'owner')   filter.owner   = userId;
     else if (role === 'captain') filter.captain = userId;
+
+    // Match listConversations: only count unread against real (paid) threads, so
+    // the badge never reflects unpaid/abandoned bookings that aren't shown.
+    filter.paymentStatus = { $in: ['paid', 'refunded', 'partially_refunded'] };
 
     const bookingIds = await Booking.find(filter).distinct('_id');
 
