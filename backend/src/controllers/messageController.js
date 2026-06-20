@@ -3,6 +3,15 @@ import Message from '../models/Message.js';
 import Booking from '../models/Booking.js';
 import { ApiError } from '../utils/ApiError.js';
 
+// An "active paid trip" has a real chat room even before the first message:
+// the booking is paid AND in a live/finished trip state (not pending/cancelled).
+// Conversations also surface for any booking that already has messages — see
+// listConversations. Shared so the unread badge counts the same threads shown.
+const ACTIVE_TRIP_STATUSES = ['confirmed', 'needs_new_captain', 'completed'];
+function isActivePaidTrip(b) {
+  return b.paymentStatus === 'paid' && ACTIVE_TRIP_STATUSES.includes(b.status);
+}
+
 /**
  * Verify the user is a participant of the booking (customer / owner / captain),
  * or admin. Returns the populated booking. Throws ApiError otherwise.
@@ -46,20 +55,28 @@ export const listConversations = async (req, res, next) => {
     else if (role === 'captain') filter.captain = userId;
     // admin sees all (no role filter)
 
-    // Only surface bookings that represent a REAL conversation thread. Unpaid/
-    // abandoned-cart bookings (a customer can pile up many on the same boat)
-    // would otherwise each show as an empty "No messages yet" card. Mirrors the
-    // paid-gating already used in bookingController.listMyBookings. The broader
-    // set keeps cancelled-but-paid / refunded trips' chat history reachable.
-    filter.paymentStatus = { $in: ['paid', 'refunded', 'partially_refunded'] };
-
-    const bookings = await Booking.find(filter)
+    const candidates = await Booking.find(filter)
       .populate('boat', 'name photos')
       .populate('customer', 'name avatar')
       .populate('owner', 'name avatar')
       .populate('captain', 'name avatar')
       .sort('-updatedAt')
       .lean();
+
+    // A booking surfaces as a conversation only if it's a REAL thread:
+    //   (a) it's an ACTIVE PAID TRIP — paid + status confirmed/needs_new_captain/
+    //       completed → the chat room exists for the trip's parties, OR
+    //   (b) it ALREADY HAS at least one message — preserve any started chat
+    //       regardless of status (e.g. a cancelled trip people talked in).
+    // This drops unpaid/abandoned-cart bookings that otherwise each render as an
+    // empty "No messages yet" card. (isActivePaidTrip is shared with getUnreadCount.)
+    const messagedIds = new Set(
+      (await Message.distinct('booking', { booking: { $in: candidates.map((b) => b._id) } }))
+        .map((id) => String(id))
+    );
+    const bookings = candidates.filter(
+      (b) => isActivePaidTrip(b) || messagedIds.has(String(b._id))
+    );
 
     const conversations = await Promise.all(
       bookings.map(async (b) => {
@@ -210,10 +227,10 @@ export const getUnreadCount = async (req, res, next) => {
     else if (role === 'owner')   filter.owner   = userId;
     else if (role === 'captain') filter.captain = userId;
 
-    // Match listConversations: only count unread against real (paid) threads, so
-    // the badge never reflects unpaid/abandoned bookings that aren't shown.
-    filter.paymentStatus = { $in: ['paid', 'refunded', 'partially_refunded'] };
-
+    // No payment/status filter needed here: only bookings that HAVE messages can
+    // contribute unread, and listConversations always shows any messaged booking
+    // (clause b). So counting unread across all the user's bookings exactly
+    // matches the visible thread set — message-less bookings contribute zero.
     const bookingIds = await Booking.find(filter).distinct('_id');
 
     const count = await Message.countDocuments({
