@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import Message from '../models/Message.js';
 import Booking from '../models/Booking.js';
 import { ApiError } from '../utils/ApiError.js';
+import { createNotifications } from '../utils/notify.js';
 
 // An "active paid trip" has a real chat room even before the first message:
 // the booking is paid AND in a live/finished trip state (not pending/cancelled).
@@ -187,6 +188,27 @@ export const sendMessage = async (req, res, next) => {
       .populate('sender', 'name avatar role');
 
     res.status(201).json({ success: true, data: populated });
+
+    // ── Fire-and-forget: in-app notify the OTHER booking participants. Mirrors
+    // the mailer pattern — runs after the response, never blocks or fails the send.
+    const senderId = req.user._id.toString();
+    const senderName = req.user.name || 'Someone';
+    const parties = [
+      booking.customer && { u: booking.customer, role: 'customer' },
+      booking.owner    && { u: booking.owner,    role: 'owner' },
+      booking.captain  && { u: booking.captain,  role: 'captain' }
+    ].filter(Boolean);
+    const entries = parties
+      .filter((p) => p.u._id && p.u._id.toString() !== senderId)
+      .map((p) => ({
+        user: p.u._id,
+        role: p.role,
+        type: 'message',
+        title: `New message from ${senderName}`,
+        body: content.trim().slice(0, 140),
+        relatedBooking: booking._id
+      }));
+    createNotifications(entries);
   } catch (err) {
     next(err);
   }
