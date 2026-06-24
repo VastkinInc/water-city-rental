@@ -12,6 +12,7 @@ export const NOTIFICATION_TYPES = [
   'owner_declined',
   'captain_approved',
   'captain_declined',
+  'booking_cancelled',  // booking cancelled (by customer/owner/captain/admin)
   'refund_issued'
 ];
 

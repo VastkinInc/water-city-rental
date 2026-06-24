@@ -35,6 +35,32 @@ const partyEmails = (b, roles) =>
     .filter((u) => u && u.email)
     .map((u) => ({ email: u.email, name: u.name }));
 
+// Per-RECIPIENT notification wording so each dashboard gets a role-appropriate
+// message (not the customer's wording for everyone). roleMsgs is keyed by role:
+//   { customer: {title, body}, owner: {title, body}, captain: {title, body} }
+const bookingNotifsRoles = (b, type, roleMsgs) =>
+  Object.keys(roleMsgs)
+    .map((role) => ({ role, u: { customer: b.customer, owner: b.owner, captain: b.captain }[role], m: roleMsgs[role] }))
+    .filter((x) => x.u && x.u._id && x.m)
+    .map((x) => ({ user: x.u._id, role: x.role, type, title: x.m.title, body: x.m.body || '', relatedBooking: b._id }));
+
+const CANCELLER_LABEL = { customer: 'customer', owner: 'owner', captain: 'captain', admin: 'administrator' };
+
+// Cancellation notifications: tell every party EXCEPT whoever cancelled, worded by
+// who did it (e.g. owner sees "...cancelled by the customer").
+const cancellationNotifs = (b, cancellerRole) => {
+  const who = CANCELLER_LABEL[cancellerRole] || 'one of the parties';
+  const boatName = (b.boat && b.boat.name) || 'your booking';
+  const all = {
+    customer: { title: `Booking cancelled — ${boatName}`, body: `Your booking for ${boatName} was cancelled by the ${who}.` },
+    owner:    { title: `Booking cancelled — ${boatName}`, body: `Your booking for ${boatName} was cancelled by the ${who}.` },
+    captain:  { title: `Trip cancelled — ${boatName}`,    body: `A trip you were assigned to was cancelled by the ${who}.` }
+  };
+  const msgs = {};
+  ['customer', 'owner', 'captain'].forEach((r) => { if (r !== cancellerRole) msgs[r] = all[r]; });
+  return bookingNotifsRoles(b, 'booking_cancelled', msgs);
+};
+
 export const createBooking = async (req, res, next) => {
   try {
     const {
@@ -324,7 +350,12 @@ export const cancelBooking = async (req, res, next) => {
       // here is not populated, so re-fetch with relations off the request path.
       // Never awaited; a slow/failing mail send cannot affect the cancel.
       populateBooking(Booking.findById(booking._id))
-        .then((p) => sendCancellationEmails(p, { cancellerRole: d.cancellerRole, refundAmount: 0 }))
+        .then((p) => {
+          if (!p) return;
+          sendCancellationEmails(p, { cancellerRole: d.cancellerRole, refundAmount: 0 });
+          // In-app: notify the OTHER parties (e.g. owner) that it was cancelled.
+          createNotifications(cancellationNotifs(p, d.cancellerRole));
+        })
         .catch((err) => console.error('[Cancel] notify failed:', err && err.message));
       return;
     }
@@ -422,6 +453,9 @@ export const cancelBooking = async (req, res, next) => {
     sendCancellationEmails(populated, { cancellerRole: d.cancellerRole, refundAmount: d.refundAmount })
       .catch((err) => console.error('[Cancel] notify failed:', err && err.message));
 
+    // ── In-app: notify the OTHER parties (e.g. owner) the booking was cancelled. ──
+    createNotifications(cancellationNotifs(populated, d.cancellerRole));
+
     // ── Fire-and-forget in-app notification: refund issued to the customer. ──
     if (d.refundAmount > 0) {
       const boatName = (populated.boat && populated.boat.name) || 'your booking';
@@ -485,8 +519,11 @@ export const approveBooking = async (req, res, next) => {
     // ── Fire-and-forget notifications (owner approved / maybe confirmed) ──
     const boatName = (populated.boat && populated.boat.name) || 'your booking';
     if (populated.status === 'confirmed') {
-      createNotifications(bookingNotifs(populated, ['customer', 'owner', 'captain'],
-        'booking_confirmed', `Booking confirmed — ${boatName}`, 'Your trip is confirmed.'));
+      createNotifications(bookingNotifsRoles(populated, 'booking_confirmed', {
+        customer: { title: `Booking confirmed — ${boatName}`, body: 'Your trip is confirmed — the owner and captain both approved.' },
+        owner:    { title: `Booking confirmed — ${boatName}`, body: `A booking for ${boatName} is now confirmed.` },
+        captain:  { title: `Trip confirmed — ${boatName}`,    body: `Your assigned trip on ${boatName} is confirmed.` }
+      }));
       sendBookingEventEmails(populated, {
         recipients: partyEmails(populated, ['customer', 'owner', 'captain']),
         subject: `Booking confirmed — ${boatName}`,
@@ -494,8 +531,10 @@ export const approveBooking = async (req, res, next) => {
         intro: 'Great news — your trip is confirmed. Both the owner and captain have approved.'
       });
     } else {
-      createNotifications(bookingNotifs(populated, ['customer', 'captain'],
-        'owner_approved', `Owner approved — ${boatName}`, 'The owner approved your booking.'));
+      createNotifications(bookingNotifsRoles(populated, 'owner_approved', {
+        customer: { title: `Owner approved — ${boatName}`, body: 'The owner approved your booking. Waiting on the captain to accept.' },
+        captain:  { title: `Action needed — ${boatName}`,  body: 'The owner approved a booking — please accept or decline the trip.' }
+      }));
       sendBookingEventEmails(populated, {
         recipients: partyEmails(populated, ['customer', 'captain']),
         subject: `Owner approved — ${boatName}`,
@@ -637,9 +676,10 @@ export const declineBooking = async (req, res, next) => {
 
     // ── Fire-and-forget in-app notification (owner declined the request) ──
     const boatName = (populated.boat && populated.boat.name) || 'your booking';
-    createNotifications(bookingNotifs(populated, ['customer', 'captain'],
-      'owner_declined', `Booking declined — ${boatName}`,
-      'The owner could not accept your booking request.'));
+    createNotifications(bookingNotifsRoles(populated, 'owner_declined', {
+      customer: { title: `Booking declined — ${boatName}`, body: 'The owner could not accept your booking request. Any payment has been refunded.' },
+      captain:  { title: `Booking declined — ${boatName}`, body: `A booking you were assigned to (${boatName}) was declined by the owner.` }
+    }));
 
     // ── Fire-and-forget in-app notification: refund issued to the customer. ──
     if (refundAmount > 0) {
@@ -750,8 +790,11 @@ export const captainAccept = async (req, res, next) => {
     // ── Fire-and-forget notifications (captain accepted / maybe confirmed) ──
     const boatName = (populated.boat && populated.boat.name) || 'your booking';
     if (populated.status === 'confirmed') {
-      createNotifications(bookingNotifs(populated, ['customer', 'owner', 'captain'],
-        'booking_confirmed', `Booking confirmed — ${boatName}`, 'Your trip is confirmed.'));
+      createNotifications(bookingNotifsRoles(populated, 'booking_confirmed', {
+        customer: { title: `Booking confirmed — ${boatName}`, body: 'Your trip is confirmed — the owner and captain both approved.' },
+        owner:    { title: `Booking confirmed — ${boatName}`, body: `A booking for ${boatName} is now confirmed.` },
+        captain:  { title: `Trip confirmed — ${boatName}`,    body: `Your assigned trip on ${boatName} is confirmed.` }
+      }));
       sendBookingEventEmails(populated, {
         recipients: partyEmails(populated, ['customer', 'owner', 'captain']),
         subject: `Booking confirmed — ${boatName}`,
@@ -759,8 +802,10 @@ export const captainAccept = async (req, res, next) => {
         intro: 'Great news — your trip is confirmed. Both the owner and captain have approved.'
       });
     } else {
-      createNotifications(bookingNotifs(populated, ['customer', 'owner'],
-        'captain_approved', `Captain accepted — ${boatName}`, 'The captain accepted your trip.'));
+      createNotifications(bookingNotifsRoles(populated, 'captain_approved', {
+        customer: { title: `Captain accepted — ${boatName}`, body: 'The captain accepted your trip. Waiting on the owner to approve.' },
+        owner:    { title: `Action needed — ${boatName}`,    body: 'The captain accepted — your approval is needed to confirm the booking.' }
+      }));
       sendBookingEventEmails(populated, {
         recipients: partyEmails(populated, ['customer', 'owner']),
         subject: `Captain accepted — ${boatName}`,
