@@ -6,7 +6,7 @@ import { ApiError } from '../utils/ApiError.js';
 import { calculatePrice } from '../utils/pricing.js';
 import { computeCustomerRefund, getPolicy, DEFAULT_POLICY } from '../utils/refund.js';
 import { stripe } from './paymentController.js';
-import { sendCancellationEmails, sendDeclineEmails } from '../utils/mailer.js';
+import { sendCancellationEmails, sendDeclineEmails, sendBookingEventEmails } from '../utils/mailer.js';
 import { createNotifications } from '../utils/notify.js';
 
 const isValidObjectId = (id) => mongoose.Types.ObjectId.isValid(id);
@@ -27,6 +27,13 @@ const bookingNotifs = (b, roles, type, title, body) =>
     .map((x) => ({
       user: x.u._id, role: x.role, type, title, body: body || '', relatedBooking: b._id
     }));
+
+// Map a populated booking + roles to email recipients [{email,name}] (skips missing).
+const partyEmails = (b, roles) =>
+  roles
+    .map((role) => ({ customer: b.customer, owner: b.owner, captain: b.captain }[role]))
+    .filter((u) => u && u.email)
+    .map((u) => ({ email: u.email, name: u.name }));
 
 export const createBooking = async (req, res, next) => {
   try {
@@ -480,9 +487,21 @@ export const approveBooking = async (req, res, next) => {
     if (populated.status === 'confirmed') {
       createNotifications(bookingNotifs(populated, ['customer', 'owner', 'captain'],
         'booking_confirmed', `Booking confirmed — ${boatName}`, 'Your trip is confirmed.'));
+      sendBookingEventEmails(populated, {
+        recipients: partyEmails(populated, ['customer', 'owner', 'captain']),
+        subject: `Booking confirmed — ${boatName}`,
+        heading: 'Booking confirmed',
+        intro: 'Great news — your trip is confirmed. Both the owner and captain have approved.'
+      });
     } else {
       createNotifications(bookingNotifs(populated, ['customer', 'captain'],
         'owner_approved', `Owner approved — ${boatName}`, 'The owner approved your booking.'));
+      sendBookingEventEmails(populated, {
+        recipients: partyEmails(populated, ['customer', 'captain']),
+        subject: `Owner approved — ${boatName}`,
+        heading: 'Owner approved your booking',
+        intro: 'The owner approved this booking. The captain still needs to accept before it is confirmed.'
+      });
     }
   } catch (err) {
     next(err);
@@ -733,9 +752,21 @@ export const captainAccept = async (req, res, next) => {
     if (populated.status === 'confirmed') {
       createNotifications(bookingNotifs(populated, ['customer', 'owner', 'captain'],
         'booking_confirmed', `Booking confirmed — ${boatName}`, 'Your trip is confirmed.'));
+      sendBookingEventEmails(populated, {
+        recipients: partyEmails(populated, ['customer', 'owner', 'captain']),
+        subject: `Booking confirmed — ${boatName}`,
+        heading: 'Booking confirmed',
+        intro: 'Great news — your trip is confirmed. Both the owner and captain have approved.'
+      });
     } else {
       createNotifications(bookingNotifs(populated, ['customer', 'owner'],
         'captain_approved', `Captain accepted — ${boatName}`, 'The captain accepted your trip.'));
+      sendBookingEventEmails(populated, {
+        recipients: partyEmails(populated, ['customer', 'owner']),
+        subject: `Captain accepted — ${boatName}`,
+        heading: 'Captain accepted the trip',
+        intro: 'The captain accepted this trip. It will be confirmed once the owner approves.'
+      });
     }
   } catch (err) {
     next(err);
@@ -784,6 +815,16 @@ export const captainDecline = async (req, res, next) => {
         title: `Captain change needed — ${ref}`,
         body: 'Your captain is unavailable; the owner will assign a new one.', relatedBooking: booking._id }
     ]);
+
+    // Email needs addresses → fetch the populated booking off the request path.
+    populateBooking(Booking.findById(booking._id))
+      .then((p) => p && sendBookingEventEmails(p, {
+        recipients: partyEmails(p, ['owner', 'customer']),
+        subject: `Captain change needed — ${(p.boat && p.boat.name) || 'your booking'}`,
+        heading: 'Captain unavailable',
+        intro: 'The assigned captain is unavailable. The owner will assign a new captain shortly.'
+      }))
+      .catch((err) => console.error('[CaptainDecline] email failed:', err && err.message));
   } catch (err) {
     next(err);
   }

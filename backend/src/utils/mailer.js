@@ -258,3 +258,37 @@ export async function sendDeclineEmails(booking, { refundAmount } = {}) {
     console.error(`[mailer] sendDeclineEmails failed: ${(err && err.message) || err}`);
   }
 }
+
+/**
+ * Generic booking-event email. Used for booking_confirmed / owner_approved /
+ * captain_approved / captain_declined so each event reuses one template.
+ *
+ * @param {object} booking      POPULATED booking (boat.name, bookingNumber, dates).
+ * @param {object} meta
+ *   @param {{email,name}[]} meta.recipients  who to email (missing emails skipped)
+ *   @param {string} meta.subject
+ *   @param {string} meta.heading             coloured sub-heading in the template
+ *   @param {string} meta.intro               one-line body sentence
+ *
+ * Never throws. Each recipient sent independently. Safe to call un-awaited.
+ */
+export async function sendBookingEventEmails(booking, { recipients, subject, heading, intro } = {}) {
+  try {
+    if (!booking || !Array.isArray(recipients)) return;
+    const details = detailsTable(booking);
+    for (const r of recipients) {
+      if (!r || !r.email) continue;
+      await sendMail({
+        to: r.email,
+        subject,
+        html: wrap(heading, `
+          <p style="font-size:14px;line-height:1.6;">Hi ${r.name || 'there'},</p>
+          <p style="font-size:14px;line-height:1.6;">${intro}</p>
+          ${details}
+        `)
+      });
+    }
+  } catch (err) {
+    console.error(`[mailer] sendBookingEventEmails failed: ${(err && err.message) || err}`);
+  }
+}
