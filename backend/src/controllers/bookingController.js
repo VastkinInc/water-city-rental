@@ -7,6 +7,7 @@ import { calculatePrice } from '../utils/pricing.js';
 import { computeCustomerRefund, getPolicy, DEFAULT_POLICY } from '../utils/refund.js';
 import { stripe } from './paymentController.js';
 import { sendCancellationEmails, sendDeclineEmails } from '../utils/mailer.js';
+import { createNotifications } from '../utils/notify.js';
 
 const isValidObjectId = (id) => mongoose.Types.ObjectId.isValid(id);
 
@@ -16,6 +17,16 @@ const populateBooking = (q) =>
     .populate('customer', 'name email avatar')
     .populate('captain', 'name email avatar captainProfile')
     .populate('owner', 'name email avatar');
+
+// Build in-app notification entries for a populated booking + recipient roles.
+// Skips missing parties (e.g. no captain). relatedBooking links the bell item.
+const bookingNotifs = (b, roles, type, title, body) =>
+  roles
+    .map((role) => ({ role, u: { customer: b.customer, owner: b.owner, captain: b.captain }[role] }))
+    .filter((x) => x.u && x.u._id)
+    .map((x) => ({
+      user: x.u._id, role: x.role, type, title, body: body || '', relatedBooking: b._id
+    }));
 
 export const createBooking = async (req, res, next) => {
   try {
@@ -455,6 +466,16 @@ export const approveBooking = async (req, res, next) => {
     await booking.save();
     const populated = await populateBooking(Booking.findById(booking._id));
     res.status(200).json({ success: true, data: populated });
+
+    // ── Fire-and-forget notifications (owner approved / maybe confirmed) ──
+    const boatName = (populated.boat && populated.boat.name) || 'your booking';
+    if (populated.status === 'confirmed') {
+      createNotifications(bookingNotifs(populated, ['customer', 'owner', 'captain'],
+        'booking_confirmed', `Booking confirmed — ${boatName}`, 'Your trip is confirmed.'));
+    } else {
+      createNotifications(bookingNotifs(populated, ['customer', 'captain'],
+        'owner_approved', `Owner approved — ${boatName}`, 'The owner approved your booking.'));
+    }
   } catch (err) {
     next(err);
   }
@@ -586,6 +607,12 @@ export const declineBooking = async (req, res, next) => {
     // response is sent. Never awaited; a slow/down Resend cannot block the decline.
     sendDeclineEmails(populated, { refundAmount })
       .catch((err) => console.error('[Decline] notify failed:', err && err.message));
+
+    // ── Fire-and-forget in-app notification (owner declined the request) ──
+    const boatName = (populated.boat && populated.boat.name) || 'your booking';
+    createNotifications(bookingNotifs(populated, ['customer', 'captain'],
+      'owner_declined', `Booking declined — ${boatName}`,
+      'The owner could not accept your booking request.'));
     return;
   } catch (err) {
     next(err);
@@ -685,6 +712,16 @@ export const captainAccept = async (req, res, next) => {
 
     const populated = await populateBooking(Booking.findById(booking._id));
     res.status(200).json({ success: true, data: populated });
+
+    // ── Fire-and-forget notifications (captain accepted / maybe confirmed) ──
+    const boatName = (populated.boat && populated.boat.name) || 'your booking';
+    if (populated.status === 'confirmed') {
+      createNotifications(bookingNotifs(populated, ['customer', 'owner', 'captain'],
+        'booking_confirmed', `Booking confirmed — ${boatName}`, 'Your trip is confirmed.'));
+    } else {
+      createNotifications(bookingNotifs(populated, ['customer', 'owner'],
+        'captain_approved', `Captain accepted — ${boatName}`, 'The captain accepted your trip.'));
+    }
   } catch (err) {
     next(err);
   }
@@ -721,6 +758,17 @@ export const captainDecline = async (req, res, next) => {
 
     await booking.save();
     res.status(200).json({ success: true, data: booking });
+
+    // ── Fire-and-forget notifications (captain declined → owner must reassign) ──
+    const ref = booking.bookingNumber ? `#${booking.bookingNumber}` : 'your booking';
+    createNotifications([
+      { user: booking.owner,    role: 'owner',    type: 'captain_declined',
+        title: `Captain declined — ${ref}`,
+        body: 'The captain declined. Please assign a new captain.', relatedBooking: booking._id },
+      { user: booking.customer, role: 'customer', type: 'captain_declined',
+        title: `Captain change needed — ${ref}`,
+        body: 'Your captain is unavailable; the owner will assign a new one.', relatedBooking: booking._id }
+    ]);
   } catch (err) {
     next(err);
   }
