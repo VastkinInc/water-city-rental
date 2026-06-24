@@ -648,6 +648,13 @@ export const captainAccept = async (req, res, next) => {
       throw new ApiError(400, 'Cannot accept this booking now');
     }
 
+    // Money-safety guard (mirrors approveBooking): a captain can only accept a
+    // PAID booking. Keeps "no confirm without payment" enforced on the captain
+    // path too, not just the owner path.
+    if (booking.paymentStatus !== 'paid') {
+      throw new ApiError(400, 'This booking has not been paid yet, so it can\'t be accepted. Unpaid requests expire automatically.');
+    }
+
     if (booking.captainApproved) {
       throw new ApiError(400, 'You have already accepted');
     }

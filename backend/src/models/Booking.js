@@ -144,7 +144,11 @@ bookingSchema.methods.checkAndConfirm = function () {
   // No-captain bookings (Batch 4B-1) need only ownerApproved; with-captain
   // bookings still need both ownerApproved AND captainApproved.
   const captainOK = this.hasCaptain === false ? true : this.captainApproved;
+  // Money-safety invariant (defense in depth): never confirm a booking that
+  // isn't paid. The approveBooking endpoint already guards on this, but the
+  // rule belongs here too so no future caller can confirm an unpaid booking.
   if (
+    this.paymentStatus === 'paid' &&
     this.ownerApproved &&
     captainOK &&
     (this.status === 'pending' || this.status === 'needs_new_captain')
