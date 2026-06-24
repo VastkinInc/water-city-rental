@@ -414,6 +414,14 @@ export const cancelBooking = async (req, res, next) => {
     // or break the refund/cancel. `populated` is already loaded above.
     sendCancellationEmails(populated, { cancellerRole: d.cancellerRole, refundAmount: d.refundAmount })
       .catch((err) => console.error('[Cancel] notify failed:', err && err.message));
+
+    // ── Fire-and-forget in-app notification: refund issued to the customer. ──
+    if (d.refundAmount > 0) {
+      const boatName = (populated.boat && populated.boat.name) || 'your booking';
+      createNotifications(bookingNotifs(populated, ['customer'], 'refund_issued',
+        `Refund issued — ${boatName}`,
+        `A refund of $${d.refundAmount.toFixed(2)} is on its way to your original payment method.`));
+    }
     return;
   } catch (err) {
     next(err);
@@ -613,6 +621,13 @@ export const declineBooking = async (req, res, next) => {
     createNotifications(bookingNotifs(populated, ['customer', 'captain'],
       'owner_declined', `Booking declined — ${boatName}`,
       'The owner could not accept your booking request.'));
+
+    // ── Fire-and-forget in-app notification: refund issued to the customer. ──
+    if (refundAmount > 0) {
+      createNotifications(bookingNotifs(populated, ['customer'], 'refund_issued',
+        `Refund issued — ${boatName}`,
+        `A refund of $${refundAmount.toFixed(2)} is on its way to your original payment method.`));
+    }
     return;
   } catch (err) {
     next(err);
