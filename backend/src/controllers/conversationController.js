@@ -2,8 +2,10 @@ import mongoose from 'mongoose';
 import Conversation from '../models/Conversation.js';
 import ConversationMessage from '../models/ConversationMessage.js';
 import Boat from '../models/Boat.js';
+import User from '../models/User.js';
 import { ApiError } from '../utils/ApiError.js';
 import { createNotifications } from '../utils/notify.js';
+import { sendNewInquiryEmail } from '../utils/mailer.js';
 
 const isValidObjectId = (id) => mongoose.Types.ObjectId.isValid(id);
 
@@ -136,6 +138,14 @@ export const sendConversationMessage = async (req, res, next) => {
         body: body.slice(0, 140),
         relatedConversation: conversation._id
       });
+
+      // Email the recipient (needs their address → quick lookup). Fire-and-forget,
+      // no-op if Resend env unset; never blocks the send.
+      User.findById(recipient).select('name email')
+        .then((u) => u && u.email && sendNewInquiryEmail({
+          to: u.email, name: u.name, fromName: req.user.name || 'someone', preview: body.slice(0, 140)
+        }))
+        .catch((err) => console.error('[Inquiry] email failed:', err && err.message));
     }
   } catch (err) {
     next(err);

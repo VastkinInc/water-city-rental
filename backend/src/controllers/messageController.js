@@ -3,6 +3,7 @@ import Message from '../models/Message.js';
 import Booking from '../models/Booking.js';
 import { ApiError } from '../utils/ApiError.js';
 import { createNotifications } from '../utils/notify.js';
+import { sendNewMessageEmail } from '../utils/mailer.js';
 
 // An "active paid trip" has a real chat room even before the first message:
 // the booking is paid AND in a live/finished trip state (not pending/cancelled).
@@ -23,9 +24,9 @@ async function getBookingIfParticipant(bookingId, userId, userRole) {
   }
   const booking = await Booking.findById(bookingId)
     .populate('boat', 'name photos owner')
-    .populate('customer', 'name avatar role')
-    .populate('owner', 'name avatar role')
-    .populate('captain', 'name avatar role');
+    .populate('customer', 'name avatar role email')
+    .populate('owner', 'name avatar role email')
+    .populate('captain', 'name avatar role email');
   if (!booking) throw new ApiError(404, 'Booking not found');
 
   const uid = userId.toString();
@@ -209,6 +210,16 @@ export const sendMessage = async (req, res, next) => {
         relatedBooking: booking._id
       }));
     createNotifications(entries);
+
+    // Email the same recipients (no-op if Resend env unset). Free text → escaped
+    // inside the template. Fire-and-forget; never blocks the send.
+    const boatName = (booking.boat && booking.boat.name) || '';
+    const preview = content.trim().slice(0, 140);
+    parties
+      .filter((p) => p.u._id && p.u._id.toString() !== senderId && p.u.email)
+      .forEach((p) => sendNewMessageEmail({
+        to: p.u.email, name: p.u.name, fromName: senderName, boatName, preview
+      }));
   } catch (err) {
     next(err);
   }

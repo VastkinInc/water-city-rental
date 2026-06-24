@@ -292,3 +292,57 @@ export async function sendBookingEventEmails(booking, { recipients, subject, hea
     console.error(`[mailer] sendBookingEventEmails failed: ${(err && err.message) || err}`);
   }
 }
+
+// HTML-escape user-supplied text (message/inquiry bodies, names) before it goes
+// into an email body. The booking templates only interpolate trusted fields, but
+// these next two carry free-text the sender typed.
+function esc(s) {
+  return s == null ? '' : String(s)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+function quoteBlock(text) {
+  return `<p style="font-size:14px;line-height:1.6;font-style:italic;color:#57423b;border-left:3px solid #e6ddd2;padding-left:12px;margin:8px 0;">${esc(text)}</p>`;
+}
+
+/**
+ * New booking-thread message email to one recipient. Never throws.
+ * @param {object} m { to, name, fromName, boatName, preview }
+ */
+export async function sendNewMessageEmail({ to, name, fromName, boatName, preview } = {}) {
+  try {
+    if (!to) return;
+    await sendMail({
+      to,
+      subject: `New message from ${fromName || 'a trip participant'}`,
+      html: wrap('You have a new message', `
+        <p style="font-size:14px;line-height:1.6;">Hi ${esc(name) || 'there'},</p>
+        <p style="font-size:14px;line-height:1.6;">${esc(fromName) || 'Someone'} sent you a message${boatName ? ' about ' + esc(boatName) : ''}:</p>
+        ${quoteBlock(preview)}
+      `)
+    });
+  } catch (err) {
+    console.error(`[mailer] sendNewMessageEmail failed: ${(err && err.message) || err}`);
+  }
+}
+
+/**
+ * New pre-booking inquiry message email to one recipient. Never throws.
+ * @param {object} m { to, name, fromName, preview }
+ */
+export async function sendNewInquiryEmail({ to, name, fromName, preview } = {}) {
+  try {
+    if (!to) return;
+    await sendMail({
+      to,
+      subject: `New inquiry message from ${fromName || 'a customer'}`,
+      html: wrap('New boat inquiry', `
+        <p style="font-size:14px;line-height:1.6;">Hi ${esc(name) || 'there'},</p>
+        <p style="font-size:14px;line-height:1.6;">${esc(fromName) || 'Someone'} sent you an inquiry:</p>
+        ${quoteBlock(preview)}
+      `)
+    });
+  } catch (err) {
+    console.error(`[mailer] sendNewInquiryEmail failed: ${(err && err.message) || err}`);
+  }
+}
