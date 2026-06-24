@@ -3,6 +3,7 @@ import Conversation from '../models/Conversation.js';
 import ConversationMessage from '../models/ConversationMessage.js';
 import Boat from '../models/Boat.js';
 import { ApiError } from '../utils/ApiError.js';
+import { createNotifications } from '../utils/notify.js';
 
 const isValidObjectId = (id) => mongoose.Types.ObjectId.isValid(id);
 
@@ -119,6 +120,23 @@ export const sendConversationMessage = async (req, res, next) => {
       .populate('senderId', 'name avatar role');
 
     res.status(201).json({ success: true, data: populated });
+
+    // ── Fire-and-forget: in-app notify the OTHER party of the inquiry. Pre-booking,
+    // so it links the conversation (no relatedBooking). Never blocks the send.
+    const senderId = req.user._id.toString();
+    const fromCustomer = conversation.customerId.toString() === senderId;
+    const recipient     = fromCustomer ? conversation.partnerId : conversation.customerId;
+    const recipientRole = fromCustomer ? conversation.partnerRole : 'customer';
+    if (recipient && recipient.toString() !== senderId) {
+      createNotifications({
+        user: recipient,
+        role: recipientRole,
+        type: 'inquiry',
+        title: `New inquiry message from ${req.user.name || 'someone'}`,
+        body: body.slice(0, 140),
+        relatedConversation: conversation._id
+      });
+    }
   } catch (err) {
     next(err);
   }
