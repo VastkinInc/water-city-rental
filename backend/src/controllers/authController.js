@@ -348,6 +348,30 @@ export const updateMyProfile = async (req, res, next) => {
   }
 };
 
+// POST /api/auth/avatar  (multipart, field "avatar")
+// Multer+Cloudinary has already uploaded the file by the time we run; the
+// resulting CDN URL is on req.file.path. Persist it to User.avatar and return
+// the refreshed user so the client can update the displayed photo everywhere.
+export const updateMyAvatar = async (req, res, next) => {
+  try {
+    if (!req.file || !req.file.path) {
+      throw new ApiError(400, 'No image file received');
+    }
+
+    const user = await User.findByIdAndUpdate(
+      req.user._id,
+      { avatar: req.file.path },
+      { new: true, runValidators: true }
+    ).select('-password');
+
+    if (!user) throw new ApiError(404, 'User not found');
+
+    res.status(200).json({ success: true, data: user });
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const changePassword = async (req, res, next) => {
   try {
     const { currentPassword, newPassword } = req.body;

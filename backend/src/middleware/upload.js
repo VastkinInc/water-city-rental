@@ -24,3 +24,19 @@ export const upload = multer({
   fileFilter,
   limits: { fileSize: 10 * 1024 * 1024 }
 });
+
+// Profile avatars — square, face-cropped, in their own Cloudinary folder.
+const avatarStorage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder: 'water-city-rental/avatars',
+    allowed_formats: ['jpg', 'jpeg', 'png', 'webp'],
+    transformation: [{ width: 512, height: 512, crop: 'fill', gravity: 'face', quality: 'auto' }]
+  }
+});
+
+export const uploadAvatar = multer({
+  storage: avatarStorage,
+  fileFilter,
+  limits: { fileSize: 5 * 1024 * 1024 }
+});

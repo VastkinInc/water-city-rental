@@ -1,11 +1,12 @@
 import express from 'express';
 import {
   register, login, logout, refresh, getMe,
-  updateMyProfile, changePassword,
+  updateMyProfile, updateMyAvatar, changePassword,
   toggleFavorite, listFavorites, checkFavorite,
   googleAuth, googleCallback
 } from '../controllers/authController.js';
 import { protect } from '../middleware/auth.js';
+import { uploadAvatar } from '../middleware/upload.js';
 import { validate } from '../middleware/validate.js';
 import {
   registerValidator, loginValidator,
@@ -28,6 +29,12 @@ router.patch('/me',
   protect,
   updateProfileValidator, validate,
   updateMyProfile);
+
+// Profile photo upload (all roles). Multipart field "avatar".
+router.post('/avatar',
+  protect,
+  uploadAvatar.single('avatar'),
+  updateMyAvatar);
 
 router.post('/change-password',
   protect,

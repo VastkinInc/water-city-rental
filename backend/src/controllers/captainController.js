@@ -24,13 +24,15 @@ export const listCaptains = async (req, res, next) => {
   }
 };
 
-// PUBLIC (no auth). Flat list of verified, active captains sorted by
-// rating. Whitelists public-safe output only — never email/phone/
-// password/licenseNumber. Optional fields (avatar, languages) are
-// omitted when the captain hasn't filled them in.
+// PUBLIC (no auth). Flat list of active captains sorted by rating.
+// Whitelists public-safe output only — never email/phone/password/
+// licenseNumber. Optional fields (avatar, languages) are omitted when the
+// captain hasn't filled them in. NOTE: we intentionally do NOT gate on
+// isVerified — nothing sets that flag for email/password signups, so it
+// hid every newly-created captain. Matches the authed listCaptains filter.
 export const listPublicCaptains = async (req, res, next) => {
   try {
-    const captains = await User.find({ role: 'captain', isActive: true, isVerified: true })
+    const captains = await User.find({ role: 'captain', isActive: true })
       .select('name avatar bio captainProfile')
       .sort({ 'captainProfile.rating': -1 })
       .lean();
