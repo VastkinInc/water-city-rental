@@ -61,9 +61,15 @@ export const createBooking = async (req, res, next) => {
       hours = Math.max(1, Math.round((end - start) / (1000 * 60 * 60)));
     }
 
+    // Only PAID bookings hold dates. An unpaid/abandoned request must never block
+    // the calendar for a real customer. (Launch-minimal tradeoff: two unpaid
+    // bookings for the same dates could both pay and collide — the proper fix is
+    // to re-validate availability at payment/webhook time, deferred to the full
+    // status machine.)
     const conflict = await Booking.findOne({
       boat: boat._id,
       status: { $in: ['pending', 'confirmed'] },
+      paymentStatus: 'paid',
       startDate: { $lte: end },
       endDate: { $gte: start }
     });
@@ -134,6 +140,18 @@ export const listMyBookings = async (req, res, next) => {
     }
 
     if (status) filter.status = status;
+
+    // Launch-minimal: unpaid/abandoned requests are not actionable for owners or
+    // captains — they must never surface in the Approve/Decline queue, show
+    // projected earnings, or imply a real trip. A request becomes visible to the
+    // other parties only once the customer has paid. The customer's own view is
+    // unaffected (they still see their unpaid bookings so they can pay), and
+    // paid/confirmed/completed/cancelled/refunded bookings are all unaffected.
+    if (req.user.role === 'owner' || req.user.role === 'captain') {
+      filter.$nor = [
+        { status: { $in: ['pending', 'needs_new_captain'] }, paymentStatus: { $ne: 'paid' } }
+      ];
+    }
 
     const bookings = await Booking.find(filter)
       .sort({ startDate: -1 })
@@ -410,6 +428,12 @@ export const approveBooking = async (req, res, next) => {
       throw new ApiError(400, `Cannot approve a ${booking.status} booking`);
     }
 
+    // Launch-minimal guard: an unpaid request is not an actionable booking. It
+    // can no longer reach the owner queue, but guard the endpoint directly too.
+    if (booking.paymentStatus !== 'paid') {
+      throw new ApiError(400, 'This booking has not been paid yet, so it can\'t be approved. Unpaid requests expire automatically.');
+    }
+
     if (booking.ownerApproved) {
       throw new ApiError(400, 'You have already approved this booking');
     }
@@ -455,33 +479,17 @@ export const declineBooking = async (req, res, next) => {
       throw new ApiError(400, `Cannot decline a ${booking.status} booking`);
     }
 
+    // Launch-minimal guard: an unpaid request is not a real, actionable booking,
+    // so it can't be declined (it no longer appears in the owner queue, and
+    // unpaid requests are auto-expired by the cleanup job). Only PAID bookings
+    // can be declined — which always means a full (100%) refund below.
+    if (booking.paymentStatus !== 'paid') {
+      throw new ApiError(400, 'This booking has not been paid yet, so there is nothing to decline. Unpaid requests expire automatically.');
+    }
+
     const now = new Date();
     const { cancellationReason } = req.body;
     const reasonText = cancellationReason || 'Declined by owner';
-
-    // ── UNPAID path: nothing to refund, just decline.
-    if (booking.paymentStatus !== 'paid') {
-      booking.status = 'cancelled';
-      booking.cancelledBy = req.user._id;
-      booking.cancelledAt = now;
-      booking.cancellationReason = reasonText;
-      booking.refundAmount = 0;
-      booking.timeline.push({
-        event: 'owner_declined',
-        actor: req.user._id,
-        timestamp: now,
-        note: `${reasonText} (unpaid — no refund needed)`
-      });
-      await booking.save();
-      res.status(200).json({ success: true, data: booking });
-
-      // Fire-and-forget notifications — AFTER the response is sent. `booking`
-      // here is not populated, so re-fetch with relations off the request path.
-      populateBooking(Booking.findById(booking._id))
-        .then((p) => sendDeclineEmails(p, { refundAmount: 0 }))
-        .catch((err) => console.error('[Decline] notify failed:', err && err.message));
-      return;
-    }
 
     // ── PAID path: owner decline ⇒ 100% refund. This REUSES the exact verified
     // refund mechanism from cancelBooking (atomic held→cancelling claim, Stripe
