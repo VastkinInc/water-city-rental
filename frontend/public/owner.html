@@ -130,7 +130,7 @@
 <span class="material-symbols-outlined">account_circle</span>
 <span class="font-sans text-sm tracking-tight">Profile</span>
 </a>
-<a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all" href="/partner-login" onclick="event.preventDefault(); WCR.logout(); return false;">
+<a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-800 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 transition-all" href="/" onclick="event.preventDefault(); WCR.logout(); return false;">
 <span class="material-symbols-outlined">logout</span>
 <span class="font-sans text-sm tracking-tight">Logout</span>
 </a>
@@ -482,7 +482,7 @@
     if (b.status === 'needs_new_captain') {
       actionsHtml = ''
         + '<button onclick="ownerReassignPrompt(\'' + bookingId + '\')" style="padding:8px 14px;background:#9A3412;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:13px;">Reassign Captain</button>';
-    } else if (b.status === 'pending' && !b.ownerApproved) {
+    } else if (b.status === 'pending' && !b.ownerApproved && b.paymentStatus === 'paid') {
       actionsHtml = ''
         + '<button onclick="ownerApprove(\'' + bookingId + '\')" style="padding:8px 14px;background:#C4623A;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:13px;">Approve</button>'
         + '<button onclick="ownerDecline(\'' + bookingId + '\')" style="padding:8px 14px;background:transparent;color:#991B1B;border:1px solid #FCA5A5;border-radius:8px;font-weight:600;cursor:pointer;font-size:13px;">Decline</button>';
@@ -564,7 +564,9 @@
       // not yet owner-approved, OR captain bailed and needs reassignment.
       var pending   = bookings.filter(function(b){
         if (b.status === 'needs_new_captain') return true;
-        if (b.status === 'pending' && !b.ownerApproved) return true;
+        // Only paid requests are actionable — unpaid/abandoned ones must never
+        // show Approve/Decline or count toward pending requests.
+        if (b.status === 'pending' && !b.ownerApproved && b.paymentStatus === 'paid') return true;
         return false;
       });
       var completed = bookings.filter(function(b){ return b.status === 'completed'; });

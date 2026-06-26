@@ -189,15 +189,6 @@
     },
 
     logout: async function() {
-      // Capture role BEFORE clearing storage so we can return to the right portal.
-      var u = getUser();
-      var portalUrl = (function(role){
-        if (!role) return '/login';
-        if (role === 'admin') return '/admin-login';
-        if (role === 'owner' || role === 'captain') return '/partner-login';
-        return '/login';
-      })(u && u.role);
-
       try {
         await fetch(API_BASE + '/auth/logout', { method: 'POST', credentials: 'include' });
       } catch (e) { /* best effort — never block logout */ }
@@ -210,9 +201,9 @@
         localStorage.removeItem('wcr_pending_role');
       } catch (e) { /* private mode etc. */ }
       if (window.parent && window.parent.location) {
-        window.parent.location.href = portalUrl;
+        window.parent.location.href = '/';
       } else {
-        window.location.href = portalUrl;
+        window.location.href = '/';
       }
     },
     me: function() {
