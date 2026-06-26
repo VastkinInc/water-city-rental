@@ -1,4 +1,4 @@
-# Local Netlify folder
+# Local Hostinger folder
 .netlify
 
 # Claude Code internal worktrees (sandbox copies — do not commit)
@@ -10,3 +10,5 @@
 # Env files (secrets — must never be committed)
 .env
 .env.local
+opencode.json
+skills-lock.json

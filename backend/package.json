@@ -8,7 +8,9 @@
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
     "seed": "node src/seed/seed.js",
-    "test": "node --test 'src/**/*.test.js'"
+    "test": "node --test 'src/**/*.test.js'",
+    "test:e2e": "node scripts/test-e2e-full-suite.mjs",
+    "test:refunds": "node scripts/test-booking-refund-flow.mjs"
   },
   "engines": {
     "node": ">=20.0.0"

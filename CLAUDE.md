@@ -8,7 +8,7 @@
 
 Name:     Water City Rental (NEVER "Water City Rentals")
 Type:     Boat rental marketplace — Chicago, USA
-Live URL: https://illustrious-pegasus-59c79d.netlify.app
+Live URL: https://watercityrental.com
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ## 2. TECH STACK
@@ -19,7 +19,7 @@ Backend:   Node.js 20 + Express 4 (NOT STARTED)
 Database:  MongoDB Atlas (NOT STARTED)
 Auth:      JWT access (15min) + refresh token (7d, httpOnly cookie)
 Payments:  Stripe Connect (escrow — client provides keys)
-Deploy:    Netlify (frontend done) + Render (backend — not yet)
+Deploy:    Hostinger (frontend done) + Render (backend — not yet)
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ## 3. DESIGN SYSTEM — Sunset Harbor Luxe
@@ -158,7 +158,7 @@ Users:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 DONE ✓
-  All public HTML pages live on Netlify
+  All public HTML pages live on Hostinger
   2-step login with role selector
   Partner page + partner login
   Admin secret login
@@ -179,7 +179,7 @@ NOT STARTED ✗
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 1. Add captain-selection feature to boat.html and list-boat.html
-2. Rebuild + redeploy to Netlify
+2. Rebuild + redeploy to Hostinger
 3. Build full backend
 4. Connect frontend to backend
 5. Deploy backend to Render
