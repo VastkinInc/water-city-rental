@@ -79,3 +79,21 @@ export const changePasswordValidator = [
   body('currentPassword').notEmpty().withMessage('Current password is required'),
   body('newPassword').isLength({ min: 8 }).withMessage('New password must be at least 8 characters'),
 ];
+
+export const forgotPasswordValidator = [
+  body('email')
+    .trim()
+    .notEmpty().withMessage('Email is required')
+    .isEmail().withMessage('Invalid email format')
+    .normalizeEmail(),
+];
+
+export const resetPasswordValidator = [
+  body('token')
+    .notEmpty().withMessage('Reset token is required'),
+  body('password')
+    .notEmpty().withMessage('Password is required')
+    .isLength({ min: 8 }).withMessage('Password must be at least 8 characters')
+    .matches(/[A-Za-z]/).withMessage('Password must contain at least one letter')
+    .matches(/[0-9]/).withMessage('Password must contain at least one number'),
+];

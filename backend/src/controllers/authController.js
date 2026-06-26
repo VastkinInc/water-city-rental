@@ -1,4 +1,5 @@
 import bcrypt from 'bcryptjs';
+import crypto from 'crypto';
 import mongoose from 'mongoose';
 import { OAuth2Client } from 'google-auth-library';
 import User from '../models/User.js';
@@ -9,6 +10,7 @@ import {
   generateRefreshToken,
   verifyRefreshToken
 } from '../utils/tokens.js';
+import { sendMail } from '../utils/mailer.js';
 
 const GOOGLE_ROLES = ['customer', 'owner', 'captain'];
 
@@ -398,6 +400,129 @@ export const changePassword = async (req, res, next) => {
     res.status(200).json({
       success: true,
       message: 'Password changed successfully'
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+// ── Forgot / Reset Password ────────────────────────────────────────────────
+
+// Helper: build reset email HTML
+function resetEmailHtml(name, resetUrl) {
+  return `<!doctype html>
+<html>
+  <body style="margin:0;padding:0;background:#faf7f2;font-family:Arial,Helvetica,sans-serif;color:#1a1a2e;">
+    <div style="max-width:560px;margin:0 auto;padding:32px 24px;">
+      <h1 style="font-size:20px;margin:0 0 16px;color:#1a1a2e;">Water City Rental</h1>
+      <h2 style="font-size:17px;margin:0 0 16px;color:#c4623a;">Reset Your Password</h2>
+      <p style="font-size:14px;line-height:1.6;">Hi ${name || 'there'},</p>
+      <p style="font-size:14px;line-height:1.6;">We received a request to reset your password. Click the button below to choose a new one. This link expires in <strong>30 minutes</strong>.</p>
+      <p style="text-align:center;margin:28px 0;">
+        <a href="${resetUrl}" style="display:inline-block;background:#c4623a;color:#fff;font-size:15px;font-weight:600;text-decoration:none;padding:12px 32px;border-radius:6px;">Reset Password</a>
+      </p>
+      <p style="font-size:13px;line-height:1.6;color:#6b6560;">If the button doesn't work, copy and paste this link into your browser:</p>
+      <p style="font-size:13px;color:#c4623a;word-break:break-all;">${resetUrl}</p>
+      <p style="font-size:13px;line-height:1.6;color:#6b6560;">If you didn't request a password reset, you can safely ignore this email — your password will stay the same.</p>
+      <p style="font-size:12px;color:#6b6560;margin-top:28px;border-top:1px solid #e6ddd2;padding-top:14px;">
+        This is an automated message from Water City Rental. Please do not reply to this email.
+      </p>
+    </div>
+  </body>
+</html>`;
+}
+
+/**
+ * POST /api/auth/forgot-password
+ * Public. Looks up the email, generates a 30-minute reset token, emails a link.
+ * Always returns 200 with a generic message to prevent email enumeration.
+ */
+export const forgotPassword = async (req, res, next) => {
+  try {
+    const { email } = req.body;
+    const user = await User.findOne({ email: String(email).toLowerCase() });
+
+    // Always return success to prevent email enumeration
+    if (!user) {
+      return res.status(200).json({
+        success: true,
+        message: 'If an account exists with that email, a reset link has been sent.'
+      });
+    }
+
+    // Generate a random reset token and store a hash of it on the user
+    const rawToken = crypto.randomBytes(32).toString('hex');
+    const hashedToken = crypto.createHash('sha256').update(rawToken).digest('hex');
+
+    user.passwordResetToken = hashedToken;
+    user.passwordResetExpires = Date.now() + 30 * 60 * 1000; // 30 minutes
+    await user.save({ validateBeforeSave: false });
+
+    // Build the reset URL — the frontend page that will handle it
+    const frontendBase =
+      process.env.FRONTEND_URL ||
+      (process.env.CORS_ORIGIN || '').split(',')[0].trim() ||
+      'http://localhost:5173';
+    const resetUrl = `${frontendBase}/reset-password?token=${rawToken}`;
+
+    // Send the email (fire-and-forget style — never block response)
+    sendMail({
+      to: user.email,
+      subject: 'Reset your Water City Rental password',
+      html: resetEmailHtml(user.name, resetUrl)
+    }).catch(() => {}); // intentionally swallowed
+
+    res.status(200).json({
+      success: true,
+      message: 'If an account exists with that email, a reset link has been sent.'
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+/**
+ * POST /api/auth/reset-password
+ * Public. Verifies the token and sets the new password.
+ */
+export const resetPassword = async (req, res, next) => {
+  try {
+    const { token, password } = req.body;
+
+    if (!token || !password) {
+      throw new ApiError(400, 'Token and password are required');
+    }
+
+    // Hash the incoming token to compare with the stored hash
+    const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
+
+    const user = await User.findOne({
+      passwordResetToken: hashedToken,
+      passwordResetExpires: { $gt: Date.now() }
+    }).select('+password');
+
+    if (!user) {
+      throw new ApiError(400, 'Invalid or expired reset token');
+    }
+
+    // Set the new password (pre-save hook will hash it)
+    user.password = password;
+    user.passwordResetToken = undefined;
+    user.passwordResetExpires = undefined;
+    await user.save();
+
+    // Issue fresh tokens so the user stays logged in after reset
+    const accessToken = generateAccessToken(user._id, user.role);
+    const refreshToken = generateRefreshToken(user._id);
+
+    res.cookie('accessToken', accessToken, accessCookieOptions);
+    res.cookie('refreshToken', refreshToken, refreshCookieOptions);
+
+    res.status(200).json({
+      success: true,
+      message: 'Password reset successful',
+      user: publicUser(user),
+      accessToken
     });
   } catch (err) {
     next(err);

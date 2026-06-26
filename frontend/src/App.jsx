@@ -29,6 +29,8 @@ import Checkout from "./pages/Checkout";
 import BookingConfirmed from "./pages/BookingConfirmed";
 import Saved from "./pages/Saved";
 import ReviewTrip from "./pages/ReviewTrip";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 
 export default function App() {
   return (
@@ -41,6 +43,8 @@ export default function App() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/register-owner" element={<RegisterOwner />} />
         <Route path="/register-captain" element={<RegisterCaptain />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/dashboard/customer" element={<CustomerDashboard />} />
         <Route path="/dashboard/owner" element={<OwnerDashboard />} />
         <Route path="/dashboard/captain" element={<CaptainDashboard />} />

@@ -82,7 +82,9 @@ const userSchema = new mongoose.Schema(
     favorites: [{
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Boat'
-    }]
+    }],
+    passwordResetToken: { type: String, select: false, default: null },
+    passwordResetExpires: { type: Date, select: false, default: null }
   },
   { timestamps: true }
 );
