@@ -341,22 +341,30 @@
 <section class="mb-16">
 <h2 class="font-serif text-3xl text-on-surface mb-2 font-headline" style="font-family: 'Playfair Display', serif;">Choose Your Captain</h2>
 <p class="text-on-surface-variant mb-8">Every Water City charter is captained — for your safety and a relaxing day on the water.</p>
-<div id="captain-recommended-card" class="bg-surface-container-lowest p-6 rounded-2xl border-l-4 border-outline-variant shadow-sm flex flex-col md:flex-row items-center justify-between gap-6 mb-4">
+<div class="bg-surface-container-lowest p-6 rounded-2xl border-l-4 border-primary shadow-sm flex flex-col md:flex-row items-center justify-between gap-6 mb-4">
 <div class="flex flex-col md:flex-row items-center gap-6">
-<div class="w-20 h-20 rounded-full bg-stone-200 flex items-center justify-center text-stone-400">
-<span class="material-symbols-outlined text-3xl">person</span>
-</div>
+<img alt="Captain avatar" data-captain="avatar" class="w-20 h-20 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDaoqyAtH6q4sX0gn75h1nqEqKymxOwqzsRLnUevvb8wr79UsS54DVixe7F4s3uEIu4_PRwpOW_oPLSdBXPFuWc5Jl_LsZhYUUyBBo7dXPXb84NgreYtWqibeqkpMUycURtrwa28UoHXX246ASdK1N-fC566yV5USZfeqT6FLZQyk4e-L3K0923OfSahz9GFcsVFcsAeQBjGHSkMrqYaHmLhIdWfbxLHJqsQpjYWjh_JF4X6yistyUuXg9zAj9idsxZRhjK4ILIvZMf"/>
 <div class="text-center md:text-left">
-<span class="bg-stone-100 text-on-surface-variant text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-widest mb-2 inline-block">SELECT A CAPTAIN</span>
-<p class="text-on-surface-variant text-sm italic">Choose a captain from the list below to proceed.</p>
+<span class="bg-tertiary-fixed text-on-tertiary-fixed text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-widest mb-2 inline-block">OWNER'S RECOMMENDED CAPTAIN</span>
+<h3 class="font-serif text-xl text-on-surface font-headline" data-captain="name" style="font-family: 'Playfair Display', serif;">Capt. Marco Rossi</h3>
+<div class="flex items-center justify-center md:justify-start gap-1 text-sm mb-1">
+<span class="font-bold" data-captain="rating">★ 4.9</span>
+<span class="text-on-surface-variant" data-captain="trips">(127 trips)</span>
+</div>
+<p class="text-sm text-on-surface-variant italic" data-captain="bio">USCG licensed · 12 years on Lake Michigan</p>
 </div>
 </div>
 <div class="text-center md:text-right">
-<a class="text-primary font-bold text-sm flex items-center gap-2 hover:underline" href="#" onclick="showPickerView();return false;">
-    Choose a captain <span class="material-symbols-outlined text-sm">arrow_forward</span>
+<p class="text-xl font-bold text-on-surface mb-1" data-captain="rate">$240/day</p>
+<div class="flex items-center justify-center md:justify-end gap-1 text-secondary font-bold text-sm">
+<span class="material-symbols-outlined text-sm">check_circle</span>
+<span>Selected</span>
+</div>
+</div>
+</div>
+<a class="text-primary font-bold text-sm flex items-center gap-2 hover:underline inline-block" href="#" onclick="showPickerView();return false;">
+    Choose a different captain <span class="material-symbols-outlined text-sm">arrow_forward</span>
 </a>
-</div>
-</div>
 </section>
 </div>
 <!-- Captain Picker View -->
@@ -544,9 +552,8 @@ function escapeHtml(s){
 }
 
 function getCaptain(id){
-  if (!id) return { id:null, name:'', rate:0, hourly:0, rating:0, years:0, totalTrips:0, bio:'', avatar:'' };
   for (var i=0;i<CAPTAINS.length;i++) if(CAPTAINS[i].id===id) return CAPTAINS[i];
-  return { id:null, name:'', rate:0, hourly:0, rating:0, years:0, totalTrips:0, bio:'', avatar:'' };
+  return CAPTAINS[0] || { id:null, name:'(no captain)', rate:0, hourly:0, rating:0, years:0 };
 }
 
 function captainDisplayRate(c){
@@ -657,53 +664,14 @@ function updatePrice(){
   };
 
   // Captain summary always reflects the current mode's rate.
-  var recCard = document.getElementById('captain-recommended-card');
-  if (recCard) {
-    if (c && c.id) {
-      var avatarHtml = c.avatar
-        ? '<img alt="'+escapeHtml(c.name)+'" class="w-20 h-20 rounded-full object-cover" src="'+escapeHtml(c.avatar)+'"/>'
-        : '<div class="w-20 h-20 rounded-full bg-stone-200 flex items-center justify-center text-stone-500 font-bold">'+escapeHtml((c.name||'??').replace('Capt. ','').split(' ').map(function(p){return p[0]||'';}).join('').slice(0,2).toUpperCase())+'</div>';
-      var unitLabel = currentMode === 'hourly' ? 'hour' : 'day';
-      recCard.className = 'bg-surface-container-lowest p-6 rounded-2xl border-l-4 border-primary shadow-sm flex flex-col md:flex-row items-center justify-between gap-6 mb-4';
-      recCard.innerHTML = ''
-        + '<div class="flex flex-col md:flex-row items-center gap-6">'
-        +   avatarHtml
-        +   '<div class="text-center md:text-left">'
-        +     '<span class="bg-tertiary-fixed text-on-tertiary-fixed text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-widest mb-2 inline-block">OWNER\'S RECOMMENDED CAPTAIN</span>'
-        +     '<h3 class="font-serif text-xl text-on-surface font-headline" style="font-family: \'Playfair Display\', serif;">'+escapeHtml(c.name)+'</h3>'
-        +     '<div class="flex items-center justify-center md:justify-start gap-1 text-sm mb-1">'
-        +       '<span class="font-bold">★ '+(c.rating || '—')+'</span>'
-        +       '<span class="text-on-surface-variant">('+ (c.totalTrips||0) +' trips)</span>'
-        +     '</div>'
-        +     '<p class="text-sm text-on-surface-variant italic">'+escapeHtml(c.bio || '')+'</p>'
-        +   '</div>'
-        + '</div>'
-        + '<div class="text-center md:text-right">'
-        +   '<p class="text-xl font-bold text-on-surface mb-1">$'+ (c.rate || c.hourly || 0).toLocaleString() +'/'+unitLabel+'</p>'
-        +   '<div class="flex items-center justify-center md:justify-end gap-1 text-secondary font-bold text-sm">'
-        +     '<span class="material-symbols-outlined text-sm">check_circle</span>'
-        +     '<span>Selected</span>'
-        +   '</div>'
-        + '</div>';
-    } else {
-      recCard.className = 'bg-surface-container-lowest p-6 rounded-2xl border-l-4 border-outline-variant shadow-sm flex flex-col md:flex-row items-center justify-between gap-6 mb-4';
-      recCard.innerHTML = ''
-        + '<div class="flex flex-col md:flex-row items-center gap-6">'
-        +   '<div class="w-20 h-20 rounded-full bg-stone-200 flex items-center justify-center text-stone-400">'
-        +     '<span class="material-symbols-outlined text-3xl">person</span>'
-        +   '</div>'
-        +   '<div class="text-center md:text-left">'
-        +     '<span class="bg-stone-100 text-on-surface-variant text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-widest mb-2 inline-block">SELECT A CAPTAIN</span>'
-        +     '<p class="text-on-surface-variant text-sm italic">Choose a captain from the list below to proceed.</p>'
-        +   '</div>'
-        + '</div>'
-        + '<div class="text-center md:text-right">'
-        +   '<a class="text-primary font-bold text-sm flex items-center gap-2 hover:underline" href="#" onclick="showPickerView();return false;">'
-        +     'Choose a captain <span class="material-symbols-outlined text-sm">arrow_forward</span>'
-        +   '</a>'
-        + '</div>';
-    }
-  }
+  setText('[data-captain="name"]',       c.name);
+  setText('[data-captain="rating"]',     '★ ' + (c.rating || '—'));
+  var trips = document.querySelector('[data-captain="trips"]');
+  if (trips) trips.textContent = '(' + (c.totalTrips || 0) + ' trips)';
+  var bioEl = document.querySelector('[data-captain="bio"]');
+  if (bioEl) bioEl.textContent = c.bio || '';
+  var avEl = document.querySelector('[data-captain="avatar"]');
+  if (avEl && c.avatar) avEl.setAttribute('src', c.avatar);
 
   var params = getTripParams();
 
@@ -763,7 +731,6 @@ function updatePrice(){
 
 function reserveNow(){
   if (!BOAT) { showDateError('Boat data not loaded yet. Please wait.'); return; }
-  if (!selectedCaptainId) { showDateError('Please select a captain before booking.'); return; }
   var params = getTripParams();
   if (!params) { showDateError('Please complete trip details.'); return; }
   var now = new Date();
@@ -933,8 +900,8 @@ function applyCaptainsToState(captains, recommendedRaw){
     recId = recommendedRaw._id || recommendedRaw.id || recommendedRaw;
     if (typeof recId !== 'string') recId = String(recId);
   }
-  RECOMMENDED_CAPTAIN_ID = recId && CAPTAINS.find(function(c){ return c.id === recId; }) ? recId : null;
-  selectedCaptainId = null;
+  RECOMMENDED_CAPTAIN_ID = recId && CAPTAINS.find(function(c){ return c.id === recId; }) ? recId : (CAPTAINS[0] && CAPTAINS[0].id) || null;
+  selectedCaptainId = RECOMMENDED_CAPTAIN_ID;
 }
 
 function setupDateInputs(){
