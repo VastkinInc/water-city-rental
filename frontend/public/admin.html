@@ -14,6 +14,9 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
         rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
     <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
@@ -100,20 +103,6 @@
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
         }
-
-        .tab-active {
-            background: #a43c12;
-            color: #ffffff;
-        }
-
-        .tab-inactive {
-            background: #efeeeb;
-            color: #57423b;
-        }
-
-        .tab-inactive:hover {
-            background: #e3e2e0;
-        }
     </style>
 </head>
 
@@ -129,28 +118,37 @@
             </p>
         </div>
         <nav class="flex-1 space-y-1 pr-6">
-            <a id="nav-dashboard" class="flex items-center gap-3 px-4 py-3 text-stone-900 font-bold bg-white rounded-l-full shadow-sm translate-x-1 duration-200 group cursor-pointer"
-                onclick="showSection('dashboard')">
+            <!-- Active State Navigation -->
+            <a class="flex items-center gap-3 px-4 py-3 text-stone-900 font-bold bg-white rounded-l-full shadow-sm translate-x-1 duration-200 group"
+                href="#">
                 <span class="material-symbols-outlined text-primary">dashboard</span>
                 <span class="text-sm tracking-tight">Dashboard</span>
             </a>
-            <a id="nav-users" class="flex items-center gap-3 px-4 py-3 text-stone-500 hover:text-stone-800 hover:bg-stone-200/50 transition-all rounded-l-full group cursor-pointer"
-                onclick="showSection('users')">
+            <a class="flex items-center justify-between px-4 py-3 text-stone-500 hover:text-stone-800 hover:bg-stone-200/50 transition-all rounded-l-full group"
+                href="#">
+                <div class="flex items-center gap-3">
+                    <span class="material-symbols-outlined group-hover:text-primary">directions_boat</span>
+                    <span class="text-sm tracking-tight">Boat Approvals</span>
+                </div>
+                <span class="bg-primary text-on-primary text-[10px] font-bold px-1.5 py-0.5 rounded-full">5</span>
+            </a>
+            <a class="flex items-center gap-3 px-4 py-3 text-stone-500 hover:text-stone-800 hover:bg-stone-200/50 transition-all rounded-l-full group"
+                href="#">
                 <span class="material-symbols-outlined group-hover:text-primary">group</span>
                 <span class="text-sm tracking-tight">Users</span>
             </a>
-            <a id="nav-boats" class="flex items-center gap-3 px-4 py-3 text-stone-500 hover:text-stone-800 hover:bg-stone-200/50 transition-all rounded-l-full group cursor-pointer"
-                onclick="showSection('boats')">
-                <span class="material-symbols-outlined group-hover:text-primary">directions_boat</span>
-                <span class="text-sm tracking-tight">Boats</span>
-            </a>
-            <a id="nav-bookings" class="flex items-center gap-3 px-4 py-3 text-stone-500 hover:text-stone-800 hover:bg-stone-200/50 transition-all rounded-l-full group cursor-pointer"
-                onclick="showSection('bookings')">
+            <a class="flex items-center gap-3 px-4 py-3 text-stone-500 hover:text-stone-800 hover:bg-stone-200/50 transition-all rounded-l-full group"
+                href="#">
                 <span class="material-symbols-outlined group-hover:text-primary">anchor</span>
                 <span class="text-sm tracking-tight">All Bookings</span>
             </a>
-            <a class="flex items-center gap-3 px-4 py-3 text-stone-500 hover:text-stone-800 hover:bg-stone-200/50 transition-all rounded-l-full group cursor-pointer"
-                href="/profile">
+            <a class="flex items-center gap-3 px-4 py-3 text-stone-500 hover:text-stone-800 hover:bg-stone-200/50 transition-all rounded-l-full group"
+                href="#">
+                <span class="material-symbols-outlined group-hover:text-primary">payments</span>
+                <span class="text-sm tracking-tight">Transactions</span>
+            </a>
+            <a class="flex items-center gap-3 px-4 py-3 text-stone-500 hover:text-stone-800 hover:bg-stone-200/50 transition-all rounded-l-full group"
+                href="#">
                 <span class="material-symbols-outlined group-hover:text-primary">settings</span>
                 <span class="text-sm tracking-tight">Settings</span>
             </a>
@@ -201,92 +199,152 @@
             </div>
         </header>
         <div class="p-8 space-y-10 max-w-screen-2xl mx-auto w-full">
-
-            <!-- ═══════════════════════════════════════════ -->
-            <!-- DASHBOARD SECTION                           -->
-            <!-- ═══════════════════════════════════════════ -->
-            <section id="section-dashboard">
-                <!-- Statistics Bento Grid -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
-                    <div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm group hover:bg-primary-container transition-all duration-300">
-                        <p class="text-[10px] font-bold uppercase tracking-[0.15em] text-on-surface-variant group-hover:text-on-primary-container/70 mb-4">Total Users</p>
-                        <div class="flex items-end justify-between">
-                            <h3 id="stat-users" class="text-3xl font-serif text-stone-900 group-hover:text-on-primary-container">...</h3>
-                            <span class="text-secondary font-bold text-xs group-hover:text-on-primary-container">↑</span>
-                        </div>
-                    </div>
-                    <div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm group hover:bg-tertiary-container transition-all duration-300 border-l-4 border-tertiary">
-                        <p class="text-[10px] font-bold uppercase tracking-[0.15em] text-on-surface-variant group-hover:text-on-tertiary-container/70 mb-4">Pending Approvals</p>
-                        <div class="flex items-end justify-between">
-                            <h3 id="stat-pending" class="text-3xl font-serif text-stone-900 group-hover:text-on-tertiary-container">...</h3>
-                            <span class="material-symbols-outlined text-tertiary group-hover:text-on-tertiary-container">hourglass_empty</span>
-                        </div>
-                    </div>
-                    <div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm group hover:bg-secondary-container transition-all duration-300">
-                        <p class="text-[10px] font-bold uppercase tracking-[0.15em] text-on-surface-variant group-hover:text-on-secondary-container/70 mb-4">Active Bookings</p>
-                        <div class="flex items-end justify-between">
-                            <h3 id="stat-bookings" class="text-3xl font-serif text-stone-900 group-hover:text-on-secondary-container">...</h3>
-                            <span class="material-symbols-outlined text-secondary group-hover:text-on-secondary-container">sailing</span>
-                        </div>
-                    </div>
-                    <div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm group hover:bg-primary transition-all duration-300">
-                        <p class="text-[10px] font-bold uppercase tracking-[0.15em] text-on-surface-variant group-hover:text-on-primary/70 mb-4">Total Boats</p>
-                        <div class="flex items-end justify-between">
-                            <h3 id="stat-boats" class="text-3xl font-serif text-stone-900 group-hover:text-white">...</h3>
-                            <span class="material-symbols-outlined text-primary group-hover:text-white">directions_boat</span>
-                        </div>
+            <!-- Statistics Bento Grid -->
+            <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div
+                    class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm group hover:bg-primary-container transition-all duration-300">
+                    <p
+                        class="text-[10px] font-bold uppercase tracking-[0.15em] text-on-surface-variant group-hover:text-on-primary-container/70 mb-4">
+                        Total Users</p>
+                    <div class="flex items-end justify-between">
+                        <h3 class="text-3xl font-serif text-stone-900 group-hover:text-on-primary-container">1,240</h3>
+                        <span class="text-secondary font-bold text-xs group-hover:text-on-primary-container">+12%
+                            ↑</span>
                     </div>
                 </div>
-
-                <!-- Pending Approvals + Recent Activity -->
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start mb-10">
-                    <!-- Pending Approvals Table -->
-                    <section class="lg:col-span-2 space-y-4">
-                        <div class="flex justify-between items-center">
-                            <h4 class="font-serif text-xl italic text-stone-900">Pending Approvals</h4>
-                            <button onclick="showSection('boats')" class="text-xs font-bold uppercase tracking-widest text-primary hover:underline">View All</button>
-                        </div>
-                        <div class="bg-surface-container-lowest rounded-2xl overflow-hidden shadow-sm">
-                            <table class="w-full text-left">
-                                <thead class="bg-surface-container-low text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">
-                                    <tr>
-                                        <th class="px-6 py-4">Boat</th>
-                                        <th class="px-6 py-4">Owner</th>
-                                        <th class="px-6 py-4">Type</th>
-                                        <th class="px-6 py-4">Harbor</th>
-                                        <th class="px-6 py-4 text-right">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="pending-approvals-body" class="text-sm divide-y divide-surface-container text-on-surface">
-                                    <tr><td colspan="5" class="px-6 py-8 text-center text-on-surface-variant">Loading...</td></tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </section>
-                    <!-- Recent Activity Feed -->
-                    <section class="space-y-4">
-                        <h4 class="font-serif text-xl italic text-stone-900">Recent Activity</h4>
-                        <div id="recent-activity" class="bg-surface-container-high rounded-2xl p-6 space-y-6">
-                            <p class="text-sm text-on-surface-variant">Loading...</p>
-                        </div>
-                    </section>
+                <div
+                    class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm group hover:bg-tertiary-container transition-all duration-300 border-l-4 border-tertiary">
+                    <p
+                        class="text-[10px] font-bold uppercase tracking-[0.15em] text-on-surface-variant group-hover:text-on-tertiary-container/70 mb-4">
+                        Pending Approvals</p>
+                    <div class="flex items-end justify-between">
+                        <h3 class="text-3xl font-serif text-stone-900 group-hover:text-on-tertiary-container">5</h3>
+                        <span
+                            class="material-symbols-outlined text-tertiary group-hover:text-on-tertiary-container">hourglass_empty</span>
+                    </div>
                 </div>
-
-                <!-- Recent Bookings Summary -->
+                <div
+                    class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm group hover:bg-secondary-container transition-all duration-300">
+                    <p
+                        class="text-[10px] font-bold uppercase tracking-[0.15em] text-on-surface-variant group-hover:text-on-secondary-container/70 mb-4">
+                        Active Bookings</p>
+                    <div class="flex items-end justify-between">
+                        <h3 class="text-3xl font-serif text-stone-900 group-hover:text-on-secondary-container">38</h3>
+                        <span
+                            class="material-symbols-outlined text-secondary group-hover:text-on-secondary-container">sailing</span>
+                    </div>
+                </div>
+                <div
+                    class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm group hover:bg-primary transition-all duration-300">
+                    <p
+                        class="text-[10px] font-bold uppercase tracking-[0.15em] text-on-surface-variant group-hover:text-on-primary/70 mb-4">
+                        Monthly Revenue</p>
+                    <div class="flex items-end justify-between">
+                        <h3 class="text-3xl font-serif text-stone-900 group-hover:text-white">$28,400</h3>
+                        <span class="material-symbols-outlined text-primary group-hover:text-white">payments</span>
+                    </div>
+                </div>
+            </section>
+            <!-- Pending Approvals & Recent Activities Row -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+                <!-- Pending Approvals Table -->
+                <section class="lg:col-span-2 space-y-4">
+                    <div class="flex justify-between items-center">
+                        <h4 class="font-serif text-xl italic text-stone-900">Pending Approvals</h4>
+                        <button class="text-xs font-bold uppercase tracking-widest text-primary hover:underline">View
+                            All Queue</button>
+                    </div>
+                    <div class="bg-surface-container-lowest rounded-2xl overflow-hidden shadow-sm">
+                        <table class="w-full text-left">
+                            <thead
+                                class="bg-surface-container-low text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">
+                                <tr>
+                                    <th class="px-6 py-4">Boat</th>
+                                    <th class="px-6 py-4">Owner</th>
+                                    <th class="px-6 py-4">Type</th>
+                                    <th class="px-6 py-4">Submitted</th>
+                                    <th class="px-6 py-4 text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-sm divide-y divide-surface-container text-on-surface">
+                                <tr class="hover:bg-surface-container-low/30 transition-colors">
+                                    <td class="px-6 py-4 font-semibold">Morning Star</td>
+                                    <td class="px-6 py-4">Erik V.</td>
+                                    <td class="px-6 py-4">Sailing Yacht</td>
+                                    <td class="px-6 py-4 text-on-surface-variant">2h ago</td>
+                                    <td class="px-6 py-4 text-right space-x-2">
+                                        <button
+                                            class="bg-secondary-container text-on-secondary-container text-[10px] font-bold uppercase px-3 py-1.5 rounded-full hover:brightness-95 transition-all">Approve</button>
+                                        <button
+                                            class="bg-error-container text-on-error-container text-[10px] font-bold uppercase px-3 py-1.5 rounded-full hover:brightness-95 transition-all">Reject</button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-surface-container-low/30 transition-colors">
+                                    <td class="px-6 py-4 font-semibold">Blue Horizon</td>
+                                    <td class="px-6 py-4">Elena S.</td>
+                                    <td class="px-6 py-4">Catamaran</td>
+                                    <td class="px-6 py-4 text-on-surface-variant">5h ago</td>
+                                    <td class="px-6 py-4 text-right space-x-2">
+                                        <button
+                                            class="bg-secondary-container text-on-secondary-container text-[10px] font-bold uppercase px-3 py-1.5 rounded-full hover:brightness-95 transition-all">Approve</button>
+                                        <button
+                                            class="bg-error-container text-on-error-container text-[10px] font-bold uppercase px-3 py-1.5 rounded-full hover:brightness-95 transition-all">Reject</button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-surface-container-low/30 transition-colors">
+                                    <td class="px-6 py-4 font-semibold">Aqua Cruiser</td>
+                                    <td class="px-6 py-4">Marcus L.</td>
+                                    <td class="px-6 py-4">Motor Boat</td>
+                                    <td class="px-6 py-4 text-on-surface-variant">1d ago</td>
+                                    <td class="px-6 py-4 text-right space-x-2">
+                                        <button
+                                            class="bg-secondary-container text-on-secondary-container text-[10px] font-bold uppercase px-3 py-1.5 rounded-full hover:brightness-95 transition-all">Approve</button>
+                                        <button
+                                            class="bg-error-container text-on-error-container text-[10px] font-bold uppercase px-3 py-1.5 rounded-full hover:brightness-95 transition-all">Reject</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+                <!-- Recent Activity Feed (Magazine Style) -->
                 <section class="space-y-4">
-                    <h4 class="font-serif text-xl italic text-stone-900">Recent Bookings</h4>
-                    <div class="bg-surface-container-lowest rounded-2xl shadow-sm overflow-hidden">
-                        <div id="recent-bookings-summary" class="grid grid-cols-1 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-surface-container">
-                            <p class="p-6 text-sm text-on-surface-variant">Loading...</p>
+                    <h4 class="font-serif text-xl italic text-stone-900">Recent Logs</h4>
+                    <div class="bg-surface-container-high rounded-2xl p-6 space-y-6">
+                        <div class="flex gap-4">
+                            <div class="w-2 h-2 mt-1.5 rounded-full bg-primary shrink-0"></div>
+                            <div>
+                                <p class="text-sm font-bold">New Booking Confirmed</p>
+                                <p class="text-xs text-on-surface-variant">"Sapphire Dreams" booked for Jul 12-14</p>
+                                <span
+                                    class="text-[10px] text-on-surface-variant uppercase tracking-widest mt-1 block">12
+                                    mins ago</span>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="w-2 h-2 mt-1.5 rounded-full bg-secondary shrink-0"></div>
+                            <div>
+                                <p class="text-sm font-bold">Captain Verification</p>
+                                <p class="text-xs text-on-surface-variant">Captain Sarah J. updated credentials</p>
+                                <span
+                                    class="text-[10px] text-on-surface-variant uppercase tracking-widest mt-1 block">48
+                                    mins ago</span>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="w-2 h-2 mt-1.5 rounded-full bg-tertiary shrink-0"></div>
+                            <div>
+                                <p class="text-sm font-bold">Payment Disbursed</p>
+                                <p class="text-xs text-on-surface-variant">$4,200 sent to Marina West</p>
+                                <span class="text-[10px] text-on-surface-variant uppercase tracking-widest mt-1 block">2
+                                    hours ago</span>
+                            </div>
                         </div>
                     </div>
                 </section>
-            </section>
-
-            <!-- ═══════════════════════════════════════════ -->
-            <!-- USERS SECTION                              -->
-            <!-- ═══════════════════════════════════════════ -->
-            <section id="section-users" class="hidden space-y-6">
+            </div>
+            <!-- User Management Section -->
+            <section class="space-y-6">
                 <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <div>
                         <h4 class="font-serif text-xl italic text-stone-900">User Management</h4>
@@ -294,126 +352,190 @@
                     </div>
                     <div class="flex flex-wrap items-center gap-3">
                         <div class="relative">
-                            <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">filter_list</span>
-                            <select id="user-role-filter" onchange="filterUsers()"
+                            <span
+                                class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">filter_list</span>
+                            <select
                                 class="bg-white border-none rounded-full py-2 pl-10 pr-8 text-xs font-bold uppercase tracking-wider focus:ring-2 focus:ring-tertiary appearance-none">
-                                <option value="all">All Roles</option>
-                                <option value="owner">Owner</option>
-                                <option value="captain">Captain</option>
-                                <option value="customer">Customer</option>
-                                <option value="admin">Admin</option>
+                                <option>All Roles</option>
+                                <option>Owner</option>
+                                <option>Captain</option>
+                                <option>Customer</option>
+                                <option>Admin</option>
                             </select>
                         </div>
+                        <button
+                            class="bg-primary text-on-primary text-[10px] font-bold uppercase tracking-[0.15em] px-6 py-2.5 rounded-full shadow-sm hover:translate-y-[-1px] active:scale-95 transition-all">Add
+                            New User</button>
                     </div>
                 </div>
                 <div class="bg-surface-container-lowest rounded-2xl shadow-sm overflow-hidden border-t-0">
                     <table class="w-full text-left">
-                        <thead class="bg-surface-container-low text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">
+                        <thead
+                            class="bg-surface-container-low text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">
                             <tr>
                                 <th class="px-6 py-4">User</th>
                                 <th class="px-6 py-4">Email</th>
                                 <th class="px-6 py-4">Role</th>
                                 <th class="px-6 py-4">Status</th>
                                 <th class="px-6 py-4">Joined</th>
-                            </tr>
-                        </thead>
-                        <tbody id="users-table-body" class="text-sm divide-y divide-surface-container text-on-surface">
-                            <tr><td colspan="5" class="px-6 py-8 text-center text-on-surface-variant">Loading users...</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-            </section>
-
-            <!-- ═══════════════════════════════════════════ -->
-            <!-- BOATS SECTION                              -->
-            <!-- ═══════════════════════════════════════════ -->
-            <section id="section-boats" class="hidden space-y-6">
-                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                    <div>
-                        <h4 class="font-serif text-xl italic text-stone-900">Boat Management</h4>
-                        <p class="text-xs text-on-surface-variant">Manage all listed boats and approvals.</p>
-                    </div>
-                    <div class="flex flex-wrap items-center gap-3">
-                        <div class="relative">
-                            <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">filter_list</span>
-                            <select id="boat-status-filter" onchange="filterBoats()"
-                                class="bg-white border-none rounded-full py-2 pl-10 pr-8 text-xs font-bold uppercase tracking-wider focus:ring-2 focus:ring-tertiary appearance-none">
-                                <option value="all">All Status</option>
-                                <option value="pending">Pending</option>
-                                <option value="active">Active</option>
-                                <option value="inactive">Inactive</option>
-                                <option value="suspended">Suspended</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-surface-container-lowest rounded-2xl shadow-sm overflow-hidden border-t-0">
-                    <table class="w-full text-left">
-                        <thead class="bg-surface-container-low text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">
-                            <tr>
-                                <th class="px-6 py-4">Boat</th>
-                                <th class="px-6 py-4">Owner</th>
-                                <th class="px-6 py-4">Type</th>
-                                <th class="px-6 py-4">Harbor</th>
-                                <th class="px-6 py-4">Rate</th>
-                                <th class="px-6 py-4">Status</th>
                                 <th class="px-6 py-4 text-right">Action</th>
                             </tr>
                         </thead>
-                        <tbody id="boats-table-body" class="text-sm divide-y divide-surface-container text-on-surface">
-                            <tr><td colspan="7" class="px-6 py-8 text-center text-on-surface-variant">Loading boats...</td></tr>
+                        <tbody class="text-sm divide-y divide-surface-container text-on-surface">
+                            <tr class="hover:bg-surface-container-low/30 transition-colors">
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center gap-3">
+                                        <img alt="User" class="w-8 h-8 rounded-full"
+                                            data-alt="Portrait of a young male customer with a friendly expression, professional headshot style"
+                                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAYQ2W_pRfJ3sTUUjNEGT5oLmwN8H15LKt7YDsHhHYMp7vvYE2y1jsrm4BA0SYWMeqTEdUYZ6G5e5yofdCuCDrzhSxFTZBCNtOb6Qp_1pz3XG959B6ytpdiJPRV92PPNIO_cxd4waQB45VHdDSWllY1UAuCnVXBYimrxgZui_SVJhv0oTljMbQYo5e6S69NG9RkqxNnOQUP7gHYx4Bdvz_C1AUYLDU20M8ySBGjtOwUoBlog7-aPbLBUa07Ki7sIFnLORBHCUCYmzkI" />
+                                        <span class="font-bold">Julian Pearce</span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 text-on-surface-variant">j.pearce@example.com</td>
+                                <td class="px-6 py-4">
+                                    <span
+                                        class="bg-stone-100 text-stone-600 text-[9px] font-bold uppercase px-2 py-0.5 rounded-full">Customer</span>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span class="flex items-center gap-1.5 text-secondary text-xs font-semibold">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> Active
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 text-on-surface-variant">Jun 14, 2023</td>
+                                <td class="px-6 py-4 text-right">
+                                    <button class="text-on-surface-variant hover:text-stone-900"><span
+                                            class="material-symbols-outlined">more_horiz</span></button>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-surface-container-low/30 transition-colors">
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center gap-3">
+                                        <img alt="User" class="w-8 h-8 rounded-full"
+                                            data-alt="Close-up portrait of a woman boat owner, confident and smiling, outdoors with soft lighting"
+                                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuA7bZFzqS7BLa0eztspOTKTM801xiLOK_8H9WbsiCLHXoEsy7LPn8eRts8UBFytdQzTPBf9bUsMaCJ9YjUG_eT590Uef_lTORKRzGBj_Gg-VGAbxomKCZ9epnwvL8tyb3MHLMdc_a0KRc3-0Uh4--WLZu96kYWb62wngPb3iO4U2GlFV_rW6_VA7HcsRglQs_zlSeG2VyuDUz0l62BCQS1jubsqMAQaBFiKsXEeVFmXDXs_lWwjWSFzoUgs46RzVG3HfFeBrxFMUUKK" />
+                                        <span class="font-bold">Sofia Vergara</span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 text-on-surface-variant">sofia.v@oceanrentals.com</td>
+                                <td class="px-6 py-4">
+                                    <span
+                                        class="bg-primary-fixed text-on-primary-fixed-variant text-[9px] font-bold uppercase px-2 py-0.5 rounded-full">Owner</span>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span class="flex items-center gap-1.5 text-secondary text-xs font-semibold">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> Active
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 text-on-surface-variant">May 02, 2023</td>
+                                <td class="px-6 py-4 text-right">
+                                    <button class="text-on-surface-variant hover:text-stone-900"><span
+                                            class="material-symbols-outlined">more_horiz</span></button>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-surface-container-low/30 transition-colors">
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center gap-3">
+                                        <img alt="User" class="w-8 h-8 rounded-full"
+                                            data-alt="Portrait of a male ship captain in uniform, professional and authoritative expression, neutral background"
+                                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBDrsOE4xtKrbd1W614apBh300hnwB0HyK_Q1l5PjS3lliG2NN-YBVVILJ3X3XyC1pF6D4HBMwh3lJ8kg9vuJEI2fSz0RcLL26L38dRThs7ptrgussw_pj_ff1RQDB7KgH9cR76Tj4-YvXpWvFrCSQQy29jGJHYdbDEuXRPNzluhq6DsE7M5d3eGocdWHIvzRbfbOWJHu-MUfrsaurlVe6LGHxySdZjdhRAyCc5ISPJxQlnT6VA2PXerM9PntwfRP1WwJ6hiJonXhA" />
+                                        <span class="font-bold">Cap. Arthur Morgan</span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 text-on-surface-variant">a.morgan@vessels.net</td>
+                                <td class="px-6 py-4">
+                                    <span
+                                        class="bg-tertiary-container text-on-tertiary-container text-[9px] font-bold uppercase px-2 py-0.5 rounded-full">Captain</span>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span class="flex items-center gap-1.5 text-stone-400 text-xs font-semibold">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-stone-300"></span> Offline
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 text-on-surface-variant">Feb 28, 2023</td>
+                                <td class="px-6 py-4 text-right">
+                                    <button class="text-on-surface-variant hover:text-stone-900"><span
+                                            class="material-symbols-outlined">more_horiz</span></button>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-surface-container-low/30 transition-colors">
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center gap-3">
+                                        <div
+                                            class="w-8 h-8 rounded-full bg-stone-900 flex items-center justify-center text-white text-[10px] font-bold">
+                                            SY</div>
+                                        <span class="font-bold">System Yacht</span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 text-on-surface-variant">admin@watercity.com</td>
+                                <td class="px-6 py-4">
+                                    <span
+                                        class="bg-secondary-container text-on-secondary-container text-[9px] font-bold uppercase px-2 py-0.5 rounded-full">Admin</span>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span class="flex items-center gap-1.5 text-secondary text-xs font-semibold">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> Active
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 text-on-surface-variant">Jan 01, 2023</td>
+                                <td class="px-6 py-4 text-right">
+                                    <button class="text-on-surface-variant hover:text-stone-900"><span
+                                            class="material-symbols-outlined">more_horiz</span></button>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
             </section>
-
-            <!-- ═══════════════════════════════════════════ -->
-            <!-- BOOKINGS SECTION                           -->
-            <!-- ═══════════════════════════════════════════ -->
-            <section id="section-bookings" class="hidden space-y-6">
-                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                    <div>
-                        <h4 class="font-serif text-xl italic text-stone-900">All Bookings</h4>
-                        <p class="text-xs text-on-surface-variant">View and manage all platform bookings.</p>
-                    </div>
-                    <div class="flex flex-wrap items-center gap-3">
-                        <div class="relative">
-                            <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">filter_list</span>
-                            <select id="booking-status-filter" onchange="filterBookings()"
-                                class="bg-white border-none rounded-full py-2 pl-10 pr-8 text-xs font-bold uppercase tracking-wider focus:ring-2 focus:ring-tertiary appearance-none">
-                                <option value="all">All Status</option>
-                                <option value="pending">Pending</option>
-                                <option value="confirmed">Confirmed</option>
-                                <option value="completed">Completed</option>
-                                <option value="cancelled">Cancelled</option>
-                            </select>
+            <!-- Recent Bookings Summary -->
+            <section class="space-y-4">
+                <h4 class="font-serif text-xl italic text-stone-900">Recent Bookings Summary</h4>
+                <div class="bg-surface-container-lowest rounded-2xl shadow-sm overflow-hidden">
+                    <div
+                        class="grid grid-cols-1 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-surface-container">
+                        <div class="p-6">
+                            <span
+                                class="bg-secondary-container/50 text-on-secondary-container text-[9px] font-extrabold uppercase px-2 py-0.5 rounded mb-3 inline-block">Confirmed</span>
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm font-bold">Vesper Lyra</span>
+                                <span class="text-xs text-on-surface-variant">$2,400</span>
+                            </div>
+                            <p class="text-[10px] text-on-surface-variant mt-1 italic">3 Days Charter • Jul 14</p>
+                        </div>
+                        <div class="p-6">
+                            <span
+                                class="bg-tertiary-container/50 text-on-tertiary-container text-[9px] font-extrabold uppercase px-2 py-0.5 rounded mb-3 inline-block">Pending</span>
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm font-bold">Wave Runner</span>
+                                <span class="text-xs text-on-surface-variant">$850</span>
+                            </div>
+                            <p class="text-[10px] text-on-surface-variant mt-1 italic">Sunset Tour • Jul 16</p>
+                        </div>
+                        <div class="p-6">
+                            <span
+                                class="bg-secondary-container/50 text-on-secondary-container text-[9px] font-extrabold uppercase px-2 py-0.5 rounded mb-3 inline-block">Confirmed</span>
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm font-bold">Deep Sea IV</span>
+                                <span class="text-xs text-on-surface-variant">$1,200</span>
+                            </div>
+                            <p class="text-[10px] text-on-surface-variant mt-1 italic">Fishing Expedition • Jul 15</p>
+                        </div>
+                        <div class="p-6">
+                            <span
+                                class="bg-error-container/50 text-on-error-container text-[9px] font-extrabold uppercase px-2 py-0.5 rounded mb-3 inline-block">Cancelled</span>
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm font-bold">The Gilded Deck</span>
+                                <span class="text-xs text-on-surface-variant">$5,500</span>
+                            </div>
+                            <p class="text-[10px] text-on-surface-variant mt-1 italic">Corporate Event • Aug 01</p>
                         </div>
                     </div>
-                </div>
-                <div class="bg-surface-container-lowest rounded-2xl shadow-sm overflow-hidden border-t-0">
-                    <table class="w-full text-left">
-                        <thead class="bg-surface-container-low text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">
-                            <tr>
-                                <th class="px-6 py-4">Booking #</th>
-                                <th class="px-6 py-4">Customer</th>
-                                <th class="px-6 py-4">Boat</th>
-                                <th class="px-6 py-4">Captain</th>
-                                <th class="px-6 py-4">Dates</th>
-                                <th class="px-6 py-4">Total</th>
-                                <th class="px-6 py-4">Status</th>
-                            </tr>
-                        </thead>
-                        <tbody id="bookings-table-body" class="text-sm divide-y divide-surface-container text-on-surface">
-                            <tr><td colspan="7" class="px-6 py-8 text-center text-on-surface-variant">Loading bookings...</td></tr>
-                        </tbody>
-                    </table>
                 </div>
             </section>
         </div>
         <!-- Footer / System Info -->
         <footer
             class="mt-auto p-8 flex flex-col md:flex-row justify-between items-center text-[10px] font-bold uppercase tracking-widest text-on-surface-variant/60">
-            <p>© 2025 Water City Rental Operations Unit</p>
+            <p>© 2024 Water City Rental Operations Unit</p>
             <div class="flex gap-6 mt-4 md:mt-0">
                 <a class="hover:text-primary transition-colors" href="#">API Docs</a>
                 <a class="hover:text-primary transition-colors" href="#">Server Status</a>
@@ -426,342 +548,7 @@
         class="fixed bottom-8 right-8 w-14 h-14 bg-primary text-on-primary rounded-full shadow-2xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all z-50">
         <span class="material-symbols-outlined text-2xl">add</span>
     </button>
-
 <script>
-/* ═══════════════════════════════════════════════════════════ */
-/*  ADMIN DASHBOARD — REAL DATA                              */
-/* ═══════════════════════════════════════════════════════════ */
-
-var allUsers = [];
-var allBoats = [];
-var allBookings = [];
-var statsData = {};
-
-/* ─── NAVIGATION ────────────────────────────────────────── */
-function showSection(name) {
-    ['dashboard','users','boats','bookings'].forEach(function(s) {
-        var sec = document.getElementById('section-' + s);
-        var nav = document.getElementById('nav-' + s);
-        if (sec) sec.classList.toggle('hidden', s !== name);
-        if (nav) {
-            nav.className = s === name
-                ? 'flex items-center gap-3 px-4 py-3 text-stone-900 font-bold bg-white rounded-l-full shadow-sm translate-x-1 duration-200 group cursor-pointer'
-                : 'flex items-center gap-3 px-4 py-3 text-stone-500 hover:text-stone-800 hover:bg-stone-200/50 transition-all rounded-l-full group cursor-pointer';
-        }
-    });
-}
-
-/* ─── ROLE BADGE ────────────────────────────────────────── */
-function roleBadge(role) {
-    var colors = {
-        customer: 'bg-stone-100 text-stone-600',
-        owner:    'bg-primary-fixed text-on-primary-fixed-variant',
-        captain:  'bg-tertiary-container text-on-tertiary-container',
-        admin:    'bg-secondary-container text-on-secondary-container'
-    };
-    return '<span class="' + (colors[role] || 'bg-stone-100 text-stone-600') + ' text-[9px] font-bold uppercase px-2 py-0.5 rounded-full">' + role + '</span>';
-}
-
-/* ─── STATUS BADGE ──────────────────────────────────────── */
-function statusBadge(status) {
-    var colors = {
-        active:    'text-secondary',
-        pending:   'text-tertiary',
-        inactive:  'text-stone-400',
-        suspended: 'text-error',
-        confirmed: 'text-secondary',
-        completed: 'text-secondary',
-        cancelled: 'text-error',
-        paid:      'text-secondary',
-        unpaid:    'text-tertiary',
-        failed:    'text-error',
-        refunded:  'text-on-surface-variant'
-    };
-    var dotColors = {
-        active:    'bg-secondary',
-        pending:   'bg-tertiary',
-        inactive:  'bg-stone-300',
-        suspended: 'bg-error',
-        confirmed: 'bg-secondary',
-        completed: 'bg-secondary',
-        cancelled: 'bg-error',
-        paid:      'bg-secondary',
-        unpaid:    'bg-tertiary',
-        failed:    'bg-error',
-        refunded:  'bg-stone-400'
-    };
-    return '<span class="flex items-center gap-1.5 ' + (colors[status] || 'text-stone-400') + ' text-xs font-semibold">' +
-           '<span class="w-1.5 h-1.5 rounded-full ' + (dotColors[status] || 'bg-stone-300') + '"></span> ' + status + '</span>';
-}
-
-/* ─── TIME AGO ──────────────────────────────────────────── */
-function timeAgo(dateStr) {
-    var diff = Date.now() - new Date(dateStr).getTime();
-    var mins = Math.floor(diff / 60000);
-    if (mins < 1) return 'Just now';
-    if (mins < 60) return mins + 'm ago';
-    var hrs = Math.floor(mins / 60);
-    if (hrs < 24) return hrs + 'h ago';
-    var days = Math.floor(hrs / 24);
-    return days + 'd ago';
-}
-
-/* ─── FORMAT DATE ───────────────────────────────────────── */
-function fmtDate(dateStr) {
-    if (!dateStr) return '—';
-    return new Date(dateStr).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-}
-
-/* ─── FORMAT CURRENCY ───────────────────────────────────── */
-function fmtMoney(n) {
-    if (!n && n !== 0) return '—';
-    return '$' + Number(n).toLocaleString('en-US');
-}
-
-/* ─── INITIALS AVATAR ───────────────────────────────────── */
-function initialsAvatar(name) {
-    var parts = (name || 'U').split(' ');
-    var initials = parts.map(function(p){ return p.charAt(0); }).join('').substring(0,2).toUpperCase();
-    return '<div class="w-8 h-8 rounded-full bg-stone-900 flex items-center justify-center text-white text-[10px] font-bold">' + initials + '</div>';
-}
-
-/* ═══════════════════════════════════════════════════════════ */
-/*  DATA LOADING                                            */
-/* ═══════════════════════════════════════════════════════════ */
-
-async function loadAll() {
-    try {
-        var results = await Promise.all([
-            WCR._call('GET', '/admin/stats'),
-            WCR._call('GET', '/admin/users'),
-            WCR._call('GET', '/admin/boats'),
-            WCR._call('GET', '/admin/bookings')
-        ]);
-        statsData = results[0].data || {};
-        allUsers  = results[1].data || [];
-        allBoats  = results[2].data || [];
-        allBookings = results[3].data || [];
-
-        renderStats();
-        renderPendingApprovals();
-        renderRecentActivity();
-        renderRecentBookingsSummary();
-        renderUsersTable();
-        renderBoatsTable();
-        renderBookingsTable();
-    } catch (err) {
-        console.error('Admin load error:', err);
-    }
-}
-
-/* ─── STATS CARDS ───────────────────────────────────────── */
-function renderStats() {
-    document.getElementById('stat-users').textContent    = (statsData.totalUsers || 0).toLocaleString();
-    document.getElementById('stat-pending').textContent  = (statsData.bookingsByStatus && statsData.bookingsByStatus.pending || 0).toString();
-    document.getElementById('stat-bookings').textContent = (statsData.totalBookings || 0).toLocaleString();
-    document.getElementById('stat-boats').textContent    = (statsData.totalBoats || 0).toLocaleString();
-}
-
-/* ─── PENDING APPROVALS (boats with status=pending) ────── */
-function renderPendingApprovals() {
-    var pending = allBoats.filter(function(b) { return b.status === 'pending'; });
-    var tbody = document.getElementById('pending-approvals-body');
-    if (pending.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="5" class="px-6 py-8 text-center text-on-surface-variant">No pending approvals</td></tr>';
-        return;
-    }
-    tbody.innerHTML = pending.slice(0, 5).map(function(b) {
-        return '<tr class="hover:bg-surface-container-low/30 transition-colors">' +
-            '<td class="px-6 py-4 font-semibold">' + (b.name || 'Unnamed') + '</td>' +
-            '<td class="px-6 py-4">' + (b.owner && b.owner.name || '—') + '</td>' +
-            '<td class="px-6 py-4">' + (b.type || '—') + '</td>' +
-            '<td class="px-6 py-4 text-on-surface-variant">' + (b.harbor || '—') + '</td>' +
-            '<td class="px-6 py-4 text-right space-x-2">' +
-                '<button onclick="approveBoat(\'' + b._id + '\')" class="bg-secondary-container text-on-secondary-container text-[10px] font-bold uppercase px-3 py-1.5 rounded-full hover:brightness-95 transition-all">Approve</button>' +
-                '<button onclick="rejectBoat(\'' + b._id + '\')" class="bg-error-container text-on-error-container text-[10px] font-bold uppercase px-3 py-1.5 rounded-full hover:brightness-95 transition-all">Reject</button>' +
-            '</td></tr>';
-    }).join('');
-}
-
-/* ─── RECENT ACTIVITY (from recent bookings) ────────────── */
-function renderRecentActivity() {
-    var container = document.getElementById('recent-activity');
-    var recent = allBookings.slice(0, 5);
-    if (recent.length === 0) {
-        container.innerHTML = '<p class="text-sm text-on-surface-variant">No recent activity</p>';
-        return;
-    }
-    container.innerHTML = recent.map(function(b, i) {
-        var dotColors = ['bg-primary', 'bg-secondary', 'bg-tertiary', 'bg-primary', 'bg-secondary'];
-        var label = b.status === 'confirmed' ? 'Booking Confirmed' :
-                    b.status === 'pending' ? 'New Booking' :
-                    b.status === 'completed' ? 'Trip Completed' :
-                    b.status === 'cancelled' ? 'Booking Cancelled' : 'Booking Updated';
-        var boatName = b.boat && b.boat.name || 'Unknown Boat';
-        return '<div class="flex gap-4">' +
-            '<div class="w-2 h-2 mt-1.5 rounded-full ' + dotColors[i % dotColors.length] + ' shrink-0"></div>' +
-            '<div>' +
-                '<p class="text-sm font-bold">' + label + '</p>' +
-                '<p class="text-xs text-on-surface-variant">"' + boatName + '" — ' + fmtMoney(b.grandTotal) + '</p>' +
-                '<span class="text-[10px] text-on-surface-variant uppercase tracking-widest mt-1 block">' + timeAgo(b.createdAt) + '</span>' +
-            '</div></div>';
-    }).join('');
-}
-
-/* ─── RECENT BOOKINGS SUMMARY (4 cards) ─────────────────── */
-function renderRecentBookingsSummary() {
-    var container = document.getElementById('recent-bookings-summary');
-    var recent = allBookings.slice(0, 4);
-    if (recent.length === 0) {
-        container.innerHTML = '<p class="p-6 text-sm text-on-surface-variant">No bookings yet</p>';
-        return;
-    }
-    var statusColors = {
-        confirmed: 'bg-secondary-container/50 text-on-secondary-container',
-        pending:   'bg-tertiary-container/50 text-on-tertiary-container',
-        completed: 'bg-secondary-container/50 text-on-secondary-container',
-        cancelled: 'bg-error-container/50 text-on-error-container'
-    };
-    container.innerHTML = recent.map(function(b) {
-        var boatName = b.boat && b.boat.name || 'Unknown';
-        var sc = statusColors[b.status] || 'bg-stone-100 text-stone-600';
-        return '<div class="p-6">' +
-            '<span class="' + sc + ' text-[9px] font-extrabold uppercase px-2 py-0.5 rounded mb-3 inline-block">' + b.status + '</span>' +
-            '<div class="flex items-center justify-between">' +
-                '<span class="text-sm font-bold">' + boatName + '</span>' +
-                '<span class="text-xs text-on-surface-variant">' + fmtMoney(b.grandTotal) + '</span>' +
-            '</div>' +
-            '<p class="text-[10px] text-on-surface-variant mt-1 italic">' + fmtDate(b.startDate) + '</p>' +
-        '</div>';
-    }).join('');
-}
-
-/* ─── USERS TABLE ───────────────────────────────────────── */
-function renderUsersTable() {
-    var filter = document.getElementById('user-role-filter').value;
-    var filtered = filter === 'all' ? allUsers : allUsers.filter(function(u) { return u.role === filter; });
-    var tbody = document.getElementById('users-table-body');
-    if (filtered.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="5" class="px-6 py-8 text-center text-on-surface-variant">No users found</td></tr>';
-        return;
-    }
-    tbody.innerHTML = filtered.map(function(u) {
-        var statusClass = u.isActive !== false ? 'text-secondary' : 'text-stone-400';
-        var statusDot = u.isActive !== false ? 'bg-secondary' : 'bg-stone-300';
-        var statusLabel = u.isActive !== false ? 'Active' : 'Inactive';
-        return '<tr class="hover:bg-surface-container-low/30 transition-colors">' +
-            '<td class="px-6 py-4"><div class="flex items-center gap-3">' + initialsAvatar(u.name) + '<span class="font-bold">' + (u.name || 'Unnamed') + '</span></div></td>' +
-            '<td class="px-6 py-4 text-on-surface-variant">' + (u.email || '—') + '</td>' +
-            '<td class="px-6 py-4">' + roleBadge(u.role) + '</td>' +
-            '<td class="px-6 py-4"><span class="flex items-center gap-1.5 ' + statusClass + ' text-xs font-semibold"><span class="w-1.5 h-1.5 rounded-full ' + statusDot + '"></span> ' + statusLabel + '</span></td>' +
-            '<td class="px-6 py-4 text-on-surface-variant">' + fmtDate(u.createdAt) + '</td>' +
-        '</tr>';
-    }).join('');
-}
-
-function filterUsers() { renderUsersTable(); }
-
-/* ─── BOATS TABLE ───────────────────────────────────────── */
-function renderBoatsTable() {
-    var filter = document.getElementById('boat-status-filter').value;
-    var filtered = filter === 'all' ? allBoats : allBoats.filter(function(b) { return b.status === filter; });
-    var tbody = document.getElementById('boats-table-body');
-    if (filtered.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="7" class="px-6 py-8 text-center text-on-surface-variant">No boats found</td></tr>';
-        return;
-    }
-    tbody.innerHTML = filtered.map(function(b) {
-        var rate = b.rateType === 'hourly' ? fmtMoney(b.hourlyRate) + '/hr' : fmtMoney(b.dayRate) + '/day';
-        var ownerName = b.owner && b.owner.name || '—';
-        var actions = '';
-        if (b.status === 'pending') {
-            actions = '<button onclick="approveBoat(\'' + b._id + '\')" class="bg-secondary-container text-on-secondary-container text-[10px] font-bold uppercase px-3 py-1.5 rounded-full hover:brightness-95 transition-all">Approve</button>' +
-                      ' <button onclick="rejectBoat(\'' + b._id + '\')" class="bg-error-container text-on-error-container text-[10px] font-bold uppercase px-3 py-1.5 rounded-full hover:brightness-95 transition-all">Reject</button>';
-        } else {
-            actions = '<button onclick="toggleBoatStatus(\'' + b._id + '\', \'' + b.status + '\')" class="bg-surface-container-high text-on-surface-variant text-[10px] font-bold uppercase px-3 py-1.5 rounded-full hover:brightness-95 transition-all">' + (b.status === 'active' ? 'Suspend' : 'Activate') + '</button>';
-        }
-        return '<tr class="hover:bg-surface-container-low/30 transition-colors">' +
-            '<td class="px-6 py-4 font-semibold">' + (b.name || 'Unnamed') + '</td>' +
-            '<td class="px-6 py-4">' + ownerName + '</td>' +
-            '<td class="px-6 py-4">' + (b.type || '—') + '</td>' +
-            '<td class="px-6 py-4 text-on-surface-variant">' + (b.harbor || '—') + '</td>' +
-            '<td class="px-6 py-4">' + rate + '</td>' +
-            '<td class="px-6 py-4">' + statusBadge(b.status) + '</td>' +
-            '<td class="px-6 py-4 text-right">' + actions + '</td>' +
-        '</tr>';
-    }).join('');
-}
-
-function filterBoats() { renderBoatsTable(); }
-
-/* ─── BOOKINGS TABLE ────────────────────────────────────── */
-function renderBookingsTable() {
-    var filter = document.getElementById('booking-status-filter').value;
-    var filtered = filter === 'all' ? allBookings : allBookings.filter(function(b) { return b.status === filter; });
-    var tbody = document.getElementById('bookings-table-body');
-    if (filtered.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="7" class="px-6 py-8 text-center text-on-surface-variant">No bookings found</td></tr>';
-        return;
-    }
-    tbody.innerHTML = filtered.slice(0, 50).map(function(b) {
-        var customerName = b.customer && b.customer.name || '—';
-        var boatName = b.boat && b.boat.name || '—';
-        var captainName = b.captain || 'No Captain';
-        return '<tr class="hover:bg-surface-container-low/30 transition-colors">' +
-            '<td class="px-6 py-4 font-semibold text-xs">' + (b.bookingNumber || b._id.substring(0,8)) + '</td>' +
-            '<td class="px-6 py-4">' + customerName + '</td>' +
-            '<td class="px-6 py-4">' + boatName + '</td>' +
-            '<td class="px-6 py-4">' + captainName + '</td>' +
-            '<td class="px-6 py-4 text-on-surface-variant text-xs">' + fmtDate(b.startDate) + ' → ' + fmtDate(b.endDate) + '</td>' +
-            '<td class="px-6 py-4 font-semibold">' + fmtMoney(b.grandTotal) + '</td>' +
-            '<td class="px-6 py-4">' + statusBadge(b.status) + '</td>' +
-        '</tr>';
-    }).join('');
-}
-
-function filterBookings() { renderBookingsTable(); }
-
-/* ─── BOAT ACTIONS ──────────────────────────────────────── */
-async function approveBoat(id) {
-    if (!confirm('Approve this boat listing?')) return;
-    try {
-        await WCR._call('PATCH', '/boats/' + id + '/status', { status: 'active' });
-        alert('Boat approved!');
-        loadAll();
-    } catch (err) {
-        alert('Failed to approve boat: ' + (err.message || 'Unknown error'));
-    }
-}
-
-async function rejectBoat(id) {
-    if (!confirm('Reject this boat listing?')) return;
-    try {
-        await WCR._call('PATCH', '/boats/' + id + '/status', { status: 'inactive' });
-        alert('Boat rejected.');
-        loadAll();
-    } catch (err) {
-        alert('Failed to reject boat: ' + (err.message || 'Unknown error'));
-    }
-}
-
-async function toggleBoatStatus(id, currentStatus) {
-    var newStatus = currentStatus === 'active' ? 'inactive' : 'active';
-    var action = currentStatus === 'active' ? 'Suspend' : 'Activate';
-    if (!confirm(action + ' this boat?')) return;
-    try {
-        await WCR._call('PATCH', '/boats/' + id + '/status', { status: newStatus });
-        alert('Boat ' + action.toLowerCase() + 'd.');
-        loadAll();
-    } catch (err) {
-        alert('Failed: ' + (err.message || 'Unknown error'));
-    }
-}
-
-/* ─── INIT ──────────────────────────────────────────────── */
-document.addEventListener('DOMContentLoaded', function() {
-    loadAll();
-});
-
 document.addEventListener('click',function(e){
   var a=e.target.closest('a[href]');
   if(!a)return;
