@@ -20,6 +20,15 @@ async function getConversationIfParticipant(conversationId, userId) {
   if (!isValidObjectId(conversationId)) throw new ApiError(404, 'Conversation not found');
   const conv = await Conversation.findById(conversationId);
   if (!conv) throw new ApiError(404, 'Conversation not found');
+  // Lazy migration: threads created before the unification have no ownerId.
+  // Backfill it from the boat so they validate AND become visible to the owner.
+  if (!conv.ownerId) {
+    const boat = await Boat.findById(conv.boatId).select('owner');
+    if (boat && boat.owner) {
+      conv.ownerId = boat.owner;
+      try { await conv.save(); } catch (e) { /* best-effort */ }
+    }
+  }
   if (!isParticipant(conv, userId)) throw new ApiError(403, 'Not a participant in this conversation');
   return conv;
 }
@@ -41,6 +50,7 @@ export async function linkBookingToConversation(customerId, boatId, ownerId, opt
     if (!conv) {
       conv = await Conversation.create({ customerId, boatId, ownerId, captainId, bookingId });
     } else {
+      if (!conv.ownerId && ownerId) conv.ownerId = ownerId;   // legacy backfill
       if (captainId && String(conv.captainId || '') !== String(captainId)) conv.captainId = captainId;
       if (bookingId) conv.bookingId = bookingId;
       await conv.save();
@@ -118,8 +128,9 @@ export const sendConversationMessage = async (req, res, next) => {
       readBy: [req.user._id]
     });
 
-    conv.lastMessageAt = message.createdAt;
-    await conv.save();
+    // updateOne (not save) so a legacy doc still missing a field can't fail
+    // validation on a simple lastMessage bump.
+    await Conversation.updateOne({ _id: conv._id }, { $set: { lastMessageAt: message.createdAt } });
 
     const populated = await ConversationMessage.findById(message._id)
       .populate('senderId', 'name avatar role');
