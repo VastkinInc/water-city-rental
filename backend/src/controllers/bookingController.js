@@ -8,6 +8,7 @@ import { computeCustomerRefund, getPolicy, DEFAULT_POLICY } from '../utils/refun
 import { stripe } from './paymentController.js';
 import { sendCancellationEmails, sendDeclineEmails, sendBookingEventEmails } from '../utils/mailer.js';
 import { createNotifications } from '../utils/notify.js';
+import { linkBookingToConversation } from './conversationController.js';
 
 const isValidObjectId = (id) => mongoose.Types.ObjectId.isValid(id);
 
@@ -156,6 +157,18 @@ export const createBooking = async (req, res, next) => {
     const populated = await populateBooking(Booking.findById(booking._id));
 
     res.status(201).json({ success: true, data: populated });
+
+    // Unify messaging: ensure the (customer, boat) thread exists, link the booking,
+    // the booked captain joins, and drop a SYSTEM divider marking before/after.
+    // Fire-and-forget — never blocks the booking.
+    const _dateLabel = start.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    linkBookingToConversation(req.user._id, boat._id, boat.owner, {
+      captainId: hasCaptain ? captain._id : null,
+      bookingId: booking._id,
+      systemText: hasCaptain
+        ? `📅 Trip booked for ${_dateLabel} — Capt. ${captain.name} has joined the chat.`
+        : `📅 Trip booked for ${_dateLabel} — self-captained (no captain).`
+    });
   } catch (err) {
     next(err);
   }
@@ -933,6 +946,13 @@ export const reassignCaptain = async (req, res, next) => {
 
     const populated = await populateBooking(Booking.findById(booking._id));
     res.status(200).json({ success: true, data: populated });
+
+    // Swap the new captain into the (customer, boat) chat thread + divider line.
+    linkBookingToConversation(booking.customer, booking.boat, booking.owner, {
+      captainId: newCaptain._id,
+      bookingId: booking._id,
+      systemText: `🧭 Captain changed — Capt. ${newCaptain.name} has joined the chat.`
+    });
   } catch (err) {
     next(err);
   }
