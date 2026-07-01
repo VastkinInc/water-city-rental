@@ -532,8 +532,12 @@ export const approveBooking = async (req, res, next) => {
     // ── Fire-and-forget notifications (owner approved / maybe confirmed) ──
     const boatName = (populated.boat && populated.boat.name) || 'your booking';
     if (populated.status === 'confirmed') {
+      // No-captain bookings confirm on owner approval alone — don't mention a captain.
+      const _noCap = populated.hasCaptain === false;
+      const _custBody = _noCap ? 'Your trip is confirmed — the owner approved.' : 'Your trip is confirmed — the owner and captain both approved.';
+      const _intro = _noCap ? 'Great news — your trip is confirmed. The owner has approved.' : 'Great news — your trip is confirmed. Both the owner and captain have approved.';
       createNotifications(bookingNotifsRoles(populated, 'booking_confirmed', {
-        customer: { title: `Booking confirmed — ${boatName}`, body: 'Your trip is confirmed — the owner and captain both approved.' },
+        customer: { title: `Booking confirmed — ${boatName}`, body: _custBody },
         owner:    { title: `Booking confirmed — ${boatName}`, body: `A booking for ${boatName} is now confirmed.` },
         captain:  { title: `Trip confirmed — ${boatName}`,    body: `Your assigned trip on ${boatName} is confirmed.` }
       }));
@@ -541,7 +545,7 @@ export const approveBooking = async (req, res, next) => {
         recipients: partyEmails(populated, ['customer', 'owner', 'captain']),
         subject: `Booking confirmed — ${boatName}`,
         heading: 'Booking confirmed',
-        intro: 'Great news — your trip is confirmed. Both the owner and captain have approved.'
+        intro: _intro
       });
     } else {
       createNotifications(bookingNotifsRoles(populated, 'owner_approved', {
@@ -803,8 +807,12 @@ export const captainAccept = async (req, res, next) => {
     // ── Fire-and-forget notifications (captain accepted / maybe confirmed) ──
     const boatName = (populated.boat && populated.boat.name) || 'your booking';
     if (populated.status === 'confirmed') {
+      // No-captain bookings confirm on owner approval alone — don't mention a captain.
+      const _noCap = populated.hasCaptain === false;
+      const _custBody = _noCap ? 'Your trip is confirmed — the owner approved.' : 'Your trip is confirmed — the owner and captain both approved.';
+      const _intro = _noCap ? 'Great news — your trip is confirmed. The owner has approved.' : 'Great news — your trip is confirmed. Both the owner and captain have approved.';
       createNotifications(bookingNotifsRoles(populated, 'booking_confirmed', {
-        customer: { title: `Booking confirmed — ${boatName}`, body: 'Your trip is confirmed — the owner and captain both approved.' },
+        customer: { title: `Booking confirmed — ${boatName}`, body: _custBody },
         owner:    { title: `Booking confirmed — ${boatName}`, body: `A booking for ${boatName} is now confirmed.` },
         captain:  { title: `Trip confirmed — ${boatName}`,    body: `Your assigned trip on ${boatName} is confirmed.` }
       }));
@@ -812,7 +820,7 @@ export const captainAccept = async (req, res, next) => {
         recipients: partyEmails(populated, ['customer', 'owner', 'captain']),
         subject: `Booking confirmed — ${boatName}`,
         heading: 'Booking confirmed',
-        intro: 'Great news — your trip is confirmed. Both the owner and captain have approved.'
+        intro: _intro
       });
     } else {
       createNotifications(bookingNotifsRoles(populated, 'captain_approved', {

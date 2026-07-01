@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import Conversation from '../models/Conversation.js';
 import ConversationMessage from '../models/ConversationMessage.js';
 import Boat from '../models/Boat.js';
+import User from '../models/User.js';
 import { ApiError } from '../utils/ApiError.js';
 
 const isValidObjectId = (id) => mongoose.Types.ObjectId.isValid(id);
@@ -79,16 +80,36 @@ const populateConv = (q) => q
   .populate('boatId', 'name photos');
 
 /**
- * POST /api/conversations  { boatId }
- * Customer starts (or re-opens) the single thread with the boat's owner. The
- * captain joins later, automatically, when the customer books this boat.
+ * POST /api/conversations
+ *   { boatId }    → boat thread with the boat's owner (captain joins on booking).
+ *   { captainId } → captain-direct thread (from a captain's profile), no boat.
+ * Customer-initiated. Get-or-create so there's exactly one thread per pair.
  */
 export const createConversation = async (req, res, next) => {
   try {
     if (req.user.role !== 'customer') {
       throw new ApiError(403, 'Only customers can start a conversation');
     }
-    const { boatId } = req.body || {};
+    const { boatId, captainId } = req.body || {};
+
+    // ── Captain-direct thread (no boat) ──────────────────────────────────────
+    if (captainId && !boatId) {
+      if (!isValidObjectId(captainId)) throw new ApiError(400, 'Valid captainId is required');
+      const captain = await User.findById(captainId);
+      if (!captain || captain.role !== 'captain') throw new ApiError(404, 'Captain not found');
+      if (captain._id.equals(req.user._id)) throw new ApiError(400, 'Cannot message yourself');
+
+      let conv = await Conversation.findOne({
+        customerId: req.user._id, captainId: captain._id, boatId: null
+      });
+      if (!conv) {
+        conv = await Conversation.create({ customerId: req.user._id, captainId: captain._id });
+      }
+      const populatedCap = await populateConv(Conversation.findById(conv._id));
+      return res.status(201).json({ success: true, data: populatedCap });
+    }
+
+    // ── Boat thread (with the boat's owner) ──────────────────────────────────
     if (!boatId || !isValidObjectId(boatId)) throw new ApiError(400, 'Valid boatId is required');
 
     const boat = await Boat.findById(boatId);
