@@ -81,7 +81,12 @@ export const listBoats = async (req, res, next) => {
     const query = { status: 'active' };
 
     if (harbor) query.harbor = harbor;
-    if (type) query.type = type;
+    if (type) {
+      // `type` may be a single value or a comma-separated list (multi-select).
+      const types = String(type).split(',').map((t) => t.trim()).filter(Boolean);
+      if (types.length === 1) query.type = types[0];
+      else if (types.length > 1) query.type = { $in: types };
+    }
     if (guests) query.maxGuests = { $gte: Number(guests) };
 
     if (minPrice || maxPrice) {
