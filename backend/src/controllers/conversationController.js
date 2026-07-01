@@ -4,6 +4,7 @@ import ConversationMessage from '../models/ConversationMessage.js';
 import Boat from '../models/Boat.js';
 import User from '../models/User.js';
 import { ApiError } from '../utils/ApiError.js';
+import { createNotifications } from '../utils/notify.js';
 
 const isValidObjectId = (id) => mongoose.Types.ObjectId.isValid(id);
 
@@ -156,6 +157,40 @@ export const sendConversationMessage = async (req, res, next) => {
     const populated = await ConversationMessage.findById(message._id)
       .populate('senderId', 'name avatar role');
     res.status(201).json({ success: true, data: populated });
+
+    // Fire-and-forget in-app notification to the OTHER participants so the new
+    // message shows up in their notification bell (booking actions already do
+    // this; conversation messages previously did not). Never awaited — a slow
+    // or failing write must not affect the send that already succeeded.
+    try {
+      const senderName = (req.user && req.user.name) || 'Someone';
+      // A pre-booking thread (no bookingId) is an "inquiry"; once a booking is
+      // linked it's a regular booking-trip "message".
+      const isInquiry = !conv.bookingId;
+      const recipients = [
+        conv.customerId && { u: conv.customerId, role: 'customer' },
+        conv.ownerId    && { u: conv.ownerId,    role: 'owner' },
+        conv.captainId  && { u: conv.captainId,  role: 'captain' }
+      ]
+        .filter(Boolean)
+        .filter((p) => String(p.u) !== String(req.user._id)); // never notify the sender
+
+      const entries = recipients.map((p) => ({
+        user: p.u,
+        role: p.role,
+        type: isInquiry ? 'inquiry' : 'message',
+        title: isInquiry
+          ? `New inquiry from ${senderName}`
+          : `New message from ${senderName}`,
+        body: body.slice(0, 140),
+        relatedConversation: conv._id,
+        relatedBooking: conv.bookingId || null
+      }));
+
+      createNotifications(entries);
+    } catch (e) {
+      /* notifications must never break the message flow */
+    }
   } catch (err) {
     next(err);
   }
