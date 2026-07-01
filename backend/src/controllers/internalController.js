@@ -48,7 +48,10 @@ export const releaseDueTrips = async (_req, res) => {
     const now    = new Date();
     const cutoff = new Date(now.getTime() - RELEASE_BUFFER_MS);
     due = await Booking.find({
-      payoutStatus:  'held',
+      // Include 'release_failed' so a previously-failed transfer self-heals on a
+      // later run (e.g. once the owner's Connect account becomes enabled). Safe:
+      // transfers use per-leg idempotency keys, so a retry never double-pays.
+      payoutStatus:  { $in: ['held', 'release_failed'] },
       paymentStatus: REQUIRED_PAYMENT_STATE,
       status:        { $nin: SKIP_STATUSES },
       tripEndAt:     { $lte: cutoff, $ne: null }
@@ -114,7 +117,7 @@ async function releaseOneBooking(bookingId) {
   let claim;
   try {
     claim = await Booking.updateOne(
-      { _id: bookingId, payoutStatus: 'held' },
+      { _id: bookingId, payoutStatus: { $in: ['held', 'release_failed'] } },
       { $set: { payoutStatus: 'releasing', releaseAttemptedAt: new Date() } }
     );
   } catch (err) {
