@@ -181,7 +181,11 @@ async function releaseOneBooking(bookingId) {
           source_transaction: booking.stripeChargeId || undefined,
           metadata: { bookingId: transferGroup, kind: 'owner' }
         },
-        { idempotencyKey: `release:${transferGroup}:owner` }
+        // ponytail: :v2 — earlier failed attempts registered the v1 key WITHOUT
+        // source_transaction; Stripe rejects the same key with changed params. No
+        // transfer was ever created on v1, so a fresh key can't double-pay. Bump
+        // again if the transfer params change.
+        { idempotencyKey: `release:${transferGroup}:owner:v2` }
       );
       ownerTransferId = transfer.id;
       await Booking.updateOne(
@@ -201,7 +205,7 @@ async function releaseOneBooking(bookingId) {
           source_transaction: booking.stripeChargeId || undefined,
           metadata: { bookingId: transferGroup, kind: 'captain' }
         },
-        { idempotencyKey: `release:${transferGroup}:captain` }
+        { idempotencyKey: `release:${transferGroup}:captain:v2` }
       );
       captainTransferId = transfer.id;
       await Booking.updateOne(
