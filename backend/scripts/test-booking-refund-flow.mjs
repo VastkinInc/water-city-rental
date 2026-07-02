@@ -78,7 +78,9 @@ function calcGrand({ rateType, dayRate = 0, hourlyRate = 0, days = 0, hours = 0,
   else { boatTotal = hourlyRate * hours; captainTotal = capHour * hours; }
   const taxable = boatTotal + captainTotal;
   const tax = round2(taxable * TAX_RATE);
-  return round2(boatTotal + captainTotal + tax);
+  const base = boatTotal + captainTotal + tax;
+  // service-fee gross-up, mirrors backend pricing.js (STRIPE_PCT / STRIPE_FIXED)
+  return Math.ceil((base + 0.30) / (1 - 0.029) * 100) / 100;
 }
 
 // ── Tiny logging helpers (same spirit as test-inquiries-endpoint.mjs) ────────

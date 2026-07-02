@@ -175,6 +175,10 @@ async function releaseOneBooking(bookingId) {
           currency: 'usd',
           destination: ownerAcct,
           transfer_group: transferGroup,
+          // Fund the transfer from the original charge, not the available balance —
+          // otherwise automatic payouts empty the balance and this fails "insufficient
+          // funds". Falls back to balance-funded for legacy bookings with no charge id.
+          source_transaction: booking.stripeChargeId || undefined,
           metadata: { bookingId: transferGroup, kind: 'owner' }
         },
         { idempotencyKey: `release:${transferGroup}:owner` }
@@ -194,6 +198,7 @@ async function releaseOneBooking(bookingId) {
           currency: 'usd',
           destination: captainAcct,
           transfer_group: transferGroup,
+          source_transaction: booking.stripeChargeId || undefined,
           metadata: { bookingId: transferGroup, kind: 'captain' }
         },
         { idempotencyKey: `release:${transferGroup}:captain` }

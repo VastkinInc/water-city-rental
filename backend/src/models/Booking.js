@@ -19,6 +19,7 @@ const pricingSchema = new mongoose.Schema(
     boatTotal: { type: Number, required: true },
     captainTotal: { type: Number, required: true },
     localTax: { type: Number, default: 0 },
+    platformFee: { type: Number, default: 0 },
     taxRate: { type: Number, default: 0 },
     grandTotal: { type: Number, required: true },
     breakdown: { type: mongoose.Schema.Types.Mixed }
