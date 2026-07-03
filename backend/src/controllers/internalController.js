@@ -34,6 +34,20 @@ const cents = (n) => Math.round(Number(n || 0) * 100);
 export const releaseDueTrips = async (_req, res) => {
   console.log('[P3] release-due-trips: starting');
 
+  // Auto-complete trips whose end time has passed (mirrors the auto-payout release).
+  // Without this, confirmed+paid bookings never became 'completed' unless a captain
+  // manually marked them, so they were absent from the owner's "Completed" tab and
+  // earnings ($0). Cancelled/pending are untouched. Non-fatal — never blocks payouts.
+  try {
+    const done = await Booking.updateMany(
+      { status: 'confirmed', paymentStatus: 'paid', tripEndAt: { $lte: new Date(), $ne: null } },
+      { $set: { status: 'completed' } }
+    );
+    if (done.modifiedCount) console.log(`[P3] auto-completed ${done.modifiedCount} ended trip(s)`);
+  } catch (err) {
+    console.error('[P3] auto-complete failed:', (err && err.message) || err);
+  }
+
   const summary = {
     scanned:  0,
     claimed:  0,
